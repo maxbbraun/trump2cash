@@ -25,9 +25,9 @@ variables. Each service has different steps to obtain them.
 #### Twitter
 
 Log in to your [Twitter](https://twitter.com/) account and
-[create a new application](https://apps.twitter.com/app/new). Under the "Keys 
-and Access Tokens" tab for [your app](https://apps.twitter.com/) you'll find 
-the Consumer Key and Consumer Secret. Export both to environment variables:
+[create a new application](https://apps.twitter.com/app/new). Under the *Keys 
+and Access Tokens* tab for [your app](https://apps.twitter.com/) you'll find 
+the *Consumer Key* and *Consumer Secret*. Export both to environment variables:
 
 ```shell
 export TWITTER_CONSUMER_KEY="<YOUR_CONSUMER_KEY>"
@@ -35,8 +35,8 @@ export TWITTER_CONSUMER_SECRET="<YOUR_CONSUMER_SECRET>"
 ```
 
 If you want the tweets to come from the same account that owns the application, 
-simply use the Access Token and Access Token Secret on the same page. If you 
-want to tweet from a different account, follow the 
+simply use the *Access Token* and *Access Token Secret* on the same page. If
+you want to tweet from a different account, follow the 
 [steps to obtain an access token](https://dev.twitter.com/oauth/overview). Then 
 export both to environment variables:
 
@@ -58,10 +58,10 @@ export GOOGLE_APPLICATION_CREDENTIALS="/path/to/credentials-file.json"
 
 Log in to your [TradeKing](https://www.tradeking.com/) account and 
 [create a new application](https://developers.tradeking.com/applications/CreateApplication). 
-Behind the "Details" button for 
+Behind the *Details* button for 
 [your application](https://developers.tradeking.com/Applications) you'll find 
-the Consumer Key, Consumer Secret, OAuth (Access) Token, and Oauth (Access) 
-Token Secret. Export them all to environment variables:
+the *Consumer Key*, *Consumer Secret*, *OAuth (Access) Token*, and *Oauth (Access) 
+Token Secret*. Export them all to environment variables:
 
 ```shell
 export TRADEKING_CONSUMER_KEY="<YOUR_CONSUMER_KEY>"
@@ -71,7 +71,7 @@ export TRADEKING_ACCESS_TOKEN_SECRET="<YOUR_ACCESS_TOKEN_SECRET>"
 ```
 
 Also export your TradeKing account number, which you'll find under 
-"[My Accounts](https://investor.tradeking.com/Modules/Dashboard/dashboard.php)":
+*[My Accounts](https://investor.tradeking.com/Modules/Dashboard/dashboard.php)*:
 
 ```shell
 export TRADEKING_ACCOUNT_NUMBER="<YOUR_ACCOUNT_NUMBER>"
