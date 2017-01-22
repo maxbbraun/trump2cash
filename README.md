@@ -50,9 +50,13 @@ export TRADEKING_ACCESS_TOKEN="..."
 export TRADEKING_ACCESS_TOKEN_SECRET="..."
 ```
 
+``` shell
+export TRADEKING_ACCOUNT_NUMBER="..."
+```
+
 ### Running tests
 
-The tests are written for [pytest](http://doc.pytest.org/en/latest/getting-started.html). Run all of them using this command:
+The tests are written for [pytest](http://doc.pytest.org/en/latest/getting-started.html). Run them all using this command:
 
 ``` shell
 $ pytest *.py --verbose
