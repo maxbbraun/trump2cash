@@ -148,14 +148,15 @@ class Analysis:
   def entity_tostring(self, entity):
     return ('{name: "%s", '
       'entity_type: "%s", '
-      'wikipedia_url: "%s", '
-      'metadata: "%s", '
-      'salience: "%s", '
-      'mentions: %s}') % (
+      'wikipedia_url: %s, '
+      'metadata: {%s}, '
+      'salience: %s, '
+      'mentions: [%s]}') % (
       entity.name,
       entity.entity_type,
-      entity.wikipedia_url,
-      entity.metadata,
+      '"%s"' % entity.wikipedia_url if entity.wikipedia_url else None,
+      ", ".join(['"%s": "%s"' % (key, value) for
+        key, value in entity.metadata.iteritems()]),
       entity.salience,
       ", ".join(['"%s"' % mention for mention in entity.mentions]))
 
@@ -276,6 +277,60 @@ TEXT_10 = ("Totally biased @NBCNews went out of its way to say that the big ann"
 TEXT_11 = ('"Bayer AG has pledged to add U.S. jobs and investments after meetin'
            'g with President-elect Donald Trump, the latest in a string..." @WS'
            'J')
+
+def test_entity_tostring(analysis):
+  assert analysis.entity_tostring(language.entity.Entity(
+    name = "General Motors",
+    entity_type = "ORGANIZATION",
+    metadata = {"mid": "/m/035nm",
+      "wikipedia_url": "http://en.wikipedia.org/wiki/General_Motors"},
+    salience = 0.33838183,
+    mentions = ["General Motors"])) == (
+    '{name: "General Motors", '
+    'entity_type: "ORGANIZATION", '
+    'wikipedia_url: "http://en.wikipedia.org/wiki/General_Motors", '
+    'metadata: {"mid": "/m/035nm"}, '
+    'salience: 0.33838183, '
+    'mentions: ["General Motors"]}')
+  assert analysis.entity_tostring(language.entity.Entity(
+    name = "jobs",
+    entity_type = "OTHER",
+    metadata = {},
+    salience = 0.31634554,
+    mentions = ["jobs"])) == (
+    '{name: "jobs", '
+    'entity_type: "OTHER", '
+    'wikipedia_url: None, '
+    'metadata: {}, '
+    'salience: 0.31634554, '
+    'mentions: ["jobs"]}')
+
+def test_entities_tostring(analysis):
+  assert analysis.entities_tostring([language.entity.Entity(
+    name = "General Motors",
+    entity_type = "ORGANIZATION",
+    metadata = {"mid": "/m/035nm",
+      "wikipedia_url": "http://en.wikipedia.org/wiki/General_Motors"},
+    salience = 0.33838183,
+    mentions = ["General Motors"]), language.entity.Entity(
+    name = "jobs",
+    entity_type = "OTHER",
+    metadata = {"wikipedia_url": None},
+    salience = 0.31634554,
+    mentions = ["jobs"])]) == (
+    '[{name: "General Motors", '
+    'entity_type: "ORGANIZATION", '
+    'wikipedia_url: "http://en.wikipedia.org/wiki/General_Motors", '
+    'metadata: {"mid": "/m/035nm"}, '
+    'salience: 0.33838183, '
+    'mentions: ["General Motors"]}, '
+    '{name: "jobs", '
+    'entity_type: "OTHER", '
+    'wikipedia_url: None, '
+    'metadata: {}, '
+    'salience: 0.31634554, '
+    'mentions: ["jobs"]}]')
+  assert analysis.entities_tostring([]) == "[]"
 
 # TODO: Make commented-out ones work.
 def test_get_sentiment(analysis):
