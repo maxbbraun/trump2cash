@@ -146,6 +146,12 @@ def callback(text, link):
 def twitter():
   return Twitter(callback)
 
+def test_environment_variables():
+  assert TWITTER_CONSUMER_KEY
+  assert TWITTER_CONSUMER_SECRET
+  assert TWITTER_ACCESS_TOKEN
+  assert TWITTER_ACCESS_TOKEN_SECRET
+
 def test_twitter_listener():
   # TODO
   pass
