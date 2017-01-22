@@ -6,9 +6,9 @@ from oauth2 import Consumer
 from oauth2 import Client
 from oauth2 import Token
 from os import environ
-from xml.etree.ElementTree import Element
-from xml.etree.ElementTree import SubElement
-from xml.etree.ElementTree import tostring
+from lxml.etree import Element
+from lxml.etree import SubElement
+from lxml.etree import tostring
 
 # Read the authentication keys for TradeKing from environment variables.
 TRADEKING_CONSUMER_KEY = environ["TRADEKING_CONSUMER_KEY"]
@@ -457,36 +457,36 @@ def test_make_request_fail(trading):
 def test_fixml_buy_now(trading):
   assert trading.fixml_buy_now("GM", 23) == (
     '<FIXML xmlns="http://www.fixprotocol.org/FIXML-5-0-SP2">'
-    '<Order Acct="%s" Side="1" TmInForce="0" Typ="1">'
-    '<Instrmt SecTyp="CS" Sym="GM" />'
-    '<OrdQty Qty="23" />'
+    '<Order TmInForce="0" Typ="1" Side="1" Acct="%s">'
+    '<Instrmt SecTyp="CS" Sym="GM"/>'
+    '<OrdQty Qty="23"/>'
     '</Order>'
     '</FIXML>' % TRADEKING_ACCOUNT_NUMBER)
 
 def test_fixml_sell_eod(trading):
   assert trading.fixml_sell_eod("GM", 23) == (
     '<FIXML xmlns="http://www.fixprotocol.org/FIXML-5-0-SP2">'
-    '<Order Acct="%s" Side="2" TmInForce="7" Typ="1">'
-    '<Instrmt SecTyp="CS" Sym="GM" />'
-    '<OrdQty Qty="23" />'
+    '<Order TmInForce="7" Typ="1" Side="2" Acct="%s">'
+    '<Instrmt SecTyp="CS" Sym="GM"/>'
+    '<OrdQty Qty="23"/>'
     '</Order>'
     '</FIXML>' % TRADEKING_ACCOUNT_NUMBER)
 
 def test_fixml_short_now(trading):
   assert trading.fixml_short_now("GM", 23) == (
     '<FIXML xmlns="http://www.fixprotocol.org/FIXML-5-0-SP2">'
-    '<Order Acct="%s" Side="5" TmInForce="0" Typ="1">'
-    '<Instrmt SecTyp="CS" Sym="GM" />'
-    '<OrdQty Qty="23" />'
+    '<Order TmInForce="0" Typ="1" Side="5" Acct="%s">'
+    '<Instrmt SecTyp="CS" Sym="GM"/>'
+    '<OrdQty Qty="23"/>'
     '</Order>'
     '</FIXML>' % TRADEKING_ACCOUNT_NUMBER)
 
 def test_fixml_cover_eod(trading):
   assert trading.fixml_cover_eod("GM", 23) == (
     '<FIXML xmlns="http://www.fixprotocol.org/FIXML-5-0-SP2">'
-    '<Order Acct="%s" AcctTyp="5" Side="1" TmInForce="7" Typ="1">'
-    '<Instrmt SecTyp="CS" Sym="GM" />'
-    '<OrdQty Qty="23" />'
+    '<Order TmInForce="7" Typ="1" Side="1" AcctTyp="5" Acct="%s">'
+    '<Instrmt SecTyp="CS" Sym="GM"/>'
+    '<OrdQty Qty="23"/>'
     '</Order>'
     '</FIXML>' % TRADEKING_ACCOUNT_NUMBER)
 
@@ -507,19 +507,19 @@ def test_get_quantity(trading):
   assert trading.get_quantity("F", 10000.0) > 0
 
 def test_bull(trading):
-  assert SPEND_REAL_MONEY == False
-  assert trading.bull("F", 10000.0) == True
+  assert not SPEND_REAL_MONEY
+  assert trading.bull("F", 10000.0)
 
 def test_bear(trading):
-  assert SPEND_REAL_MONEY == False
-  assert trading.bear("F", 10000.0) == True
+  assert not SPEND_REAL_MONEY
+  assert trading.bear("F", 10000.0)
 
 def test_make_trades(trading):
-  assert SPEND_REAL_MONEY == False
+  assert not SPEND_REAL_MONEY
   assert trading.make_trades([{
     "name": "Lockheed Martin",
     "sentiment": -0.1,
     "ticker": "LMT"}, {
     "name": "Boeing",
     "sentiment": 0.1,
-    "ticker": "BA"}]) == True
+    "ticker": "BA"}])

@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from google.cloud import language
-from google.cloud.language.entity import Entity
 from google.cloud import logging
 from os import environ
 from requests import get
@@ -160,6 +159,7 @@ class Analysis:
       entity.salience,
       ", ".join(['"%s"' % mention for mention in entity.mentions]))
 
+  # TODO: Determine sentiment targeted at the specific entity.
   # Extract a sentiment score [-1, 1] from the text.
   def get_sentiment(self, text):
     try:
