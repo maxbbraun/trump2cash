@@ -34,10 +34,10 @@ export TWITTER_CONSUMER_KEY="<YOUR_CONSUMER_KEY>"
 export TWITTER_CONSUMER_SECRET="<YOUR_CONSUMER_SECRET>"
 ```
 
-You now have two options. If you want the tweets to come from the same account 
-that owns the application, simply use the Access Token and Access Token Secret 
-on the same page. If you want to tweet from a different account, follow the 
-steps to [obtain an access token](https://dev.twitter.com/oauth/overview). Then 
+If you want the tweets to come from the same account that owns the application, 
+simply use the Access Token and Access Token Secret on the same page. If you 
+want to tweet from a different account, follow the 
+[steps to obtain an access token](https://dev.twitter.com/oauth/overview). Then 
 export both to environment variables:
 
 ```shell
@@ -58,7 +58,7 @@ export GOOGLE_APPLICATION_CREDENTIALS="/path/to/credentials-file.json"
 
 Log in to your [TradeKing](https://www.tradeking.com/) account and 
 [create a new application](https://developers.tradeking.com/applications/CreateApplication). 
-Under the "Details" button for 
+Behind the "Details" button for 
 [your application](https://developers.tradeking.com/Applications) you'll find 
 the Consumer Key, Consumer Secret, OAuth (Access) Token, and Oauth (Access) 
 Token Secret. Export them all to environment variables:
@@ -79,20 +79,11 @@ export TRADEKING_ACCOUNT_NUMBER="<YOUR_ACCOUNT_NUMBER>"
 
 ### 2. Install dependencies
 
-There are a few library dependencies, which you can install using your favorite 
-package manager, e.g. [pip](https://pip.pypa.io/en/stable/quickstart/):
+There are a few library dependencies, which you can install using 
+[pip](https://pip.pypa.io/en/stable/quickstart/):
 
 ```shell
-$ pip install --upgrade \
-  google-cloud-error-reporting \
-  google-cloud-language \
-  google-cloud-logging \
-  lxml \
-  oatuh2 \
-  pytest \
-  requests \
-  simplejson \
-  tweepy
+$ pip install -r requirements.txt
 ```
 
 ### 3. Run the tests
@@ -107,7 +98,7 @@ $ pytest *.py --verbose
 
 ### 4. Start the bot
 
-Have the bot start running in the background with this command:
+Have the code start running in the background with this command:
 
 ```shell
 $ nohup ./main.py &

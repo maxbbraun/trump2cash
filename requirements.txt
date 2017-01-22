@@ -1,0 +1,9 @@
+google-cloud-error-reporting==0.22.0
+google-cloud-language==0.22.2
+google-cloud-logging==0.22.0
+lxml==3.7.2
+oauth2==1.9.0.post1
+pytest==3.0.5
+requests==2.4.3
+simplejson==3.10.0
+tweepy==3.2.0
