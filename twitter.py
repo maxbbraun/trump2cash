@@ -125,15 +125,18 @@ class TwitterListener(StreamListener):
     user_id = tweet["user"]["id"]
     screen_name = tweet["user"]["screen_name"]
     if str(user_id) != TRUMP_USER_ID:
-      self.logger.log_text("Skipping tweet from user: %s (%s)" % (screen_name,
-        user_id), severity="DEBUG")
+      # TODO: Find a way to log this without saturating the logger or get a
+      #       stream without replies.
+      #self.logger.log_text("Skipping tweet from user: %s (%s)" % (screen_name,
+      #  user_id), severity="DEBUG")
       return
 
     # Extract what data we need from the tweet.
     text = tweet["text"]
     id_str = tweet["id_str"]
     link = TWEET_URL % (screen_name, id_str)
-    self.logger.log_text("Examining tweet: %s" % link, severity="DEBUG")
+    self.logger.log_text("Examining tweet: %s %s" % (link, data),
+      severity="DEBUG")
 
     # Call the callback.
     self.callback(text, link)
