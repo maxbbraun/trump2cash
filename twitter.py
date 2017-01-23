@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from google.cloud import error_reporting
 from google.cloud import logging
 from os import environ
 from simplejson import loads
@@ -34,7 +35,8 @@ EMOJI_SHRUG = u"¯\_(\u30c4)_/¯"
 class Twitter:
   def __init__(self, callback):
     self.logger = logging.Client().logger("twitter")
-    twitter_listener = TwitterListener(self.logger, callback)
+    error_client = error_reporting.Client()
+    twitter_listener = TwitterListener(self.logger, error_client, callback)
     twitter_auth = OAuthHandler(TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET)
     twitter_auth.set_access_token(TWITTER_ACCESS_TOKEN,
       TWITTER_ACCESS_TOKEN_SECRET)
@@ -81,8 +83,9 @@ class Twitter:
 
 # A listener class for handling streaming Twitter data.
 class TwitterListener(StreamListener):
-  def __init__(self, logger, callback):
+  def __init__(self, logger, error_client, callback):
     self.logger = logger
+    self.error_client = error_client
     self.callback = callback
 
   # Handles any API errors.
@@ -91,6 +94,16 @@ class TwitterListener(StreamListener):
 
     # Don't stop.
     return True
+
+  # Calls handle_data() and makes sure any errors are logged despite being on a
+  # separate thread.
+  def safe_handle_data(self, data):
+    try:
+      self.handle_data(data)
+    except Exception as exception:
+      self.error_client.report_exception()
+      self.logger.log_text("Exception on background thread: %s" % exception,
+        severity="ERROR")
 
   # Sanity-checks and extracts the data before sending it to the callback.
   def handle_data(self, data):
@@ -127,7 +140,7 @@ class TwitterListener(StreamListener):
 
   # Kicks off a new thread to handle data.
   def on_data(self, data):
-    thread = Thread(target=self.handle_data, args=[data])
+    thread = Thread(target=self.safe_handle_data, args=[data])
     thread.start()
 
     # Don't stop.

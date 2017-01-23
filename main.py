@@ -30,7 +30,9 @@ if __name__ == "__main__":
 
     try:
       twitter.start_streaming()
-    except:
+    except Exception as exception:
       error_client.report_exception()
+      logger.log_text("Exception on main thread: %s" % exception,
+        severity="ERROR")
     finally:
       logger.log_text("Ending session.", severity="INFO")

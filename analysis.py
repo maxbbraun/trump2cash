@@ -81,13 +81,8 @@ class Analysis:
   def find_companies(self, text):
 
     # Run entity detection.
-    try:
-      document = self.gcnl_client.document_from_text(text)
-      entities = document.analyze_entities()
-    except:
-      self.logger.log_text("Failed to analyze entities in text: %s" % text,
-        severity="ERROR")
-      return []
+    document = self.gcnl_client.document_from_text(text)
+    entities = document.analyze_entities()
     self.logger.log_text("Found entities: %s" % self.entities_tostring(
       entities), severity="DEBUG")
 
