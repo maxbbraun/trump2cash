@@ -10,6 +10,11 @@ from twitter import Twitter
 
 # Analyzes Trump tweets, makes stock trades, and sends tweet alerts.
 def twitter_callback(text, link):
+
+  # Initialize these here to create separate httplib2 instances per thread.
+  analysis = Analysis()
+  trading = Trading()
+
   companies = analysis.find_companies(text)
   logger.log_text("Using companies: %s" % companies, severity="DEBUG")
   if companies:
@@ -24,10 +29,7 @@ if __name__ == "__main__":
   while True:
     logger.log_text("Starting new session.", severity="INFO")
 
-    analysis = Analysis()
-    trading = Trading()
     twitter = Twitter(twitter_callback)
-
     try:
       twitter.start_streaming()
     except Exception as exception:
