@@ -22,8 +22,11 @@ TRADEKING_ACCOUNT_NUMBER = environ["TRADEKING_ACCOUNT_NUMBER"]
 # The base URL for API requests to TradeKing.
 TRADEKING_API_URL = "https://api.tradeking.com/v1/%s.json"
 
-# https://developers.tradeking.com/documentation/fixml
+# The XML namespace for FIXML requests.
 FIXML_NAMESPACE = "http://www.fixprotocol.org/FIXML-5-0-SP2"
+
+# The HTTP headers for FIXML requests.
+FIXML_HEADERS = {"Content-Type": "text/xml"}
 
 # Whether to make order requests without actually placing them (for testing).
 SPEND_REAL_MONEY = False
@@ -297,7 +300,7 @@ class Trading:
     # Buy the stock now.
     buy_fixml = self.fixml_buy_now(ticker, quantity)
     buy_response = self.make_request(url=self.get_order_url(), method="POST",
-      body=buy_fixml)
+      body=buy_fixml, headers=FIXML_HEADERS)
 
     # TODO: Check for malformed/negative response.
     if not buy_response:
@@ -308,7 +311,7 @@ class Trading:
     # Sell the stock at close.
     sell_fixml = self.fixml_sell_eod(ticker, quantity)
     sell_response = self.make_request(url=self.get_order_url(), method="POST",
-      body=sell_fixml)
+      body=sell_fixml, headers=FIXML_HEADERS)
 
     # TODO: Check for malformed/negative response
     if not sell_response:
@@ -331,7 +334,7 @@ class Trading:
     # Short the stock now.
     short_fixml = self.fixml_short_now(ticker, quantity)
     short_response = self.make_request(url=self.get_order_url(), method="POST",
-      body=short_fixml)
+      body=short_fixml, headers=FIXML_HEADERS)
 
     # TODO: Check for malformed/negative response.
     if not short_response:
@@ -342,7 +345,7 @@ class Trading:
     # Cover the short at close.
     cover_fixml = self.fixml_cover_eod(ticker, quantity)
     cover_response = self.make_request(url=self.get_order_url(), method="POST",
-      body=cover_fixml)
+      body=cover_fixml, headers=FIXML_HEADERS)
 
     # TODO: Check for malformed/negative response
     if not cover_response:
