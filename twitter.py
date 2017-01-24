@@ -55,16 +55,16 @@ class Twitter:
 
   # Creates the text for a tweet.
   def make_tweet_text(self, companies, link):
-    text = u""
+    text = ""
 
     for company in companies:
       line = company["name"]
 
       if "root" in company and company["root"]:
-        line += u" (%s)" % company["root"]
+        line += " (%s)" % company["root"]
 
       ticker = company["ticker"]
-      line += u" $%s" % ticker
+      line += " $%s" % ticker
 
       if "sentiment" in company:
         if company["sentiment"] == 0:
@@ -72,9 +72,9 @@ class Twitter:
         else:
           positive = company["sentiment"] > 0
           sentiment = EMOJI_THUMBS_UP if positive else EMOJI_THUMBS_DOWN
-        line += u" %s" % sentiment
+        line += " %s" % sentiment
 
-      text += u"%s\n" % line
+      text += "%s\n" % line
 
     text += link
 
