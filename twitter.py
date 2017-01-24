@@ -60,8 +60,8 @@ class Twitter:
     for company in companies:
       line = company["name"]
 
-      if "owner" in company and company["owner"]:
-        line += " (%s)" % company["owner"]
+      if "root" in company and company["root"]:
+        line += " (%s)" % company["root"]
 
       ticker = company["ticker"]
       line += " $%s" % ticker
@@ -187,7 +187,7 @@ def test_make_tweet_text(twitter):
     "sentiment": 0.3,
     "ticker": "F"},{
     "name": "Fiat",
-    "owner": "Fiat Chrysler Automobiles",
+    "root": "Fiat Chrysler Automobiles",
     "sentiment": 0.3,
     "ticker": "FCAU"}],
     "https://twitter.com/realDonaldTrump/status/818461467766824961") == (

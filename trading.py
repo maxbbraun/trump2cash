@@ -375,14 +375,14 @@ def test_filter_companies_none(trading):
     "sentiment": 0.3,
     "ticker": "F"}, {
     "name": "Fiat",
-    "owner": "Fiat Chrysler Automobiles",
+    "root": "Fiat Chrysler Automobiles",
     "sentiment": 0.3,
     "ticker": "FCAU"}]) == [{
     "name": "Ford",
     "sentiment": 0.3,
     "ticker": "F"}, {
     "name": "Fiat",
-    "owner": "Fiat Chrysler Automobiles",
+    "root": "Fiat Chrysler Automobiles",
     "sentiment": 0.3,
     "ticker": "FCAU"}]
 
@@ -407,11 +407,11 @@ def test_filter_companies_sentiment(trading):
     "sentiment": 0.0,
     "ticker": "F"}, {
     "name": "Fiat",
-    "owner": "Fiat Chrysler Automobiles",
+    "root": "Fiat Chrysler Automobiles",
     "sentiment": 0.3,
     "ticker": "FCAU"}]) == [{
     "name": "Fiat",
-    "owner": "Fiat Chrysler Automobiles",
+    "root": "Fiat Chrysler Automobiles",
     "sentiment": 0.3,
     "ticker": "FCAU"}]
 
@@ -425,7 +425,7 @@ def test_get_budget(trading):
     "sentiment": 0.3,
     "ticker": "F"}, {
     "name": "Fiat",
-    "owner": "Fiat Chrysler Automobiles",
+    "root": "Fiat Chrysler Automobiles",
     "sentiment": 0.3,
     "ticker": "FCAU"}]) == 5000.0
   assert trading.get_budget(11000.0, [{
@@ -436,7 +436,7 @@ def test_get_budget(trading):
     "sentiment": 0.4,
     "ticker": "WMT"}, {
     "name": "Walmart",
-    "owner": "State Street Corporation",
+    "root": "State Street Corporation",
     "sentiment": 0.4,
     "ticker": "STT"}]) == 3333.33
   assert trading.get_budget(11000.0, []) == 0.0

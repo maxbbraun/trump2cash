@@ -7,19 +7,22 @@ from requests import get
 
 # The URL for a GET request to the Wikidata API via a SPARQL query to find
 # stock ticker symbols. The parameter is the Freebase ID of the company.
-WIKIDATA_TICKER_QUERY_URL = ('https://query.wikidata.org/sparql?query='
-  'SELECT ?companyLabel ?ownerLabel ?ticker WHERE {'
+WIKIDATA_QUERY_URL = ('https://query.wikidata.org/sparql?query='
+  'SELECT ?companyLabel ?ownerLabel ?parentLabel ?ticker WHERE {'
   '  ?instance wdt:P646 "%s" .'  # Company with specified Freebase ID.
   '  ?instance wdt:P156* ?company .'  # Company may have restructured.
-  '  ?company wdt:P127* ?owner .'  # Company may be a subsidiary.
-  '  ?owner p:P414 ?exchange .'  # Company is traded on exchange.
-  '  VALUES ?exchanges {wd:Q13677 wd:Q82059}'  # Whitelist is NYSE and NASDAQ.
+  '  { ?company p:P414 ?exchange }'  # Company is traded on exchange.
+  '  UNION { ?company wdt:P127+ ?owner .'  # Or company is owned by another.
+  '          ?owner p:P414 ?exchange }'  # And owner is traded on exchange.
+  '  UNION { ?company wdt:P749+ ?parent .'  # Or company is a subsidiary.
+  '          ?parent p:P414 ?exchange } .'  # And parent is traded on exchange.
+  '  VALUES ?exchanges { wd:Q13677 wd:Q82059 }'  # Whitelist is NYSE and NASDAQ.
   '  ?exchange ps:P414 ?exchanges .'  # Stock exchange is whitelisted.
   '  ?exchange pq:P249 ?ticker .'  # Get ticker symbol.
   '  SERVICE wikibase:label {'
   '    bd:serviceParam wikibase:language "en" .'  # Use English labels.
   '  }'
-  '} GROUP BY ?companyLabel ?ownerLabel ?ticker'
+  '} GROUP BY ?companyLabel ?ownerLabel ?parentLabel ?ticker'
   '&format=JSON')
 
 # A helper for analyzing company data in text.
@@ -30,7 +33,9 @@ class Analysis:
 
   # Look up stock ticker information for a company via its Freebase ID.
   def get_company_data(self, mid):
-    response = get(WIKIDATA_TICKER_QUERY_URL % mid).json()
+    query = WIKIDATA_QUERY_URL % mid
+    self.logger.log_text("Wikidata query: %s" % query, severity="DEBUG")
+    response = get(query).json()
     self.logger.log_text("Wikidata response: %s" % response, severity="DEBUG")
 
     if not "results" in response:
@@ -63,6 +68,11 @@ class Analysis:
       else:
         owner = None
 
+      if "parentLabel" in binding:
+        parent = binding["parentLabel"]["value"]
+      else:
+        parent = None
+
       if "ticker" in binding:
         ticker = binding["ticker"]["value"]
       else:
@@ -71,9 +81,19 @@ class Analysis:
       data = {}
       data["name"] = name
       data["ticker"] = ticker
-      if owner and owner != name:
-        data["owner"] = owner
-      datas.append(data)
+
+      # Owner or parent get turned into root.
+      if owner:
+        data["root"] = owner
+      elif parent:
+        data["root"] = parent
+
+      # Add to the list unless we already have the same entry.
+      if data not in datas:
+        datas.append(data)
+      else:
+        self.logger.log_text("Skipping duplicate company data: %s" % data,
+          severity="WARNING")
 
     return datas
 
@@ -123,14 +143,13 @@ class Analysis:
           company), severity="DEBUG")
         company["sentiment"] = sentiment
 
-        # Add the company to the list unless we already have it.
-        duplicate = False
-        for existing in companies:
-          if existing["ticker"] == company["ticker"]:
-            duplicate = True
-            break
-        if not duplicate:
+        # Add the company to the list unless we already have the same ticker.
+        tickers = [existing["ticker"] for existing in companies]
+        if not company["ticker"] in tickers:
           companies.append(company)
+        else:
+          self.logger.log_text("Skipping company with duplicate ticker: %s" % (
+            company), severity="WARNING")
 
     return companies
 
@@ -190,7 +209,7 @@ def test_get_company_data(analysis):
     "ticker": "GM"}]
   assert analysis.get_company_data("/m/04n3_w4") == [{
     "name": "Fiat",
-    "owner": "Fiat Chrysler Automobiles",
+    "root": "Fiat Chrysler Automobiles",
     "ticker": "FCAU"}]
   assert analysis.get_company_data("/m/0d8c4") == [{
     "name": "Lockheed Martin",
@@ -200,23 +219,29 @@ def test_get_company_data(analysis):
     "ticker": "LMT"}]
   assert analysis.get_company_data("/m/09jcvs") == [{
     "name": "YouTube",
-    "owner": "Google",
+    "root": "Google",
     "ticker": "GOOG"}, {
     "name": "YouTube",
-    "owner": "Google",
+    "root": "Google",
     "ticker": "GOOGL"}]
   assert analysis.get_company_data("/m/045c7b") == [{
     "name": "Google",
     "ticker": "GOOG"}, {
     "name": "Google",
+    "ticker": "GOOGL"}, {
+    "name": "Google",
+    "root": "Alphabet Inc.",
+    "ticker": "GOOG"}, {
+    "name": "Google",
+    "root": "Alphabet Inc.",
     "ticker": "GOOGL"}]
   assert analysis.get_company_data("/m/01snr1") == [{
     "name": "Bayer",
-    "owner": "BlackRock",
-    "ticker": "BLK"}, {
-    "name": "Bayer",
-    "owner": "PNC Financial Services",
-    "ticker": "PNC"}]
+    "root": "BlackRock",
+    "ticker": "BLK"}]#, {
+    #"name": "Bayer",
+    #"root": "PNC Financial Services",
+    #"ticker": "PNC"}]
   assert analysis.get_company_data("/m/02zs4") == [{
     "name": "Ford",
     "ticker": "F"}]
@@ -224,7 +249,7 @@ def test_get_company_data(analysis):
     "name": "Walmart",
     "ticker": "WMT"}, {
     "name": "Walmart",
-    "owner": "State Street Corporation",
+    "root": "State Street Corporation",
     "ticker": "STT"}]
   assert analysis.get_company_data("/m/07mb6") == [{
     "name": "Toyota",
@@ -234,8 +259,12 @@ def test_get_company_data(analysis):
     "ticker": "BA"}]
   assert analysis.get_company_data("/m/07_dc0") == [{
     "name": "Carrier Corporation",
-    "owner": "United Technologies Corporation",
+    "root": "United Technologies Corporation",
     "ticker": "UTX"}]
+  assert analysis.get_company_data("/m/01pkxd") == [{
+    "name": "Macy's",
+    "root": "Macy's, Inc.",
+    "ticker": "M"}]
   assert analysis.get_company_data("/m/0d6lp") == []
   assert analysis.get_company_data("xyz") == []
   assert analysis.get_company_data("") == []
@@ -272,6 +301,14 @@ TEXT_10 = ("Totally biased @NBCNews went out of its way to say that the big ann"
 TEXT_11 = ('"Bayer AG has pledged to add U.S. jobs and investments after meetin'
            'g with President-elect Donald Trump, the latest in a string..." @WS'
            'J')
+TEXT_12 = ("Big day on Thursday for Indiana and the great workers of that wonde"
+           "rful state.We will keep our companies and jobs in the U.S. Thanks C"
+           "arrier")
+TEXT_13 = ("I hope the boycott of @Macys continues forever. So many people are "
+           "cutting up their cards. Macy's stores suck and they are bad for U.S"
+           ".A.")
+TEXT_14 = ("Macy’s was very disloyal to me bc of my strong stance on illegal im"
+           "migration. Their stock has crashed! #BoycottMacys")
 
 def test_entity_tostring(analysis):
   assert analysis.entity_tostring(language.entity.Entity(
@@ -340,6 +377,9 @@ def test_get_sentiment(analysis):
   assert analysis.get_sentiment(TEXT_9) > 0
   #assert analysis.get_sentiment(TEXT_10) > 0
   assert analysis.get_sentiment(TEXT_11) > 0
+  assert analysis.get_sentiment(TEXT_12) > 0
+  assert analysis.get_sentiment(TEXT_13) < 0
+  assert analysis.get_sentiment(TEXT_14) < 0
   assert analysis.get_sentiment("") == 0
 
 # TODO: Make commented-out ones work.
@@ -373,7 +413,7 @@ def test_find_companies(analysis):
     "ticker": "TM"}]
   assert analysis.find_companies(TEXT_7) == [{
     "name": "Fiat",
-    "owner": "Fiat Chrysler Automobiles",
+    "root": "Fiat Chrysler Automobiles",
     "sentiment": 0.2,
     "ticker": "FCAU"}]
   assert analysis.find_companies(TEXT_8) == [{
@@ -381,7 +421,7 @@ def test_find_companies(analysis):
     "sentiment": 0.3,
     "ticker": "F"}, {
     "name": "Fiat",
-    "owner": "Fiat Chrysler Automobiles",
+    "root": "Fiat Chrysler Automobiles",
     "sentiment": 0.3,
     "ticker": "FCAU"}]
   assert analysis.find_companies(TEXT_9) == [{
@@ -392,7 +432,7 @@ def test_find_companies(analysis):
     "sentiment": 0.4,
     "ticker": "WMT"}, {
     "name": "Walmart",
-    "owner": "State Street Corporation",
+    "root": "State Street Corporation",
     "sentiment": 0.4,
     "ticker": "STT"}]
   #assert analysis.find_companies(TEXT_10) == [{
@@ -408,9 +448,24 @@ def test_find_companies(analysis):
   assert analysis.find_companies(TEXT_11) == [{
     "name": "Bayer",
     "sentiment": 0.3,
-    "owner": "BlackRock",
-    "ticker": "BLK"}, {
-    "name": "Bayer",
-    "sentiment": 0.3,
-    "owner": "PNC Financial Services",
-    "ticker": "PNC"}]
+    "root": "BlackRock",
+    "ticker": "BLK"}]#, {
+    #"name": "Bayer",
+    #"sentiment": 0.3,
+    #"root": "PNC Financial Services",
+    #"ticker": "PNC"}]
+  #assert analysis.find_companies(TEXT_12) == [{
+  #  "name": "Carrier Corporation",
+  #  "sentiment": 0.5,
+  #  "root": "United Technologies Corporation",
+  #  "ticker": "UTX"}]
+  assert analysis.find_companies(TEXT_13) == [{
+    "name": "Macy's",
+    "root": "Macy's, Inc.",
+    "sentiment": -0.4,
+    "ticker": "M"}]
+  assert analysis.find_companies(TEXT_14) == [{
+    "name": "Macy's",
+    "root": "Macy's, Inc.",
+    "sentiment": -0.3,
+    "ticker": "M"}]
