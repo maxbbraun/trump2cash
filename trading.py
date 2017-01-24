@@ -37,7 +37,7 @@ TICKER_BLACKLIST = ["GOOG", "GOOGL"]
 # A helper for making stock trades.
 class Trading:
   def __init__(self):
-    self.logger = logging.Client().logger("trading")
+    self.logger = logging.Client(use_gax=False).logger("trading")
 
   # Start making trades for the specified companies based on sentiment.
   def make_trades(self, companies):

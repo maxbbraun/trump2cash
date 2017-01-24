@@ -34,7 +34,7 @@ EMOJI_SHRUG = u"¯\_(\u30c4)_/¯"
 # A helper for talking to Twitter APIs.
 class Twitter:
   def __init__(self, callback):
-    self.logger = logging.Client().logger("twitter")
+    self.logger = logging.Client(use_gax=False).logger("twitter")
     twitter_listener = TwitterListener(callback)
     twitter_auth = OAuthHandler(TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET)
     twitter_auth.set_access_token(TWITTER_ACCESS_TOKEN,
@@ -83,7 +83,7 @@ class Twitter:
 # A listener class for handling streaming Twitter data.
 class TwitterListener(StreamListener):
   def __init__(self, callback):
-    self.logger = logging.Client().logger("twitter-listener")
+    self.logger = logging.Client(use_gax=False).logger("twitter-listener")
     self.callback = callback
 
   # Handles any API errors.
@@ -106,7 +106,7 @@ class TwitterListener(StreamListener):
 
     # Create new logging and error clients (with their own httplib2 instances)
     # to be used on background threads.
-    logger = logging.Client().logger("twitter-listener-background")
+    logger = logging.Client(use_gax=False).logger("twitter-listener-background")
     error_client = error_reporting.Client()
 
     # The main loop doesn't catch and report exceptions from background

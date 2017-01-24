@@ -28,7 +28,7 @@ WIKIDATA_QUERY_URL = ('https://query.wikidata.org/sparql?query='
 # A helper for analyzing company data in text.
 class Analysis:
   def __init__(self):
-    self.logger = logging.Client().logger("analysis")
+    self.logger = logging.Client(use_gax=False).logger("analysis")
     self.gcnl_client = language.Client()
 
   # Look up stock ticker information for a company via its Freebase ID.

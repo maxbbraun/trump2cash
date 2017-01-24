@@ -17,7 +17,7 @@ def twitter_callback(text, link):
     twitter.tweet(companies, link)
 
 if __name__ == "__main__":
-  logger = logging.Client().logger("main")
+  logger = logging.Client(use_gax=False).logger("main")
   error_client = error_reporting.Client()
 
   # Restart in a loop if there are any errors so we stay up.
