@@ -35,8 +35,7 @@ EMOJI_SHRUG = u"¯\_(\u30c4)_/¯"
 class Twitter:
   def __init__(self, callback):
     self.logger = logging.Client().logger("twitter")
-    error_client = error_reporting.Client()
-    twitter_listener = TwitterListener(self.logger, error_client, callback)
+    twitter_listener = TwitterListener(callback)
     twitter_auth = OAuthHandler(TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET)
     twitter_auth.set_access_token(TWITTER_ACCESS_TOKEN,
       TWITTER_ACCESS_TOKEN_SECRET)
@@ -83,63 +82,16 @@ class Twitter:
 
 # A listener class for handling streaming Twitter data.
 class TwitterListener(StreamListener):
-  def __init__(self, logger, error_client, callback):
-    self.logger = logger
-    self.error_client = error_client
+  def __init__(self, callback):
+    self.logger = logging.Client().logger("twitter-listener")
     self.callback = callback
 
   # Handles any API errors.
   def on_error(self, status):
-    logger.log_text("Twitter error: %s" % status, severity="ERROR")
+    self.logger.log_text("Twitter error: %s" % status, severity="ERROR")
 
     # Don't stop.
     return True
-
-  # Calls handle_data() and makes sure any errors are logged despite being on a
-  # separate thread.
-  def safe_handle_data(self, data):
-    try:
-      self.handle_data(data)
-    except Exception as exception:
-      self.error_client.report_exception()
-      self.logger.log_text("Exception on background thread: %s" % exception,
-        severity="ERROR")
-
-  # Sanity-checks and extracts the data before sending it to the callback.
-  def handle_data(self, data):
-
-    # Decode the JSON response.
-    try:
-      tweet = loads(data)
-    except ValueError:
-      self.logger.log_text("Failed to decode JSON data: %s" % data,
-        severity="ERROR")
-      return
-
-    # Do a basic check on the response format we expect.
-    if not "user" in tweet:
-      self.logger.log_text("Malformed tweet: %s" % tweet, severity="WARNING")
-      return
-
-    # We're only interested in tweets from Mr. Trump himself, so skip the rest.
-    user_id = tweet["user"]["id"]
-    screen_name = tweet["user"]["screen_name"]
-    if str(user_id) != TRUMP_USER_ID:
-      # TODO: Find a way to log this without saturating the logger or get a
-      #       stream without replies.
-      #self.logger.log_text("Skipping tweet from user: %s (%s)" % (screen_name,
-      #  user_id), severity="DEBUG")
-      return
-
-    # Extract what data we need from the tweet.
-    text = tweet["text"]
-    id_str = tweet["id_str"]
-    link = TWEET_URL % (screen_name, id_str)
-    self.logger.log_text("Examining tweet: %s %s" % (link, data),
-      severity="DEBUG")
-
-    # Call the callback.
-    self.callback(text, link)
 
   # Kicks off a new thread to handle data.
   def on_data(self, data):
@@ -148,6 +100,56 @@ class TwitterListener(StreamListener):
 
     # Don't stop.
     return True
+
+  # Calls handle_data() in a thread-safe way.
+  def safe_handle_data(self, data):
+
+    # Create new logging and error clients (with their own httplib2 instances)
+    # to be used on background threads.
+    logger = logging.Client().logger("twitter-listener-background")
+    error_client = error_reporting.Client()
+
+    # The main loop doesn't catch and report exceptions from background
+    # threads, so do that here.
+    try:
+      self.handle_data(logger, data)
+    except Exception as exception:
+      error_client.report_exception()
+      logger.log_text("Exception on background thread: %s" % exception,
+        severity="ERROR")
+
+  # Sanity-checks and extracts the data before sending it to the callback.
+  def handle_data(self, logger, data):
+
+    # Decode the JSON response.
+    try:
+      tweet = loads(data)
+    except ValueError:
+      logger.log_text("Failed to decode JSON data: %s" % data, severity="ERROR")
+      return
+
+    # Do a basic check on the response format we expect.
+    if not "user" in tweet:
+      logger.log_text("Malformed tweet: %s" % tweet, severity="WARNING")
+      return
+
+    # We're only interested in tweets from Mr. Trump himself, so skip the rest.
+    user_id = tweet["user"]["id"]
+    screen_name = tweet["user"]["screen_name"]
+    if str(user_id) != TRUMP_USER_ID:
+      logger.log_text("Skipping tweet from user: %s (%s)" % (screen_name,
+        user_id), severity="DEBUG")
+      return
+
+    # Extract what data we need from the tweet.
+    text = tweet["text"]
+    id_str = tweet["id_str"]
+    link = TWEET_URL % (screen_name, id_str)
+    logger.log_text("Examining tweet: %s %s" % (link, data),
+      severity="DEBUG")
+
+    # Call the callback.
+    self.callback(text, link)
 
 #
 # Tests
