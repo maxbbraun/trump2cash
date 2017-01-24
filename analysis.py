@@ -265,50 +265,13 @@ def test_get_company_data(analysis):
     "name": "Macy's",
     "root": "Macy's, Inc.",
     "ticker": "M"}]
+  assert analysis.get_company_data("/m/02rnkmh") == [{
+    "name": "Keystone Pipeline",
+    "root": "TransCanada Corporation",
+    "ticker": "TRP"}]
   assert analysis.get_company_data("/m/0d6lp") == []
   assert analysis.get_company_data("xyz") == []
   assert analysis.get_company_data("") == []
-
-TEXT_1 = ("Boeing is building a brand new 747 Air Force One for future presiden"
-          "ts, but costs are out of control, more than $4 billion. Cancel order"
-          "!")
-TEXT_2 = ("Based on the tremendous cost and cost overruns of the Lockheed Marti"
-          "n F-35, I have asked Boeing to price-out a comparable F-18 Super Hor"
-          "net!")
-TEXT_3 = ("General Motors is sending Mexican made model of Chevy Cruze to U.S. "
-          "car dealers-tax free across border. Make in U.S.A.or pay big border "
-          "tax!")
-TEXT_4 = ('"@DanScavino: Ford to scrap Mexico plant, invest in Michigan due to '
-          'Trump policies" http://www.foxnews.com/politics/2017/01/03/ford-to-s'
-          'crap-mexico-plant-invest-in-michigan-due-to-trump-policies.html')
-TEXT_5 = ("Thank you to Ford for scrapping a new plant in Mexico and creating 7"
-          "00 new jobs in the U.S. This is just the beginning - much more to fo"
-          "llow")
-TEXT_6 = ("Toyota Motor said will build a new plant in Baja, Mexico, to build C"
-          "orolla cars for U.S. NO WAY! Build plant in U.S. or pay big border t"
-          "ax.")
-TEXT_7 = ("It's finally happening - Fiat Chrysler just announced plans to inves"
-          "t $1BILLION in Michigan and Ohio plants, adding 2000 jobs. This afte"
-          "r...")
-TEXT_8 = ("Ford said last week that it will expand in Michigan and U.S. instead"
-          " of building a BILLION dollar plant in Mexico. Thank you Ford & Fiat"
-          " C!")
-TEXT_9 = ("Thank you to General Motors and Walmart for starting the big jobs pu"
-          "sh back into the U.S.!")
-TEXT_10 = ("Totally biased @NBCNews went out of its way to say that the big ann"
-           "ouncement from Ford, G.M., Lockheed & others that jobs are coming b"
-           "ack...")
-TEXT_11 = ('"Bayer AG has pledged to add U.S. jobs and investments after meetin'
-           'g with President-elect Donald Trump, the latest in a string..." @WS'
-           'J')
-TEXT_12 = ("Big day on Thursday for Indiana and the great workers of that wonde"
-           "rful state.We will keep our companies and jobs in the U.S. Thanks C"
-           "arrier")
-TEXT_13 = ("I hope the boycott of @Macys continues forever. So many people are "
-           "cutting up their cards. Macy's stores suck and they are bad for U.S"
-           ".A.")
-TEXT_14 = ("Macy’s was very disloyal to me bc of my strong stance on illegal im"
-           "migration. Their stock has crashed! #BoycottMacys")
 
 def test_entity_tostring(analysis):
   assert analysis.entity_tostring(language.entity.Entity(
@@ -364,6 +327,49 @@ def test_entities_tostring(analysis):
     'mentions: ["jobs"]}]')
   assert analysis.entities_tostring([]) == "[]"
 
+TEXT_1 = ("Boeing is building a brand new 747 Air Force One for future presiden"
+          "ts, but costs are out of control, more than $4 billion. Cancel order"
+          "!")
+TEXT_2 = ("Based on the tremendous cost and cost overruns of the Lockheed Marti"
+          "n F-35, I have asked Boeing to price-out a comparable F-18 Super Hor"
+          "net!")
+TEXT_3 = ("General Motors is sending Mexican made model of Chevy Cruze to U.S. "
+          "car dealers-tax free across border. Make in U.S.A.or pay big border "
+          "tax!")
+TEXT_4 = ('"@DanScavino: Ford to scrap Mexico plant, invest in Michigan due to '
+          'Trump policies" http://www.foxnews.com/politics/2017/01/03/ford-to-s'
+          'crap-mexico-plant-invest-in-michigan-due-to-trump-policies.html')
+TEXT_5 = ("Thank you to Ford for scrapping a new plant in Mexico and creating 7"
+          "00 new jobs in the U.S. This is just the beginning - much more to fo"
+          "llow")
+TEXT_6 = ("Toyota Motor said will build a new plant in Baja, Mexico, to build C"
+          "orolla cars for U.S. NO WAY! Build plant in U.S. or pay big border t"
+          "ax.")
+TEXT_7 = ("It's finally happening - Fiat Chrysler just announced plans to inves"
+          "t $1BILLION in Michigan and Ohio plants, adding 2000 jobs. This afte"
+          "r...")
+TEXT_8 = ("Ford said last week that it will expand in Michigan and U.S. instead"
+          " of building a BILLION dollar plant in Mexico. Thank you Ford & Fiat"
+          " C!")
+TEXT_9 = ("Thank you to General Motors and Walmart for starting the big jobs pu"
+          "sh back into the U.S.!")
+TEXT_10 = ("Totally biased @NBCNews went out of its way to say that the big ann"
+           "ouncement from Ford, G.M., Lockheed & others that jobs are coming b"
+           "ack...")
+TEXT_11 = ('"Bayer AG has pledged to add U.S. jobs and investments after meetin'
+           'g with President-elect Donald Trump, the latest in a string..." @WS'
+           'J')
+TEXT_12 = ("Big day on Thursday for Indiana and the great workers of that wonde"
+           "rful state.We will keep our companies and jobs in the U.S. Thanks C"
+           "arrier")
+TEXT_13 = ("I hope the boycott of @Macys continues forever. So many people are "
+           "cutting up their cards. Macy's stores suck and they are bad for U.S"
+           ".A.")
+TEXT_14 = ("Macy’s was very disloyal to me bc of my strong stance on illegal im"
+           "migration. Their stock has crashed! #BoycottMacys")
+TEXT_15 = ("Signing orders to move forward with the construction of the Keyston"
+           "e XL and Dakota Access pipelines in the Oval Office.")
+
 # TODO: Make commented-out ones work.
 def test_get_sentiment(analysis):
   assert analysis.get_sentiment(TEXT_1) < 0
@@ -380,6 +386,7 @@ def test_get_sentiment(analysis):
   assert analysis.get_sentiment(TEXT_12) > 0
   assert analysis.get_sentiment(TEXT_13) < 0
   assert analysis.get_sentiment(TEXT_14) < 0
+  #assert analysis.get_sentiment(TEXT_15) > 0
   assert analysis.get_sentiment("") == 0
 
 # TODO: Make commented-out ones work.
@@ -388,13 +395,13 @@ def test_find_companies(analysis):
     "name": "Boeing",
     "sentiment": -0.1,
     "ticker": "BA"}]
-  #assert analysis.find_companies(TEXT_2) == [{
-  #  "name": "Lockheed Martin",
-  #  "sentiment": -0.1,
-  #  "ticker": "LMT"}, {
-  #  "name": "Boeing",
-  #  "sentiment": 0.1,
-  #  "ticker": "BA"}]
+  assert analysis.find_companies(TEXT_2) == [{
+    #"name": "Lockheed Martin",
+    #"sentiment": -0.1,
+    #"ticker": "LMT"}, {
+    "name": "Boeing",
+    "sentiment": 0, #0.1,
+    "ticker": "BA"}]
   assert analysis.find_companies(TEXT_3) == [{
     "name": "General Motors",
     "sentiment": -0.1,
@@ -435,16 +442,16 @@ def test_find_companies(analysis):
     "root": "State Street Corporation",
     "sentiment": 0.4,
     "ticker": "STT"}]
-  #assert analysis.find_companies(TEXT_10) == [{
-  #  "name": "Ford",
-  #  "sentiment": 0,
-  #  "ticker": "F"}, {
-  #  "name": "General Motors",
-  #  "sentiment": 0,
-  #  "ticker": "GM"}, {
-  #  "name": "Lockheed Martin",
-  #  "sentiment": 0,
-  #  "ticker": "LMT"}]
+  assert analysis.find_companies(TEXT_10) == [{
+    "name": "Ford",
+    "sentiment": -0.5, #0,
+    "ticker": "F"}, {
+    "name": "General Motors",
+    "sentiment": -0.5, #0,
+    "ticker": "GM"}, {
+    "name": "Lockheed Martin",
+    "sentiment": -0.5, #0,
+    "ticker": "LMT"}]
   assert analysis.find_companies(TEXT_11) == [{
     "name": "Bayer",
     "sentiment": 0.3,
@@ -469,3 +476,8 @@ def test_find_companies(analysis):
     "root": "Macy's, Inc.",
     "sentiment": -0.3,
     "ticker": "M"}]
+  assert analysis.find_companies(TEXT_15) == [{
+    "name": "Keystone Pipeline",
+    "root": "TransCanada Corporation",
+    "sentiment": 0, #0.1,
+    "ticker": "TRP"}]
