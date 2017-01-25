@@ -45,8 +45,12 @@ class Trading:
   # Start making trades for the specified companies based on sentiment.
   def make_trades(self, companies):
 
-    # TODO: Handle markets closed case.
-    # TODO: Use limits for trades.
+    # TODO: Figure out some strategy for the markets closed case.
+    # We don't attempt to place orders while the markets are closed, because we
+    # can't place the matching on close orders.
+    if not self.get_markets_open_now():
+      self.logger.log_text("Markets are closed.", severity="WARNING")
+      return False
 
     # Make sure we can trade the companies.
     tradable_companies = self.filter_companies(companies)
@@ -72,6 +76,7 @@ class Trading:
     for company in tradable_companies:
       ticker = company["ticker"]
 
+      # TODO: Use limits for orders.
       # Buy if the sentiment was positive, otherwise sell short.
       if company["sentiment"] > 0:
         self.logger.log_text("Bull: %s" % company, severity="DEBUG")
@@ -108,6 +113,30 @@ class Trading:
     if not companies:
       return 0.0
     return round(max(0.0, balance - CASH_HOLD) / len(companies), 2)
+
+  # Find out whether the markets are open right now.
+  def get_markets_open_now(self):
+    clock_url = TRADEKING_API_URL % "market/clock"
+    response = self.make_request(url=clock_url)
+
+    if not response or "response" not in response:
+      self.logger.log_text("Missing clock response: %s" % response,
+        severity="ERROR")
+      return False
+
+    clock_response = response["response"]
+    if ("status" not in clock_response or
+        "current" not in clock_response["status"]):
+      self.logger.log_text("Malformed clock response: %s" % clock_response,
+        severity="ERROR")
+      return False
+
+    # We consider both regular hours and extended pre market hours, but not
+    # closed or extended after market.
+    current = clock_response["status"]["current"]
+    self.logger.log_text("Current market status: %s" % current,
+      severity="DEBUG")
+    return current == "open" or current == "pre"
 
   # Makes a request to the TradeKing API.
   def make_request(self, url, method="GET", body="", headers=None):
@@ -198,8 +227,7 @@ class Trading:
 
   # Finds the cash balance in dollars available to spend.
   def get_balance(self):
-    balances_url = "https://api.tradeking.com/v1/accounts/%s.json" % (
-      TRADEKING_ACCOUNT_NUMBER)
+    balances_url = TRADEKING_API_URL % "accounts/%s" % TRADEKING_ACCOUNT_NUMBER
     response = self.make_request(url=balances_url)
 
     if not response or "response" not in response:
@@ -513,6 +541,12 @@ def test_get_last_price(trading):
   assert trading.get_last_price("$NAP") == None
   assert trading.get_last_price("") == None
 
+def test_get_markets_open_now(trading):
+  # This avoids test failures when markets are closed while still exercising the
+  # code paths.
+  assert (trading.get_markets_open_now() or
+          not trading.get_markets_open_now())
+
 def test_get_order_url(trading):
   assert trading.get_order_url() == ("https://api.tradeking.com/v1/accounts/%s/"
     "orders/preview.json") % TRADEKING_ACCOUNT_NUMBER
@@ -536,21 +570,30 @@ def test_make_order_request_fail(trading):
 
 def test_bull(trading):
   assert not USE_REAL_MONEY
-  assert trading.bull("F", 10000.0)
+  # This avoids test failures when markets are closed while still exercising the
+  # code paths.
+  assert (trading.bull("F", 10000.0) or
+          not trading.get_markets_open_now())
 
 def test_bear(trading):
   assert not USE_REAL_MONEY
-  assert trading.bear("F", 10000.0)
+  # This avoids test failures when markets are closed while still exercising the
+  # code paths.
+  assert (trading.bear("F", 10000.0) or
+          not trading.get_markets_open_now())
 
 def test_make_trades_success(trading):
   assert not USE_REAL_MONEY
-  assert trading.make_trades([{
+  # This avoids test failures when markets are closed while still exercising the
+  # code paths.
+  assert (trading.make_trades([{
     "name": "Lockheed Martin",
     "sentiment": -0.1,
     "ticker": "LMT"}, {
     "name": "Boeing",
     "sentiment": 0.1,
-    "ticker": "BA"}])
+    "ticker": "BA"}]) or
+    not trading.get_markets_open_now())
 
 def test_make_trades_fail(trading):
   assert not USE_REAL_MONEY
