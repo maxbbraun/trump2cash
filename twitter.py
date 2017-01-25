@@ -15,7 +15,7 @@ from tweepy.streaming import StreamListener
 TWITTER_ACCESS_TOKEN = getenv("TWITTER_ACCESS_TOKEN")
 TWITTER_ACCESS_TOKEN_SECRET = getenv("TWITTER_ACCESS_TOKEN_SECRET")
 
-# The keys for the Twitter app we're using for API requests 
+# The keys for the Twitter app we're using for API requests
 # (https://apps.twitter.com/app/13239588). Read from environment variables.
 TWITTER_CONSUMER_KEY = getenv("TWITTER_CONSUMER_KEY")
 TWITTER_CONSUMER_SECRET = getenv("TWITTER_CONSUMER_SECRET")
@@ -31,125 +31,144 @@ EMOJI_THUMBS_UP = u"\U0001f44d"
 EMOJI_THUMBS_DOWN = u"\U0001f44e"
 EMOJI_SHRUG = u"¯\_(\u30c4)_/¯"
 
-# A helper for talking to Twitter APIs.
+
 class Twitter:
-  def __init__(self, callback):
-    self.logger = logging.Client(use_gax=False).logger("twitter")
-    twitter_listener = TwitterListener(callback)
-    twitter_auth = OAuthHandler(TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET)
-    twitter_auth.set_access_token(TWITTER_ACCESS_TOKEN,
-      TWITTER_ACCESS_TOKEN_SECRET)
-    self.twitter_stream = Stream(twitter_auth, twitter_listener)
-    self.twitter_api = API(twitter_auth)
+    """A helper for talking to Twitter APIs."""
 
-  # Starts streaming tweets and returning data to the callback.
-  def start_streaming(self):
-    self.twitter_stream.filter(follow=[TRUMP_USER_ID])
+    def __init__(self, callback):
+        self.logger = logging.Client(use_gax=False).logger("twitter")
+        twitter_listener = TwitterListener(callback)
+        twitter_auth = OAuthHandler(TWITTER_CONSUMER_KEY,
+                                    TWITTER_CONSUMER_SECRET)
+        twitter_auth.set_access_token(TWITTER_ACCESS_TOKEN,
+                                      TWITTER_ACCESS_TOKEN_SECRET)
+        self.twitter_stream = Stream(twitter_auth, twitter_listener)
+        self.twitter_api = API(twitter_auth)
 
-  # Post a tweet listing the companies, their ticker symbols, and a quote of the
-  # original tweet.
-  def tweet(self, companies, link):
-    text = self.make_tweet_text(companies, link)
-    self.logger.log_text(text, severity="INFO")
-    self.twitter_api.update_status(text)
+    def start_streaming(self):
+        """Starts streaming tweets and returning data to the callback."""
 
-  # Creates the text for a tweet.
-  def make_tweet_text(self, companies, link):
-    text = ""
+        self.twitter_stream.filter(follow=[TRUMP_USER_ID])
 
-    for company in companies:
-      line = company["name"]
+    def tweet(self, companies, link):
+        """Posts a tweet listing the companies, their ticker symbols, and a
+        quote of the original tweet.
+        """
 
-      if "root" in company and company["root"]:
-        line += " (%s)" % company["root"]
+        text = self.make_tweet_text(companies, link)
+        self.logger.log_text(text, severity="INFO")
+        self.twitter_api.update_status(text)
 
-      ticker = company["ticker"]
-      line += " $%s" % ticker
+    def make_tweet_text(self, companies, link):
+        """Generates the text for a tweet."""
 
-      if "sentiment" in company:
-        if company["sentiment"] == 0:
-          sentiment = EMOJI_SHRUG
-        else:
-          positive = company["sentiment"] > 0
-          sentiment = EMOJI_THUMBS_UP if positive else EMOJI_THUMBS_DOWN
-        line += " %s" % sentiment
+        text = ""
 
-      text += "%s\n" % line
+        for company in companies:
+            line = company["name"]
 
-    text += link
+            if "root" in company and company["root"]:
+                line += " (%s)" % company["root"]
 
-    return text
+            ticker = company["ticker"]
+            line += " $%s" % ticker
 
-# A listener class for handling streaming Twitter data.
+            if "sentiment" in company:
+                if company["sentiment"] == 0:
+                    sentiment = EMOJI_SHRUG
+                else:
+                    if company["sentiment"] > 0:
+                        sentiment = EMOJI_THUMBS_UP
+                    else:
+                        sentiment = EMOJI_THUMBS_DOWN
+                line += " %s" % sentiment
+
+            text += "%s\n" % line
+
+        text += link
+
+        return text
+
+
 class TwitterListener(StreamListener):
-  def __init__(self, callback):
-    self.logger = logging.Client(use_gax=False).logger("twitter-listener")
-    self.callback = callback
+    """A listener class for handling streaming Twitter data."""
 
-  # Handles any API errors.
-  def on_error(self, status):
-    self.logger.log_text("Twitter error: %s" % status, severity="ERROR")
+    def __init__(self, callback):
+        self.logger = logging.Client(use_gax=False).logger("twitter-listener")
+        self.callback = callback
 
-    # Don't stop.
-    return True
+    def on_error(self, status):
+        """Handles any API errors."""
 
-  # Kicks off a new thread to handle data.
-  def on_data(self, data):
-    thread = Thread(target=self.safe_handle_data, args=[data])
-    thread.start()
+        self.logger.log_text("Twitter error: %s" % status, severity="ERROR")
 
-    # Don't stop.
-    return True
+        # Don't stop.
+        return True
 
-  # Calls handle_data() in a thread-safe way.
-  def safe_handle_data(self, data):
+    def on_data(self, data):
+        """Kicks off a new thread to handle data."""
 
-    # Create new logging and error clients (with their own httplib2 instances)
-    # to be used on background threads.
-    logger = logging.Client(use_gax=False).logger("twitter-listener-background")
-    error_client = error_reporting.Client()
+        thread = Thread(target=self.safe_handle_data, args=[data])
+        thread.start()
 
-    # The main loop doesn't catch and report exceptions from background
-    # threads, so do that here.
-    try:
-      self.handle_data(logger, data)
-    except Exception as exception:
-      error_client.report_exception()
-      logger.log_text("Exception on background thread: %s" % exception,
-        severity="ERROR")
+        # Don't stop.
+        return True
 
-  # Sanity-checks and extracts the data before sending it to the callback.
-  def handle_data(self, logger, data):
+    def safe_handle_data(self, data):
+        """Calls handle_data() in a thread-safe way."""
 
-    # Decode the JSON response.
-    try:
-      tweet = loads(data)
-    except ValueError:
-      logger.log_text("Failed to decode JSON data: %s" % data, severity="ERROR")
-      return
+        # Create new logging and error clients (with their own httplib2
+        # instances) to be used on background threads.
+        logger = logging.Client(use_gax=False).logger(
+            "twitter-listener-background")
+        error_client = error_reporting.Client()
 
-    # Do a basic check on the response format we expect.
-    if not "user" in tweet:
-      logger.log_text("Malformed tweet: %s" % tweet, severity="WARNING")
-      return
+        # The main loop doesn't catch and report exceptions from background
+        # threads, so do that here.
+        try:
+            self.handle_data(logger, data)
+        except Exception as exception:
+            error_client.report_exception()
+            logger.log_text("Exception on background thread: %s" % exception,
+                            severity="ERROR")
 
-    # We're only interested in tweets from Mr. Trump himself, so skip the rest.
-    user_id = tweet["user"]["id"]
-    screen_name = tweet["user"]["screen_name"]
-    if str(user_id) != TRUMP_USER_ID:
-      logger.log_text("Skipping tweet from user: %s (%s)" % (screen_name,
-        user_id), severity="DEBUG")
-      return
+    def handle_data(self, logger, data):
+        """Sanity-checks and extracts the data before sending it to the
+        callback.
+        """
 
-    # Extract what data we need from the tweet.
-    text = tweet["text"]
-    id_str = tweet["id_str"]
-    link = TWEET_URL % (screen_name, id_str)
-    logger.log_text("Examining tweet: %s %s" % (link, data),
-      severity="DEBUG")
+        # Decode the JSON response.
+        try:
+            tweet = loads(data)
+        except ValueError:
+            logger.log_text("Failed to decode JSON data: %s" % data,
+                            severity="ERROR")
+            return
 
-    # Call the callback.
-    self.callback(text, link)
+        # Do a basic check on the response format we expect.
+        if not "user" in tweet:
+            logger.log_text("Malformed tweet: %s" % tweet, severity="WARNING")
+            return
+
+        # We're only interested in tweets from Mr. Trump himself, so skip the
+        # rest.
+        user_id = tweet["user"]["id"]
+        screen_name = tweet["user"]["screen_name"]
+        if str(user_id) != TRUMP_USER_ID:
+            logger.log_text(
+                "Skipping tweet from user: %s (%s)" %
+                (screen_name, user_id), severity="DEBUG")
+            return
+
+        # Extract what data we need from the tweet.
+        text = tweet["text"]
+        id_str = tweet["id_str"]
+        link = TWEET_URL % (screen_name, id_str)
+        logger.log_text("Examining tweet: %s %s" % (link, data),
+                        severity="DEBUG")
+
+        # Call the callback.
+        self.callback(text, link)
 
 #
 # Tests
@@ -157,58 +176,63 @@ class TwitterListener(StreamListener):
 
 import pytest
 
+
 def callback(text, link):
-  pass
+    pass
+
 
 @pytest.fixture
 def twitter():
-  return Twitter(callback)
+    return Twitter(callback)
+
 
 def test_environment_variables():
-  assert TWITTER_CONSUMER_KEY
-  assert TWITTER_CONSUMER_SECRET
-  assert TWITTER_ACCESS_TOKEN
-  assert TWITTER_ACCESS_TOKEN_SECRET
+    assert TWITTER_CONSUMER_KEY
+    assert TWITTER_CONSUMER_SECRET
+    assert TWITTER_ACCESS_TOKEN
+    assert TWITTER_ACCESS_TOKEN_SECRET
+
 
 def test_twitter_listener():
-  # TODO
-  pass
+    # TODO
+    pass
+
 
 def test_make_tweet_text(twitter):
-  assert twitter.make_tweet_text([{
-    "name": "Boeing",
-    "sentiment": -0.1,
-    "ticker": "BA"}],
-    "https://twitter.com/realDonaldTrump/status/806134244384899072") == (
-    u"Boeing $BA \U0001f44e\n"
-    u"https://twitter.com/realDonaldTrump/status/806134244384899072")
-  assert twitter.make_tweet_text([{
-    "name": "Ford",
-    "sentiment": 0.3,
-    "ticker": "F"},{
-    "name": "Fiat",
-    "root": "Fiat Chrysler Automobiles",
-    "sentiment": 0.3,
-    "ticker": "FCAU"}],
-    "https://twitter.com/realDonaldTrump/status/818461467766824961") == (
-    u"Ford $F \U0001f44d\n"
-    u"Fiat (Fiat Chrysler Automobiles) $FCAU \U0001f44d\n"
-    u"https://twitter.com/realDonaldTrump/status/818461467766824961")
-  assert twitter.make_tweet_text([{
-    "name": "Lockheed Martin",
-    "sentiment": -0.1,
-    "ticker": "LMT"},{
-    "name": "Boeing",
-    "sentiment": 0.1,
-    "ticker": "BA"}],
-    "https://twitter.com/realDonaldTrump/status/812061677160202240") == (
-    u"Lockheed Martin $LMT \U0001f44e\n"
-    u"Boeing $BA \U0001f44d\n"
-    u"https://twitter.com/realDonaldTrump/status/812061677160202240")
-  assert twitter.make_tweet_text([{
-    "name": "General Motors",
-    "sentiment": 0,
-    "ticker": "GM"}],
-    "https://twitter.com/realDonaldTrump/status/821697182235496450") == (
-    u"General Motors $GM ¯\_(\u30c4)_/¯\n"
-    u"https://twitter.com/realDonaldTrump/status/821697182235496450")
+    assert twitter.make_tweet_text([{
+        "name": "Boeing",
+        "sentiment": -0.1,
+        "ticker": "BA"}],
+        "https://twitter.com/realDonaldTrump/status/806134244384899072") == (
+        u"Boeing $BA \U0001f44e\n"
+        u"https://twitter.com/realDonaldTrump/status/806134244384899072")
+    assert twitter.make_tweet_text([{
+        "name": "Ford",
+        "sentiment": 0.3,
+        "ticker": "F"}, {
+        "name": "Fiat",
+        "root": "Fiat Chrysler Automobiles",
+        "sentiment": 0.3,
+        "ticker": "FCAU"}],
+        "https://twitter.com/realDonaldTrump/status/818461467766824961") == (
+        u"Ford $F \U0001f44d\n"
+        u"Fiat (Fiat Chrysler Automobiles) $FCAU \U0001f44d\n"
+        u"https://twitter.com/realDonaldTrump/status/818461467766824961")
+    assert twitter.make_tweet_text([{
+        "name": "Lockheed Martin",
+        "sentiment": -0.1,
+        "ticker": "LMT"}, {
+        "name": "Boeing",
+        "sentiment": 0.1,
+        "ticker": "BA"}],
+        "https://twitter.com/realDonaldTrump/status/812061677160202240") == (
+        u"Lockheed Martin $LMT \U0001f44e\n"
+        u"Boeing $BA \U0001f44d\n"
+        u"https://twitter.com/realDonaldTrump/status/812061677160202240")
+    assert twitter.make_tweet_text([{
+        "name": "General Motors",
+        "sentiment": 0,
+        "ticker": "GM"}],
+        "https://twitter.com/realDonaldTrump/status/821697182235496450") == (
+        u"General Motors $GM ¯\_(\u30c4)_/¯\n"
+        u"https://twitter.com/realDonaldTrump/status/821697182235496450")
