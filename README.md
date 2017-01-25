@@ -101,7 +101,7 @@ $ export USE_REAL_MONEY=NO && pytest *.py --verbose
 Enable real orders that use your money:
 
 ```shell
-export USE_REAL_MONEY=YES
+$ export USE_REAL_MONEY=YES
 ```
 
 Have the code start running in the background with this command:
