@@ -111,12 +111,6 @@ class Analysis:
     companies = []
     for entity in entities:
 
-      # We are only interested in certain entity types, so skip anything else.
-      if entity.entity_type not in ["ORGANIZATION", "OTHER", "UNKNOWN"]:
-        self.logger.log_text("Skipping entity: %s" % self.entity_tostring(
-          entity), severity="DEBUG")
-        continue
-
       # Use the Freebase ID of the entity to find company data. Skip any entity
       # which doesn't have a Freebase ID.
       name = entity.name
