@@ -5,19 +5,22 @@ from simplejson import loads
 from oauth2 import Consumer
 from oauth2 import Client
 from oauth2 import Token
-from os import environ
+from os import getenv
 from lxml.etree import Element
 from lxml.etree import SubElement
 from lxml.etree import tostring
 
 # Read the authentication keys for TradeKing from environment variables.
-TRADEKING_CONSUMER_KEY = environ["TRADEKING_CONSUMER_KEY"]
-TRADEKING_CONSUMER_SECRET = environ["TRADEKING_CONSUMER_SECRET"]
-TRADEKING_ACCESS_TOKEN = environ["TRADEKING_ACCESS_TOKEN"]
-TRADEKING_ACCESS_TOKEN_SECRET = environ["TRADEKING_ACCESS_TOKEN_SECRET"]
+TRADEKING_CONSUMER_KEY = getenv("TRADEKING_CONSUMER_KEY")
+TRADEKING_CONSUMER_SECRET = getenv("TRADEKING_CONSUMER_SECRET")
+TRADEKING_ACCESS_TOKEN = getenv("TRADEKING_ACCESS_TOKEN")
+TRADEKING_ACCESS_TOKEN_SECRET = getenv("TRADEKING_ACCESS_TOKEN_SECRET")
 
-# The TradeKing account number.
-TRADEKING_ACCOUNT_NUMBER = environ["TRADEKING_ACCOUNT_NUMBER"]
+# Read the TradeKing account number from the environment variable.
+TRADEKING_ACCOUNT_NUMBER = getenv("TRADEKING_ACCOUNT_NUMBER")
+
+# Only allow actual trades when the environment variable confirms it.
+USE_REAL_MONEY = getenv("USE_REAL_MONEY") == "YES"
 
 # The base URL for API requests to TradeKing.
 TRADEKING_API_URL = "https://api.tradeking.com/v1/%s.json"
@@ -27,9 +30,6 @@ FIXML_NAMESPACE = "http://www.fixprotocol.org/FIXML-5-0-SP2"
 
 # The HTTP headers for FIXML requests.
 FIXML_HEADERS = {"Content-Type": "text/xml"}
-
-# Whether to make order requests without actually placing them (for testing).
-SPEND_REAL_MONEY = False
 
 # The amount of cash in dollars to hold from being spent.
 CASH_HOLD = 1000
@@ -51,12 +51,19 @@ class Trading:
     # Make sure we can trade the companies.
     tradable_companies = self.filter_companies(companies)
 
+    if not tradable_companies:
+      self.logger.log_text("No companies  for trading.", severity="WARNING")
+      return False
+
     # Calculate the budget per company.
     balance = self.get_balance()
     budget = self.get_budget(balance, tradable_companies)
+
     if not budget:
-      self.logger.log_text("No budget for trading.", severity="ERROR")
+      self.logger.log_text("No budget for trading: %s %s %s" % (budget,
+        balance, tradable_companies), severity="WARNING")
       return False
+
     self.logger.log_text("Using budget: %s x $%s" % (len(companies), budget),
       severity="DEBUG")
 
@@ -261,7 +268,7 @@ class Trading:
   # Gets the TradeKing URL for placing orders.
   def get_order_url(self):
     url_path = "accounts/%s/orders" % TRADEKING_ACCOUNT_NUMBER
-    if not SPEND_REAL_MONEY:
+    if not USE_REAL_MONEY:
       url_path += "/preview"
     return TRADEKING_API_URL % url_path
 
@@ -299,24 +306,12 @@ class Trading:
 
     # Buy the stock now.
     buy_fixml = self.fixml_buy_now(ticker, quantity)
-    buy_response = self.make_request(url=self.get_order_url(), method="POST",
-      body=buy_fixml, headers=FIXML_HEADERS)
-
-    # TODO: Check for malformed/negative response.
-    if not buy_response:
-      self.logger.log_text("Buy order failed: %s" % buy_response,
-        severity="ERROR")
+    if not self.make_order_request(buy_fixml):
       return False
 
     # Sell the stock at close.
     sell_fixml = self.fixml_sell_eod(ticker, quantity)
-    sell_response = self.make_request(url=self.get_order_url(), method="POST",
-      body=sell_fixml, headers=FIXML_HEADERS)
-
-    # TODO: Check for malformed/negative response
-    if not sell_response:
-      self.logger.log_text("Sell order failed: %s" % sell_response,
-        severity="ERROR")
+    if not self.make_order_request(sell_fixml):
       return False
 
     return True
@@ -333,24 +328,39 @@ class Trading:
 
     # Short the stock now.
     short_fixml = self.fixml_short_now(ticker, quantity)
-    short_response = self.make_request(url=self.get_order_url(), method="POST",
-      body=short_fixml, headers=FIXML_HEADERS)
-
-    # TODO: Check for malformed/negative response.
-    if not short_response:
-      self.logger.log_text("Short order failed: %s" % short_response,
-        severity="ERROR")
+    if not self.make_order_request(short_fixml):
       return False
 
     # Cover the short at close.
     cover_fixml = self.fixml_cover_eod(ticker, quantity)
-    cover_response = self.make_request(url=self.get_order_url(), method="POST",
-      body=cover_fixml, headers=FIXML_HEADERS)
+    if not self.make_order_request(cover_fixml):
+      return False
 
-    # TODO: Check for malformed/negative response
-    if not cover_response:
-      self.logger.log_text("Cover order failed: %s" % cover_response,
+    return True
+
+  # Executes an order defined by FIXML and verifies the response.
+  def make_order_request(self, fixml):
+    response = self.make_request(url=self.get_order_url(), method="POST",
+      body=fixml, headers=FIXML_HEADERS)
+
+    # Check if there is a response.
+    if not response or "response" not in response:
+      self.logger.log_text("Order request failed: %s %s" % (fixml, response),
         severity="ERROR")
+      return False
+
+    # Check if the response is in the expected format.
+    order_response = response["response"]
+    if not order_response or "error" not in order_response:
+      self.logger.log_text("Malformed order response: %s" % order_response,
+        severity="ERROR")
+      return False
+
+    # The error field indicates whether the order succeeded.
+    error = order_response["error"]
+    if error != "Success":
+      self.logger.log_text("Error in order response: %s %s" % (error,
+        order_response), severity="ERROR")
       return False
 
     return True
@@ -371,6 +381,7 @@ def test_environment_variables():
   assert TRADEKING_ACCESS_TOKEN
   assert TRADEKING_ACCESS_TOKEN_SECRET
   assert TRADEKING_ACCOUNT_NUMBER
+  assert not USE_REAL_MONEY
 
 def test_filter_companies_none(trading):
   assert trading.filter_companies([{
@@ -509,20 +520,41 @@ def test_get_order_url(trading):
 def test_get_quantity(trading):
   assert trading.get_quantity("F", 10000.0) > 0
 
+def test_make_order_request_success(trading):
+  assert not USE_REAL_MONEY
+  assert trading.make_order_request((
+    '<FIXML xmlns="http://www.fixprotocol.org/FIXML-5-0-SP2">'
+    '<Order TmInForce="0" Typ="1" Side="1" Acct="%s">'
+    '<Instrmt SecTyp="CS" Sym="GM"/>'
+    '<OrdQty Qty="23"/>'
+    '</Order>'
+    '</FIXML>' % TRADEKING_ACCOUNT_NUMBER))
+
+def test_make_order_request_fail(trading):
+  assert not USE_REAL_MONEY
+  assert not trading.make_order_request("<FIXML\>")
+
 def test_bull(trading):
-  assert not SPEND_REAL_MONEY
+  assert not USE_REAL_MONEY
   assert trading.bull("F", 10000.0)
 
 def test_bear(trading):
-  assert not SPEND_REAL_MONEY
+  assert not USE_REAL_MONEY
   assert trading.bear("F", 10000.0)
 
-def test_make_trades(trading):
-  assert not SPEND_REAL_MONEY
+def test_make_trades_success(trading):
+  assert not USE_REAL_MONEY
   assert trading.make_trades([{
     "name": "Lockheed Martin",
     "sentiment": -0.1,
     "ticker": "LMT"}, {
     "name": "Boeing",
     "sentiment": 0.1,
+    "ticker": "BA"}])
+
+def test_make_trades_fail(trading):
+  assert not USE_REAL_MONEY
+  assert not trading.make_trades([{
+    "name": "Boeing",
+    "sentiment": 0,
     "ticker": "BA"}])

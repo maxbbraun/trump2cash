@@ -2,7 +2,7 @@
 
 from google.cloud import language
 from google.cloud import logging
-from os import environ
+from os import getenv
 from requests import get
 
 # The URL for a GET request to the Wikidata API via a SPARQL query to find
@@ -201,7 +201,7 @@ def analysis():
   return Analysis()
 
 def test_environment_variables():
-  assert environ["GOOGLE_APPLICATION_CREDENTIALS"]
+  assert getenv("GOOGLE_APPLICATION_CREDENTIALS")
 
 def test_get_company_data(analysis):
   assert analysis.get_company_data("/m/035nm") == [{

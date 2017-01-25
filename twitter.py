@@ -2,7 +2,7 @@
 
 from google.cloud import error_reporting
 from google.cloud import logging
-from os import environ
+from os import getenv
 from simplejson import loads
 from threading import Thread
 from tweepy import API
@@ -12,13 +12,13 @@ from tweepy.streaming import StreamListener
 
 # The keys for the Twitter account we're using for API requests and tweeting
 # alerts (@TrumpCorrection). Read from environment variables.
-TWITTER_ACCESS_TOKEN = environ["TWITTER_ACCESS_TOKEN"]
-TWITTER_ACCESS_TOKEN_SECRET = environ["TWITTER_ACCESS_TOKEN_SECRET"]
+TWITTER_ACCESS_TOKEN = getenv("TWITTER_ACCESS_TOKEN")
+TWITTER_ACCESS_TOKEN_SECRET = getenv("TWITTER_ACCESS_TOKEN_SECRET")
 
 # The keys for the Twitter app we're using for API requests 
 # (https://apps.twitter.com/app/13239588). Read from environment variables.
-TWITTER_CONSUMER_KEY = environ["TWITTER_CONSUMER_KEY"]
-TWITTER_CONSUMER_SECRET = environ["TWITTER_CONSUMER_SECRET"]
+TWITTER_CONSUMER_KEY = getenv("TWITTER_CONSUMER_KEY")
+TWITTER_CONSUMER_SECRET = getenv("TWITTER_CONSUMER_SECRET")
 
 # The user ID of @realDonaldTrump.
 TRUMP_USER_ID = "25073877"

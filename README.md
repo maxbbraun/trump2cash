@@ -93,10 +93,16 @@ Verify that everything is working as intended by running the tests with
 command:
 
 ```shell
-$ pytest *.py --verbose
+$ export USE_REAL_MONEY=NO && pytest *.py --verbose
 ```
 
 ### 4. Start the bot
+
+Enable real orders that use your money:
+
+```shell
+export USE_REAL_MONEY=YES
+```
 
 Have the code start running in the background with this command:
 
