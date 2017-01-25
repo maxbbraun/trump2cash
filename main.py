@@ -1,10 +1,8 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-from google.cloud import error_reporting
-from google.cloud import logging
-
 from analysis import Analysis
+from logs import Logs
 from trading import Trading
 from twitter import Twitter
 
@@ -23,19 +21,16 @@ def twitter_callback(text, link):
         twitter.tweet(companies, link)
 
 if __name__ == "__main__":
-    logger = logging.Client(use_gax=False).logger("main")
-    error_client = error_reporting.Client()
+    logs = Logs(name="main", to_cloud=True)
 
     # Restart in a loop if there are any errors so we stay up.
     while True:
-        logger.log_text("Starting new session.", severity="INFO")
+        logs.info("Starting new session.")
 
         twitter = Twitter(twitter_callback)
         try:
             twitter.start_streaming()
         except BaseException as exception:
-            error_client.report_exception()
-            logger.log_text("Exception on main thread: %s" % exception,
-                            severity="ERROR")
+            logs.catch(exception)
         finally:
-            logger.log_text("Ending session.", severity="INFO")
+            logs.info("Ending session.")

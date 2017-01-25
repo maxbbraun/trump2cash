@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 
 from google.cloud import language
-from google.cloud import logging
 from os import getenv
 from requests import get
+
+from logs import Logs
 
 # The URL for a GET request to the Wikidata API via a SPARQL query to find
 # stock ticker symbols. The parameter is the Freebase ID of the company.
@@ -29,8 +30,8 @@ WIKIDATA_QUERY_URL = ('https://query.wikidata.org/sparql?query='
 class Analysis:
     """A helper for analyzing company data in text."""
 
-    def __init__(self):
-        self.logger = logging.Client(use_gax=False).logger("analysis")
+    def __init__(self, logs_to_cloud=True):
+        self.logs = Logs(name="analysis", to_cloud=logs_to_cloud)
         self.gcnl_client = language.Client()
 
     def get_company_data(self, mid):
@@ -38,30 +39,22 @@ class Analysis:
         """
 
         query = WIKIDATA_QUERY_URL % mid
-        self.logger.log_text("Wikidata query: %s" % query, severity="DEBUG")
+        self.logs.debug("Wikidata query: %s" % query)
         response = get(query).json()
-        self.logger.log_text(
-            "Wikidata response: %s" % response,
-            severity="DEBUG")
+        self.logs.debug("Wikidata response: %s" % response)
 
         if not "results" in response:
-            self.logger.log_text(
-                "No results in Wikidata response: %s" % response,
-                severity="ERROR")
+            self.logs.error("No results in Wikidata response: %s" % response)
             return None
 
         results = response["results"]
         if not "bindings" in results:
-            self.logger.log_text(
-                "No bindings in Wikidata results: %s" % results,
-                severity="ERROR")
+            self.logs.error("No bindings in Wikidata results: %s" % results)
             return None
 
         bindings = results["bindings"]
         if not bindings:
-            self.logger.log_text(
-                "Empty bindings in Wikidata results: %s" % results,
-                severity="DEBUG")
+            self.logs.debug("Empty bindings in Wikidata results: %s" % results)
             return []
 
         # Collect the data from the response.
@@ -101,9 +94,7 @@ class Analysis:
             if data not in datas:
                 datas.append(data)
             else:
-                self.logger.log_text(
-                    "Skipping duplicate company data: %s" % data,
-                    severity="WARNING")
+                self.logs.warn("Skipping duplicate company data: %s" % data)
 
         return datas
 
@@ -113,9 +104,7 @@ class Analysis:
         # Run entity detection.
         document = self.gcnl_client.document_from_text(text)
         entities = document.analyze_entities()
-        self.logger.log_text(
-            "Found entities: %s" % self.entities_tostring(entities),
-            severity="DEBUG")
+        self.logs.debug("Found entities: %s" % self.entities_tostring(entities))
 
         # Collect all entities which are publicly traded companies, i.e.
         # entities which have a known stock ticker symbol.
@@ -127,28 +116,24 @@ class Analysis:
             name = entity.name
             metadata = entity.metadata
             if not "mid" in metadata:
-                self.logger.log_text("No MID found for entity: %s" % name,
-                                     severity="DEBUG")
+                self.logs.debug("No MID found for entity: %s" % name)
                 continue
             mid = metadata["mid"]
             company_data = self.get_company_data(mid)
 
             # Skip any entity for which we can't find any company data.
             if not company_data:
-                self.logger.log_text(
-                    "No company data found for entity: %s (%s)" % (name, mid),
-                    severity="DEBUG")
+                self.logs.debug("No company data found for entity: %s (%s)" %
+                                (name, mid))
                 continue
-            self.logger.log_text("Found company data: %s" % company_data,
-                                 severity="DEBUG")
+            self.logs.debug("Found company data: %s" % company_data)
 
             for company in company_data:
 
                 # Extract and add a sentiment score.
                 sentiment = self.get_sentiment(text)
-                self.logger.log_text(
-                    "Using sentiment for company: %s %s" % (sentiment, company),
-                    severity="DEBUG")
+                self.logs.debug("Using sentiment for company: %s %s" %
+                                (sentiment, company))
                 company["sentiment"] = sentiment
 
                 # Add the company to the list unless we already have the same
@@ -157,9 +142,8 @@ class Analysis:
                 if not company["ticker"] in tickers:
                     companies.append(company)
                 else:
-                    self.logger.log_text(
-                        "Skipping company with duplicate ticker: %s" % company,
-                        severity="WARNING")
+                    self.logs.warn(
+                        "Skipping company with duplicate ticker: %s" % company)
 
         return companies
 
@@ -203,9 +187,9 @@ class Analysis:
         document = self.gcnl_client.document_from_text(text)
         sentiment = document.analyze_sentiment()
 
-        self.logger.log_text(
+        self.logs.debug(
             "Sentiment score and magnitude for text: %s %s \"%s\"" %
-            (sentiment.score, sentiment.magnitude, text), severity="DEBUG")
+            (sentiment.score, sentiment.magnitude, text))
 
         return sentiment.score
 
@@ -220,7 +204,7 @@ import pytest
 
 @pytest.fixture
 def analysis():
-    return Analysis()
+    return Analysis(logs_to_cloud=False)
 
 
 def test_environment_variables():

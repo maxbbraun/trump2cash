@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from google.cloud import error_reporting
-from google.cloud import logging
 from os import getenv
 from simplejson import loads
 from threading import Thread
@@ -9,6 +7,8 @@ from tweepy import API
 from tweepy import OAuthHandler
 from tweepy import Stream
 from tweepy.streaming import StreamListener
+
+from logs import Logs
 
 # The keys for the Twitter account we're using for API requests and tweeting
 # alerts (@TrumpCorrection). Read from environment variables.
@@ -35,9 +35,10 @@ EMOJI_SHRUG = u"¯\_(\u30c4)_/¯"
 class Twitter:
     """A helper for talking to Twitter APIs."""
 
-    def __init__(self, callback):
-        self.logger = logging.Client(use_gax=False).logger("twitter")
-        twitter_listener = TwitterListener(callback)
+    def __init__(self, callback, logs_to_cloud=True):
+        self.logs = Logs(name="twitter", to_cloud=logs_to_cloud)
+        twitter_listener = TwitterListener(callback=callback,
+                                           logs_to_cloud=logs_to_cloud)
         twitter_auth = OAuthHandler(TWITTER_CONSUMER_KEY,
                                     TWITTER_CONSUMER_SECRET)
         twitter_auth.set_access_token(TWITTER_ACCESS_TOKEN,
@@ -56,7 +57,7 @@ class Twitter:
         """
 
         text = self.make_tweet_text(companies, link)
-        self.logger.log_text(text, severity="INFO")
+        self.logs.info("Tweeting: %s" % text)
         self.twitter_api.update_status(text)
 
     def make_tweet_text(self, companies, link):
@@ -93,14 +94,15 @@ class Twitter:
 class TwitterListener(StreamListener):
     """A listener class for handling streaming Twitter data."""
 
-    def __init__(self, callback):
-        self.logger = logging.Client(use_gax=False).logger("twitter-listener")
+    def __init__(self, callback, logs_to_cloud):
+        self.logs_to_cloud = logs_to_cloud
+        self.logs = Logs(name="twitter-listener", to_cloud=self.logs_to_cloud)
         self.callback = callback
 
     def on_error(self, status):
         """Handles any API errors."""
 
-        self.logger.log_text("Twitter error: %s" % status, severity="ERROR")
+        self.logs.error("Twitter error: %s" % status)
 
         # Don't stop.
         return True
@@ -119,20 +121,16 @@ class TwitterListener(StreamListener):
 
         # Create new logging and error clients (with their own httplib2
         # instances) to be used on background threads.
-        logger = logging.Client(use_gax=False).logger(
-            "twitter-listener-background")
-        error_client = error_reporting.Client()
+        logs = Logs("twitter-listener-background", to_cloud=self.logs_to_cloud)
 
         # The main loop doesn't catch and report exceptions from background
         # threads, so do that here.
         try:
-            self.handle_data(logger, data)
+            self.handle_data(logs, data)
         except BaseException as exception:
-            error_client.report_exception()
-            logger.log_text("Exception on background thread: %s" % exception,
-                            severity="ERROR")
+            logs.catch(exception)
 
-    def handle_data(self, logger, data):
+    def handle_data(self, logs, data):
         """Sanity-checks and extracts the data before sending it to the
         callback.
         """
@@ -141,13 +139,12 @@ class TwitterListener(StreamListener):
         try:
             tweet = loads(data)
         except ValueError:
-            logger.log_text("Failed to decode JSON data: %s" % data,
-                            severity="ERROR")
+            logs.error("Failed to decode JSON data: %s" % data)
             return
 
         # Do a basic check on the response format we expect.
         if not "user" in tweet:
-            logger.log_text("Malformed tweet: %s" % tweet, severity="WARNING")
+            logs.warn("Malformed tweet: %s" % tweet)
             return
 
         # We're only interested in tweets from Mr. Trump himself, so skip the
@@ -155,17 +152,15 @@ class TwitterListener(StreamListener):
         user_id = tweet["user"]["id"]
         screen_name = tweet["user"]["screen_name"]
         if str(user_id) != TRUMP_USER_ID:
-            logger.log_text(
-                "Skipping tweet from user: %s (%s)" %
-                (screen_name, user_id), severity="DEBUG")
+            logs.debug("Skipping tweet from user: %s (%s)" %
+                       (screen_name, user_id))
             return
 
         # Extract what data we need from the tweet.
         text = tweet["text"]
         id_str = tweet["id_str"]
         link = TWEET_URL % (screen_name, id_str)
-        logger.log_text("Examining tweet: %s %s" % (link, data),
-                        severity="DEBUG")
+        logs.debug("Examining tweet: %s %s" % (link, data))
 
         # Call the callback.
         self.callback(text, link)
@@ -183,7 +178,7 @@ def callback(text, link):
 
 @pytest.fixture
 def twitter():
-    return Twitter(callback)
+    return Twitter(callback, logs_to_cloud=False)
 
 
 def test_environment_variables():

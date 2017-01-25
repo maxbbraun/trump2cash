@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from google.cloud import logging
 from simplejson import loads
 from oauth2 import Consumer
 from oauth2 import Client
@@ -9,6 +8,8 @@ from os import getenv
 from lxml.etree import Element
 from lxml.etree import SubElement
 from lxml.etree import tostring
+
+from logs import Logs
 
 # Read the authentication keys for TradeKing from environment variables.
 TRADEKING_CONSUMER_KEY = getenv("TRADEKING_CONSUMER_KEY")
@@ -41,8 +42,8 @@ TICKER_BLACKLIST = ["GOOG", "GOOGL"]
 class Trading:
     """A helper for making stock trades."""
 
-    def __init__(self):
-        self.logger = logging.Client(use_gax=False).logger("trading")
+    def __init__(self, logs_to_cloud=True):
+        self.logs = Logs(name="trading", to_cloud=logs_to_cloud)
 
     def make_trades(self, companies):
         """Executes trades for the specified companies based on sentiment."""
@@ -51,15 +52,14 @@ class Trading:
         # We don't attempt to place orders while the markets are closed,
         # because we can't place the matching on close orders.
         if not self.get_markets_open_now():
-            self.logger.log_text("Markets are closed.", severity="WARNING")
+            self.logs.warn("Markets are closed.")
             return False
 
         # Make sure we can trade the companies.
         tradable_companies = self.filter_companies(companies)
 
         if not tradable_companies:
-            self.logger.log_text("No companies for trading.",
-                                 severity="WARNING")
+            self.logs.warn("No companies for trading.")
             return False
 
         # Calculate the budget per company.
@@ -67,14 +67,11 @@ class Trading:
         budget = self.get_budget(balance, tradable_companies)
 
         if not budget:
-            self.logger.log_text(
-                "No budget for trading: %s %s %s" %
-                (budget, balance, tradable_companies), severity="WARNING")
+            self.logs.warn("No budget for trading: %s %s %s" %
+                           (budget, balance, tradable_companies))
             return False
 
-        self.logger.log_text(
-            "Using budget: %s x $%s" % (len(companies), budget),
-            severity="DEBUG")
+        self.logs.debug("Using budget: %s x $%s" % (len(companies), budget))
 
         # Handle trades for each company.
         success = True
@@ -84,10 +81,10 @@ class Trading:
             # TODO: Use limits for orders.
             # Buy if the sentiment was positive, otherwise sell short.
             if company["sentiment"] > 0:
-                self.logger.log_text("Bull: %s" % company, severity="DEBUG")
+                self.logs.debug("Bull: %s" % company)
                 success = success and self.bull(ticker, budget)
             else:
-                self.logger.log_text("Bear: %s" % company, severity="DEBUG")
+                self.logs.debug("Bear: %s" % company)
                 success = success and self.bear(ticker, budget)
 
         return success
@@ -101,16 +98,14 @@ class Trading:
         for company in companies:
             sentiment = company["sentiment"]
             if not sentiment or sentiment == 0:
-                self.logger.log_text(
-                    "Not trading company due to sentiment: %s" % company,
-                    severity="WARNING")
+                self.logs.warn(
+                    "Not trading company due to sentiment: %s" % company)
                 continue
 
             ticker = company["ticker"]
             if not ticker or ticker in TICKER_BLACKLIST:
-                self.logger.log_text(
-                    "Not trading company due to blacklist: %s" % company,
-                    severity="WARNING")
+                self.logs.warn(
+                    "Not trading company due to blacklist: %s" % company)
                 continue
 
             tradable_companies.append(company)
@@ -131,23 +126,19 @@ class Trading:
         response = self.make_request(url=clock_url)
 
         if not response or "response" not in response:
-            self.logger.log_text("Missing clock response: %s" % response,
-                                 severity="ERROR")
+            self.logs.error("Missing clock response: %s" % response)
             return False
 
         clock_response = response["response"]
         if ("status" not in clock_response or
             "current" not in clock_response["status"]):
-            self.logger.log_text(
-                "Malformed clock response: %s" % clock_response,
-                severity="ERROR")
+            self.logs.error("Malformed clock response: %s" % clock_response)
             return False
 
         # We consider both regular hours and extended pre market hours, but not
         # closed or extended after market.
         current = clock_response["status"]["current"]
-        self.logger.log_text("Current market status: %s" % current,
-                             severity="DEBUG")
+        self.logs.debug("Current market status: %s" % current)
         return (current == "open" or current == "pre")
 
     def make_request(self, url, method="GET", body="", headers=None):
@@ -159,20 +150,16 @@ class Trading:
                       secret=TRADEKING_ACCESS_TOKEN_SECRET)
         client = Client(consumer, token)
 
-        self.logger.log_text(
-            "TradeKing request: %s %s %s %s" %
-            (url, method, body, headers), severity="DEBUG")
+        self.logs.debug("TradeKing request: %s %s %s %s" %
+                        (url, method, body, headers))
         response, content = client.request(url, method=method, body=body,
                                            headers=headers)
-        self.logger.log_text("TradeKing response: %s %s" % (response, content),
-                             severity="DEBUG")
+        self.logs.debug("TradeKing response: %s %s" % (response, content))
 
         try:
             return loads(content)
         except ValueError:
-            self.logger.log_text(
-                "Failed to decode JSON response: %s" % content,
-                severity="ERROR")
+            self.logs.error("Failed to decode JSON response: %s" % content)
             return None
 
     def fixml_buy_now(self, ticker, quantity):
@@ -256,8 +243,7 @@ class Trading:
         response = self.make_request(url=balances_url)
 
         if not response or "response" not in response:
-            self.logger.log_text("Missing balances response: %s" % response,
-                                 severity="ERROR")
+            self.logs.error("Missing balances response: %s" % response)
             return 0.0
 
         balances = response["response"]
@@ -265,8 +251,7 @@ class Trading:
             "money" not in balances["accountbalance"] or
             "cash" not in balances["accountbalance"]["money"] or
             "uncleareddeposits" not in balances["accountbalance"]["money"]):
-            self.logger.log_text("Malformed balance response: %s" % balances,
-                                 severity="ERROR")
+            self.logs.error("Malformed balance response: %s" % balances)
             return 0.0
 
         money = balances["accountbalance"]["money"]
@@ -275,8 +260,7 @@ class Trading:
             uncleareddeposits = float(money["uncleareddeposits"])
             return cash - uncleareddeposits
         except ValueError:
-            self.logger.log_text("Malformed number in response: %s" % money,
-                                 severity="ERROR")
+            self.logs.error("Malformed number in response: %s" % money)
             return 0.0
 
     def get_last_price(self, ticker):
@@ -289,41 +273,33 @@ class Trading:
         response = self.make_request(url=quotes_url)
 
         if not response or "response" not in response:
-            self.logger.log_text(
-                "Missing quotes response for %s: %s" %
-                (ticker, response), severity="ERROR")
+            self.logs.error("Missing quotes response for %s: %s" %
+                            (ticker, response))
             return None
 
         quotes = response["response"]
         if (not quotes or "quotes" not in quotes or
             "quote" not in quotes["quotes"]):
-            self.logger.log_text(
-                "Malformed quotes response for %s: %s" %
-                (ticker, quotes_response), severity="ERROR")
+            self.logs.error("Malformed quotes response for %s: %s" %
+                            (ticker, quotes_response))
             return None
 
         quote = quotes["quotes"]["quote"]
-        self.logger.log_text(
-            "Quote for %s: %s" % (ticker, quote), severity="DEBUG")
+        self.logs.debug("Quote for %s: %s" % (ticker, quote))
         if not "last" in quote:
-            self.logger.log_text(
-                "Malformed quote for %s: %s" % (ticker, quote),
-                severity="ERROR")
+            self.logs.error("Malformed quote for %s: %s" % (ticker, quote))
             return None
 
         try:
             last = float(quote["last"])
         except ValueError:
-            self.logger.log_text(
-                "Malformed last for %s: %s" % (ticker, quote["last"]),
-                severity="ERROR")
+            self.logs.error("Malformed last for %s: %s" % (ticker, quote["last"]))
             return None
 
         if last > 0:
             return last
         else:
-            self.logger.log_text(
-                "Zero quote for %s." % ticker, severity="ERROR")
+            self.logs.error("Zero quote for: %s" % ticker)
             return None
 
     def get_order_url(self):
@@ -342,15 +318,13 @@ class Trading:
         # Calculate the quantity based on the current price and the budget.
         price = self.get_last_price(ticker)
         if not price:
-            self.logger.log_text("Failed to determine price for: %s" % ticker,
-                                 severity="ERROR")
+            self.logs.error("Failed to determine price for: %s" % ticker)
             return None
 
         # Use maximum possible quantity within the budget.
         quantity = int(budget // price)
-        self.logger.log_text(
-            "Determined quantity %s for %s at $%s within $%s." %
-            (quantity, ticker, price, budget), severity="DEBUG")
+        self.logs.debug("Determined quantity %s for %s at $%s within $%s." %
+                        (quantity, ticker, price, budget))
 
         # If quantity is too low we can't buy.
         if quantity <= 0:
@@ -367,8 +341,7 @@ class Trading:
         # Calculate the quantity.
         quantity = self.get_quantity(ticker, budget)
         if not quantity:
-            self.logger.log_text("Not trading without quantity.",
-                                 severity="WARNING")
+            self.logs.warn("Not trading without quantity.")
             return False
 
         # Buy the stock now.
@@ -392,8 +365,7 @@ class Trading:
         # Calculate the quantity.
         quantity = self.get_quantity(ticker, budget)
         if not quantity:
-            self.logger.log_text("Not trading without quantity.",
-                                 severity="WARNING")
+            self.logs.warn("Not trading without quantity.")
             return False
 
         # Short the stock now.
@@ -416,25 +388,20 @@ class Trading:
 
         # Check if there is a response.
         if not response or "response" not in response:
-            self.logger.log_text(
-                "Order request failed: %s %s" % (fixml, response),
-                severity="ERROR")
+            self.logs.error("Order request failed: %s %s" % (fixml, response))
             return False
 
         # Check if the response is in the expected format.
         order_response = response["response"]
         if not order_response or "error" not in order_response:
-            self.logger.log_text(
-                "Malformed order response: %s" % order_response,
-                severity="ERROR")
+            self.logs.error("Malformed order response: %s" % order_response)
             return False
 
         # The error field indicates whether the order succeeded.
         error = order_response["error"]
         if error != "Success":
-            self.logger.log_text(
-                "Error in order response: %s %s" % (error, order_response),
-                severity="ERROR")
+            self.logs.error("Error in order response: %s %s" %
+                            (error, order_response))
             return False
 
         return True
@@ -448,7 +415,7 @@ import pytest
 
 @pytest.fixture
 def trading():
-    return Trading()
+    return Trading(logs_to_cloud=False)
 
 
 def test_environment_variables():
@@ -637,32 +604,29 @@ def test_make_order_request_fail(trading):
 
 def test_bull(trading):
     assert not USE_REAL_MONEY
-    # This avoids test failures when markets are closed while still exercising
-    # the code paths. TODO: Find a better way.
-    assert (trading.bull("F", 10000.0) or
-            not trading.get_markets_open_now())
+    # TODO: Find a way to test while the markets are closed and how to test sell
+    #        short orders without holding the stock.
+    #assert trading.bull("F", 10000.0)
 
 
 def test_bear(trading):
     assert not USE_REAL_MONEY
-    # This avoids test failures when markets are closed while still exercising
-    # the code paths. TODO: Find a better way.
-    assert (trading.bear("F", 10000.0) or
-            not trading.get_markets_open_now())
+    # TODO: Find a way to test while the markets are closed and how to test sell
+    #        short orders without holding the stock.
+    #assert trading.bear("F", 10000.0)
 
 
 def test_make_trades_success(trading):
     assert not USE_REAL_MONEY
-    # This avoids test failures when markets are closed while still exercising
-    # the code paths. TODO: Find a better way.
-    assert (trading.make_trades([{
-        "name": "Lockheed Martin",
-        "sentiment": -0.1,
-        "ticker": "LMT"}, {
-        "name": "Boeing",
-        "sentiment": 0.1,
-        "ticker": "BA"}]) or
-        not trading.get_markets_open_now())
+    # TODO: Find a way to test while the markets are closed and how to test sell
+    #        short orders without holding the stock.
+    #assert trading.make_trades([{
+    #    "name": "Lockheed Martin",
+    #    "sentiment": -0.1,
+    #    "ticker": "LMT"}, {
+    #    "name": "Boeing",
+    #    "sentiment": 0.1,
+    #    "ticker": "BA"}])
 
 
 def test_make_trades_fail(trading):
