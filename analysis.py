@@ -200,18 +200,13 @@ class Analysis:
 
         # TODO: Determine sentiment targeted at the specific entity.
 
-        try:
-            document = self.gcnl_client.document_from_text(text)
-            sentiment = document.analyze_sentiment()
-        except:
-            self.logger.log_text(
-                "Failed to analyze sentiment in text: %s" % text,
-                severity="ERROR")
-            return 0
+        document = self.gcnl_client.document_from_text(text)
+        sentiment = document.analyze_sentiment()
 
         self.logger.log_text(
             "Sentiment score and magnitude for text: %s %s \"%s\"" %
             (sentiment.score, sentiment.magnitude, text), severity="DEBUG")
+
         return sentiment.score
 
 #

@@ -33,7 +33,7 @@ if __name__ == "__main__":
         twitter = Twitter(twitter_callback)
         try:
             twitter.start_streaming()
-        except Exception as exception:
+        except BaseException as exception:
             error_client.report_exception()
             logger.log_text("Exception on main thread: %s" % exception,
                             severity="ERROR")

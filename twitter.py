@@ -127,7 +127,7 @@ class TwitterListener(StreamListener):
         # threads, so do that here.
         try:
             self.handle_data(logger, data)
-        except Exception as exception:
+        except BaseException as exception:
             error_client.report_exception()
             logger.log_text("Exception on background thread: %s" % exception,
                             severity="ERROR")
