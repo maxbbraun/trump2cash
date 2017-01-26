@@ -27,7 +27,7 @@ if __name__ == "__main__":
     while True:
         logs.info("Starting new session.")
 
-        twitter = Twitter(twitter_callback)
+        twitter = Twitter(streaming_callback=twitter_callback)
         try:
             twitter.start_streaming()
         except BaseException as exception:

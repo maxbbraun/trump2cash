@@ -35,9 +35,9 @@ EMOJI_SHRUG = u"¯\_(\u30c4)_/¯"
 class Twitter:
     """A helper for talking to Twitter APIs."""
 
-    def __init__(self, callback, logs_to_cloud=True):
+    def __init__(self, streaming_callback=None, logs_to_cloud=True):
         self.logs = Logs(name="twitter", to_cloud=logs_to_cloud)
-        twitter_listener = TwitterListener(callback=callback,
+        twitter_listener = TwitterListener(callback=streaming_callback,
                                            logs_to_cloud=logs_to_cloud)
         twitter_auth = OAuthHandler(TWITTER_CONSUMER_KEY,
                                     TWITTER_CONSUMER_SECRET)
@@ -89,6 +89,18 @@ class Twitter:
         text += link
 
         return text
+
+    def get_tweet(self, id):
+        """Looks up all data for a Tweet"""
+
+        statuses = self.twitter_api.statuses_lookup([id])
+        self.logs.debug("Got statuses response: %s" % statuses)
+
+        if not statuses or len(statuses) != 1:
+            self.logs.error("Malformed tweet for ID: %s" % id)
+            return None
+
+        return statuses[0]
 
 
 class TwitterListener(StreamListener):
@@ -149,11 +161,11 @@ class TwitterListener(StreamListener):
 
         # We're only interested in tweets from Mr. Trump himself, so skip the
         # rest.
-        user_id = tweet["user"]["id"]
+        user_id_str = tweet["user"]["id_str"]
         screen_name = tweet["user"]["screen_name"]
-        if str(user_id) != TRUMP_USER_ID:
+        if user_id_str != TRUMP_USER_ID:
             logs.debug("Skipping tweet from user: %s (%s)" %
-                       (screen_name, user_id))
+                       (screen_name, user_id_str))
             return
 
         # Extract what data we need from the tweet.
@@ -170,6 +182,7 @@ class TwitterListener(StreamListener):
 #
 
 import pytest
+from datetime import datetime
 
 
 def callback(text, link):
@@ -178,7 +191,7 @@ def callback(text, link):
 
 @pytest.fixture
 def twitter():
-    return Twitter(callback, logs_to_cloud=False)
+    return Twitter(streaming_callback=callback, logs_to_cloud=False)
 
 
 def test_environment_variables():
@@ -231,3 +244,12 @@ def test_make_tweet_text(twitter):
         "https://twitter.com/realDonaldTrump/status/821697182235496450") == (
         u"General Motors $GM ¯\_(\u30c4)_/¯\n"
         u"https://twitter.com/realDonaldTrump/status/821697182235496450")
+
+def test_get_tweet(twitter):
+    status = twitter.get_tweet("806134244384899072")
+    assert status.text == (
+        "Boeing is building a brand new 747 Air Force One for future presidents"
+        ", but costs are out of control, more than $4 billion. Cancel order!")
+    assert status.id_str == "806134244384899072"
+    assert status.user.id_str == "25073877"
+    assert status.created_at == datetime(2016, 12, 6, 13, 52, 35)
