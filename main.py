@@ -15,7 +15,7 @@ def twitter_callback(text, link):
     trading = Trading()
 
     companies = analysis.find_companies(text)
-    logger.log_text("Using companies: %s" % companies, severity="DEBUG")
+    logs.debug("Using companies: %s" % companies)
     if companies:
         trading.make_trades(companies)
         twitter.tweet(companies, link)
