@@ -4,6 +4,7 @@ google-cloud-logging==0.22.0
 lxml==3.7.2
 oauth2==1.9.0.post1
 pytest==3.0.6
+pytz==2016.10
 requests==2.13.0
 simplejson==3.10.0
 tweepy==3.5.0

@@ -1,0 +1,72 @@
+
+2016-12-06 Tue 08:52:35
+https://twitter.com/realDonaldTrump/status/806134244384899072
+"Boeing is building a brand new 747 Air Force One for future presidents, but costs are out of control, more than $4 billion. Cancel order!"
+$BA bear (negative sentiment)
+
+2016-12-22 Thu 17:26:05
+https://twitter.com/realDonaldTrump/status/812061677160202240
+"Based on the tremendous cost and cost overruns of the Lockheed Martin F-35, I have asked Boeing to price-out a comparable F-18 Super Hornet!"
+$BA hold (market closed)
+
+2017-01-03 Tue 07:30:05
+https://twitter.com/realDonaldTrump/status/816260343391514624
+"General Motors is sending Mexican made model of Chevy Cruze to U.S. car dealers-tax free across border. Make in U.S.A.or pay big border tax!"
+$GM hold (market closed)
+
+2017-01-03 Tue 11:44:13
+https://twitter.com/realDonaldTrump/status/816324295781740544
+""@DanScavino: Ford to scrap Mexico plant, invest in Michigan due to Trump policies"
+https://t.co/137nUo03Gl"
+$F bull (positive sentiment)
+
+2017-01-04 Wed 08:19:09
+https://twitter.com/realDonaldTrump/status/816635078067490816
+"Thank you to Ford for scrapping a new plant in Mexico and creating 700 new jobs in the U.S. This is just the beginning - much more to follow"
+$F bull (positive sentiment)
+
+2017-01-05 Thu 13:14:30
+https://twitter.com/realDonaldTrump/status/817071792711942145
+"Toyota Motor said will build a new plant in Baja, Mexico, to build Corolla cars for U.S. NO WAY! Build plant in U.S. or pay big border tax."
+$TM bear (negative sentiment)
+
+2017-01-09 Mon 09:14:10
+https://twitter.com/realDonaldTrump/status/818460862675558400
+"It's finally happening - Fiat Chrysler just announced plans to invest $1BILLION in Michigan and Ohio plants, adding 2000 jobs. This after..."
+$FCAU bull (positive sentiment)
+
+2017-01-09 Mon 09:16:34
+https://twitter.com/realDonaldTrump/status/818461467766824961
+"Ford said last week that it will expand in Michigan and U.S. instead of building a BILLION dollar plant in Mexico. Thank you Ford &amp; Fiat C!"
+$F bull (positive sentiment)
+$FCAU bull (positive sentiment)
+
+2017-01-17 Tue 12:55:38
+https://twitter.com/realDonaldTrump/status/821415698278875137
+"Thank you to General Motors and Walmart for starting the big jobs push back into the U.S.!"
+$GM bull (positive sentiment)
+$WMT bull (positive sentiment)
+$STT bull (positive sentiment)
+
+2017-01-18 Wed 07:34:09
+https://twitter.com/realDonaldTrump/status/821697182235496450
+"Totally biased @NBCNews went out of its way to say that the big announcement from Ford, G.M., Lockheed &amp; others that jobs are coming back..."
+$F hold (market closed)
+$GM hold (market closed)
+$LMT hold (market closed)
+
+2017-01-18 Wed 08:00:51
+https://twitter.com/realDonaldTrump/status/821703902940827648
+""Bayer AG has pledged to add U.S. jobs and investments after meeting with President-elect Donald Trump, the latest in a string..." @WSJ"
+$BLK bull (positive sentiment)
+
+2017-01-24 Tue 12:49:17
+https://twitter.com/realDonaldTrump/status/823950814163140609
+"Signing orders to move forward with the construction of the Keystone XL and Dakota Access pipelines in the Oval Off… https://t.co/aOxmfO0vOK"
+$TRP bear (negative sentiment)
+
+2017-01-24 Tue 19:46:57
+https://twitter.com/realDonaldTrump/status/824055927200423936
+"Great meeting with Ford CEO Mark Fields and General Motors CEO Mary Barra at the @WhiteHouse today. https://t.co/T0eIgO6LP8"
+$F hold (market closed)
+$GM hold (market closed)

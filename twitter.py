@@ -23,7 +23,7 @@ TWITTER_CONSUMER_SECRET = getenv("TWITTER_CONSUMER_SECRET")
 # The user ID of @realDonaldTrump.
 TRUMP_USER_ID = "25073877"
 
-# The URL pattern for links to tweets. The parameter is the tweet's ID.
+# The URL pattern for links to tweets.
 TWEET_URL = "https://twitter.com/%s/status/%s"
 
 # Some emoji.
@@ -90,17 +90,13 @@ class Twitter:
 
         return text
 
-    def get_tweet(self, id):
-        """Looks up all data for a Tweet"""
+    def get_tweets(self, ids):
+        """Looks up metadata for a list of tweets."""
 
-        statuses = self.twitter_api.statuses_lookup([id])
+        statuses = self.twitter_api.statuses_lookup(ids)
         self.logs.debug("Got statuses response: %s" % statuses)
 
-        if not statuses or len(statuses) != 1:
-            self.logs.error("Malformed tweet for ID: %s" % id)
-            return None
-
-        return statuses[0]
+        return statuses
 
 
 class TwitterListener(StreamListener):
@@ -246,10 +242,20 @@ def test_make_tweet_text(twitter):
         u"https://twitter.com/realDonaldTrump/status/821697182235496450")
 
 def test_get_tweet(twitter):
-    status = twitter.get_tweet("806134244384899072")
-    assert status.text == (
+    statuses = twitter.get_tweets(["806134244384899072", "812061677160202240"])
+    assert len(statuses) == 2
+    assert statuses[0].text == (
         "Boeing is building a brand new 747 Air Force One for future presidents"
         ", but costs are out of control, more than $4 billion. Cancel order!")
-    assert status.id_str == "806134244384899072"
-    assert status.user.id_str == "25073877"
-    assert status.created_at == datetime(2016, 12, 6, 13, 52, 35)
+    assert statuses[0].id_str == "806134244384899072"
+    assert statuses[0].user.id_str == "25073877"
+    assert statuses[0].user.screen_name == "realDonaldTrump"
+    assert statuses[0].created_at == datetime(2016, 12, 6, 13, 52, 35)
+    assert statuses[1].text == (
+        "Based on the tremendous cost and cost overruns of the Lockheed Martin "
+        "F-35, I have asked Boeing to price-out a comparable F-18 Super Hornet!"
+        )
+    assert statuses[1].id_str == "812061677160202240"
+    assert statuses[1].user.id_str == "25073877"
+    assert statuses[1].user.screen_name == "realDonaldTrump"
+    assert statuses[1].created_at == datetime(2016, 12, 22, 22, 26, 5)

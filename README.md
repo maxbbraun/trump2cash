@@ -99,7 +99,16 @@ command:
 $ export USE_REAL_MONEY=NO && pytest *.py --verbose
 ```
 
-### 4. Start the bot
+### 6. Run the benchmark
+
+See how the current implementation of the analysis and trading algorithms would 
+have performed on historical data from Twitter and TradeKing:
+
+```
+$ ./benchmark.py > benchmark.txt && less benchmark.txt
+```
+
+### 5. Start the bot
 
 Enable real orders that use your money:
 

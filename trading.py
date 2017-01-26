@@ -48,78 +48,106 @@ class Trading:
     def make_trades(self, companies):
         """Executes trades for the specified companies based on sentiment."""
 
-        # TODO: Figure out some strategy for the markets closed case.
-        # We don't attempt to place orders while the markets are closed,
-        # because we can't place the matching on close orders.
-        if not self.get_markets_open_now():
-            self.logs.warn("Markets are closed.")
+        # Determine whether the markets are open.
+        market_status = self.get_market_status()
+        if not market_status:
+            self.logs.error("Not trading without market status.")
             return False
 
-        # Make sure we can trade the companies.
-        tradable_companies = self.filter_companies(companies)
+        # Filter for any strategies resulting in trades.
+        actionable_strategies = []
+        market_status = self.get_market_status()
+        for company in companies:
+            strategy = self.get_strategy(company, market_status)
+            if strategy["action"] != "hold":
+                actionable_strategies.append(strategy)
+            else:
+                self.logs.warn("Dropping strategy: %s" % strategy)
 
-        if not tradable_companies:
-            self.logs.warn("No companies for trading.")
+        if not actionable_strategies:
+            self.logs.warn("No actionable strategies for trading.")
             return False
 
-        # Calculate the budget per company.
+        # Calculate the budget per strategy.
         balance = self.get_balance()
-        budget = self.get_budget(balance, tradable_companies)
+        budget = self.get_budget(balance, len(actionable_strategies))
 
         if not budget:
             self.logs.warn("No budget for trading: %s %s %s" %
-                           (budget, balance, tradable_companies))
+                           (budget, balance, actionable_strategies))
             return False
 
-        self.logs.debug("Using budget: %s x $%s" % (len(companies), budget))
+        self.logs.debug("Using budget: %s x $%s" %
+                        (len(actionable_strategies), budget))
 
-        # Handle trades for each company.
+        # Handle trades for each strategy.
         success = True
-        for company in tradable_companies:
-            ticker = company["ticker"]
+        for strategy in actionable_strategies:
+            ticker = strategy["ticker"]
+            action = strategy["action"]
 
             # TODO: Use limits for orders.
-            # Buy if the sentiment was positive, otherwise sell short.
-            if company["sentiment"] > 0:
-                self.logs.debug("Bull: %s" % company)
+            # Execute the strategy.
+            if action == "bull":
+                self.logs.debug("Bull: %s %s" % (ticker, budget))
                 success = success and self.bull(ticker, budget)
-            else:
-                self.logs.debug("Bear: %s" % company)
+            elif action == "bear":
+                self.logs.debug("Bear: %s %s" % (ticker, budget))
                 success = success and self.bear(ticker, budget)
+            else:
+                self.logs.error("Unknown strategy: %s" % strategy)
 
         return success
 
-    def filter_companies(self, companies):
-        """Filters the companies based on the blacklist and available sentiment.
+    def get_strategy(self, company, market_status):
+        """Determines the strategy for trading a company based on sentiment and
+        market status.
         """
 
-        tradable_companies = []
+        ticker = company["ticker"]
+        sentiment = company["sentiment"]
 
-        for company in companies:
-            sentiment = company["sentiment"]
-            if not sentiment or sentiment == 0:
-                self.logs.warn(
-                    "Not trading company due to sentiment: %s" % company)
-                continue
+        strategy = {}
+        strategy["ticker"] = ticker
 
-            ticker = company["ticker"]
-            if not ticker or ticker in TICKER_BLACKLIST:
-                self.logs.warn(
-                    "Not trading company due to blacklist: %s" % company)
-                continue
+        # Don't do anything with blacklisted stocks.
+        if ticker in TICKER_BLACKLIST:
+            strategy["action"] = "hold"
+            strategy["reason"] = "blacklist"
+            return strategy
 
-            tradable_companies.append(company)
+        # TODO: Figure out some strategy for the markets closed case.
+        # Don't trade unless the markets are open or are about to open.
+        if market_status != "open" and market_status != "pre":
+            strategy["action"] = "hold"
+            strategy["reason"] = "market closed"
+            return strategy
 
-        return tradable_companies
+        # Can't trade without sentiment.
+        if sentiment == 0:
+            strategy["action"] = "hold"
+            strategy["reason"] = "neutral sentiment"
+            return strategy
 
-    def get_budget(self, balance, companies):
+        # Determine bull or bear based on sentiment direction.
+        if sentiment > 0:
+            strategy["action"] = "bull"
+            strategy["reason"] = "positive sentiment"
+            return strategy
+        else:  # sentiment < 0
+            strategy["action"] = "bear"
+            strategy["reason"] = "negative sentiment"
+            return strategy
+
+    def get_budget(self, balance, num_strategies):
         """Calculates the budget per company based on the available balance."""
 
-        if not companies:
+        if num_strategies <= 0:
+            self.logs.warn("No budget without strategies.")
             return 0.0
-        return round(max(0.0, balance - CASH_HOLD) / len(companies), 2)
+        return round(max(0.0, balance - CASH_HOLD) / num_strategies, 2)
 
-    def get_markets_open_now(self):
+    def get_market_status(self):
         """Finds out whether the markets are open right now."""
 
         clock_url = TRADEKING_API_URL % "market/clock"
@@ -127,19 +155,22 @@ class Trading:
 
         if not response or "response" not in response:
             self.logs.error("Missing clock response: %s" % response)
-            return False
+            return None
 
         clock_response = response["response"]
         if ("status" not in clock_response or
             "current" not in clock_response["status"]):
             self.logs.error("Malformed clock response: %s" % clock_response)
-            return False
+            return None
 
-        # We consider both regular hours and extended pre market hours, but not
-        # closed or extended after market.
         current = clock_response["status"]["current"]
+
+        if current not in ["pre", "open", "after", "close"]:
+            self.logs.error("Unknown market status: %s" % current)
+            return None
+
         self.logs.debug("Current market status: %s" % current)
-        return (current == "open" or current == "pre")
+        return current
 
     def make_request(self, url, method="GET", body="", headers=None):
         """Makes a request to the TradeKing API."""
@@ -427,80 +458,84 @@ def test_environment_variables():
     assert not USE_REAL_MONEY
 
 
-def test_filter_companies_none(trading):
-    assert trading.filter_companies([{
+def test_get_strategy_blacklist(trading):
+    assert trading.get_strategy({
+        "name": "Google",
+        "sentiment": 0.4,
+        "ticker": "GOOG"}, "open") == {
+            "action": "hold",
+            "reason": "blacklist",
+            "ticker": "GOOG"}
+    assert trading.get_strategy({
         "name": "Ford",
         "sentiment": 0.3,
-        "ticker": "F"}, {
-        "name": "Fiat",
-        "root": "Fiat Chrysler Automobiles",
-        "sentiment": 0.3,
-        "ticker": "FCAU"}]) == [{
-            "name": "Ford",
-            "sentiment": 0.3,
-            "ticker": "F"}, {
-            "name": "Fiat",
-            "root": "Fiat Chrysler Automobiles",
-            "sentiment": 0.3,
-            "ticker": "FCAU"}]
+        "ticker": "F"}, "open") == {
+            "action": "bull",
+            "reason": "positive sentiment",
+            "ticker": "F"}
 
 
-def test_filter_companies_blacklist(trading):
-    assert trading.filter_companies([{
+def test_get_strategy_market_status(trading):
+    assert trading.get_strategy({
         "name": "General Motors",
-        "sentiment": 0.4,
-        "ticker": "GM"}, {
-        "name": "Google",
-        "sentiment": 0.4,
-        "ticker": "GOOG"}, {
-        "name": "Google",
-        "sentiment": 0.4,
-        "ticker": "GOOGL"}]) == [{
-            "name": "General Motors",
-            "sentiment": 0.4,
-            "ticker": "GM"}]
+        "sentiment": 0.5,
+        "ticker": "GM"}, "pre") == {
+            "action": "bull",
+            "reason": "positive sentiment",
+            "ticker": "GM"}
+    assert trading.get_strategy({
+        "name": "General Motors",
+        "sentiment": 0.5,
+        "ticker": "GM"}, "open") == {
+            "action": "bull",
+            "reason": "positive sentiment",
+            "ticker": "GM"}
+    assert trading.get_strategy({
+        "name": "General Motors",
+        "sentiment": 0.5,
+        "ticker": "GM"}, "after") == {
+            "action": "hold",
+            "reason": "market closed",
+            "ticker": "GM"}
+    assert trading.get_strategy({
+        "name": "General Motors",
+        "sentiment": 0.5,
+        "ticker": "GM"}, "close") == {
+            "action": "hold",
+            "reason": "market closed",
+            "ticker": "GM"}
 
 
-def test_filter_companies_sentiment(trading):
-    assert trading.filter_companies([{
+def test_get_strategy_sentiment(trading):
+    assert trading.get_strategy({
+        "name": "General Motors",
+        "sentiment": 0,
+        "ticker": "GM"}, "open") == {
+            "action": "hold",
+            "reason": "neutral sentiment",
+            "ticker": "GM"}
+    assert trading.get_strategy({
         "name": "Ford",
-        "sentiment": 0.0,
-        "ticker": "F"}, {
+        "sentiment": 0.5,
+        "ticker": "F"}, "open") == {
+            "action": "bull",
+            "reason": "positive sentiment",
+            "ticker": "F"}
+    assert trading.get_strategy({
         "name": "Fiat",
         "root": "Fiat Chrysler Automobiles",
-        "sentiment": 0.3,
-        "ticker": "FCAU"}]) == [{
-            "name": "Fiat",
-            "root": "Fiat Chrysler Automobiles",
-            "sentiment": 0.3,
-            "ticker": "FCAU"}]
+        "sentiment": -0.5,
+        "ticker": "FCAU"}, "open") == {
+            "action": "bear",
+            "reason": "negative sentiment",
+            "ticker": "FCAU"}
 
 
 def test_get_budget(trading):
-    assert trading.get_budget(11000.0, [{
-        "name": "General Motors",
-        "sentiment": -0.1,
-        "ticker": "GM"}]) == 10000.0
-    assert trading.get_budget(11000.0, [{
-        "name": "Ford",
-        "sentiment": 0.3,
-        "ticker": "F"}, {
-        "name": "Fiat",
-        "root": "Fiat Chrysler Automobiles",
-        "sentiment": 0.3,
-        "ticker": "FCAU"}]) == 5000.0
-    assert trading.get_budget(11000.0, [{
-        "name": "General Motors",
-        "sentiment": 0.4,
-        "ticker": "GM"}, {
-        "name": "Walmart",
-        "sentiment": 0.4,
-        "ticker": "WMT"}, {
-        "name": "Walmart",
-        "root": "State Street Corporation",
-        "sentiment": 0.4,
-        "ticker": "STT"}]) == 3333.33
-    assert trading.get_budget(11000.0, []) == 0.0
+    assert trading.get_budget(11000.0, 1) == 10000.0
+    assert trading.get_budget(11000.0, 2) == 5000.0
+    assert trading.get_budget(11000.0, 3) == 3333.33
+    assert trading.get_budget(11000.0, 0) == 0.0
 
 
 def test_make_request_success(trading):
@@ -569,11 +604,8 @@ def test_get_last_price(trading):
     assert trading.get_last_price("") is None
 
 
-def test_get_markets_open_now(trading):
-    # This avoids test failures when markets are closed while still exercising
-    # the code paths. TODO: Find a better way.
-    assert (trading.get_markets_open_now() or
-            not trading.get_markets_open_now())
+def test_get_market_status(trading):
+    assert trading.get_market_status() in ["pre", "open", "after", "close"]
 
 
 def test_get_order_url(trading):
