@@ -15,7 +15,8 @@ TWEET_IDS = ["806134244384899072", "812061677160202240", "816260343391514624",
              "816324295781740544", "816635078067490816", "817071792711942145",
              "818460862675558400", "818461467766824961", "821415698278875137",
              "821697182235496450", "821703902940827648", "823950814163140609",
-             "824055927200423936"]
+             "824055927200423936", "672926510924374016", "664911913831301123",
+             "621669173534584833", "803808454620094465"]
 
 # We're using NYSE and NASDAQ, which are both in the easters timezone.
 MARKET_TIMEZONE = timezone("US/Eastern")
@@ -104,4 +105,4 @@ if __name__ == "__main__":
         print '"%s"' % event["text"]
         for strategy in event["strategies"]:
             print "$%s %s (%s)" % (strategy["ticker"], strategy["action"],
-                                    strategy["reason"])
+                                   strategy["reason"])

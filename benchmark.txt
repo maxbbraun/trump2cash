@@ -1,4 +1,22 @@
 
+2015-07-16 Thu 09:14:15
+https://twitter.com/realDonaldTrump/status/621669173534584833
+"I hope the boycott of @Macys continues forever. So many people are cutting up their cards. Macy's stores suck and they are bad for U.S.A."
+$M bear (negative sentiment)
+
+2015-11-12 Thu 16:05:28
+https://twitter.com/realDonaldTrump/status/664911913831301123
+"Macy’s was very disloyal to me bc of my strong stance on illegal immigration. Their stock has crashed! #BoycottMacys https://t.co/WsvZtwZbBf"
+$M hold (market closed)
+
+2015-12-04 Fri 18:52:37
+https://twitter.com/realDonaldTrump/status/672926510924374016
+"Good news, disloyal @Macys stock is in a total free fall. Don't shop there for Christmas! https://t.co/wpDDCWcLFD https://t.co/vT3uGjiZ9B"
+
+2016-11-29 Tue 22:50:44
+https://twitter.com/realDonaldTrump/status/803808454620094465
+"Big day on Thursday for Indiana and the great workers of that wonderful state.We will keep our companies and jobs in the U.S. Thanks Carrier"
+
 2016-12-06 Tue 08:52:35
 https://twitter.com/realDonaldTrump/status/806134244384899072
 "Boeing is building a brand new 747 Air Force One for future presidents, but costs are out of control, more than $4 billion. Cancel order!"
