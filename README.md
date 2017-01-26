@@ -54,6 +54,9 @@ to create, download, and export a service account key.
 export GOOGLE_APPLICATION_CREDENTIALS="/path/to/credentials-file.json"
 ```
 
+You also need to [enable the Cloud Natural Language API](https://cloud.google.com/natural-language/docs/getting-started#set_up_your_project)
+for your Google Cloud Platform project.
+
 #### TradeKing
 
 Log in to your [TradeKing](https://www.tradeking.com/) account and 
