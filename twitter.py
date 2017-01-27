@@ -133,7 +133,7 @@ class TwitterListener(StreamListener):
             # threads, so do that here.
             try:
                 size = self.queue.qsize()
-                self.logs.debug("Processing queue of size: %s" % size)
+                logs.debug("Processing queue of size: %s" % size)
                 data = self.queue.get(block=True)
                 self.handle_data(logs, data)
             except BaseException as exception:
