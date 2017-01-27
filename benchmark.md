@@ -1,4 +1,4 @@
-## Benchmark
+## Benchmark Report
 
 This breakdown of the analysis results and market performance validates the current implementation against historical data.
 
