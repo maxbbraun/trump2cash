@@ -86,7 +86,11 @@ if __name__ == "__main__":
             strategy = trading.get_strategy(company, market_status)
             
             # What was the price at tweet and at EOD?
-            # TODO
+            price = trading.get_historical_prices(
+                company["ticker"], timestamp)
+            if price:
+                strategy["price_at"] = price["at"]
+                strategy["price_eod"] = price["eod"]
 
             strategies.append(strategy)
 
@@ -97,12 +101,56 @@ if __name__ == "__main__":
     # Make sure the events are ordered by ascending timestatmp.
     events = sorted(events, key=lambda event: event["timestamp"])
 
-    # Print out the formatted benchmark results.
+    # Print out the formatted benchmark results as markdown.
+    print "## Benchmark"
+    print
+    print "### Events"
     for event in events:
+        timestamp = event["timestamp"].strftime("%Y-%m-%d (%a) %H:%M:%S")
         print
-        print event["timestamp"].strftime("%Y-%m-%d %a %H:%M:%S")
-        print event["link"]
-        print '"%s"' % event["text"]
+        print "##### [%s](%s)" % (timestamp, event["link"])
+        print
+        print ">%s" % event["text"]
+        print
+        print "*Strategy*"
+        print
+        print "Company | Root | Sentiment | Strategy | Reason"
+        print "--------|------|-----------|----------|-------"
         for strategy in event["strategies"]:
-            print "$%s %s (%s)" % (strategy["ticker"], strategy["action"],
-                                   strategy["reason"])
+            root = "" if "root" not in strategy else strategy["root"]
+            sentiment = strategy["sentiment"]
+            if sentiment == 0:
+                sentiment_emoji = ":neutral_face:"
+            elif sentiment > 0:
+                sentiment_emoji = ":thumbsup:"
+            else:  # sentiment < 0:
+                sentiment_emoji = ":thumbsdown:"
+            print "%s | %s | %s %s | %s | %s" % (strategy["name"], root,
+                sentiment, sentiment_emoji, strategy["action"],
+                strategy["reason"])
+        print
+        print "*Performance*"
+        print
+        print "Ticker | Exchange | Price @ tweet | Price EOD | Ratio"
+        print "-------|----------|---------------|-----------|------"
+        for strategy in event["strategies"]:
+            if "price_at" in strategy and "price_eod" in strategy:
+                price_at = strategy["price_at"]
+                price_at_str = "$%s" % price_at
+                price_eod = strategy["price_eod"]
+                price_eod_str = "$%s" % price_eod
+                action = strategy["action"]
+                if action == "bull":
+                    ratio = price_eod / price_at
+                elif action == "bear":
+                    ratio = price_at / price_eod
+                else:
+                    ratio = ""
+            else:
+                price_at_str = ""
+                price_eod_str = ""
+                ratio = ""
+            print "%s | %s | %s | %s | %s" % (strategy["ticker"],
+                strategy["exchange"], price_at_str, price_eod_str, ratio)
+    print
+    print "### Fund"

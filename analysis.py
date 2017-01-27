@@ -9,7 +9,8 @@ from logs import Logs
 # The URL for a GET request to the Wikidata API via a SPARQL query to find
 # stock ticker symbols. The parameter is the Freebase ID of the company.
 WIKIDATA_QUERY_URL = ('https://query.wikidata.org/sparql?query='
-    'SELECT ?companyLabel ?ownerLabel ?parentLabel ?ticker WHERE {'
+    'SELECT ?companyLabel ?ownerLabel ?parentLabel ?tickerLabel'
+    ' ?exchangeNameLabel WHERE {'
     '  ?instance wdt:P646 "%s" .'  # Company with specified Freebase ID.
     '  ?instance wdt:P156* ?company .'  # Company may have restructured.
     '  { ?company p:P414 ?exchange }'  # Company traded on exchange.
@@ -20,10 +21,12 @@ WIKIDATA_QUERY_URL = ('https://query.wikidata.org/sparql?query='
     '  VALUES ?exchanges { wd:Q13677 wd:Q82059 }'  # Whitelist NYSE and NASDAQ.
     '  ?exchange ps:P414 ?exchanges .'  # Stock exchange is whitelisted.
     '  ?exchange pq:P249 ?ticker .'  # Get ticker symbol.
+    '  ?exchange ps:P414 ?exchangeName .'  # Get name of exchange.
     '  SERVICE wikibase:label {'
     '    bd:serviceParam wikibase:language "en" .'  # Use English labels.
     '  }'
-    '} GROUP BY ?companyLabel ?ownerLabel ?parentLabel ?ticker'
+    '} GROUP BY ?companyLabel ?ownerLabel ?parentLabel ?tickerLabel'
+    ' ?exchangeNameLabel'
     '&format=JSON')
 
 
@@ -75,14 +78,20 @@ class Analysis:
             else:
                 parent = None
 
-            if "ticker" in binding:
-                ticker = binding["ticker"]["value"]
+            if "tickerLabel" in binding:
+                ticker = binding["tickerLabel"]["value"]
             else:
                 ticker = None
+
+            if "exchangeNameLabel" in binding:
+                exchange = binding["exchangeNameLabel"]["value"]
+            else:
+                exchange = None
 
             data = {}
             data["name"] = name
             data["ticker"] = ticker
+            data["exchange"] = exchange
 
             # Owner or parent get turned into root.
             if owner:
@@ -213,67 +222,87 @@ def test_environment_variables():
 
 def test_get_company_data(analysis):
     assert analysis.get_company_data("/m/035nm") == [{
+        "exchange": "New York Stock Exchange",
         "name": "General Motors",
         "ticker": "GM"}]
     assert analysis.get_company_data("/m/04n3_w4") == [{
+        "exchange": "New York Stock Exchange",
         "name": "Fiat",
         "root": "Fiat Chrysler Automobiles",
         "ticker": "FCAU"}]
     assert analysis.get_company_data("/m/0d8c4") == [{
+        "exchange": "New York Stock Exchange",
         "name": "Lockheed Martin",
         "ticker": "LMT"}]
     assert analysis.get_company_data("/m/0hkqn") == [{
+        "exchange": "New York Stock Exchange",
         "name": "Lockheed Martin",
         "ticker": "LMT"}]
     assert analysis.get_company_data("/m/09jcvs") == [{
+        "exchange": "NASDAQ",
         "name": "YouTube",
         "root": "Google",
         "ticker": "GOOG"}, {
+        "exchange": "NASDAQ",
         "name": "YouTube",
         "root": "Google",
         "ticker": "GOOGL"}]
     assert analysis.get_company_data("/m/045c7b") == [{
+        "exchange": "NASDAQ",
         "name": "Google",
         "ticker": "GOOG"}, {
+        "exchange": "NASDAQ",
         "name": "Google",
         "ticker": "GOOGL"}, {
+        "exchange": "NASDAQ",
         "name": "Google",
         "root": "Alphabet Inc.",
         "ticker": "GOOG"}, {
+        "exchange": "NASDAQ",
         "name": "Google",
         "root": "Alphabet Inc.",
         "ticker": "GOOGL"}]
     assert analysis.get_company_data("/m/01snr1") == [{
+        "exchange": "New York Stock Exchange",
         "name": "Bayer",
         "root": "BlackRock",
         "ticker": "BLK"}]  # , {
-    #"name": "Bayer",
-    #"root": "PNC Financial Services",
-    #"ticker": "PNC"}]
+        #"exchange": "New York Stock Exchange",
+        #"name": "Bayer",
+        #"root": "PNC Financial Services",
+        #"ticker": "PNC"}]
     assert analysis.get_company_data("/m/02zs4") == [{
+        "exchange": "New York Stock Exchange",
         "name": "Ford",
         "ticker": "F"}]
     assert analysis.get_company_data("/m/0841v") == [{
+        "exchange": "New York Stock Exchange",
         "name": "Walmart",
         "ticker": "WMT"}, {
+        "exchange": "New York Stock Exchange",
         "name": "Walmart",
         "root": "State Street Corporation",
         "ticker": "STT"}]
     assert analysis.get_company_data("/m/07mb6") == [{
+        "exchange": "New York Stock Exchange",
         "name": "Toyota",
         "ticker": "TM"}]
     assert analysis.get_company_data("/m/0178g") == [{
+        "exchange": "New York Stock Exchange",
         "name": "Boeing",
         "ticker": "BA"}]
     assert analysis.get_company_data("/m/07_dc0") == [{
+        "exchange": "New York Stock Exchange",
         "name": "Carrier Corporation",
         "root": "United Technologies Corporation",
         "ticker": "UTX"}]
     assert analysis.get_company_data("/m/01pkxd") == [{
+        "exchange": "New York Stock Exchange",
         "name": "Macy's",
         "root": "Macy's, Inc.",
         "ticker": "M"}]
     assert analysis.get_company_data("/m/02rnkmh") == [{
+        "exchange": "New York Stock Exchange",
         "name": "Keystone Pipeline",
         "root": "TransCanada Corporation",
         "ticker": "TRP"}]
@@ -407,91 +436,114 @@ def test_get_sentiment(analysis):
 
 def test_find_companies(analysis):
     assert analysis.find_companies(TEXT_1) == [{
+        "exchange": "New York Stock Exchange",
         "name": "Boeing",
         "sentiment": -0.1,
         "ticker": "BA"}]
     assert analysis.find_companies(TEXT_2) == [{
+        #"exchange": "New York Stock Exchange",
         #"name": "Lockheed Martin",
         #"sentiment": -0.1,
         #"ticker": "LMT"}, {
+        "exchange": "New York Stock Exchange",
         "name": "Boeing",
         "sentiment": 0,  # 0.1,
         "ticker": "BA"}]
     assert analysis.find_companies(TEXT_3) == [{
+        "exchange": "New York Stock Exchange",
         "name": "General Motors",
         "sentiment": -0.1,
         "ticker": "GM"}]
     assert analysis.find_companies(TEXT_4) == [{
+        "exchange": "New York Stock Exchange",
         "name": "Ford",
         "sentiment": 0.3,
         "ticker": "F"}]
     assert analysis.find_companies(TEXT_5) == [{
+        "exchange": "New York Stock Exchange",
         "name": "Ford",
         "sentiment": 0.3,
         "ticker": "F"}]
     assert analysis.find_companies(TEXT_6) == [{
+        "exchange": "New York Stock Exchange",
         "name": "Toyota",
         "sentiment": -0.2,
         "ticker": "TM"}]
     assert analysis.find_companies(TEXT_7) == [{
+        "exchange": "New York Stock Exchange",
         "name": "Fiat",
         "root": "Fiat Chrysler Automobiles",
         "sentiment": 0.2,
         "ticker": "FCAU"}]
     assert analysis.find_companies(TEXT_8) == [{
+        "exchange": "New York Stock Exchange",
         "name": "Ford",
         "sentiment": 0.3,
         "ticker": "F"}, {
+        "exchange": "New York Stock Exchange",
         "name": "Fiat",
         "root": "Fiat Chrysler Automobiles",
         "sentiment": 0.3,
         "ticker": "FCAU"}]
     assert analysis.find_companies(TEXT_9) == [{
+        "exchange": "New York Stock Exchange",
         "name": "General Motors",
         "sentiment": 0.4,
         "ticker": "GM"}, {
+        "exchange": "New York Stock Exchange",
         "name": "Walmart",
         "sentiment": 0.4,
         "ticker": "WMT"}, {
+        "exchange": "New York Stock Exchange",
         "name": "Walmart",
         "root": "State Street Corporation",
         "sentiment": 0.4,
         "ticker": "STT"}]
     assert analysis.find_companies(TEXT_10) == [{
+        "exchange": "New York Stock Exchange",
         "name": "Ford",
         "sentiment": -0.5,  # 0,
         "ticker": "F"}, {
+        "exchange": "New York Stock Exchange",
         "name": "General Motors",
         "sentiment": -0.5,  # 0,
         "ticker": "GM"}, {
+        "exchange": "New York Stock Exchange",
         "name": "Lockheed Martin",
         "sentiment": -0.5,  # 0,
         "ticker": "LMT"}]
     assert analysis.find_companies(TEXT_11) == [{
+        "exchange": "New York Stock Exchange",
         "name": "Bayer",
         "sentiment": 0.3,
         "root": "BlackRock",
         "ticker": "BLK"}]  # , {
-    #"name": "Bayer",
-    #"sentiment": 0.3,
-    #"root": "PNC Financial Services",
-    #"ticker": "PNC"}]
-    # assert analysis.find_companies(TEXT_12) == [{
-    #  "name": "Carrier Corporation",
-    #  "sentiment": 0.5,
-    #  "root": "United Technologies Corporation",
-    #  "ticker": "UTX"}]
+        #"exchange": "New York Stock Exchange",
+        #"name": "Bayer",
+        #"sentiment": 0.3,
+        #"root": "PNC Financial Services",
+        #"exchange": "New York Stock Exchange",
+        #"ticker": "PNC"}]
+    #assert analysis.find_companies(TEXT_12) == [{
+    #    "exchange": "New York Stock Exchange",
+    #    "name": "Carrier Corporation",
+    #    "sentiment": 0.5,
+    #    "root": "United Technologies Corporation",
+    #    "ticker": "UTX"}]
     assert analysis.find_companies(TEXT_13) == [{
+        "exchange": "New York Stock Exchange",
         "name": "Macy's",
         "root": "Macy's, Inc.",
         "sentiment": -0.4,
         "ticker": "M"}]
     assert analysis.find_companies(TEXT_14) == [{
+        "exchange": "New York Stock Exchange",
         "name": "Macy's",
         "root": "Macy's, Inc.",
         "sentiment": -0.3,
         "ticker": "M"}]
     assert analysis.find_companies(TEXT_15) == [{
+        "exchange": "New York Stock Exchange",
         "name": "Keystone Pipeline",
         "root": "TransCanada Corporation",
         "sentiment": 0,  # 0.1,

@@ -108,7 +108,12 @@ class Trading:
         sentiment = company["sentiment"]
 
         strategy = {}
+        strategy["name"] = company["name"]
+        if "root" in company:
+            strategy["root"] = company["root"]
+        strategy["sentiment"] = company["sentiment"]
         strategy["ticker"] = ticker
+        strategy["exchange"] = company["exchange"]
 
         # Don't do anything with blacklisted stocks.
         if ticker in TICKER_BLACKLIST:
@@ -171,6 +176,54 @@ class Trading:
 
         self.logs.debug("Current market status: %s" % current)
         return current
+
+    def get_historical_prices(self, ticker, timestamp):
+        """Finds the last price at or before a timestamp and at EOD."""
+
+        # TODO: What's the expected timezone?
+        # TODO: What if markets closed at date/time?
+        date = timestamp.strftime("%Y-%m-%d")
+        time = timestamp.strftime("%H%M")
+
+        timesales_url = TRADEKING_API_URL % "market/timesales"
+        timesales_url += "?symbols=%s&startdate=%s&enddate=%s&starttime=%s" % (
+            ticker, date, date, time)
+        response = self.make_request(url=timesales_url)
+
+        if not response or "response" not in response:
+            self.logs.error("Missing timesales response: %s" % response)
+            return None
+
+        timesales_response = response["response"]
+        if ("quotes" not in timesales_response or
+            "quote" not in timesales_response["quotes"]):
+            self.logs.error("Malformed timesales response: %s" %
+                            timesales_response)
+            return None
+
+        # TODO: Process all quotes (pages!) to figure out the last price.
+        quotes = timesales_response["quotes"]["quote"]
+        if not quotes:
+            self.logs.error("Empty quotes.")
+            return None
+
+        quote = quotes[0]
+        self.logs.debug("Using quote: %s" % quote)
+
+        if "last" not in quote:
+            self.logs.error("Malformed quote response: %s" % quote)
+            return None
+
+        try:
+            price_at = float(quote["last"])
+        except ValueError:
+            self.logs.error("Malformed number in response: %s" % quote["last"])
+            return None
+
+        # TODO: Calculate actual EOD price.
+        price_eod = price_at
+
+        return {"at": price_at, "eod": price_eod}
 
     def make_request(self, url, method="GET", body="", headers=None):
         """Makes a request to the TradeKing API."""
@@ -442,7 +495,7 @@ class Trading:
 #
 
 import pytest
-
+from datetime import datetime
 
 @pytest.fixture
 def trading():
@@ -460,74 +513,111 @@ def test_environment_variables():
 
 def test_get_strategy_blacklist(trading):
     assert trading.get_strategy({
+        "exchange": "NASDAQ",
         "name": "Google",
         "sentiment": 0.4,
         "ticker": "GOOG"}, "open") == {
             "action": "hold",
+            "exchange": "NASDAQ",
+            "name": "Google",
             "reason": "blacklist",
+            "sentiment": 0.4,
             "ticker": "GOOG"}
     assert trading.get_strategy({
+        "exchange": "New York Stock Exchange",
         "name": "Ford",
         "sentiment": 0.3,
         "ticker": "F"}, "open") == {
             "action": "bull",
+            "exchange": "New York Stock Exchange",
+            "name": "Ford",
             "reason": "positive sentiment",
+            "sentiment": 0.3,
             "ticker": "F"}
 
 
 def test_get_strategy_market_status(trading):
     assert trading.get_strategy({
+        "exchange": "New York Stock Exchange",
         "name": "General Motors",
         "sentiment": 0.5,
         "ticker": "GM"}, "pre") == {
             "action": "bull",
+            "exchange": "New York Stock Exchange",
+            "name": "General Motors",
             "reason": "positive sentiment",
+            "sentiment": 0.5,
             "ticker": "GM"}
     assert trading.get_strategy({
+        "exchange": "New York Stock Exchange",
         "name": "General Motors",
         "sentiment": 0.5,
         "ticker": "GM"}, "open") == {
             "action": "bull",
+            "exchange": "New York Stock Exchange",
+            "name": "General Motors",
             "reason": "positive sentiment",
+            "sentiment": 0.5,
             "ticker": "GM"}
     assert trading.get_strategy({
+        "exchange": "New York Stock Exchange",
         "name": "General Motors",
         "sentiment": 0.5,
         "ticker": "GM"}, "after") == {
             "action": "hold",
+            "exchange": "New York Stock Exchange",
+            "name": "General Motors",
             "reason": "market closed",
+            "sentiment": 0.5,
             "ticker": "GM"}
     assert trading.get_strategy({
+        "exchange": "New York Stock Exchange",
         "name": "General Motors",
         "sentiment": 0.5,
         "ticker": "GM"}, "close") == {
             "action": "hold",
+            "exchange": "New York Stock Exchange",
+            "name": "General Motors",
             "reason": "market closed",
+            "sentiment": 0.5,
             "ticker": "GM"}
 
 
 def test_get_strategy_sentiment(trading):
     assert trading.get_strategy({
+        "exchange": "New York Stock Exchange",
         "name": "General Motors",
         "sentiment": 0,
         "ticker": "GM"}, "open") == {
             "action": "hold",
+            "exchange": "New York Stock Exchange",
+            "name": "General Motors",
             "reason": "neutral sentiment",
+            "sentiment": 0,
             "ticker": "GM"}
     assert trading.get_strategy({
+        "exchange": "New York Stock Exchange",
         "name": "Ford",
         "sentiment": 0.5,
         "ticker": "F"}, "open") == {
             "action": "bull",
+            "exchange": "New York Stock Exchange",
+            "name": "Ford",
             "reason": "positive sentiment",
+            "sentiment": 0.5,
             "ticker": "F"}
     assert trading.get_strategy({
+        "exchange": "New York Stock Exchange",
         "name": "Fiat",
         "root": "Fiat Chrysler Automobiles",
         "sentiment": -0.5,
         "ticker": "FCAU"}, "open") == {
             "action": "bear",
+            "exchange": "New York Stock Exchange",
+            "name": "Fiat",
             "reason": "negative sentiment",
+            "root": "Fiat Chrysler Automobiles",
+            "sentiment": -0.5,
             "ticker": "FCAU"}
 
 
@@ -618,6 +708,12 @@ def test_get_quantity(trading):
     assert trading.get_quantity("F", 10000.0) > 0
 
 
+#def test_get_historical_prices(trading):
+#    assert trading.get_historical_prices("F", datetime(2017, 1, 3)) == {
+#        "price_at": 12.41,
+#        "price_eod": 12.58}
+
+
 def test_make_order_request_success(trading):
     assert not USE_REAL_MONEY
     assert trading.make_order_request((
@@ -653,9 +749,11 @@ def test_make_trades_success(trading):
     # TODO: Find a way to test while the markets are closed and how to test sell
     #        short orders without holding the stock.
     #assert trading.make_trades([{
+    #    "exchange": "New York Stock Exchange",
     #    "name": "Lockheed Martin",
     #    "sentiment": -0.1,
     #    "ticker": "LMT"}, {
+    #    "exchange": "New York Stock Exchange",
     #    "name": "Boeing",
     #    "sentiment": 0.1,
     #    "ticker": "BA"}])
@@ -664,6 +762,7 @@ def test_make_trades_success(trading):
 def test_make_trades_fail(trading):
     assert not USE_REAL_MONEY
     assert not trading.make_trades([{
+        "exchange": "New York Stock Exchange",
         "name": "Boeing",
         "sentiment": 0,
         "ticker": "BA"}])

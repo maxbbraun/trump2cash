@@ -104,8 +104,8 @@ $ export USE_REAL_MONEY=NO && pytest *.py --verbose
 See how the current implementation of the analysis and trading algorithms would
 have performed on historical data from Twitter and TradeKing:
 
-```
-$ ./benchmark.py > benchmark.txt && less benchmark.txt
+```shell
+$ ./benchmark.py > benchmark.md
 ```
 
 ### 5. Start the bot
