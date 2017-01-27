@@ -45,29 +45,13 @@ M | New York Stock Exchange | - | - | 0.000%
 
 > Good news, disloyal @Macys stock is in a total free fall. Don't shop there for Christmas! https://t.co/wpDDCWcLFD https://t.co/vT3uGjiZ9B
 
-*Strategy*
-
-Company | Root | Sentiment | Strategy | Reason
---------|------|-----------|----------|-------
-
-*Performance*
-
-Ticker | Exchange | Price @ tweet | Price EOD | Return
--------|----------|---------------|-----------|-------
+*(No companies)*
 
 ##### [2016-11-29 (Tue) 22:50:44](https://twitter.com/realDonaldTrump/status/803808454620094465)
 
 > Big day on Thursday for Indiana and the great workers of that wonderful state.We will keep our companies and jobs in the U.S. Thanks Carrier
 
-*Strategy*
-
-Company | Root | Sentiment | Strategy | Reason
---------|------|-----------|----------|-------
-
-*Performance*
-
-Ticker | Exchange | Price @ tweet | Price EOD | Return
--------|----------|---------------|-----------|-------
+*(No companies)*
 
 ##### [2016-12-06 (Tue) 08:52:35](https://twitter.com/realDonaldTrump/status/806134244384899072)
 
