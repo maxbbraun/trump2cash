@@ -96,7 +96,7 @@ if __name__ == "__main__":
     events = sorted(events, key=lambda event: event["timestamp"])
 
     # Print out the formatted benchmark results as markdown.
-    print "## Benchmark"
+    print "## Benchmark Report"
     print
     print ("This breakdown of the analysis results and market performance valid"
            "ates the current implementation against historical data.")

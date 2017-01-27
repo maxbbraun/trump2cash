@@ -101,8 +101,9 @@ $ export USE_REAL_MONEY=NO && pytest *.py --verbose
 
 ### 4. Run the benchmark
 
-The [benchmark report](benchmark.md) shows how the current implementation of the analysis and trading algorithms would
-have performed against historical data. You can run it again to benchmark any changes you may have made:
+The [benchmark report](benchmark.md) shows how the current implementation of the
+analysis and trading algorithms would have performed against historical data.
+You can run it again to benchmark any changes you may have made:
 
 ```shell
 $ ./benchmark.py > benchmark.md
