@@ -109,7 +109,8 @@ class TwitterListener(StreamListener):
         self.logs_to_cloud = logs_to_cloud
         self.logs = Logs(name="twitter-listener", to_cloud=self.logs_to_cloud)
         self.callback = callback
-        self.init_queue()
+        if self.callback:
+            self.init_queue()
 
     def init_queue(self):
         """Creates a queue and starts the worker threads."""
@@ -131,8 +132,8 @@ class TwitterListener(StreamListener):
             # The main loop doesn't catch and report exceptions from background
             # threads, so do that here.
             try:
-                self.logs.debug("Processing queue of size: %s" %
-                                self.queue.qsize())
+                size = self.queue.qsize()
+                self.logs.debug("Processing queue of size: %s" % size)
                 data = self.queue.get(block=True)
                 self.handle_data(logs, data)
             except BaseException as exception:
