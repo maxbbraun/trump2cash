@@ -2,6 +2,7 @@
 
 from os import getenv
 from simplejson import loads
+from Queue import Queue
 from threading import Thread
 from tweepy import API
 from tweepy import OAuthHandler
@@ -31,6 +32,8 @@ EMOJI_THUMBS_UP = u"\U0001f44d"
 EMOJI_THUMBS_DOWN = u"\U0001f44e"
 EMOJI_SHRUG = u"¯\_(\u30c4)_/¯"
 
+# The number of worker threads processing tweets.
+NUM_THREADS = 100
 
 class Twitter:
     """A helper for talking to Twitter APIs."""
@@ -106,6 +109,34 @@ class TwitterListener(StreamListener):
         self.logs_to_cloud = logs_to_cloud
         self.logs = Logs(name="twitter-listener", to_cloud=self.logs_to_cloud)
         self.callback = callback
+        self.init_queue()
+
+    def init_queue(self):
+        """Creates a queue and starts the worker threads."""
+
+        self.queue = Queue()
+        for worker_id in range(NUM_THREADS):
+            worker = Thread(target=self.process_queue, args=[worker_id])
+            worker.start()
+
+    def process_queue(self, worker_id):
+        """Continuously processes tasks on the queue."""
+
+        # Create a new logs instance (with its own httplib2 instance) so that
+        # there is a separate one for each thread.
+        logs = Logs("twitter-listener-worker-%s" % worker_id,
+            to_cloud=self.logs_to_cloud)
+
+        while True:
+            # The main loop doesn't catch and report exceptions from background
+            # threads, so do that here.
+            try:
+                self.logs.debug("Processing queue of size: %s" %
+                                self.queue.qsize())
+                data = self.queue.get(block=True)
+                self.handle_data(logs, data)
+            except BaseException as exception:
+                logs.catch(exception)
 
     def on_error(self, status):
         """Handles any API errors."""
@@ -116,27 +147,12 @@ class TwitterListener(StreamListener):
         return True
 
     def on_data(self, data):
-        """Kicks off a new thread to handle data."""
+        """Puts a task to process the new data on the queue."""
 
-        thread = Thread(target=self.safe_handle_data, args=[data])
-        thread.start()
+        self.queue.put(data)
 
         # Don't stop.
         return True
-
-    def safe_handle_data(self, data):
-        """Calls handle_data() in a thread-safe way."""
-
-        # Create new logging and error clients (with their own httplib2
-        # instances) to be used on background threads.
-        logs = Logs("twitter-listener-background", to_cloud=self.logs_to_cloud)
-
-        # The main loop doesn't catch and report exceptions from background
-        # threads, so do that here.
-        try:
-            self.handle_data(logs, data)
-        except BaseException as exception:
-            logs.catch(exception)
 
     def handle_data(self, logs, data):
         """Sanity-checks and extracts the data before sending it to the
