@@ -38,21 +38,22 @@ NUM_THREADS = 100
 class Twitter:
     """A helper for talking to Twitter APIs."""
 
-    def __init__(self, streaming_callback=None, logs_to_cloud=True):
-        self.logs = Logs(name="twitter", to_cloud=logs_to_cloud)
-        twitter_listener = TwitterListener(callback=streaming_callback,
-                                           logs_to_cloud=logs_to_cloud)
-        twitter_auth = OAuthHandler(TWITTER_CONSUMER_KEY,
-                                    TWITTER_CONSUMER_SECRET)
-        twitter_auth.set_access_token(TWITTER_ACCESS_TOKEN,
-                                      TWITTER_ACCESS_TOKEN_SECRET)
-        self.twitter_stream = Stream(twitter_auth, twitter_listener)
-        self.twitter_api = API(twitter_auth)
+    def __init__(self, logs_to_cloud):
+        self.logs_to_cloud = logs_to_cloud
+        self.logs = Logs(name="twitter", to_cloud=self.logs_to_cloud)
+        self.twitter_auth = OAuthHandler(TWITTER_CONSUMER_KEY,
+                                         TWITTER_CONSUMER_SECRET)
+        self.twitter_auth.set_access_token(TWITTER_ACCESS_TOKEN,
+                                           TWITTER_ACCESS_TOKEN_SECRET)
+        self.twitter_api = API(self.twitter_auth)
 
-    def start_streaming(self):
+    def start_streaming(self, callback):
         """Starts streaming tweets and returning data to the callback."""
 
-        self.twitter_stream.filter(follow=[TRUMP_USER_ID])
+        twitter_listener = TwitterListener(callback=callback,
+                                           logs_to_cloud=self.logs_to_cloud)
+        twitter_stream = Stream(self.twitter_auth, twitter_listener)
+        twitter_stream.filter(follow=[TRUMP_USER_ID])
 
     def tweet(self, companies, link):
         """Posts a tweet listing the companies, their ticker symbols, and a
@@ -136,6 +137,7 @@ class TwitterListener(StreamListener):
                 logs.debug("Processing queue of size: %s" % size)
                 data = self.queue.get(block=True)
                 self.handle_data(logs, data)
+                self.queue.task_done()
             except BaseException as exception:
                 logs.catch(exception)
 
@@ -200,8 +202,7 @@ from datetime import datetime
 
 @pytest.fixture
 def twitter():
-    # TODO: Test callback.
-    return Twitter(streaming_callback=None, logs_to_cloud=False)
+    return Twitter(logs_to_cloud=False)
 
 
 def test_environment_variables():
@@ -209,6 +210,11 @@ def test_environment_variables():
     assert TWITTER_CONSUMER_SECRET
     assert TWITTER_ACCESS_TOKEN
     assert TWITTER_ACCESS_TOKEN_SECRET
+
+
+def test_start_streaming(twitter):
+    # TODO
+    pass
 
 
 def test_twitter_listener():

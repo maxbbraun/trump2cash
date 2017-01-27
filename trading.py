@@ -48,7 +48,7 @@ MARKET_TIMEZONE = timezone("US/Eastern")
 class Trading:
     """A helper for making stock trades."""
 
-    def __init__(self, logs_to_cloud=True):
+    def __init__(self, logs_to_cloud):
         self.logs = Logs(name="trading", to_cloud=logs_to_cloud)
 
     def make_trades(self, companies):

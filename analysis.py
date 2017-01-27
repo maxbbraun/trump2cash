@@ -33,7 +33,7 @@ WIKIDATA_QUERY_URL = ('https://query.wikidata.org/sparql?query='
 class Analysis:
     """A helper for analyzing company data in text."""
 
-    def __init__(self, logs_to_cloud=True):
+    def __init__(self, logs_to_cloud):
         self.logs = Logs(name="analysis", to_cloud=logs_to_cloud)
         self.gcnl_client = language.Client()
 
