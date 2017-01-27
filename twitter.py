@@ -198,13 +198,10 @@ import pytest
 from datetime import datetime
 
 
-def callback(text, link):
-    pass
-
-
 @pytest.fixture
 def twitter():
-    return Twitter(streaming_callback=callback, logs_to_cloud=False)
+    # TODO: Test callback.
+    return Twitter(streaming_callback=None, logs_to_cloud=False)
 
 
 def test_environment_variables():
