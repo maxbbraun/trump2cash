@@ -1,10 +1,13 @@
 # -*- coding: utf-8 -*-
 
+from datetime import datetime
 from simplejson import loads
 from oauth2 import Consumer
 from oauth2 import Client
 from oauth2 import Token
 from os import getenv
+from pytz import timezone
+from pytz import utc
 from lxml.etree import Element
 from lxml.etree import SubElement
 from lxml.etree import tostring
@@ -37,6 +40,9 @@ CASH_HOLD = 1000
 
 # Blacklsited stock ticker symbols, e.g. to avoid insider trading.
 TICKER_BLACKLIST = ["GOOG", "GOOGL"]
+
+# We're using NYSE and NASDAQ, which are both in the easters timezone.
+MARKET_TIMEZONE = timezone("US/Eastern")
 
 
 class Trading:
@@ -180,14 +186,13 @@ class Trading:
     def get_historical_prices(self, ticker, timestamp):
         """Finds the last price at or before a timestamp and at EOD."""
 
-        # TODO: What's the expected timezone?
         # TODO: What if markets closed at date/time?
-        date = timestamp.strftime("%Y-%m-%d")
-        time = timestamp.strftime("%H%M")
 
+        # The timestamp is expected in market time.
+        date = timestamp.strftime("%Y-%m-%d")
         timesales_url = TRADEKING_API_URL % "market/timesales"
-        timesales_url += "?symbols=%s&startdate=%s&enddate=%s&starttime=%s" % (
-            ticker, date, date, time)
+        timesales_url += "?symbols=%s&startdate=%s&enddate=%s&interval=1min" % (
+            ticker, date, date)
         response = self.make_request(url=timesales_url)
 
         if not response or "response" not in response:
@@ -201,29 +206,52 @@ class Trading:
                             timesales_response)
             return None
 
-        # TODO: Process all quotes (pages!) to figure out the last price.
         quotes = timesales_response["quotes"]["quote"]
         if not quotes:
+            # TODO: In this case get last weekday's last or this day's last.
             self.logs.error("Empty quotes.")
             return None
 
-        quote = quotes[0]
-        self.logs.debug("Using quote: %s" % quote)
+        # Find the last quote before the timestamp.
+        last_timestamp = None
+        last_price = None
+        for quote in quotes:
+            quote_timestamp = self.convert_market_time(
+                datetime.strptime(quote["datetime"], "%Y-%m-%dT%H:%M:%SZ"))
+            if quote_timestamp > timestamp:
+                break
+            last_timestamp = quote_timestamp
+            last_price = quote["last"]
 
-        if "last" not in quote:
-            self.logs.error("Malformed quote response: %s" % quote)
+        # TODO: Figure out why this would happen.
+        if not last_price:
+            self.logs.error("Found no last price.")
             return None
 
         try:
-            price_at = float(quote["last"])
+            price_at = float(last_price)
         except ValueError:
-            self.logs.error("Malformed number in response: %s" % quote["last"])
+            self.logs.error("Malformed number in price at tweet: %s" %
+                            last_price)
             return None
 
-        # TODO: Calculate actual EOD price.
-        price_eod = price_at
+        # Find the last quote of the day.
+        eod_quote = quotes[-1]
+        try:
+            price_eod = float(eod_quote["last"])
+        except ValueError:
+            self.logs.error("Malformed number in price at EOD: %s" %
+                            eod_quote["last"])
+            return None
 
         return {"at": price_at, "eod": price_eod}
+
+    def convert_market_time(self, timestamp):
+        """Converts a UTC timestamp to local market time."""
+
+        market_time = timestamp.replace(tzinfo=utc).astimezone(MARKET_TIMEZONE)
+        MARKET_TIMEZONE.normalize(market_time)
+        return market_time
 
     def make_request(self, url, method="GET", body="", headers=None):
         """Makes a request to the TradeKing API."""
@@ -495,7 +523,6 @@ class Trading:
 #
 
 import pytest
-from datetime import datetime
 
 @pytest.fixture
 def trading():
@@ -628,6 +655,16 @@ def test_get_budget(trading):
     assert trading.get_budget(11000.0, 0) == 0.0
 
 
+def test_convert_market_time(trading):
+    expected = datetime(2017, 1, 3, 11, 44, 13)
+    actual = trading.convert_market_time(datetime(2017, 1, 3, 16, 44, 13))
+    assert actual.year == expected.year
+    assert actual.month == expected.month
+    assert actual.day == expected.day
+    assert actual.hour == expected.hour
+    assert actual.minute == expected.minute
+    assert actual.second == expected.second
+
 def test_make_request_success(trading):
     url = "https://api.tradeking.com/v1/member/profile.json"
     response = trading.make_request(url=url)
@@ -708,10 +745,11 @@ def test_get_quantity(trading):
     assert trading.get_quantity("F", 10000.0) > 0
 
 
-#def test_get_historical_prices(trading):
-#    assert trading.get_historical_prices("F", datetime(2017, 1, 3)) == {
-#        "price_at": 12.41,
-#        "price_eod": 12.58}
+def test_get_historical_prices(trading):
+    # TODO: Add test cases from all tweets.
+    assert trading.get_historical_prices("F",
+        datetime(2017, 1, 3, 11, 44, 13, tzinfo=MARKET_TIMEZONE)) == {
+            "at": 12.4338, "eod": 12.59}
 
 
 def test_make_order_request_success(trading):

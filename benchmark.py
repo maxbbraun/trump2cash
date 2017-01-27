@@ -1,10 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-from datetime import datetime
-from pytz import timezone
-from pytz import utc
-
 from analysis import Analysis
 from logs import Logs
 from trading import Trading
@@ -18,15 +14,13 @@ TWEET_IDS = ["806134244384899072", "812061677160202240", "816260343391514624",
              "824055927200423936", "672926510924374016", "664911913831301123",
              "621669173534584833", "803808454620094465"]
 
-# We're using NYSE and NASDAQ, which are both in the easters timezone.
-MARKET_TIMEZONE = timezone("US/Eastern")
+def ratio_to_return(ratio):
+    """Converts a ratio to a readable percentage return."""
 
-def convert_market_time(timestamp):
-    """Converts a UTC timestamp to local market time."""
+    if ratio == "-":
+      ratio = 1
 
-    market_time = timestamp.replace(tzinfo=utc).astimezone(MARKET_TIMEZONE)
-    MARKET_TIMEZONE.normalize(market_time)
-    return market_time
+    return "%.3f%%" % (100 * (ratio - 1))
 
 def get_market_status(timestamp):
     """Tries to infer the market status from a timestamp."""
@@ -68,7 +62,7 @@ if __name__ == "__main__":
     for tweet in tweets:
         event = {}
 
-        timestamp = convert_market_time(tweet.created_at)
+        timestamp = trading.convert_market_time(tweet.created_at)
         text = tweet.text.encode("utf-8")
         event["timestamp"] = timestamp
         event["text"] = text
@@ -104,20 +98,29 @@ if __name__ == "__main__":
     # Print out the formatted benchmark results as markdown.
     print "## Benchmark"
     print
+    print ("This breakdown of the analysis results and market performance valid"
+           "ates the current implementation against historical data.")
+    print
+    print ("Use this command to regenerate the benchmark report after changes t"
+           "o the algorithm or data:")
+    print "```shell"
+    print "$ ./benchmark.py > benchmark.md"
+    print "```"
+    print
     print "### Events"
     for event in events:
         timestamp = event["timestamp"].strftime("%Y-%m-%d (%a) %H:%M:%S")
         print
         print "##### [%s](%s)" % (timestamp, event["link"])
         print
-        print ">%s" % event["text"]
+        print "> %s" % event["text"]
         print
         print "*Strategy*"
         print
         print "Company | Root | Sentiment | Strategy | Reason"
         print "--------|------|-----------|----------|-------"
         for strategy in event["strategies"]:
-            root = "" if "root" not in strategy else strategy["root"]
+            root = "-" if "root" not in strategy else strategy["root"]
             sentiment = strategy["sentiment"]
             if sentiment == 0:
                 sentiment_emoji = ":neutral_face:"
@@ -131,26 +134,28 @@ if __name__ == "__main__":
         print
         print "*Performance*"
         print
-        print "Ticker | Exchange | Price @ tweet | Price EOD | Ratio"
-        print "-------|----------|---------------|-----------|------"
+        print "Ticker | Exchange | Price @ tweet | Price EOD | Return"
+        print "-------|----------|---------------|-----------|-------"
         for strategy in event["strategies"]:
             if "price_at" in strategy and "price_eod" in strategy:
                 price_at = strategy["price_at"]
-                price_at_str = "$%s" % price_at
+                price_at_str = "$%.3f" % price_at
                 price_eod = strategy["price_eod"]
-                price_eod_str = "$%s" % price_eod
+                price_eod_str = "$%.3f" % price_eod
                 action = strategy["action"]
                 if action == "bull":
                     ratio = price_eod / price_at
                 elif action == "bear":
                     ratio = price_at / price_eod
                 else:
-                    ratio = ""
+                    ratio = "-"
             else:
-                price_at_str = ""
-                price_eod_str = ""
-                ratio = ""
+                price_at_str = "-"
+                price_eod_str = "-"
+                ratio = "-"
             print "%s | %s | %s | %s | %s" % (strategy["ticker"],
-                strategy["exchange"], price_at_str, price_eod_str, ratio)
+                strategy["exchange"], price_at_str, price_eod_str,
+                ratio_to_return(ratio))
     print
     print "### Fund"
+    # TODO
