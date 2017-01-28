@@ -17,7 +17,7 @@ TWEET_IDS = ["806134244384899072", "812061677160202240", "816260343391514624",
              "621669173534584833", "803808454620094465"]
 
 # The initial amount in dollars for the fund simulation.
-FUND_DOLLARS = 1000000
+FUND_DOLLARS = 10000
 
 # The fee in dollars per trade.
 TRADE_FEE = 4.95
@@ -136,7 +136,7 @@ if __name__ == "__main__":
     print "$ ./benchmark.py > benchmark.md"
     print "```"
     print
-    print "### Events"
+    print "### Events overview"
     print
     print ("Here's each tweet with the results of its analysis and individual m"
            "arket performance.")
@@ -187,7 +187,7 @@ if __name__ == "__main__":
         else:
             print "*(No companies)*"
     print
-    print "### Fund"
+    print "### Fund simulation"
     print
     print ("This is how an initial investment of %s would have grown, including"
            " [TradeKing's fees](https://www.tradeking.com/rates) of %s per trad"
