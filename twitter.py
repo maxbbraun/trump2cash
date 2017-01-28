@@ -3,7 +3,10 @@
 from os import getenv
 from simplejson import loads
 from Queue import Queue
+from threading import Event
 from threading import Thread
+from threading import Timer
+from time import sleep
 from tweepy import API
 from tweepy import OAuthHandler
 from tweepy import Stream
@@ -50,10 +53,26 @@ class Twitter:
     def start_streaming(self, callback):
         """Starts streaming tweets and returning data to the callback."""
 
-        twitter_listener = TwitterListener(callback=callback,
-                                           logs_to_cloud=self.logs_to_cloud)
-        twitter_stream = Stream(self.twitter_auth, twitter_listener)
+        self.twitter_listener = TwitterListener(
+            callback=callback, logs_to_cloud=self.logs_to_cloud)
+        twitter_stream = Stream(self.twitter_auth, self.twitter_listener)
+
+        self.logs.debug("Starting stream.")
         twitter_stream.filter(follow=[TRUMP_USER_ID])
+
+        # If we got here because of an API error, raise it.
+        if self.twitter_listener.get_error_status():
+            raise Exception(self.twitter_listener.get_error_status())
+
+    def stop_streaming(self):
+        """Stops the current stream."""
+
+        if not self.twitter_listener:
+            self.logs.warn("No stream to stop.")
+            return
+
+        self.logs.debug("Stopping stream.")
+        self.twitter_listener.stop_queue()
 
     def tweet(self, companies, link):
         """Posts a tweet listing the companies, their ticker symbols, and a
@@ -110,16 +129,33 @@ class TwitterListener(StreamListener):
         self.logs_to_cloud = logs_to_cloud
         self.logs = Logs(name="twitter-listener", to_cloud=self.logs_to_cloud)
         self.callback = callback
-        if self.callback:
-            self.init_queue()
+        self.error_status = None
+        self.start_queue()
 
-    def init_queue(self):
+    def start_queue(self):
         """Creates a queue and starts the worker threads."""
 
         self.queue = Queue()
+        self.stop_event = Event()
+        self.logs.debug("Starting %s worker threads." % NUM_THREADS)
+        self.workers = []
         for worker_id in range(NUM_THREADS):
             worker = Thread(target=self.process_queue, args=[worker_id])
+            worker.daemon = True
             worker.start()
+            self.workers.append(worker)
+
+    def stop_queue(self):
+        """Shuts down the worker threads."""
+
+        if not self.workers:
+            self.logs.warn("No worker threads to stop.")
+            return
+
+        self.stop_event.set()
+        for worker in self.workers:
+            # Terminate the thread immediately.
+            worker.join(0)
 
     def process_queue(self, worker_id):
         """Continuously processes tasks on the queue."""
@@ -129,7 +165,8 @@ class TwitterListener(StreamListener):
         logs = Logs("twitter-listener-worker-%s" % worker_id,
             to_cloud=self.logs_to_cloud)
 
-        while True:
+        logs.debug("Started worker thread: %s" % worker_id)
+        while not self.stop_event.is_set():
             # The main loop doesn't catch and report exceptions from background
             # threads, so do that here.
             try:
@@ -140,21 +177,29 @@ class TwitterListener(StreamListener):
                 self.queue.task_done()
             except BaseException as exception:
                 logs.catch(exception)
+        logs.debug("Stopped worker thread: %s" % worker_id)
 
     def on_error(self, status):
         """Handles any API errors."""
 
         self.logs.error("Twitter error: %s" % status)
+        self.error_status = status
+        self.stop_queue()
+        return False
 
-        # Don't stop.
-        return True
+    def get_error_status(self):
+        """Returns the API error status, if there was one."""
+        return self.error_status
 
     def on_data(self, data):
         """Puts a task to process the new data on the queue."""
 
-        self.queue.put(data)
+        # Stop streaming if requested.
+        if self.stop_event.is_set():
+            return False
 
-        # Don't stop.
+        # Put the task on the queue and keep streaming.
+        self.queue.put(data)
         return True
 
     def handle_data(self, logs, data):
@@ -212,15 +257,17 @@ def test_environment_variables():
     assert TWITTER_ACCESS_TOKEN_SECRET
 
 
-def test_start_streaming(twitter):
-    # TODO
+def callback(text, link):
+    # TODO: Test whether the callback was called.
     pass
 
-
-def test_twitter_listener():
-    # TODO
-    pass
-
+def test_streaming(twitter):
+    # Let the stream run for two seconds and run it again after a pause.
+    Timer(2, twitter.stop_streaming).start()
+    twitter.start_streaming(callback)
+    sleep(2)
+    Timer(2, twitter.stop_streaming).start()
+    twitter.start_streaming(callback)
 
 def test_make_tweet_text(twitter):
     assert twitter.make_tweet_text([{

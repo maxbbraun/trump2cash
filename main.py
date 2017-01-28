@@ -35,4 +35,5 @@ if __name__ == "__main__":
         except BaseException as exception:
             logs.catch(exception)
         finally:
+            twitter.stop_streaming()
             logs.info("Ending session.")
