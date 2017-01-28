@@ -67,7 +67,7 @@ Boeing | - | -0.1 :thumbsdown: | bear | negative sentiment
 
 Ticker | Exchange | Price @ tweet | Price EOD | Return
 -------|----------|---------------|-----------|-------
-BA | New York Stock Exchange | - | - | 0.000%
+BA | New York Stock Exchange | $152.160 | $152.240 | -0.053%
 
 ##### [2016-12-22 (Thu) 17:26:05](https://twitter.com/realDonaldTrump/status/812061677160202240)
 
@@ -83,7 +83,7 @@ Boeing | - | 0 :neutral_face: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price EOD | Return
 -------|----------|---------------|-----------|-------
-BA | New York Stock Exchange | $157.460 | $157.460 | 0.000%
+BA | New York Stock Exchange | $157.460 | $157.810 | 0.000%
 
 ##### [2017-01-03 (Tue) 07:30:05](https://twitter.com/realDonaldTrump/status/816260343391514624)
 
@@ -132,7 +132,7 @@ Ford | - | 0.3 :thumbsup: | bull | positive sentiment
 
 Ticker | Exchange | Price @ tweet | Price EOD | Return
 -------|----------|---------------|-----------|-------
-F | New York Stock Exchange | - | - | 0.000%
+F | New York Stock Exchange | $12.590 | $13.170 | 4.607%
 
 ##### [2017-01-05 (Thu) 13:14:30](https://twitter.com/realDonaldTrump/status/817071792711942145)
 
@@ -164,7 +164,7 @@ Fiat | Fiat Chrysler Automobiles | 0.2 :thumbsup: | bull | positive sentiment
 
 Ticker | Exchange | Price @ tweet | Price EOD | Return
 -------|----------|---------------|-----------|-------
-FCAU | New York Stock Exchange | - | - | 0.000%
+FCAU | New York Stock Exchange | $10.420 | $10.570 | 1.440%
 
 ##### [2017-01-09 (Mon) 09:16:34](https://twitter.com/realDonaldTrump/status/818461467766824961)
 
@@ -181,8 +181,8 @@ Fiat | Fiat Chrysler Automobiles | 0.3 :thumbsup: | bull | positive sentiment
 
 Ticker | Exchange | Price @ tweet | Price EOD | Return
 -------|----------|---------------|-----------|-------
-F | New York Stock Exchange | - | - | 0.000%
-FCAU | New York Stock Exchange | - | - | 0.000%
+F | New York Stock Exchange | $12.760 | $12.630 | -1.019%
+FCAU | New York Stock Exchange | $10.420 | $10.570 | 1.440%
 
 ##### [2017-01-17 (Tue) 12:55:38](https://twitter.com/realDonaldTrump/status/821415698278875137)
 
@@ -200,9 +200,9 @@ Walmart | State Street Corporation | 0.4 :thumbsup: | bull | positive sentiment
 
 Ticker | Exchange | Price @ tweet | Price EOD | Return
 -------|----------|---------------|-----------|-------
-GM | New York Stock Exchange | $37.550 | $37.310 | -0.639%
-WMT | New York Stock Exchange | $68.545 | $68.420 | -0.182%
-STT | New York Stock Exchange | $81.190 | $80.200 | -1.219%
+GM | New York Stock Exchange | $37.570 | $37.310 | -0.692%
+WMT | New York Stock Exchange | $68.570 | $68.420 | -0.219%
+STT | New York Stock Exchange | $81.160 | $80.200 | -1.183%
 
 ##### [2017-01-18 (Wed) 07:34:09](https://twitter.com/realDonaldTrump/status/821697182235496450)
 
@@ -220,9 +220,9 @@ Lockheed Martin | - | -0.5 :thumbsdown: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price EOD | Return
 -------|----------|---------------|-----------|-------
-F | New York Stock Exchange | - | - | 0.000%
-GM | New York Stock Exchange | - | - | 0.000%
-LMT | New York Stock Exchange | - | - | 0.000%
+F | New York Stock Exchange | $12.610 | $12.410 | 0.000%
+GM | New York Stock Exchange | $37.310 | $37.470 | 0.000%
+LMT | New York Stock Exchange | $254.120 | $254.070 | 0.000%
 
 ##### [2017-01-18 (Wed) 08:00:51](https://twitter.com/realDonaldTrump/status/821703902940827648)
 
@@ -238,7 +238,7 @@ Bayer | BlackRock | 0.3 :thumbsup: | bull | positive sentiment
 
 Ticker | Exchange | Price @ tweet | Price EOD | Return
 -------|----------|---------------|-----------|-------
-BLK | New York Stock Exchange | - | - | 0.000%
+BLK | New York Stock Exchange | $374.800 | $378.000 | 0.854%
 
 ##### [2017-01-24 (Tue) 12:49:17](https://twitter.com/realDonaldTrump/status/823950814163140609)
 
@@ -271,7 +271,7 @@ General Motors | - | 0.5 :thumbsup: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price EOD | Return
 -------|----------|---------------|-----------|-------
-F | New York Stock Exchange | $12.610 | $12.610 | 0.000%
-GM | New York Stock Exchange | $37.000 | $37.000 | 0.000%
+F | New York Stock Exchange | $12.610 | $12.790 | 0.000%
+GM | New York Stock Exchange | $37.000 | $38.280 | 0.000%
 
 ### Fund

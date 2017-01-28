@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from datetime import datetime
+from datetime import timedelta
 from simplejson import loads
 from oauth2 import Consumer
 from oauth2 import Client
@@ -186,13 +187,101 @@ class Trading:
     def get_historical_prices(self, ticker, timestamp):
         """Finds the last price at or before a timestamp and at EOD."""
 
-        # TODO: What if markets closed at date/time?
+        # Start with today's quotes.
+        quotes = self.get_day_quotes(ticker, timestamp)
+        if not quotes:
+            self.logs.warn("No quotes for day: %s" % timestamp)
+
+            # Use the previous trading day, but the same day for EOD.
+            previous_day = self.get_previous_day(timestamp)
+            previous_quotes = self.get_day_quotes(ticker, previous_day)
+            if not previous_quotes:
+                self.logs.error("No quotes for previous day: %s" % previous_day)
+                return None
+            quote_at = previous_quotes[-1]
+            quotes = self.get_day_quotes(ticker, timestamp)
+            if not quotes:
+                self.logs.error("No quotes for day: %s" % timestamp)
+                return None
+            quote_eod = quotes[-1]
+            return self.quotes_to_prices(quote_at, quote_eod)
+
+        # Depending on where we land relative to the trading day, pick the right
+        # quote and EOD quote.
+        first_quote = quotes[0]
+        first_quote_time = self.get_quote_time(first_quote)
+        last_quote = quotes[-1]
+        last_quote_time = self.get_quote_time(last_quote)
+        if timestamp < first_quote_time:
+            self.logs.debug("Using previous quote.")
+            previous_day = self.get_previous_day(timestamp)
+            previous_quotes = self.get_day_quotes(ticker, previous_day)
+            if not previous_quotes:
+                self.logs.error("No quotes for previous day: %s" % previous_day)
+                return None
+            quote_at = previous_quotes[-1]
+            quote_eod = last_quote
+        elif timestamp >= first_quote_time and timestamp <= last_quote_time:
+            self.logs.debug("Using closest quote.")
+            quote_at = quotes[0]
+            quote_at_time = self.get_quote_time(quote_at)
+            for quote in quotes[1:]:
+                # If quote is closer to timestamp than quote_at, use it.
+                quote_time = self.get_quote_time(quote)
+                if abs(quote_time - timestamp) < abs(quote_at_time - timestamp):
+                    quote_at = quote
+                    quote_at_time = quote_time
+            quote_eod = last_quote
+        else:  # timestamp > last_quote_time
+            self.logs.debug("Using last quote.")
+            quote_at = last_quote
+            next_day = self.get_next_day(timestamp)
+            next_quotes = self.get_day_quotes(ticker, next_day)
+            if not next_quotes:
+                self.logs.error("No quotes for next day: %s" % next_day)
+                return None
+            quote_eod = next_quotes[-1]
+
+        self.logs.debug("Using quotes: %s %s" % (quote_at, quote_eod))
+        return self.quotes_to_prices(quote_at, quote_eod)
+
+    def quotes_to_prices(self, quote_at, quote_eod):
+        """Extracts the price from a quote."""
+
+        if not quote_at or "last" not in quote_at:
+            self.logs.error("Bad quote at: %s" % quote_at)
+            return None
+
+        if not quote_eod or "last" not in quote_eod:
+            self.logs.error("Bad quote EOD: %s" % quote_eod)
+            return None
+
+        last_at = quote_at["last"]
+        try:
+            price_at = float(last_at)
+        except ValueError:
+            self.logs.error("Malformed number in price at: %s" % last_at)
+            return None
+
+        last_eod = quote_eod["last"]
+        try:
+            price_eod = float(last_eod)
+        except ValueError:
+            self.logs.error("Malformed number in price at: %s" % last_eod)
+            return None
+
+        return {"at": price_at, "eod": price_eod}
+
+    def get_day_quotes(self, ticker, timestamp):
+        """Collects all quotes from the day of the market timestamp."""
 
         # The timestamp is expected in market time.
         date = timestamp.strftime("%Y-%m-%d")
+
         timesales_url = TRADEKING_API_URL % "market/timesales"
-        timesales_url += "?symbols=%s&startdate=%s&enddate=%s&interval=1min" % (
-            ticker, date, date)
+        timesales_url += "?symbols=%s" % ticker
+        timesales_url += "&startdate=%s&enddate=%s" % (date, date)
+        timesales_url += "&interval=1min"
         response = self.make_request(url=timesales_url)
 
         if not response or "response" not in response:
@@ -206,51 +295,58 @@ class Trading:
                             timesales_response)
             return None
 
-        quotes = timesales_response["quotes"]["quote"]
-        if not quotes:
-            # TODO: In this case get last weekday's last or this day's last.
-            self.logs.error("Empty quotes.")
-            return None
+        return timesales_response["quotes"]["quote"]
 
-        # Find the last quote before the timestamp.
-        last_timestamp = None
-        last_price = None
-        for quote in quotes:
-            quote_timestamp = self.convert_market_time(
-                datetime.strptime(quote["datetime"], "%Y-%m-%dT%H:%M:%SZ"))
-            if quote_timestamp > timestamp:
-                break
-            last_timestamp = quote_timestamp
-            last_price = quote["last"]
+    def get_quote_time(self, quote):
+        """Extracts the timestamp from a quote."""
 
-        # TODO: Figure out why this would happen.
-        if not last_price:
-            self.logs.error("Found no last price.")
-            return None
+        time_utc = datetime.strptime(quote["datetime"], "%Y-%m-%dT%H:%M:%SZ")
+        return self.convert_market_time(time_utc)
 
-        try:
-            price_at = float(last_price)
-        except ValueError:
-            self.logs.error("Malformed number in price at tweet: %s" %
-                            last_price)
-            return None
+    def get_previous_day(self, timestamp):
+        """Finds the previous trading day."""
 
-        # Find the last quote of the day.
-        eod_quote = quotes[-1]
-        try:
-            price_eod = float(eod_quote["last"])
-        except ValueError:
-            self.logs.error("Malformed number in price at EOD: %s" %
-                            eod_quote["last"])
-            return None
+        # TODO: Consider holidays.
 
-        return {"at": price_at, "eod": price_eod}
+        day = timestamp.replace(hour=0, minute=0, second=0)
+
+        if day.weekday() == 0:
+            # For Monday go back three days to Friday.
+            day -= timedelta(days=3)
+        elif day.weekday() in [1, 2, 3, 4, 5]:
+            # For Tuesday through Saturday go back one day.
+            day -= timedelta(days=1)
+        else:  # previous.weekday() == 6
+            # For Sunday go back two days to Friday.
+            day -= timedelta(days=2)
+
+        return day
+
+    def get_next_day(self, timestamp):
+        """Finds the next trading day."""
+
+        # TODO: Consider holidays.
+
+        day = timestamp.replace(hour=0, minute=0, second=0)
+
+        if day.weekday() in [6, 0, 1, 2, 3]:
+            # For Sunday through Thursday go forward one day.
+            day += timedelta(days=1)
+        elif day.weekday() == 4:
+            # For Friday go forward three days to Monday.
+            day += timedelta(days=3)
+        else:  # previous.weekday() == 5
+            # For Saturday go forward two days to Monday.
+            day += timedelta(days=2)
+
+        return day
 
     def convert_market_time(self, timestamp):
         """Converts a UTC timestamp to local market time."""
 
-        market_time = timestamp.replace(tzinfo=utc).astimezone(MARKET_TIMEZONE)
-        MARKET_TIMEZONE.normalize(market_time)
+        utc_time = utc.localize(timestamp)
+        market_time = utc_time.astimezone(MARKET_TIMEZONE)
+
         return market_time
 
     def make_request(self, url, method="GET", body="", headers=None):
@@ -656,14 +752,9 @@ def test_get_budget(trading):
 
 
 def test_convert_market_time(trading):
-    expected = datetime(2017, 1, 3, 11, 44, 13)
-    actual = trading.convert_market_time(datetime(2017, 1, 3, 16, 44, 13))
-    assert actual.year == expected.year
-    assert actual.month == expected.month
-    assert actual.day == expected.day
-    assert actual.hour == expected.hour
-    assert actual.minute == expected.minute
-    assert actual.second == expected.second
+    actual = trading.convert_market_time(datetime(
+        2017, 1, 3, 16, 44, 13)) == datetime(
+        2017, 1, 3, 11, 44, 13, tzinfo=MARKET_TIMEZONE)
 
 def test_make_request_success(trading):
     url = "https://api.tradeking.com/v1/member/profile.json"
@@ -746,10 +837,146 @@ def test_get_quantity(trading):
 
 
 def test_get_historical_prices(trading):
-    # TODO: Add test cases from all tweets.
     assert trading.get_historical_prices("F",
-        datetime(2017, 1, 3, 11, 44, 13, tzinfo=MARKET_TIMEZONE)) == {
-            "at": 12.4338, "eod": 12.59}
+        MARKET_TIMEZONE.localize(datetime(2017, 1, 24, 19, 46, 57))) == {
+            "at": 12.61, "eod": 12.79}
+    assert trading.get_historical_prices("GM",
+        MARKET_TIMEZONE.localize(datetime(2017, 1, 24, 19, 46, 57))) == {
+            "at": 37, "eod": 38.28}
+    assert trading.get_historical_prices("TRP",
+        MARKET_TIMEZONE.localize(datetime(2017, 1, 24, 12, 49, 17))) == {
+            "at": 48.9261, "eod": 48.84}
+    assert trading.get_historical_prices("BLK",
+        MARKET_TIMEZONE.localize(datetime(2017, 1, 18, 8, 0, 10))) == {
+            "at": 374.8, "eod": 378}
+    assert trading.get_historical_prices("F",
+        MARKET_TIMEZONE.localize(datetime(2017, 1, 18, 7, 34, 9))) == {
+            "at": 12.61, "eod": 12.41}
+    assert trading.get_historical_prices("GM",
+        MARKET_TIMEZONE.localize(datetime(2017, 1, 18, 7, 34, 9))) == {
+            "at": 37.31, "eod": 37.47}
+    assert trading.get_historical_prices("LMT",
+        MARKET_TIMEZONE.localize(datetime(2017, 1, 18, 7, 34, 9))) == {
+            "at": 254.12, "eod": 254.07}
+    assert trading.get_historical_prices("GM",
+        MARKET_TIMEZONE.localize(datetime(2017, 1, 17, 12, 55, 38))) == {
+            "at": 37.57, "eod": 37.31}
+    assert trading.get_historical_prices("STT",
+        MARKET_TIMEZONE.localize(datetime(2017, 1, 17, 12, 55, 38))) == {
+            "at": 81.16, "eod": 80.2}
+    assert trading.get_historical_prices("WMT",
+        MARKET_TIMEZONE.localize(datetime(2017, 1, 17, 12, 55, 38))) == {
+            "at": 68.57, "eod": 68.42}
+    assert trading.get_historical_prices("F",
+        MARKET_TIMEZONE.localize(datetime(2017, 1, 9, 9, 16, 34))) == {
+            "at": 12.76, "eod": 12.63}
+    assert trading.get_historical_prices("FCAU",
+        MARKET_TIMEZONE.localize(datetime(2017, 1, 9, 9, 16, 34))) == {
+            "at": 10.42, "eod": 10.57}
+    assert trading.get_historical_prices("FCAU",
+        MARKET_TIMEZONE.localize(datetime(2017, 1, 9, 9, 14, 10))) == {
+            "at": 10.42, "eod": 10.57}
+    assert trading.get_historical_prices("TM",
+        MARKET_TIMEZONE.localize(datetime(2017, 1, 5, 13, 14, 30))) == {
+            "at": 120.37, "eod": 120.44}
+    assert trading.get_historical_prices("F",
+        MARKET_TIMEZONE.localize(datetime(2017, 1, 4, 8, 19, 9))) == {
+            "at": 12.59, "eod": 13.17}
+    assert trading.get_historical_prices("F",
+        MARKET_TIMEZONE.localize(datetime(2017, 1, 3, 11, 44, 13))) == {
+            "at": 12.415, "eod": 12.59}
+    # TODO: Deal with January 2 being a holiday.
+    #assert trading.get_historical_prices("GM",
+    #    MARKET_TIMEZONE.localize(datetime(2017, 1, 3, 7, 30, 5))) == {
+    #        "at": -1, "eod": -1}
+    assert trading.get_historical_prices("BA",
+        MARKET_TIMEZONE.localize(datetime(2016, 12, 22, 17, 26, 5))) == {
+            "at": 157.46, "eod": 157.81}
+    assert trading.get_historical_prices("BA",
+        MARKET_TIMEZONE.localize(datetime(2016, 12, 6, 8, 52, 35))) == {
+            "at": 152.16, "eod": 152.24}
+    #assert trading.get_historical_prices("M",
+    #    MARKET_TIMEZONE.localize(datetime(2015, 11, 12, 16, 5, 28))) == {
+    #        "at": -1, "eod": -1}
+    #assert trading.get_historical_prices("M",
+    #    MARKET_TIMEZONE.localize(datetime(2015, 7, 16, 9, 14, 15))) == {
+    #        "at": -1, "eod": -1}
+
+
+def test_quotes_to_prices(trading):
+    assert trading.quotes_to_prices({
+        "last": "157.46",
+        "lo": "157.46",
+        "vl": "587941",
+        "datetime": "2016-12-22T21:01:00Z",
+        "incr_vl": "587941",
+        "hi": "157.46",
+        "timestamp": "2017-01-28T08:54:48Z",
+        "date": "2016-12-22",
+        "opn": "157.46"}, {
+        "last": "157.81",
+        "lo": "157.81",
+        "vl": "396858",
+        "datetime": "2016-12-23T21:02:00Z",
+        "incr_vl": "396858",
+        "hi": "157.81",
+        "timestamp": "2017-01-28T08:54:48Z",
+        "date": "2016-12-23",
+        "opn": "157.81"}) == {
+            "at": 157.46,
+            "eod": 157.81}
+
+
+def test_get_day_quotes(trading):
+    # TODO
+    pass
+
+
+def test_get_quote_time(trading):
+    assert trading.get_quote_time({
+        "last": "157.46",
+        "lo": "157.46",
+        "vl": "587941",
+        "datetime": "2016-12-22T21:01:00Z",
+        "incr_vl": "587941",
+        "hi": "157.46",
+        "timestamp": "2017-01-28T08:54:48Z",
+        "date": "2016-12-22",
+        "opn": "157.46"}) == MARKET_TIMEZONE.localize(
+            datetime(2016, 12, 22, 16, 1))
+
+
+def test_get_previous_day(trading):
+    assert trading.get_previous_day(
+        datetime(2017, 1, 22)) == datetime(2017, 1, 20)
+    assert trading.get_previous_day(
+        datetime(2017, 1, 23)) == datetime(2017, 1, 20)
+    assert trading.get_previous_day(
+        datetime(2017, 1, 24)) == datetime(2017, 1, 23)
+    assert trading.get_previous_day(
+        datetime(2017, 1, 25)) == datetime(2017, 1, 24)
+    assert trading.get_previous_day(
+        datetime(2017, 1, 26)) == datetime(2017, 1, 25)
+    assert trading.get_previous_day(
+        datetime(2017, 1, 27)) == datetime(2017, 1, 26)
+    assert trading.get_previous_day(
+        datetime(2017, 1, 28)) == datetime(2017, 1, 27)
+
+def test_get_next_day(trading):
+    assert trading.get_next_day(
+        datetime(2017, 1, 22)) == datetime(2017, 1, 23)
+    assert trading.get_next_day(
+        datetime(2017, 1, 23)) == datetime(2017, 1, 24)
+    assert trading.get_next_day(
+        datetime(2017, 1, 24)) == datetime(2017, 1, 25)
+    assert trading.get_next_day(
+        datetime(2017, 1, 25)) == datetime(2017, 1, 26)
+    assert trading.get_next_day(
+        datetime(2017, 1, 26)) == datetime(2017, 1, 27)
+    assert trading.get_next_day(
+        datetime(2017, 1, 27)) == datetime(2017, 1, 30)
+    assert trading.get_next_day(
+        datetime(2017, 1, 28)) == datetime(2017, 1, 30)
 
 
 def test_make_order_request_success(trading):
