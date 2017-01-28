@@ -9,6 +9,8 @@ $ ./benchmark.py > benchmark.md
 
 ### Events
 
+Here's each tweet with the results of its analysis and individual market performance.
+
 ##### [2015-07-16 (Thu) 09:14:15](https://twitter.com/realDonaldTrump/status/621669173534584833)
 
 > I hope the boycott of @Macys continues forever. So many people are cutting up their cards. Macy's stores suck and they are bad for U.S.A.
@@ -67,7 +69,7 @@ Boeing | - | -0.1 :thumbsdown: | bear | negative sentiment
 
 Ticker | Exchange | Price @ tweet | Price EOD | Return
 -------|----------|---------------|-----------|-------
-BA | New York Stock Exchange | $152.160 | $152.240 | -0.053%
+BA | New York Stock Exchange | $152.16 | $152.24 | -0.053%
 
 ##### [2016-12-22 (Thu) 17:26:05](https://twitter.com/realDonaldTrump/status/812061677160202240)
 
@@ -83,7 +85,7 @@ Boeing | - | 0 :neutral_face: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price EOD | Return
 -------|----------|---------------|-----------|-------
-BA | New York Stock Exchange | $157.460 | $157.810 | 0.000%
+BA | New York Stock Exchange | $157.46 | $157.81 | 0.000%
 
 ##### [2017-01-03 (Tue) 07:30:05](https://twitter.com/realDonaldTrump/status/816260343391514624)
 
@@ -116,7 +118,7 @@ Ford | - | 0.3 :thumbsup: | bull | positive sentiment
 
 Ticker | Exchange | Price @ tweet | Price EOD | Return
 -------|----------|---------------|-----------|-------
-F | New York Stock Exchange | $12.415 | $12.590 | 1.410%
+F | New York Stock Exchange | $12.41 | $12.59 | 1.410%
 
 ##### [2017-01-04 (Wed) 08:19:09](https://twitter.com/realDonaldTrump/status/816635078067490816)
 
@@ -132,7 +134,7 @@ Ford | - | 0.3 :thumbsup: | bull | positive sentiment
 
 Ticker | Exchange | Price @ tweet | Price EOD | Return
 -------|----------|---------------|-----------|-------
-F | New York Stock Exchange | $12.590 | $13.170 | 4.607%
+F | New York Stock Exchange | $12.59 | $13.17 | 4.607%
 
 ##### [2017-01-05 (Thu) 13:14:30](https://twitter.com/realDonaldTrump/status/817071792711942145)
 
@@ -148,7 +150,7 @@ Toyota | - | -0.2 :thumbsdown: | bear | negative sentiment
 
 Ticker | Exchange | Price @ tweet | Price EOD | Return
 -------|----------|---------------|-----------|-------
-TM | New York Stock Exchange | $120.370 | $120.440 | -0.058%
+TM | New York Stock Exchange | $120.37 | $120.44 | -0.058%
 
 ##### [2017-01-09 (Mon) 09:14:10](https://twitter.com/realDonaldTrump/status/818460862675558400)
 
@@ -164,7 +166,7 @@ Fiat | Fiat Chrysler Automobiles | 0.2 :thumbsup: | bull | positive sentiment
 
 Ticker | Exchange | Price @ tweet | Price EOD | Return
 -------|----------|---------------|-----------|-------
-FCAU | New York Stock Exchange | $10.420 | $10.570 | 1.440%
+FCAU | New York Stock Exchange | $10.42 | $10.57 | 1.440%
 
 ##### [2017-01-09 (Mon) 09:16:34](https://twitter.com/realDonaldTrump/status/818461467766824961)
 
@@ -181,8 +183,8 @@ Fiat | Fiat Chrysler Automobiles | 0.3 :thumbsup: | bull | positive sentiment
 
 Ticker | Exchange | Price @ tweet | Price EOD | Return
 -------|----------|---------------|-----------|-------
-F | New York Stock Exchange | $12.760 | $12.630 | -1.019%
-FCAU | New York Stock Exchange | $10.420 | $10.570 | 1.440%
+F | New York Stock Exchange | $12.76 | $12.63 | -1.019%
+FCAU | New York Stock Exchange | $10.42 | $10.57 | 1.440%
 
 ##### [2017-01-17 (Tue) 12:55:38](https://twitter.com/realDonaldTrump/status/821415698278875137)
 
@@ -200,9 +202,9 @@ Walmart | State Street Corporation | 0.4 :thumbsup: | bull | positive sentiment
 
 Ticker | Exchange | Price @ tweet | Price EOD | Return
 -------|----------|---------------|-----------|-------
-GM | New York Stock Exchange | $37.570 | $37.310 | -0.692%
-WMT | New York Stock Exchange | $68.570 | $68.420 | -0.219%
-STT | New York Stock Exchange | $81.160 | $80.200 | -1.183%
+GM | New York Stock Exchange | $37.57 | $37.31 | -0.692%
+WMT | New York Stock Exchange | $68.57 | $68.42 | -0.219%
+STT | New York Stock Exchange | $81.16 | $80.20 | -1.183%
 
 ##### [2017-01-18 (Wed) 07:34:09](https://twitter.com/realDonaldTrump/status/821697182235496450)
 
@@ -220,9 +222,9 @@ Lockheed Martin | - | -0.5 :thumbsdown: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price EOD | Return
 -------|----------|---------------|-----------|-------
-F | New York Stock Exchange | $12.610 | $12.410 | 0.000%
-GM | New York Stock Exchange | $37.310 | $37.470 | 0.000%
-LMT | New York Stock Exchange | $254.120 | $254.070 | 0.000%
+F | New York Stock Exchange | $12.61 | $12.41 | 0.000%
+GM | New York Stock Exchange | $37.31 | $37.47 | 0.000%
+LMT | New York Stock Exchange | $254.12 | $254.07 | 0.000%
 
 ##### [2017-01-18 (Wed) 08:00:51](https://twitter.com/realDonaldTrump/status/821703902940827648)
 
@@ -238,7 +240,7 @@ Bayer | BlackRock | 0.3 :thumbsup: | bull | positive sentiment
 
 Ticker | Exchange | Price @ tweet | Price EOD | Return
 -------|----------|---------------|-----------|-------
-BLK | New York Stock Exchange | $374.800 | $378.000 | 0.854%
+BLK | New York Stock Exchange | $374.80 | $378.00 | 0.854%
 
 ##### [2017-01-24 (Tue) 12:49:17](https://twitter.com/realDonaldTrump/status/823950814163140609)
 
@@ -254,7 +256,7 @@ Keystone Pipeline | TransCanada Corporation | -0.1 :thumbsdown: | bear | negativ
 
 Ticker | Exchange | Price @ tweet | Price EOD | Return
 -------|----------|---------------|-----------|-------
-TRP | New York Stock Exchange | $48.926 | $48.840 | 0.176%
+TRP | New York Stock Exchange | $48.93 | $48.84 | 0.176%
 
 ##### [2017-01-24 (Tue) 19:46:57](https://twitter.com/realDonaldTrump/status/824055927200423936)
 
@@ -271,7 +273,34 @@ General Motors | - | 0.5 :thumbsup: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price EOD | Return
 -------|----------|---------------|-----------|-------
-F | New York Stock Exchange | $12.610 | $12.790 | 0.000%
-GM | New York Stock Exchange | $37.000 | $38.280 | 0.000%
+F | New York Stock Exchange | $12.61 | $12.79 | 0.000%
+GM | New York Stock Exchange | $37.00 | $38.28 | 0.000%
 
 ### Fund
+
+This is how an initial investment of $1,000,000.00 would have grown, including [TradeKing's fees](https://www.tradeking.com/rates) of $4.95 per trade.
+
+Date | Value | Return | Annualized
+-----|-------|--------|-----------
+*Initial* | *$1,000,000.00* | - | -
+2015-07-16 | $999,995.05 | -0.000% | -
+2015-11-12 | $999,995.05 | -0.000% | -0.002%
+2016-12-06 | $999,464.62 | -0.054% | -0.038%
+2016-12-22 | $999,464.62 | -0.054% | -0.037%
+2017-01-03 | $999,464.62 | -0.054% | -0.036%
+2017-01-03 | $1,013,547.90 | 1.355% | 0.919%
+2017-01-04 | $1,060,235.16 | 6.024% | 4.048%
+2017-01-05 | $1,059,614.01 | 5.961% | 3.999%
+2017-01-09 | $1,074,862.54 | 7.486% | 4.972%
+2017-01-09 | $1,063,906.85 | 6.391% | 4.252%
+2017-01-09 | $1,079,217.19 | 7.922% | 5.258%
+2017-01-17 | $1,071,743.64 | 7.174% | 4.697%
+2017-01-17 | $1,069,394.21 | 6.939% | 4.545%
+2017-01-17 | $1,056,740.01 | 5.674% | 3.724%
+2017-01-18 | $1,056,740.01 | 5.674% | 3.724%
+2017-01-18 | $1,056,740.01 | 5.674% | 3.724%
+2017-01-18 | $1,056,740.01 | 5.674% | 3.724%
+2017-01-18 | $1,065,757.34 | 6.576% | 4.309%
+2017-01-24 | $1,067,631.21 | 6.763% | 4.374%
+2017-01-24 | $1,067,631.21 | 6.763% | 4.374%
+2017-01-24 | $1,067,631.21 | 6.763% | 4.374%

@@ -1,6 +1,8 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
+from datetime import timedelta
+
 from analysis import Analysis
 from logs import Logs
 from trading import Trading
@@ -14,13 +16,37 @@ TWEET_IDS = ["806134244384899072", "812061677160202240", "816260343391514624",
              "824055927200423936", "672926510924374016", "664911913831301123",
              "621669173534584833", "803808454620094465"]
 
+# The initial amount in dollars for the fund simulation.
+FUND_DOLLARS = 1000000
+
+# The fee in dollars per trade.
+TRADE_FEE = 4.95
+
 def ratio_to_return(ratio):
     """Converts a ratio to a readable percentage return."""
 
-    if ratio == "-":
-      ratio = 1
-
     return "%.3f%%" % (100 * (ratio - 1))
+
+def format_dollar(amount):
+    """Pretty-prints a dollar amount."""
+
+    return "${:,.2f}".format(amount)
+
+def get_ratio(strategy):
+    """Calculates the profit ratio of a strategy."""
+
+    if "price_at" in strategy and "price_eod" in strategy:
+        price_at = strategy["price_at"]
+        price_eod = strategy["price_eod"]
+        action = strategy["action"]
+        if action == "bull":
+            return price_eod / price_at
+        elif action == "bear":
+            return price_at / price_eod
+        else:
+            return 1.0
+    else:
+        return 1.0
 
 def get_market_status(timestamp):
     """Tries to infer the market status from a timestamp."""
@@ -92,6 +118,9 @@ if __name__ == "__main__":
 
         events.append(event)
 
+    #if not events:
+    #    return
+
     # Make sure the events are ordered by ascending timestatmp.
     events = sorted(events, key=lambda event: event["timestamp"])
 
@@ -108,6 +137,9 @@ if __name__ == "__main__":
     print "```"
     print
     print "### Events"
+    print
+    print ("Here's each tweet with the results of its analysis and individual m"
+           "arket performance.")
     for event in events:
         timestamp = event["timestamp"].strftime("%Y-%m-%d (%a) %H:%M:%S")
         print
@@ -141,25 +173,49 @@ if __name__ == "__main__":
             for strategy in strategies:
                 if "price_at" in strategy and "price_eod" in strategy:
                     price_at = strategy["price_at"]
-                    price_at_str = "$%.3f" % price_at
+                    price_at_str = format_dollar(price_at)
                     price_eod = strategy["price_eod"]
-                    price_eod_str = "$%.3f" % price_eod
-                    action = strategy["action"]
-                    if action == "bull":
-                        ratio = price_eod / price_at
-                    elif action == "bear":
-                        ratio = price_at / price_eod
-                    else:
-                        ratio = "-"
+                    price_eod_str = format_dollar(price_eod)
                 else:
                     price_at_str = "-"
                     price_eod_str = "-"
-                    ratio = "-"
+                ratio = get_ratio(strategy)
+                total_return = ratio_to_return(ratio)
                 print "%s | %s | %s | %s | %s" % (strategy["ticker"],
                     strategy["exchange"], price_at_str, price_eod_str,
-                    ratio_to_return(ratio))
+                    total_return)
         else:
             print "*(No companies)*"
     print
     print "### Fund"
-    # TODO: Assuming and initial investment of $10,000, ...
+    print
+    print ("This is how an initial investment of %s would have grown, including"
+           " [TradeKing's fees](https://www.tradeking.com/rates) of %s per trad"
+           "e.") % (format_dollar(FUND_DOLLARS), format_dollar(TRADE_FEE))
+    print
+    print "Date | Value | Return | Annualized"
+    print "-----|-------|--------|-----------"
+    start_date = events[0]["timestamp"]
+    value = FUND_DOLLARS
+    print "*Initial* | *%s* | - | -" % format_dollar(value)
+    for event in events:
+        date = event["timestamp"]
+        strategies = event["strategies"]
+        for strategy in strategies:
+            # TODO: Properly handle multiple trades in one strategy (split
+            #       budget) and only trade the first strategy per day (because
+            #       there is no budget left until EOD).
+            ratio = get_ratio(strategy)
+            if strategy["action"] != "hold":
+                value -= TRADE_FEE
+            value *= ratio
+            total_ratio = value / FUND_DOLLARS
+            total_return = ratio_to_return(total_ratio)
+            if date != start_date:
+                days = (date - start_date).days
+                annualized_return = ratio_to_return(
+                    pow(total_ratio, 365.0 / days))
+            else:
+                annualized_return = "-"
+            print "%s | %s | %s | %s" % (date.strftime("%Y-%m-%d"),
+                format_dollar(value), total_return, annualized_return)
