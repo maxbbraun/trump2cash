@@ -201,13 +201,15 @@ if __name__ == "__main__":
     for event in events:
         date = event["timestamp"]
         strategies = event["strategies"]
+        # TODO: Properly handle multiple trades in one strategy (split budget)
+        #       and only trade the first strategy per day (because there is no
+        #       budget left until EOD).
         for strategy in strategies:
-            # TODO: Properly handle multiple trades in one strategy (split
-            #       budget) and only trade the first strategy per day (because
-            #       there is no budget left until EOD).
-            ratio = get_ratio(strategy)
-            if strategy["action"] != "hold":
+            # Only apply the trade fee if we would trade.
+            if (strategy["action"] != "hold" and "price_at" in strategy
+                and "price_eod" in strategy):
                 value -= TRADE_FEE
+            ratio = get_ratio(strategy)
             value *= ratio
             total_ratio = value / FUND_DOLLARS
             total_return = ratio_to_return(total_ratio)
