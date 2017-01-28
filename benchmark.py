@@ -8,13 +8,14 @@ from logs import Logs
 from trading import Trading
 from twitter import Twitter
 
+# TODO: Consider older tweets: 621669173534584833, 664911913831301123,
+#       672926510924374016, 803808454620094465
 # The IDs of all Trump tweets that mention companies.
 TWEET_IDS = ["806134244384899072", "812061677160202240", "816260343391514624",
              "816324295781740544", "816635078067490816", "817071792711942145",
              "818460862675558400", "818461467766824961", "821415698278875137",
              "821697182235496450", "821703902940827648", "823950814163140609",
-             "824055927200423936", "672926510924374016", "664911913831301123",
-             "621669173534584833", "803808454620094465"]
+             "824055927200423936"]
 
 # The initial amount in dollars for the fund simulation.
 FUND_DOLLARS = 10000
@@ -35,9 +36,9 @@ def format_dollar(amount):
 def get_ratio(strategy):
     """Calculates the profit ratio of a strategy."""
 
-    if "price_at" in strategy and "price_eod" in strategy:
-        price_at = strategy["price_at"]
-        price_eod = strategy["price_eod"]
+    price_at = strategy["price_at"]
+    price_eod = strategy["price_eod"]
+    if price_at and price_eod:
         action = strategy["action"]
         if action == "bull":
             return price_eod / price_at
@@ -111,6 +112,9 @@ if __name__ == "__main__":
             if price:
                 strategy["price_at"] = price["at"]
                 strategy["price_eod"] = price["eod"]
+            else:
+                strategy["price_at"] = None
+                strategy["price_eod"] = None
 
             strategies.append(strategy)
 
@@ -171,10 +175,10 @@ if __name__ == "__main__":
             print "Ticker | Exchange | Price @ tweet | Price EOD | Return"
             print "-------|----------|---------------|-----------|-------"
             for strategy in strategies:
-                if "price_at" in strategy and "price_eod" in strategy:
-                    price_at = strategy["price_at"]
+                price_at = strategy["price_at"]
+                price_eod = strategy["price_eod"]
+                if price_at and price_eod:
                     price_at_str = format_dollar(price_at)
-                    price_eod = strategy["price_eod"]
                     price_eod_str = format_dollar(price_eod)
                 else:
                     price_at_str = "-"
@@ -206,8 +210,9 @@ if __name__ == "__main__":
         #       budget left until EOD).
         for strategy in strategies:
             # Only apply the trade fee if we would trade.
-            if (strategy["action"] != "hold" and "price_at" in strategy
-                and "price_eod" in strategy):
+            logs.info(strategy)
+            if (strategy["action"] != "hold" and strategy["price_at"]
+                and strategy["price_eod"]):
                 value -= TRADE_FEE
             ratio = get_ratio(strategy)
             value *= ratio

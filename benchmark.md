@@ -11,50 +11,6 @@ $ ./benchmark.py > benchmark.md
 
 Here's each tweet with the results of its analysis and individual market performance.
 
-##### [2015-07-16 (Thu) 09:14:15](https://twitter.com/realDonaldTrump/status/621669173534584833)
-
-> I hope the boycott of @Macys continues forever. So many people are cutting up their cards. Macy's stores suck and they are bad for U.S.A.
-
-*Strategy*
-
-Company | Root | Sentiment | Strategy | Reason
---------|------|-----------|----------|-------
-Macy's | Macy's, Inc. | -0.4 :thumbsdown: | bear | negative sentiment
-
-*Performance*
-
-Ticker | Exchange | Price @ tweet | Price EOD | Return
--------|----------|---------------|-----------|-------
-M | New York Stock Exchange | - | - | 0.000%
-
-##### [2015-11-12 (Thu) 16:05:28](https://twitter.com/realDonaldTrump/status/664911913831301123)
-
-> Macy’s was very disloyal to me bc of my strong stance on illegal immigration. Their stock has crashed! #BoycottMacys https://t.co/WsvZtwZbBf
-
-*Strategy*
-
-Company | Root | Sentiment | Strategy | Reason
---------|------|-----------|----------|-------
-Macy's | Macy's, Inc. | -0.3 :thumbsdown: | hold | market closed
-
-*Performance*
-
-Ticker | Exchange | Price @ tweet | Price EOD | Return
--------|----------|---------------|-----------|-------
-M | New York Stock Exchange | - | - | 0.000%
-
-##### [2015-12-04 (Fri) 18:52:37](https://twitter.com/realDonaldTrump/status/672926510924374016)
-
-> Good news, disloyal @Macys stock is in a total free fall. Don't shop there for Christmas! https://t.co/wpDDCWcLFD https://t.co/vT3uGjiZ9B
-
-*(No companies)*
-
-##### [2016-11-29 (Tue) 22:50:44](https://twitter.com/realDonaldTrump/status/803808454620094465)
-
-> Big day on Thursday for Indiana and the great workers of that wonderful state.We will keep our companies and jobs in the U.S. Thanks Carrier
-
-*(No companies)*
-
 ##### [2016-12-06 (Tue) 08:52:35](https://twitter.com/realDonaldTrump/status/806134244384899072)
 
 > Boeing is building a brand new 747 Air Force One for future presidents, but costs are out of control, more than $4 billion. Cancel order!
@@ -195,16 +151,16 @@ FCAU | New York Stock Exchange | $10.42 | $10.57 | 1.440%
 Company | Root | Sentiment | Strategy | Reason
 --------|------|-----------|----------|-------
 General Motors | - | 0.4 :thumbsup: | bull | positive sentiment
-Walmart | State Street Corporation | 0.4 :thumbsup: | bull | positive sentiment
 Walmart | - | 0.4 :thumbsup: | bull | positive sentiment
+Walmart | State Street Corporation | 0.4 :thumbsup: | bull | positive sentiment
 
 *Performance*
 
 Ticker | Exchange | Price @ tweet | Price EOD | Return
 -------|----------|---------------|-----------|-------
 GM | New York Stock Exchange | $37.57 | $37.31 | -0.692%
-STT | New York Stock Exchange | $81.16 | $80.20 | -1.183%
 WMT | New York Stock Exchange | $68.57 | $68.42 | -0.219%
+STT | New York Stock Exchange | $81.16 | $80.20 | -1.183%
 
 ##### [2017-01-18 (Wed) 07:34:09](https://twitter.com/realDonaldTrump/status/821697182235496450)
 
@@ -283,24 +239,22 @@ This is how an initial investment of $10,000.00 would have grown, including [Tra
 Date | Value | Return | Annualized
 -----|-------|--------|-----------
 *Initial* | *$10,000.00* | - | -
-2015-07-16 | $10,000.00 | 0.000% | -
-2015-11-12 | $10,000.00 | 0.000% | 0.000%
-2016-12-06 | $9,989.80 | -0.102% | -0.073%
-2016-12-22 | $9,989.80 | -0.102% | -0.071%
-2017-01-03 | $9,989.80 | -0.102% | -0.069%
-2017-01-03 | $10,125.59 | 1.256% | 0.852%
-2017-01-04 | $10,586.88 | 5.869% | 3.945%
-2017-01-05 | $10,575.78 | 5.758% | 3.864%
-2017-01-09 | $10,723.00 | 7.230% | 4.804%
-2017-01-09 | $10,608.86 | 6.089% | 4.053%
-2017-01-09 | $10,756.56 | 7.566% | 5.024%
-2017-01-17 | $10,677.20 | 6.772% | 4.436%
-2017-01-17 | $10,546.01 | 5.460% | 3.584%
-2017-01-17 | $10,518.00 | 5.180% | 3.402%
-2017-01-18 | $10,518.00 | 5.180% | 3.402%
-2017-01-18 | $10,518.00 | 5.180% | 3.402%
-2017-01-18 | $10,518.00 | 5.180% | 3.402%
-2017-01-18 | $10,602.81 | 6.028% | 3.954%
-2017-01-24 | $10,616.55 | 6.165% | 3.991%
-2017-01-24 | $10,616.55 | 6.165% | 3.991%
-2017-01-24 | $10,616.55 | 6.165% | 3.991%
+2016-12-06 | $9,989.80 | -0.102% | -
+2016-12-22 | $9,989.80 | -0.102% | -2.302%
+2017-01-03 | $9,989.80 | -0.102% | -1.370%
+2017-01-03 | $10,125.59 | 1.256% | 17.668%
+2017-01-04 | $10,586.88 | 5.869% | 110.315%
+2017-01-05 | $10,575.78 | 5.758% | 97.607%
+2017-01-09 | $10,723.00 | 7.230% | 111.571%
+2017-01-09 | $10,608.86 | 6.089% | 88.608%
+2017-01-09 | $10,756.56 | 7.566% | 118.787%
+2017-01-17 | $10,677.20 | 6.772% | 76.729%
+2017-01-17 | $10,648.90 | 6.489% | 72.700%
+2017-01-17 | $10,518.05 | 5.181% | 55.106%
+2017-01-18 | $10,518.05 | 5.181% | 55.106%
+2017-01-18 | $10,518.05 | 5.181% | 55.106%
+2017-01-18 | $10,518.05 | 5.181% | 55.106%
+2017-01-18 | $10,602.86 | 6.029% | 66.318%
+2017-01-24 | $10,616.59 | 6.166% | 56.158%
+2017-01-24 | $10,616.59 | 6.166% | 56.158%
+2017-01-24 | $10,616.59 | 6.166% | 56.158%
