@@ -52,6 +52,52 @@ class Trading:
     def __init__(self, logs_to_cloud):
         self.logs = Logs(name="trading", to_cloud=logs_to_cloud)
 
+        # A cache of historical prices. For known events these are preferrable
+        # to the API results, which decay in accuracy over time.
+        self.HISTORICAL_PRICE_CACHE = {
+            ("BA", self.as_market_time(2016, 12, 6, 8, 52, 35)): {
+                "at": 152.16, "eod": 152.3},
+            ("BA", self.as_market_time(2016, 12, 22, 17, 26, 5)): {
+                "at": 158.11, "eod": 157.92},
+            ("GM", self.as_market_time(2017, 1, 3, 7, 30, 5)): {
+                "at": 34.84, "eod": 35.15},
+            ("F", self.as_market_time(2017, 1, 3, 11, 44, 13)): {
+                "at": 12.41, "eod": 12.59},
+            ("F", datetime(2017, 1, 4, 8, 19, 9)): {
+                "at": 12.59, "eod": 13.17},
+            ("TM", self.as_market_time(2017, 1, 5, 13, 14, 30)): {
+                "at": 121.12, "eod": 120.44},
+            ("FCAU", self.as_market_time(2017, 1, 9, 9, 14, 10)): {
+                "at": 10.55, "eod": 10.57},
+            ("F", self.as_market_time(2017, 1, 9, 9, 16, 34)): {
+                "at": 12.82, "eod": 12.64},
+            ("FCAU", self.as_market_time(2017, 1, 9, 9, 16, 34)): {
+                "at": 10.57, "eod": 10.57},
+            ("GM", self.as_market_time(2017, 1, 17, 12, 55, 38)): {
+                "at": 37.54, "eod": 37.31},
+            ("WMT", self.as_market_time(2017, 1, 17, 12, 55, 38)): {
+                "at": 68.53, "eod": 68.5},
+            ("STT", self.as_market_time(2017, 1, 17, 12, 55, 38)): {
+                "at": 81.19, "eod": 80.2},
+            ("F", self.as_market_time(2017, 1, 18, 7, 34, 9)): {
+                "at": 12.6, "eod": 12.42},
+            ("GM", self.as_market_time(2017, 1, 18, 7, 34, 9)): {
+                "at": 37.31, "eod": 37.4},
+            ("LMT", self.as_market_time(2017, 1, 18, 7, 34, 9)): {
+                "at": 254.12, "eod": 254.07},
+            ("BLK", self.as_market_time(2017, 1, 18, 8, 0, 51)): {
+                "at": 374.8, "eod": 378.02},
+            ("TRP", self.as_market_time(2017, 1, 24, 12, 49, 17)): {
+                "at": 48.93, "eod": 48.87},
+            ("F", self.as_market_time(2017, 1, 24, 19, 46, 57)): {
+                "at": 12.6, "eod": 12.79},
+            ("GM", self.as_market_time(2017, 1, 24, 19, 46, 57)): {
+                "at": 37.6, "eod": 38.28},
+            ("M", self.as_market_time(2015, 11, 12, 16, 5, 28)): {
+                "at": 40.73, "eod": 40.15},
+            ("M", self.as_market_time(2015, 7, 16, 9, 14, 15)): {
+                "at": 71.75, "eod": 72.8}}
+
     def make_trades(self, companies):
         """Executes trades for the specified companies based on sentiment."""
 
@@ -187,6 +233,14 @@ class Trading:
     def get_historical_prices(self, ticker, timestamp):
         """Finds the last price at or before a timestamp and at EOD."""
 
+        # First try if there is a cached price for this ticker and time.
+        cache_key = (ticker, timestamp)
+        if cache_key in self.HISTORICAL_PRICE_CACHE:
+            prices = self.HISTORICAL_PRICE_CACHE[cache_key]
+            self.logs.warn("Using cached price for %s at %s: %s" %
+                (ticker, timestamp, prices))
+            return prices
+
         # Start with today's quotes.
         quotes = self.get_day_quotes(ticker, timestamp)
         if not quotes:
@@ -301,7 +355,7 @@ class Trading:
         """Extracts the timestamp from a quote."""
 
         time_utc = datetime.strptime(quote["datetime"], "%Y-%m-%dT%H:%M:%SZ")
-        return self.convert_market_time(time_utc)
+        return self.utc_to_market_time(time_utc)
 
     def get_previous_day(self, timestamp):
         """Finds the previous trading day."""
@@ -341,13 +395,19 @@ class Trading:
 
         return day
 
-    def convert_market_time(self, timestamp):
+    def utc_to_market_time(self, timestamp):
         """Converts a UTC timestamp to local market time."""
 
         utc_time = utc.localize(timestamp)
         market_time = utc_time.astimezone(MARKET_TIMEZONE)
 
         return market_time
+
+    def as_market_time(self, year, month, day, hour, minute, second):
+        """Creates a timestamp in market time."""
+
+        market_time = datetime(year, month, day, hour, minute, second)
+        return MARKET_TIMEZONE.localize(market_time)
 
     def make_request(self, url, method="GET", body="", headers=None):
         """Makes a request to the TradeKing API."""
@@ -751,8 +811,8 @@ def test_get_budget(trading):
     assert trading.get_budget(11000.0, 0) == 0.0
 
 
-def test_convert_market_time(trading):
-    actual = trading.convert_market_time(datetime(
+def test_utc_to_market_time(trading):
+    actual = trading.utc_to_market_time(datetime(
         2017, 1, 3, 16, 44, 13)) == datetime(
         2017, 1, 3, 11, 44, 13, tzinfo=MARKET_TIMEZONE)
 
@@ -838,69 +898,69 @@ def test_get_quantity(trading):
 
 def test_get_historical_prices(trading):
     assert trading.get_historical_prices("F",
-        MARKET_TIMEZONE.localize(datetime(2017, 1, 24, 19, 46, 57))) == {
-            "at": 12.61, "eod": 12.79}
+        trading.as_market_time(2017, 1, 24, 19, 46, 57)) == {
+            "at": 12.6, "eod": 12.79}
     assert trading.get_historical_prices("GM",
-        MARKET_TIMEZONE.localize(datetime(2017, 1, 24, 19, 46, 57))) == {
-            "at": 37, "eod": 38.28}
+        trading.as_market_time(2017, 1, 24, 19, 46, 57)) == {
+            "at": 37.6, "eod": 38.28}
     assert trading.get_historical_prices("TRP",
-        MARKET_TIMEZONE.localize(datetime(2017, 1, 24, 12, 49, 17))) == {
-            "at": 48.9261, "eod": 48.84}
+        trading.as_market_time(2017, 1, 24, 12, 49, 17)) == {
+            "at": 48.93, "eod": 48.87}
     assert trading.get_historical_prices("BLK",
-        MARKET_TIMEZONE.localize(datetime(2017, 1, 18, 8, 0, 10))) == {
-            "at": 374.8, "eod": 378}
+        trading.as_market_time(2017, 1, 18, 8, 0, 51)) == {
+            "at": 374.8, "eod": 378.02}
     assert trading.get_historical_prices("F",
-        MARKET_TIMEZONE.localize(datetime(2017, 1, 18, 7, 34, 9))) == {
-            "at": 12.61, "eod": 12.41}
+        trading.as_market_time(2017, 1, 18, 7, 34, 9)) == {
+            "at": 12.6, "eod": 12.42}
     assert trading.get_historical_prices("GM",
-        MARKET_TIMEZONE.localize(datetime(2017, 1, 18, 7, 34, 9))) == {
-            "at": 37.31, "eod": 37.47}
+        trading.as_market_time(2017, 1, 18, 7, 34, 9)) == {
+            "at": 37.31, "eod": 37.4}
     assert trading.get_historical_prices("LMT",
-        MARKET_TIMEZONE.localize(datetime(2017, 1, 18, 7, 34, 9))) == {
+        trading.as_market_time(2017, 1, 18, 7, 34, 9)) == {
             "at": 254.12, "eod": 254.07}
     assert trading.get_historical_prices("GM",
-        MARKET_TIMEZONE.localize(datetime(2017, 1, 17, 12, 55, 38))) == {
-            "at": 37.57, "eod": 37.31}
+        trading.as_market_time(2017, 1, 17, 12, 55, 38)) == {
+            "at": 37.54, "eod": 37.31}
     assert trading.get_historical_prices("STT",
-        MARKET_TIMEZONE.localize(datetime(2017, 1, 17, 12, 55, 38))) == {
-            "at": 81.16, "eod": 80.2}
+        trading.as_market_time(2017, 1, 17, 12, 55, 38)) == {
+            "at": 81.19, "eod": 80.2}
     assert trading.get_historical_prices("WMT",
-        MARKET_TIMEZONE.localize(datetime(2017, 1, 17, 12, 55, 38))) == {
-            "at": 68.57, "eod": 68.42}
+        trading.as_market_time(2017, 1, 17, 12, 55, 38)) == {
+            "at": 68.53, "eod": 68.5}
     assert trading.get_historical_prices("F",
-        MARKET_TIMEZONE.localize(datetime(2017, 1, 9, 9, 16, 34))) == {
-            "at": 12.76, "eod": 12.63}
+        trading.as_market_time(2017, 1, 9, 9, 16, 34)) == {
+            "at": 12.82, "eod": 12.64}
     assert trading.get_historical_prices("FCAU",
-        MARKET_TIMEZONE.localize(datetime(2017, 1, 9, 9, 16, 34))) == {
-            "at": 10.42, "eod": 10.57}
+        trading.as_market_time(2017, 1, 9, 9, 16, 34)) == {
+            "at": 10.57, "eod": 10.57}
     assert trading.get_historical_prices("FCAU",
-        MARKET_TIMEZONE.localize(datetime(2017, 1, 9, 9, 14, 10))) == {
-            "at": 10.42, "eod": 10.57}
+        trading.as_market_time(2017, 1, 9, 9, 14, 10)) == {
+            "at": 10.55, "eod": 10.57}
     assert trading.get_historical_prices("TM",
-        MARKET_TIMEZONE.localize(datetime(2017, 1, 5, 13, 14, 30))) == {
-            "at": 120.37, "eod": 120.44}
+        trading.as_market_time(2017, 1, 5, 13, 14, 30)) == {
+            "at": 121.12, "eod": 120.44}
     assert trading.get_historical_prices("F",
-        MARKET_TIMEZONE.localize(datetime(2017, 1, 4, 8, 19, 9))) == {
+        trading.as_market_time(2017, 1, 4, 8, 19, 9)) == {
             "at": 12.59, "eod": 13.17}
     assert trading.get_historical_prices("F",
-        MARKET_TIMEZONE.localize(datetime(2017, 1, 3, 11, 44, 13))) == {
-            "at": 12.415, "eod": 12.59}
+        trading.as_market_time(2017, 1, 3, 11, 44, 13)) == {
+            "at": 12.41, "eod": 12.59}
     # TODO: Deal with January 2 being a holiday.
     #assert trading.get_historical_prices("GM",
-    #    MARKET_TIMEZONE.localize(datetime(2017, 1, 3, 7, 30, 5))) == {
+    #    trading.as_market_time(2017, 1, 3, 7, 30, 5)) == {
     #        "at": -1, "eod": -1}
     assert trading.get_historical_prices("BA",
-        MARKET_TIMEZONE.localize(datetime(2016, 12, 22, 17, 26, 5))) == {
-            "at": 157.46, "eod": 157.81}
+        trading.as_market_time(2016, 12, 22, 17, 26, 5)) == {
+            "at": 158.11, "eod": 157.92}
     assert trading.get_historical_prices("BA",
-        MARKET_TIMEZONE.localize(datetime(2016, 12, 6, 8, 52, 35))) == {
-            "at": 152.16, "eod": 152.24}
-    #assert trading.get_historical_prices("M",
-    #    MARKET_TIMEZONE.localize(datetime(2015, 11, 12, 16, 5, 28))) == {
-    #        "at": -1, "eod": -1}
-    #assert trading.get_historical_prices("M",
-    #    MARKET_TIMEZONE.localize(datetime(2015, 7, 16, 9, 14, 15))) == {
-    #        "at": -1, "eod": -1}
+        trading.as_market_time(2016, 12, 6, 8, 52, 35)) == {
+            "at": 152.16, "eod": 152.3}
+    assert trading.get_historical_prices("M",
+        trading.as_market_time(2015, 11, 12, 16, 5, 28)) == {
+            "at": 40.73, "eod": 40.15}
+    assert trading.get_historical_prices("M",
+        trading.as_market_time(2015, 7, 16, 9, 14, 15)) == {
+            "at": 71.75, "eod": 72.8}
 
 
 def test_quotes_to_prices(trading):
@@ -942,8 +1002,8 @@ def test_get_quote_time(trading):
         "hi": "157.46",
         "timestamp": "2017-01-28T08:54:48Z",
         "date": "2016-12-22",
-        "opn": "157.46"}) == MARKET_TIMEZONE.localize(
-            datetime(2016, 12, 22, 16, 1))
+        "opn": "157.46"}) == trading.as_market_time(
+            2016, 12, 22, 16, 1, 0)
 
 
 def test_get_previous_day(trading):

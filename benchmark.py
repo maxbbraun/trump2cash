@@ -89,7 +89,7 @@ if __name__ == "__main__":
     for tweet in tweets:
         event = {}
 
-        timestamp = trading.convert_market_time(tweet.created_at)
+        timestamp = trading.utc_to_market_time(tweet.created_at)
         text = tweet.text.encode("utf-8")
         event["timestamp"] = timestamp
         event["text"] = text
