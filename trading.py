@@ -223,14 +223,14 @@ class Trading:
             quote_eod = last_quote
         elif timestamp >= first_quote_time and timestamp <= last_quote_time:
             self.logs.debug("Using closest quote.")
-            quote_at = quotes[0]
-            quote_at_time = self.get_quote_time(quote_at)
-            for quote in quotes[1:]:
-                # If quote is closer to timestamp than quote_at, use it.
+            # Walk through the quotes unitl we stepped over the timestamp.
+            previous_quote = first_quote
+            for quote in quotes:
                 quote_time = self.get_quote_time(quote)
-                if abs(quote_time - timestamp) < abs(quote_at_time - timestamp):
-                    quote_at = quote
-                    quote_at_time = quote_time
+                if quote_time > timestamp:
+                    break
+                previous_quote = quote
+            quote_at = previous_quote
             quote_eod = last_quote
         else:  # timestamp > last_quote_time
             self.logs.debug("Using last quote.")
