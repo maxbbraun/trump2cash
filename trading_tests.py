@@ -12,6 +12,7 @@ from trading import TRADEKING_ACCESS_TOKEN_SECRET
 from trading import TRADEKING_ACCOUNT_NUMBER
 from trading import USE_REAL_MONEY
 
+
 @fixture
 def trading():
     return Trading(logs_to_cloud=False)

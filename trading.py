@@ -349,7 +349,6 @@ class Trading:
                             timesales_response)
             return None
 
-        self.logs.info(timesales_response["quotes"]["quote"])
         return timesales_response["quotes"]["quote"]
 
     def get_quote_time(self, quote):
