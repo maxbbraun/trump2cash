@@ -13,7 +13,7 @@ from tweepy.streaming import StreamListener
 from logs import Logs
 
 # The keys for the Twitter account we're using for API requests and tweeting
-# alerts (@TrumpCorrection). Read from environment variables.
+# alerts (@Trump2Cash). Read from environment variables.
 TWITTER_ACCESS_TOKEN = getenv("TWITTER_ACCESS_TOKEN")
 TWITTER_ACCESS_TOKEN_SECRET = getenv("TWITTER_ACCESS_TOKEN_SECRET")
 

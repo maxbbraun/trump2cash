@@ -1,4 +1,4 @@
-# Trump Correction
+# Trump2Cash
 
 This bot watches [Donald Trump's tweets](https://twitter.com/realDonaldTrump)
 and waits for him to mention any publicly traded companies. When he does, it
@@ -6,9 +6,9 @@ uses sentiment analysis to determine whether his opinions are positive or
 negative toward those companies. The bot then automatically executes trades on
 the relevant stocks according to the expected market reaction. It also tweets
 out a summary of its findings in real time at
-[@TrumpCorrection](https://twitter.com/TrumpCorrection).
+[@Trump2Cash](https://twitter.com/Trump2Cash).
 
-**TODO: embed [sample tweet](https://twitter.com/TrumpCorrection/status/821415729329147904)**
+**TODO: embed [sample tweet](https://twitter.com/Trump2Cash/status/821415729329147904)**
 
 The code is written in Python and uses APIs from
 [Twitter](https://dev.twitter.com/docs),

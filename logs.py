@@ -15,7 +15,7 @@ LOGS_FORMAT = ("%(asctime)s "
                "%(message)s")
 
 # The path to the log file for local logging.
-LOG_FILE = "/tmp/trump-corrections.log"
+LOG_FILE = "/tmp/trump2cash.log"
 
 class Logs:
     """A helper for logging locally or in the cloud."""
