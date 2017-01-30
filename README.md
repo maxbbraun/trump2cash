@@ -17,7 +17,13 @@ The code is written in Python and uses APIs from
 run in a [Compute Engine](https://cloud.google.com/compute/) instance. Follow
 these steps to run the code yourself:
 
-### 1. Set up auth
+### 1. Create VM instance
+
+Follow [these steps](https://cloud.google.com/compute/docs/quickstart-linux) to
+create a Linux VM instance in Google Compute Engine and SSH into it for the
+steps below.
+
+### 2. Set up auth
 
 The authentication keys for the different APIs are read from shell environment
 variables. Each service has different steps to obtain them.
@@ -80,7 +86,7 @@ Also export your TradeKing account number, which you'll find under
 export TRADEKING_ACCOUNT_NUMBER="<YOUR_ACCOUNT_NUMBER>"
 ```
 
-### 2. Install dependencies
+### 3. Install dependencies
 
 There are a few library dependencies, which you can install using
 [pip](https://pip.pypa.io/en/stable/quickstart/):
@@ -89,7 +95,7 @@ There are a few library dependencies, which you can install using
 $ pip install -r requirements.txt
 ```
 
-### 3. Run the tests
+### 4. Run the tests
 
 Verify that everything is working as intended by running the tests with
 [pytest](http://doc.pytest.org/en/latest/getting-started.html) using this
@@ -99,7 +105,7 @@ command:
 $ export USE_REAL_MONEY=NO && pytest *.py --verbose
 ```
 
-### 4. Run the benchmark
+### 5. Run the benchmark
 
 The [benchmark report](benchmark.md) shows how the current implementation of the
 analysis and trading algorithms would have performed against historical data.
@@ -109,7 +115,7 @@ You can run it again to benchmark any changes you may have made:
 $ ./benchmark.py > benchmark.md
 ```
 
-### 5. Start the bot
+### 6. Start the bot
 
 Enable real orders that use your money:
 
