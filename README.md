@@ -8,7 +8,9 @@ the relevant stocks according to the expected market reaction. It also tweets
 out a summary of its findings in real time at
 [@Trump2Cash](https://twitter.com/Trump2Cash).
 
-**TODO: embed [sample tweet](https://twitter.com/Trump2Cash/status/821415729329147904)**
+You can read more about the background story [here](https://medium.com/@maxbraun/this-machine-turns-trump-tweets-into-planned-parenthood-donations-928da9e433d2).
+
+[![Sample tweet from @Trump2Cash](https://lh3.googleusercontent.com/QA1tS_Ia20VlImo4wB3sFIiZj2FH5JXEedlsVj6NEc3nBjn5VBjmkP0P7LgeK1IhmLZvfXQr59xxjjpHe_e8g0jCbyW65bvICf5iII7RrjXnW62uob9XuC-p0WZygmq_ZncJRF48GL4mKK8HEwRqz-IoQ8OQz4vM1Tl-eqx_1HLFjo1AzwpCgtNSBGPv7weSdP5DzKKCbEvnFIU15lq1a-5MmRv0cj1KhiCR3Vx28oa5BRUNgNumo6Y5MHtdgHHW6UGRlBY3UeyXH2ndoJZZPOpWw2cBNUYmRw4RBKnwUcnpk7ALhRydIX6rXWl6E9xmhAUkGxgUAdXm0xpDzZLctTOntKVef34uaPpNI4zq7fA44lqP-lj5VjcwivGhZWQRPYK0UAKU6OgOCf7tCxXjn0BRyAHvhXn94to_gQZeaEb71MOg2ml-_orUgXaSY1Z7gJZHGrC_gdQQu6kqvaZO-QKsT2r12F2OgI1JUXFt1NlEOxP3rGgRVbxED5de2cAWO8cO6H6stluv8WkjuM_13L_zPIKt_n7cdvvPveevpFkDDQ5ZvZ2dSFJd_GKhOCemR3-3KabhQhjkyh1Z5n-kzbLef2N32fI6UUeKTCXtgTeXjz53Wxm-R0BUKcbfFWcDl8kUZsFXFTLf6rfqwbeKJnnnhqC2Lzkhc83eQrmuVyg=w662-h451-no)](https://twitter.com/Trump2Cash/status/821415729329147904)
 
 The code is written in Python and uses APIs from
 [Twitter](https://dev.twitter.com/docs),
