@@ -21,9 +21,9 @@ these steps to run the code yourself:
 
 ### 1. Create VM instance
 
-Follow [these steps](https://cloud.google.com/compute/docs/quickstart-linux) to
-create a Linux VM instance in Google Compute Engine and SSH into it for the
-steps below.
+Check out the [quickstart](https://cloud.google.com/compute/docs/quickstart-linux)
+to create a Cloud Platform project and a Linux VM instance with Compute Engine.
+Then SSH into it for the steps below.
 
 ### 2. Set up auth
 
