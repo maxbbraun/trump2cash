@@ -93,6 +93,22 @@ def get_market_status(timestamp):
     else:
         return "closed"
 
+# TODO: Refactor trading so this logic can live there.
+def should_trade(strategy, date, previous_date):
+    """Determines whether a trade is happening for the strategy."""
+
+    # We invest the whole value, so we can only trade once a day.
+    if (previous_date and previous_date.year == date.year
+        and previous_date.month == date.month
+        and previous_date.day == date.day):
+        return False
+
+    # The strategy needs to be active.
+    if strategy["action"] == "hold":
+        return False
+
+    return True
+
 if __name__ == "__main__":
     analysis = Analysis(logs_to_cloud=False)
     trading = Trading(logs_to_cloud=False)
@@ -225,35 +241,32 @@ if __name__ == "__main__":
     for event in events:
         date = event["timestamp"]
 
-        if (previous_date and previous_date.year == date.year
-            and previous_date.month == date.month
-            and previous_date.day == date.day):
+        # TODO: Properly handle multiple trades (split budget).
+        strategies = event["strategies"]
+        for strategy in strategies:
+            trade = should_trade(strategy, date, previous_date)
+            if trade:
+                value -= TRADE_FEE
+                ratio = get_ratio(strategy)
+                value *= ratio
+                previous_date = date
 
-            # We invest the whole value, so we can only trade once a day.
-            total_return = "-"
-        else:
-            strategies = event["strategies"]
+            total_ratio = value / FUND_DOLLARS
+            total_return = ratio_to_return(total_ratio)
+            if date != start_date:
+                days = (date - start_date).days
+                annualized_return = ratio_to_return(
+                    pow(total_ratio, 365.0 / days))
+            else:
+                annualized_return = "-"
 
-            # TODO: Properly handle multiple trades (split budget).
-            for strategy in strategies:
-                if (strategy["action"] != "hold" and strategy["price_at"]
-                    and strategy["price_eod"]):
-                    value -= TRADE_FEE
-                    ratio = get_ratio(strategy)
-                    value *= ratio
-                    total_ratio = value / FUND_DOLLARS
-                    total_return = ratio_to_return(total_ratio)
-                else:
-                    total_return = "-"
-            previous_date = date
+            date_str = format_timestamp(date)
+            trade_str = "%s %s" % (strategy["ticker"],
+                get_sentiment_emoji(strategy["sentiment"]))
 
-        if date != start_date:
-            days = (date - start_date).days
-            annualized_return = ratio_to_return(pow(total_ratio, 365.0 / days))
-        else:
-            annualized_return = "-"
+            if trade:
+                date_str = "**%s**" % date_str
+                trade_str = "**%s**" % trade_str
 
-        trade = "%s %s" % (strategy["ticker"],
-            get_sentiment_emoji(strategy["sentiment"]))
-        print "%s | %s | %s | %s | %s" % (format_timestamp(date), trade,
-            format_dollar(value), total_return, annualized_return)
+            print "%s | %s | %s | %s | %s" % (date_str, trade_str,
+                format_dollar(value), total_return, annualized_return)
