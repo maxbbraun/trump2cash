@@ -20,8 +20,10 @@ these steps to run the code yourself:
 ### 1. Create VM instance
 
 Check out the [quickstart](https://cloud.google.com/compute/docs/quickstart-linux)
-to create a Cloud Platform project and a Linux VM instance with Compute Engine.
-Then SSH into it for the steps below.
+to create a Cloud Platform project and a Linux VM instance with Compute Engine,
+then SSH into it for the steps below. The predefined
+[machine type](https://cloud.google.com/compute/docs/machine-types) `g1-small`
+(1 vCPU, 1.7 GB memory) seems to work well.
 
 ### 2. Set up auth
 
@@ -53,7 +55,8 @@ export TWITTER_ACCESS_TOKEN_SECRET="<YOUR_ACCESS_TOKEN_SECRET>"
 
 #### Google
 
-Follow the [Google Application Default Credentials instructions](https://developers.google.com/identity/protocols/application-default-credentials#howtheywork)
+Follow the
+[Google Application Default Credentials instructions](https://developers.google.com/identity/protocols/application-default-credentials#howtheywork)
 to create, download, and export a service account key.
 
 ```shell
