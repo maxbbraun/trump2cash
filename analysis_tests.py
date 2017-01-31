@@ -104,6 +104,10 @@ def test_get_company_data(analysis):
         "name": "Keystone Pipeline",
         "root": "TransCanada Corporation",
         "ticker": "TRP"}]
+    assert analysis.get_company_data("/m/0k9ts") == [{
+        "exchange": "New York Stock Exchange",
+        "name": "Delta Air Lines",
+        "ticker": "DAL"}]
     assert analysis.get_company_data("/m/0d6lp") == []
     assert analysis.get_company_data("xyz") == []
     assert analysis.get_company_data("") == []
@@ -211,6 +215,13 @@ TEXT_14 = (
 TEXT_15 = (
     "Signing orders to move forward with the construction of the Keystone XL an"
     "d Dakota Access pipelines in the Oval Office.")
+TEXT_16 = (
+    "Great meeting with Ford CEO Mark Fields and General Motors CEO Mary Barra "
+    "at the @WhiteHouse today.")
+TEXT_17 = (
+    "Only 109 people out of 325,000 were detained and held for questioning. Big"
+    " problems at airports were caused by Delta computer outage,....."
+)
 
 
 def test_get_sentiment(analysis):
@@ -229,6 +240,8 @@ def test_get_sentiment(analysis):
     assert analysis.get_sentiment(TEXT_13) < 0
     assert analysis.get_sentiment(TEXT_14) < 0
     #assert analysis.get_sentiment(TEXT_15) > 0
+    assert analysis.get_sentiment(TEXT_16) > 0
+    assert analysis.get_sentiment(TEXT_17) < 0
     assert analysis.get_sentiment("") == 0
 
 
@@ -346,3 +359,17 @@ def test_find_companies(analysis):
         "root": "TransCanada Corporation",
         "sentiment": 0,  # 0.1,
         "ticker": "TRP"}]
+    assert analysis.find_companies(TEXT_16) == [{
+        "exchange": "New York Stock Exchange",
+        "name": "Ford",
+        "sentiment": 0.9,
+        "ticker": "F"}, {
+        "exchange": "New York Stock Exchange",
+        "name": "General Motors",
+        "sentiment": 0.9,
+        "ticker": "GM"}]
+    assert analysis.find_companies(TEXT_17) == [{
+        "exchange": "New York Stock Exchange",
+        "name": "Delta Air Lines",
+        "sentiment": -0.4,
+        "ticker": "DAL"}]
