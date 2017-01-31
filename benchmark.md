@@ -232,22 +232,6 @@ Ticker | Exchange | Price @ tweet | Price EOD | Return
 F | New York Stock Exchange | $12.60 | $12.79 | 0.000%
 GM | New York Stock Exchange | $37.60 | $38.28 | 0.000%
 
-##### [1/30 2017 7:16 AM (Monday)](https://twitter.com/realDonaldTrump/status/826041397232943104)
-
-> Only 109 people out of 325,000 were detained and held for questioning. Big problems at airports were caused by Delta computer outage,.....
-
-*Strategy*
-
-Company | Root | Sentiment | Strategy | Reason
---------|------|-----------|----------|-------
-Delta Air Lines | - | -0.4 :thumbsdown: | hold | market closed
-
-*Performance*
-
-Ticker | Exchange | Price @ tweet | Price EOD | Return
--------|----------|---------------|-----------|-------
-DAL | New York Stock Exchange | $49.70 | $47.67 | 0.000%
-
 ### Fund simulation
 
 This is how an initial investment of $10,000.00 would have grown, including [TradeKing's fees](https://www.tradeking.com/rates) of $4.95 per trade.
@@ -274,4 +258,3 @@ Time | Trade | Value | Return | Annualized
 **1/24 2017 12:49 PM** | **TRP :thumbsdown:** | $10,680.88 | 6.809% | 63.340%
 1/24 2017 7:46 PM | F :thumbsup: | $10,680.88 | 6.809% | 63.340%
 1/24 2017 7:46 PM | GM :thumbsup: | $10,680.88 | 6.809% | 63.340%
-1/30 2017 7:16 AM | DAL :thumbsdown: | $10,680.88 | 6.809% | 56.085%

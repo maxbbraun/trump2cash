@@ -35,7 +35,7 @@ class Logs:
         """Logs at the DEBUG level."""
 
         if self.to_cloud:
-            self.safe_cloud_log(text, severity="DEBUG")
+            self.logger.log_text(text, severity="DEBUG")
         else:
             self.logger.debug(text)
 
@@ -43,7 +43,7 @@ class Logs:
         """Logs at the INFO level."""
 
         if self.to_cloud:
-            self.safe_cloud_log(text, severity="INFO")
+            self.logger.log_text(text, severity="INFO")
         else:
             self.logger.info(text)
 
@@ -51,7 +51,7 @@ class Logs:
         """Logs at the WARNING level."""
 
         if self.to_cloud:
-            self.safe_cloud_log(text, severity="WARNING")
+            self.logger.log_text(text, severity="WARNING")
         else:
             self.logger.warning(text)
 
@@ -59,7 +59,7 @@ class Logs:
         """Logs at the ERROR level."""
 
         if self.to_cloud:
-            self.safe_cloud_log(text, severity="ERROR")
+            self.logger.log_text(text, severity="ERROR")
         else:
             self.logger.error(text)
 
@@ -68,19 +68,6 @@ class Logs:
 
         if self.to_cloud:
             self.error_client.report_exception()
-            self.safe_cloud_log(str(exception), severity="CRITICAL")
+            self.logger.log_text(str(exception), severity="CRITICAL")
         else:
             self.logger.critical(str(exception))
-
-    def safe_cloud_log(self, text, severity):
-        """Logs to the cloud and catches exceptions if the upload fails."""
-
-        # TODO: Implement retry logic with exponential backoff.
-        try:
-            self.logger.log_text(text, severity=severity)
-        except BaseException as exception:
-            # Note that these calls will attempt new logs, but without the
-            # exception catch to avoid recursion for permanent failures.
-            self.error_client.report_exception()
-            self.logger.log_text(str(exception), severity="CRITICAL")
-            self.logger.log_text("Skipped log: %s" % text, severity="ERROR")

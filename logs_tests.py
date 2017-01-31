@@ -42,8 +42,3 @@ def test_catch(logs, capfd):
     except Exception as exception:
       logs.catch(exception)
     assert get_last_log().endswith(" CRITICAL exception\n")
-
-
-def test_safe_cloud_log(logs):
-    #TODO
-    pass
