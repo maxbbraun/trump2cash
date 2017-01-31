@@ -19,7 +19,7 @@ TWEET_IDS = ["806134244384899072", "812061677160202240", "816260343391514624",
 # The initial amount in dollars for the fund simulation.
 FUND_DOLLARS = 10000
 
-# The fee in dollars per trade.
+# The fee in dollars per trade (https://www.tradeking.com/rates).
 TRADE_FEE = 4.95
 
 def ratio_to_return(ratio):
@@ -228,8 +228,8 @@ if __name__ == "__main__":
     print "### Fund simulation"
     print
     print ("This is how an initial investment of %s would have grown, including"
-           " [TradeKing's fees](https://www.tradeking.com/rates) of %s per trad"
-           "e.") % (format_dollar(FUND_DOLLARS), format_dollar(TRADE_FEE))
+           " fees of %s per trade. Bold means that trades were made.") % (
+               format_dollar(FUND_DOLLARS), format_dollar(TRADE_FEE))
     print
     print "Time | Trade | Value | Return | Annualized"
     print "-----|-------|-------|--------|-----------"

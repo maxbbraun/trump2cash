@@ -250,7 +250,7 @@ DAL | New York Stock Exchange | $49.70 | $47.67 | 0.000%
 
 ### Fund simulation
 
-This is how an initial investment of $10,000.00 would have grown, including [TradeKing's fees](https://www.tradeking.com/rates) of $4.95 per trade.
+This is how an initial investment of $10,000.00 would have grown, including fees of $4.95 per trade. Bold means that trades were made.
 
 Time | Trade | Value | Return | Annualized
 -----|-------|-------|--------|-----------
