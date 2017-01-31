@@ -94,13 +94,13 @@ def get_market_status(timestamp):
         return "closed"
 
 # TODO: Refactor trading so this logic can live there.
-def should_trade(strategy, date, previous_date):
+def should_trade(strategy, date, previous_trade_date):
     """Determines whether a trade is happening for the strategy."""
 
     # We invest the whole value, so we can only trade once a day.
-    if (previous_date and previous_date.year == date.year
-        and previous_date.month == date.month
-        and previous_date.day == date.day):
+    if (previous_trade_date and previous_trade_date.year == date.year
+        and previous_trade_date.month == date.month
+        and previous_trade_date.day == date.day):
         return False
 
     # The strategy needs to be active.
@@ -237,22 +237,28 @@ if __name__ == "__main__":
     value = FUND_DOLLARS
     print "*Initial* | - | *%s* | - | -" % format_dollar(value)
 
-    previous_date = None
+    previous_trade_date = None
     for event in events:
         date = event["timestamp"]
-
-        # TODO: Properly handle multiple trades (split budget).
         strategies = event["strategies"]
+
+        # Figure out what to spend on each trade.
+        num_actionable_strategies = sum(
+            [1 for strategy in strategies if strategy["action"] != "hold"])
+        budget = trading.get_budget(value, num_actionable_strategies)
+
         for strategy in strategies:
-            trade = should_trade(strategy, date, previous_date)
+            trade = should_trade(strategy, date, previous_trade_date)
+
             if trade:
-                value -= TRADE_FEE
                 ratio = get_ratio(strategy)
-                value *= ratio
-                previous_date = date
+                value -= budget
+                value -= TRADE_FEE
+                value += budget * ratio
 
             total_ratio = value / FUND_DOLLARS
             total_return = ratio_to_return(total_ratio)
+
             if date != start_date:
                 days = (date - start_date).days
                 annualized_return = ratio_to_return(
@@ -270,3 +276,6 @@ if __name__ == "__main__":
 
             print "%s | %s | %s | %s | %s" % (date_str, trade_str,
                 format_dollar(value), total_return, annualized_return)
+
+        if trade:
+            previous_trade_date = date
