@@ -224,7 +224,7 @@ if __name__ == "__main__":
     print "### Fund simulation"
     print
     print ("This is how an initial investment of %s would have grown, including"
-           " fees of %s per trade. Bold means that trades were made.") % (
+           " fees of %s per trade.") % (
                format_dollar(FUND_DOLLARS), format_dollar(TRADE_FEE))
     print
     print "Time | Trade | Value | Return | Annualized"
