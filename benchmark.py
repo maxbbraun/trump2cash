@@ -246,10 +246,10 @@ if __name__ == "__main__":
         for strategy in strategies:
             trade = should_trade(strategy, date, previous_trade_date)
 
-            if trade:
-                price_at = strategy["price_at"]
-                price_eod = strategy["price_eod"]
+            price_at = strategy["price_at"]
+            price_eod = strategy["price_eod"]
 
+            if trade:
                 # Use the price at tweet to determine stock quantity.
                 quantity = int(budget // price_at)
 
@@ -263,6 +263,8 @@ if __name__ == "__main__":
                 elif strategy["action"] == "bear":
                     value += quantity * price_at  # Short
                     value -= quantity * price_eod  # Cover
+            else:
+                quantity = 0
 
             total_ratio = value / FUND_DOLLARS
             total_return = ratio_to_return(total_ratio)
