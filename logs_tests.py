@@ -14,7 +14,11 @@ def logs():
 
 def get_last_log():
     log_file = open(LOG_FILE, "r")
-    return log_file.readlines()[-1]
+    try:
+        last_log = log_file.readlines()[-1]
+    finally:
+        log_file.close()
+    return last_log
 
 
 def test_debug(logs, capfd):
