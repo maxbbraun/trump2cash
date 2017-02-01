@@ -275,12 +275,13 @@ if __name__ == "__main__":
                 annualized_return = "-"
 
             date_str = format_timestamp(date)
-            trade_str = "%s %s" % (strategy["ticker"],
+            trade_str = u"%s \u00d7 %s @ %s %s" % (quantity, strategy["ticker"],
+                format_dollar(price_at),
                 get_sentiment_emoji(strategy["sentiment"]))
 
             if trade:
                 date_str = "**%s**" % date_str
-                trade_str = "**%s**" % trade_str
+                trade_str = u"**%s**" % trade_str
 
             print "%s | %s | %s | %s | %s" % (date_str, trade_str,
                 format_dollar(value), total_return, annualized_return)
