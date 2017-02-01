@@ -51,8 +51,8 @@ MARKET_TIMEZONE = timezone("US/Eastern")
 TRADING_HOLIDAYS = [MARKET_TIMEZONE.localize(date) for date in [
     datetime(2017, 1, 2)]]
 
-# The filename pattern for historical stock data.
-STOCK_DATA_FILE = "stock_data/%s_%s.txt"
+# The filename pattern for historical market data.
+MARKET_DATA_FILE = "market_data/%s_%s.txt"
 
 class Trading:
     """A helper for making stock trades."""
@@ -318,7 +318,7 @@ class Trading:
         """Looks up a day's quotes from a locally cached file."""
 
         day = timestamp.strftime("%Y%m%d")
-        filename = STOCK_DATA_FILE % (ticker, day)
+        filename = MARKET_DATA_FILE % (ticker, day)
 
         if not path.isfile(filename):
             self.logs.warn("Day quotes not in cache for: %s %s" %
