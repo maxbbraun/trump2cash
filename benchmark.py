@@ -69,12 +69,8 @@ def get_sentiment_emoji(sentiment):
 def get_market_status(timestamp):
     """Tries to infer the market status from a timestamp."""
 
-    # Closed on weekends.
-    if timestamp.weekday() in [5, 6]:
+    if not trading.is_trading_day(timestamp):
         return "closed"
-
-    # TODO: Closed on holidays.
-    # TODO: Support irregular hours.
 
     # Calculate the market hours for the given day. These are the same for NYSE
     # and NASDAQ and include TradeKing's extended hours.
@@ -98,9 +94,9 @@ def should_trade(strategy, date, previous_trade_date):
     """Determines whether a trade is happening for the strategy."""
 
     # We invest the whole value, so we can only trade once a day.
-    if (previous_trade_date and previous_trade_date.year == date.year
-        and previous_trade_date.month == date.month
-        and previous_trade_date.day == date.day):
+    if (previous_trade_date
+        and previous_trade_date.replace(hour=0, minute=0, second=0)
+            == date.replace(hour=0, minute=0, second=0)):
         return False
 
     # The strategy needs to be active.

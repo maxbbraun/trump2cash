@@ -41,7 +41,7 @@ Boeing | - | 0 :neutral_face: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price EOD | Return
 -------|----------|---------------|-----------|-------
-BA | New York Stock Exchange | $158.11 | $157.92 | 0.000%
+BA | New York Stock Exchange | $157.46 | $157.92 | 0.000%
 
 ##### [1/3 2017 7:30 AM (Tuesday)](https://twitter.com/realDonaldTrump/status/816260343391514624)
 
@@ -139,7 +139,7 @@ Fiat | Fiat Chrysler Automobiles | 0.3 :thumbsup: | bull | positive sentiment
 
 Ticker | Exchange | Price @ tweet | Price EOD | Return
 -------|----------|---------------|-----------|-------
-F | New York Stock Exchange | $12.82 | $12.64 | -1.404%
+F | New York Stock Exchange | $12.84 | $12.64 | -1.558%
 FCAU | New York Stock Exchange | $10.57 | $10.57 | 0.000%
 
 ##### [1/17 2017 12:55 PM (Tuesday)](https://twitter.com/realDonaldTrump/status/821415698278875137)
@@ -178,8 +178,8 @@ Lockheed Martin | - | -0.5 :thumbsdown: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price EOD | Return
 -------|----------|---------------|-----------|-------
-F | New York Stock Exchange | $12.60 | $12.42 | 0.000%
-GM | New York Stock Exchange | $37.31 | $37.40 | 0.000%
+F | New York Stock Exchange | $12.60 | $12.41 | 0.000%
+GM | New York Stock Exchange | $37.31 | $37.47 | 0.000%
 LMT | New York Stock Exchange | $254.12 | $254.07 | 0.000%
 
 ##### [1/18 2017 8:00 AM (Wednesday)](https://twitter.com/realDonaldTrump/status/821703902940827648)
@@ -196,7 +196,7 @@ Bayer | BlackRock | 0.3 :thumbsup: | bull | positive sentiment
 
 Ticker | Exchange | Price @ tweet | Price EOD | Return
 -------|----------|---------------|-----------|-------
-BLK | New York Stock Exchange | $374.80 | $378.02 | 0.859%
+BLK | New York Stock Exchange | $374.80 | $378.00 | 0.854%
 
 ##### [1/24 2017 12:49 PM (Tuesday)](https://twitter.com/realDonaldTrump/status/823950814163140609)
 
@@ -229,8 +229,8 @@ General Motors | - | 0.5 :thumbsup: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price EOD | Return
 -------|----------|---------------|-----------|-------
-F | New York Stock Exchange | $12.60 | $12.79 | 0.000%
-GM | New York Stock Exchange | $37.60 | $38.28 | 0.000%
+F | New York Stock Exchange | $12.60 | $12.78 | 0.000%
+GM | New York Stock Exchange | $37.09 | $38.28 | 0.000%
 
 ##### [1/30 2017 7:16 AM (Monday)](https://twitter.com/realDonaldTrump/status/826041397232943104)
 
@@ -246,7 +246,7 @@ Delta Air Lines | - | -0.4 :thumbsdown: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price EOD | Return
 -------|----------|---------------|-----------|-------
-DAL | New York Stock Exchange | $49.70 | $47.67 | 0.000%
+DAL | New York Stock Exchange | $49.70 | $47.75 | 0.000%
 
 ### Fund simulation
 
@@ -270,8 +270,8 @@ Time | Trade | Value | Return | Annualized
 1/18 2017 7:34 AM | F :thumbsdown: | $10,514.24 | 5.142% | 54.618%
 1/18 2017 7:34 AM | GM :thumbsdown: | $10,514.24 | 5.142% | 54.618%
 1/18 2017 7:34 AM | LMT :thumbsdown: | $10,514.24 | 5.142% | 54.618%
-**1/18 2017 8:00 AM** | **BLK :thumbsup:** | $10,591.03 | 5.910% | 64.712%
-**1/24 2017 12:49 PM** | **TRP :thumbsdown:** | $10,597.86 | 5.979% | 54.116%
-1/24 2017 7:46 PM | F :thumbsup: | $10,597.86 | 5.979% | 54.116%
-1/24 2017 7:46 PM | GM :thumbsup: | $10,597.86 | 5.979% | 54.116%
-1/30 2017 7:16 AM | DAL :thumbsdown: | $10,597.86 | 5.979% | 48.066%
+**1/18 2017 8:00 AM** | **BLK :thumbsup:** | $10,590.52 | 5.905% | 64.643%
+**1/24 2017 12:49 PM** | **TRP :thumbsdown:** | $10,597.35 | 5.973% | 54.061%
+1/24 2017 7:46 PM | F :thumbsup: | $10,597.35 | 5.973% | 54.061%
+1/24 2017 7:46 PM | GM :thumbsup: | $10,597.35 | 5.973% | 54.061%
+1/30 2017 7:16 AM | DAL :thumbsdown: | $10,597.35 | 5.973% | 48.018%

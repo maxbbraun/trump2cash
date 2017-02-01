@@ -7,6 +7,7 @@ from oauth2 import Consumer
 from oauth2 import Client
 from oauth2 import Token
 from os import getenv
+from os import path
 from pytz import timezone
 from pytz import utc
 from lxml.etree import Element
@@ -45,58 +46,19 @@ TICKER_BLACKLIST = ["GOOG", "GOOGL"]
 # We're using NYSE and NASDAQ, which are both in the easters timezone.
 MARKET_TIMEZONE = timezone("US/Eastern")
 
+# TODO: Use a comprehensive list.
+# A list of days where the markets are closed apart from weekends.
+TRADING_HOLIDAYS = [MARKET_TIMEZONE.localize(date) for date in [
+    datetime(2017, 1, 2)]]
+
+# The filename pattern for historical stock data.
+STOCK_DATA_FILE = "stock_data/%s_%s.txt"
 
 class Trading:
     """A helper for making stock trades."""
 
     def __init__(self, logs_to_cloud):
         self.logs = Logs(name="trading", to_cloud=logs_to_cloud)
-
-        # A cache of historical prices. For known events these are preferrable
-        # to the API results, which decay in accuracy over time.
-        self.HISTORICAL_PRICE_CACHE = {
-            ("BA", self.as_market_time(2016, 12, 6, 8, 52, 35)): {
-                "at": 152.16, "eod": 152.3},
-            ("BA", self.as_market_time(2016, 12, 22, 17, 26, 5)): {
-                "at": 158.11, "eod": 157.92},
-            ("GM", self.as_market_time(2017, 1, 3, 7, 30, 5)): {
-                "at": 34.84, "eod": 35.15},
-            ("F", self.as_market_time(2017, 1, 3, 11, 44, 13)): {
-                "at": 12.41, "eod": 12.59},
-            ("F", datetime(2017, 1, 4, 8, 19, 9)): {
-                "at": 12.59, "eod": 13.17},
-            ("TM", self.as_market_time(2017, 1, 5, 13, 14, 30)): {
-                "at": 121.12, "eod": 120.44},
-            ("FCAU", self.as_market_time(2017, 1, 9, 9, 14, 10)): {
-                "at": 10.55, "eod": 10.57},
-            ("F", self.as_market_time(2017, 1, 9, 9, 16, 34)): {
-                "at": 12.82, "eod": 12.64},
-            ("FCAU", self.as_market_time(2017, 1, 9, 9, 16, 34)): {
-                "at": 10.57, "eod": 10.57},
-            ("GM", self.as_market_time(2017, 1, 17, 12, 55, 38)): {
-                "at": 37.54, "eod": 37.31},
-            ("WMT", self.as_market_time(2017, 1, 17, 12, 55, 38)): {
-                "at": 68.53, "eod": 68.5},
-            ("STT", self.as_market_time(2017, 1, 17, 12, 55, 38)): {
-                "at": 81.19, "eod": 80.2},
-            ("F", self.as_market_time(2017, 1, 18, 7, 34, 9)): {
-                "at": 12.6, "eod": 12.42},
-            ("GM", self.as_market_time(2017, 1, 18, 7, 34, 9)): {
-                "at": 37.31, "eod": 37.4},
-            ("LMT", self.as_market_time(2017, 1, 18, 7, 34, 9)): {
-                "at": 254.12, "eod": 254.07},
-            ("BLK", self.as_market_time(2017, 1, 18, 8, 0, 51)): {
-                "at": 374.8, "eod": 378.02},
-            ("TRP", self.as_market_time(2017, 1, 24, 12, 49, 17)): {
-                "at": 48.93, "eod": 48.87},
-            ("F", self.as_market_time(2017, 1, 24, 19, 46, 57)): {
-                "at": 12.6, "eod": 12.79},
-            ("GM", self.as_market_time(2017, 1, 24, 19, 46, 57)): {
-                "at": 37.6, "eod": 38.28},
-            ("M", self.as_market_time(2015, 11, 12, 16, 5, 28)): {
-                "at": 40.73, "eod": 40.15},
-            ("M", self.as_market_time(2015, 7, 16, 9, 14, 15)): {
-                "at": 71.75, "eod": 72.8}}
 
     def make_trades(self, companies):
         """Executes trades for the specified companies based on sentiment."""
@@ -233,14 +195,6 @@ class Trading:
     def get_historical_prices(self, ticker, timestamp):
         """Finds the last price at or before a timestamp and at EOD."""
 
-        # First try if there is a cached price for this ticker and time.
-        cache_key = (ticker, timestamp)
-        if cache_key in self.HISTORICAL_PRICE_CACHE:
-            prices = self.HISTORICAL_PRICE_CACHE[cache_key]
-            self.logs.warn("Using cached price for %s at %s: %s" %
-                (ticker, timestamp, prices))
-            return prices
-
         # Start with today's quotes.
         quotes = self.get_day_quotes(ticker, timestamp)
         if not quotes:
@@ -329,12 +283,18 @@ class Trading:
     def get_day_quotes(self, ticker, timestamp):
         """Collects all quotes from the day of the market timestamp."""
 
-        # The timestamp is expected in market time.
-        date = timestamp.strftime("%Y-%m-%d")
+        # Try the local cache first.
+        quotes = self.get_cached_day_quotes(ticker, timestamp)
+        if quotes:
+            self.logs.debug("Using quotes from cache for: %s %s" %
+                (ticker, timestamp))
+            return quotes
 
+        # Call the API. The timestamp is expected in market time.
+        day = timestamp.strftime("%Y-%m-%d")
         timesales_url = TRADEKING_API_URL % "market/timesales"
         timesales_url += "?symbols=%s" % ticker
-        timesales_url += "&startdate=%s&enddate=%s" % (date, date)
+        timesales_url += "&startdate=%s&enddate=%s" % (day, day)
         timesales_url += "&interval=1min"
         response = self.make_request(url=timesales_url)
 
@@ -349,49 +309,108 @@ class Trading:
                             timesales_response)
             return None
 
-        return timesales_response["quotes"]["quote"]
+        quotes = timesales_response["quotes"]["quote"]
+        self.logs.debug("Using quotes from API for: %s %s" %
+            (ticker, timestamp))
+        return quotes
+
+    def get_cached_day_quotes(self, ticker, timestamp):
+        """Looks up a day's quotes from a locally cached file."""
+
+        day = timestamp.strftime("%Y%m%d")
+        filename = STOCK_DATA_FILE % (ticker, day)
+
+        if not path.isfile(filename):
+            self.logs.warn("Day quotes not in cache for: %s %s" %
+                (ticker, timestamp))
+            return None
+
+        quotes_file = open(filename, "r")
+        try:
+            lines = quotes_file.readlines()
+            quotes = []
+
+            # Skip the header line, then read the quotes.
+            for line in lines[1:]:
+                columns = line.split(",")
+                # Convert to the same timezone and date format used by the API.
+                market_time_str = columns[1]
+                try:
+                    market_time = datetime.strptime(market_time_str,
+                        "%Y%m%d%H%M")
+                except ValueError:
+                    self.logs.error("Failed to decode market time: %s" %
+                        market_time_str)
+                    return None
+                utc_time = self.market_time_to_utc(market_time)
+                utc_time_str = utc_time.strftime("%Y-%m-%dT%H:%M:%SZ")
+                price_str = columns[2]
+                try:
+                    price = float(price_str)
+                except ValueError:
+                    self.logs.error("Failed to decode price: %s" % price_str)
+                    return None
+                quote = {"datetime": utc_time_str, "last": price}
+                quotes.append(quote)
+
+            return quotes
+        except IOError as exception:
+            self.logs.error("Failed to read quotes cache file: %s" % exception)
+            return None
+        finally:
+            quotes_file.close()
 
     def get_quote_time(self, quote):
         """Extracts the timestamp from a quote."""
 
-        time_utc = datetime.strptime(quote["datetime"], "%Y-%m-%dT%H:%M:%SZ")
-        return self.utc_to_market_time(time_utc)
+        # Timestamp is expected in UTC.
+        utc_time_str = quote["datetime"]
+        try:
+            utc_time = datetime.strptime(utc_time_str, "%Y-%m-%dT%H:%M:%SZ")
+            return self.utc_to_market_time(utc_time)
+        except ValueError:
+            self.logs.error("Failed to decode quote time: %s" % utc_time_str)
+            return None
+
+    def is_trading_day(self, timestamp):
+        """Tests whether markets are open on a given day."""
+
+        day = timestamp.replace(hour=0, minute=0, second=0)
+
+        # Markets are closed on holidays.
+        if day in TRADING_HOLIDAYS:
+            self.logs.debug("Identified holiday: %s" % timestamp)
+            return False
+
+        # Markets are closed on weekends.
+        if day.weekday() in [5, 6]:
+            self.logs.debug("Identified weekend: %s" % timestamp)
+            return False
+
+        # Otherwise markets are open.
+        return True
 
     def get_previous_day(self, timestamp):
         """Finds the previous trading day."""
 
-        # TODO: Consider holidays.
+        day = (timestamp.replace(hour=0, minute=0, second=0)
+            - timedelta(days=1))
 
-        day = timestamp.replace(hour=0, minute=0, second=0)
-
-        if day.weekday() == 0:
-            # For Monday go back three days to Friday.
-            day -= timedelta(days=3)
-        elif day.weekday() in [1, 2, 3, 4, 5]:
-            # For Tuesday through Saturday go back one day.
+        # Walk backwards until we hit a trading day.
+        while not self.is_trading_day(day):
             day -= timedelta(days=1)
-        else:  # previous.weekday() == 6
-            # For Sunday go back two days to Friday.
-            day -= timedelta(days=2)
 
         return day
 
     def get_next_day(self, timestamp):
         """Finds the next trading day."""
 
-        # TODO: Consider holidays.
+        day = (timestamp.replace(hour=0, minute=0, second=0)
+            + timedelta(days=1))
 
-        day = timestamp.replace(hour=0, minute=0, second=0)
-
-        if day.weekday() in [6, 0, 1, 2, 3]:
-            # For Sunday through Thursday go forward one day.
+        # Walk forward until we hit a trading day.
+        while not self.is_trading_day(day):
             day += timedelta(days=1)
-        elif day.weekday() == 4:
-            # For Friday go forward three days to Monday.
-            day += timedelta(days=3)
-        else:  # previous.weekday() == 5
-            # For Saturday go forward two days to Monday.
-            day += timedelta(days=2)
 
         return day
 
@@ -403,7 +422,15 @@ class Trading:
 
         return market_time
 
-    def as_market_time(self, year, month, day, hour, minute, second):
+    def market_time_to_utc(self, timestamp):
+        """Converts a timestamp in local market time to UTC."""
+
+        market_time = MARKET_TIMEZONE.localize(timestamp)
+        utc_time = market_time.astimezone(utc)
+
+        return utc_time
+
+    def as_market_time(self, year, month, day, hour=0, minute=0, second=0):
         """Creates a timestamp in market time."""
 
         market_time = datetime(year, month, day, hour, minute, second)
