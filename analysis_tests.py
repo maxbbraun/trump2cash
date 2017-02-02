@@ -65,10 +65,10 @@ def test_get_company_data(analysis):
         "name": "Bayer",
         "root": "BlackRock",
         "ticker": "BLK"}]  # , {
-        #"exchange": "New York Stock Exchange",
-        #"name": "Bayer",
-        #"root": "PNC Financial Services",
-        #"ticker": "PNC"}]
+        # "exchange": "New York Stock Exchange",
+        # "name": "Bayer",
+        # "root": "PNC Financial Services",
+        # "ticker": "PNC"}]
     assert analysis.get_company_data("/m/02zs4") == [{
         "exchange": "New York Stock Exchange",
         "name": "Ford",
@@ -146,7 +146,8 @@ def test_entities_tostring(analysis):
     assert analysis.entities_tostring([Entity(
         name="General Motors",
         entity_type="ORGANIZATION",
-        metadata={"mid": "/m/035nm",
+        metadata={
+            "mid": "/m/035nm",
             "wikipedia_url": "http://en.wikipedia.org/wiki/General_Motors"},
         salience=0.33838183,
         mentions=["General Motors"]), Entity(
@@ -170,63 +171,63 @@ def test_entities_tostring(analysis):
     assert analysis.entities_tostring([]) == "[]"
 
 TEXT_1 = (
-    "Boeing is building a brand new 747 Air Force One for future presidents, bu"
-    "t costs are out of control, more than $4 billion. Cancel order!")
+    "Boeing is building a brand new 747 Air Force One for future presidents, b"
+    "ut costs are out of control, more than $4 billion. Cancel order!")
 TEXT_2 = (
-    "Based on the tremendous cost and cost overruns of the Lockheed Martin F-35"
-    ", I have asked Boeing to price-out a comparable F-18 Super Hornet!")
+    "Based on the tremendous cost and cost overruns of the Lockheed Martin F-3"
+    "5, I have asked Boeing to price-out a comparable F-18 Super Hornet!")
 TEXT_3 = (
-    "General Motors is sending Mexican made model of Chevy Cruze to U.S. car de"
-    "alers-tax free across border. Make in U.S.A.or pay big border tax!")
+    "General Motors is sending Mexican made model of Chevy Cruze to U.S. car d"
+    "ealers-tax free across border. Make in U.S.A.or pay big border tax!")
 TEXT_4 = (
-    '"@DanScavino: Ford to scrap Mexico plant, invest in Michigan due to Trump '
-    'policies" http://www.foxnews.com/politics/2017/01/03/ford-to-scrap-mexico-'
-    'plant-invest-in-michigan-due-to-trump-policies.html')
+    '"@DanScavino: Ford to scrap Mexico plant, invest in Michigan due to Trump'
+    ' policies" http://www.foxnews.com/politics/2017/01/03/ford-to-scrap-mexic'
+    'o-plant-invest-in-michigan-due-to-trump-policies.html')
 TEXT_5 = (
-    "Thank you to Ford for scrapping a new plant in Mexico and creating 700 new"
-    " jobs in the U.S. This is just the beginning - much more to follow")
+    "Thank you to Ford for scrapping a new plant in Mexico and creating 700 ne"
+    "w jobs in the U.S. This is just the beginning - much more to follow")
 TEXT_6 = (
-    "Toyota Motor said will build a new plant in Baja, Mexico, to build Corolla"
-    " cars for U.S. NO WAY! Build plant in U.S. or pay big border tax.")
+    "Toyota Motor said will build a new plant in Baja, Mexico, to build Coroll"
+    "a cars for U.S. NO WAY! Build plant in U.S. or pay big border tax.")
 TEXT_7 = (
-    "It's finally happening - Fiat Chrysler just announced plans to invest $1BI"
-    "LLION in Michigan and Ohio plants, adding 2000 jobs. This after...")
+    "It's finally happening - Fiat Chrysler just announced plans to invest $1B"
+    "ILLION in Michigan and Ohio plants, adding 2000 jobs. This after...")
 TEXT_8 = (
-    "Ford said last week that it will expand in Michigan and U.S. instead of bu"
-    "ilding a BILLION dollar plant in Mexico. Thank you Ford & Fiat C!")
+    "Ford said last week that it will expand in Michigan and U.S. instead of b"
+    "uilding a BILLION dollar plant in Mexico. Thank you Ford & Fiat C!")
 TEXT_9 = (
-    "Thank you to General Motors and Walmart for starting the big jobs push bac"
-    "k into the U.S.!")
+    "Thank you to General Motors and Walmart for starting the big jobs push ba"
+    "ck into the U.S.!")
 TEXT_10 = (
-    "Totally biased @NBCNews went out of its way to say that the big announceme"
-    "nt from Ford, G.M., Lockheed & others that jobs are coming back...")
+    "Totally biased @NBCNews went out of its way to say that the big announcem"
+    "ent from Ford, G.M., Lockheed & others that jobs are coming back...")
 TEXT_11 = (
-    '"Bayer AG has pledged to add U.S. jobs and investments after meeting with '
-    'President-elect Donald Trump, the latest in a string..." @WSJ')
+    '"Bayer AG has pledged to add U.S. jobs and investments after meeting with'
+    ' President-elect Donald Trump, the latest in a string..." @WSJ')
 TEXT_12 = (
-    "Big day on Thursday for Indiana and the great workers of that wonderful st"
-    "ate.We will keep our companies and jobs in the U.S. Thanks Carrier")
+    "Big day on Thursday for Indiana and the great workers of that wonderful s"
+    "tate.We will keep our companies and jobs in the U.S. Thanks Carrier")
 TEXT_13 = (
-    "I hope the boycott of @Macys continues forever. So many people are cutting"
-    " up their cards. Macy's stores suck and they are bad for U.S.A.")
+    "I hope the boycott of @Macys continues forever. So many people are cuttin"
+    "g up their cards. Macy's stores suck and they are bad for U.S.A.")
 TEXT_14 = (
-    "Macy’s was very disloyal to me bc of my strong stance on illegal immigrati"
-    "on. Their stock has crashed! #BoycottMacys")
+    "Macy’s was very disloyal to me bc of my strong stance on illegal immigrat"
+    "ion. Their stock has crashed! #BoycottMacys")
 TEXT_15 = (
-    "Signing orders to move forward with the construction of the Keystone XL an"
-    "d Dakota Access pipelines in the Oval Office.")
+    "Signing orders to move forward with the construction of the Keystone XL a"
+    "nd Dakota Access pipelines in the Oval Office.")
 TEXT_16 = (
-    "Great meeting with Ford CEO Mark Fields and General Motors CEO Mary Barra "
-    "at the @WhiteHouse today.")
+    "Great meeting with Ford CEO Mark Fields and General Motors CEO Mary Barra"
+    " at the @WhiteHouse today.")
 TEXT_17 = (
-    "Only 109 people out of 325,000 were detained and held for questioning. Big"
-    " problems at airports were caused by Delta computer outage,....."
+    "Only 109 people out of 325,000 were detained and held for questioning. Bi"
+    "g problems at airports were caused by Delta computer outage,....."
 )
 
 
 def test_get_sentiment(analysis):
     assert analysis.get_sentiment(TEXT_1) < 0
-    #assert analysis.get_sentiment(TEXT_2) < 0
+    # assert analysis.get_sentiment(TEXT_2) < 0
     assert analysis.get_sentiment(TEXT_3) < 0
     assert analysis.get_sentiment(TEXT_4) > 0
     assert analysis.get_sentiment(TEXT_5) > 0
@@ -234,12 +235,12 @@ def test_get_sentiment(analysis):
     assert analysis.get_sentiment(TEXT_7) > 0
     assert analysis.get_sentiment(TEXT_8) > 0
     assert analysis.get_sentiment(TEXT_9) > 0
-    #assert analysis.get_sentiment(TEXT_10) > 0
+    # assert analysis.get_sentiment(TEXT_10) > 0
     assert analysis.get_sentiment(TEXT_11) > 0
     assert analysis.get_sentiment(TEXT_12) > 0
     assert analysis.get_sentiment(TEXT_13) < 0
     assert analysis.get_sentiment(TEXT_14) < 0
-    #assert analysis.get_sentiment(TEXT_15) > 0
+    # assert analysis.get_sentiment(TEXT_15) > 0
     assert analysis.get_sentiment(TEXT_16) > 0
     assert analysis.get_sentiment(TEXT_17) < 0
     assert analysis.get_sentiment("") == 0
@@ -252,10 +253,10 @@ def test_find_companies(analysis):
         "sentiment": -0.1,
         "ticker": "BA"}]
     assert analysis.find_companies(TEXT_2) == [{
-        #"exchange": "New York Stock Exchange",
-        #"name": "Lockheed Martin",
-        #"sentiment": -0.1,
-        #"ticker": "LMT"}, {
+        # "exchange": "New York Stock Exchange",
+        # "name": "Lockheed Martin",
+        # "sentiment": -0.1,
+        # "ticker": "LMT"}, {
         "exchange": "New York Stock Exchange",
         "name": "Boeing",
         "sentiment": 0,  # 0.1,
@@ -329,18 +330,18 @@ def test_find_companies(analysis):
         "sentiment": 0.3,
         "root": "BlackRock",
         "ticker": "BLK"}]  # , {
-        #"exchange": "New York Stock Exchange",
-        #"name": "Bayer",
-        #"sentiment": 0.3,
-        #"root": "PNC Financial Services",
-        #"exchange": "New York Stock Exchange",
-        #"ticker": "PNC"}]
-    #assert analysis.find_companies(TEXT_12) == [{
-    #    "exchange": "New York Stock Exchange",
-    #    "name": "Carrier Corporation",
-    #    "sentiment": 0.5,
-    #    "root": "United Technologies Corporation",
-    #    "ticker": "UTX"}]
+        # "exchange": "New York Stock Exchange",
+        # "name": "Bayer",
+        # "sentiment": 0.3,
+        # "root": "PNC Financial Services",
+        # "exchange": "New York Stock Exchange",
+        # "ticker": "PNC"}]
+    # assert analysis.find_companies(TEXT_12) == [{
+    #     "exchange": "New York Stock Exchange",
+    #     "name": "Carrier Corporation",
+    #     "sentiment": 0.5,
+    #     "root": "United Technologies Corporation",
+    #     "ticker": "UTX"}]
     assert analysis.find_companies(TEXT_13) == [{
         "exchange": "New York Stock Exchange",
         "name": "Macy's",

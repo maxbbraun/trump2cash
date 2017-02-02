@@ -150,10 +150,12 @@ def test_utc_to_market_time(trading):
         2017, 1, 3, 16, 44, 13)) == trading.as_market_time(
         2017, 1, 3, 11, 44, 13)
 
+
 def test_market_time_to_utc(trading):
     assert trading.market_time_to_utc(datetime(
         2017, 1, 3, 11, 44, 13)) == datetime(
         2017, 1, 3, 16, 44, 13, tzinfo=utc)
+
 
 def test_make_request_success(trading):
     url = "https://api.tradeking.com/v1/member/profile.json"
@@ -236,68 +238,68 @@ def test_get_quantity(trading):
 
 
 def test_get_historical_prices(trading):
-    assert trading.get_historical_prices("F",
-        trading.as_market_time(2017, 1, 24, 19, 46, 57)) == {
+    assert trading.get_historical_prices(
+        "F", trading.as_market_time(2017, 1, 24, 19, 46, 57)) == {
             "at": 12.6, "eod": 12.78}
-    assert trading.get_historical_prices("GM",
-        trading.as_market_time(2017, 1, 24, 19, 46, 57)) == {
+    assert trading.get_historical_prices(
+        "GM", trading.as_market_time(2017, 1, 24, 19, 46, 57)) == {
             "at": 37.09, "eod": 38.28}
-    assert trading.get_historical_prices("TRP",
-        trading.as_market_time(2017, 1, 24, 12, 49, 17)) == {
+    assert trading.get_historical_prices(
+        "TRP", trading.as_market_time(2017, 1, 24, 12, 49, 17)) == {
             "at": 48.93, "eod": 48.87}
-    assert trading.get_historical_prices("BLK",
-        trading.as_market_time(2017, 1, 18, 8, 0, 51)) == {
+    assert trading.get_historical_prices(
+        "BLK", trading.as_market_time(2017, 1, 18, 8, 0, 51)) == {
             "at": 374.8, "eod": 378.0}
-    assert trading.get_historical_prices("F",
-        trading.as_market_time(2017, 1, 18, 7, 34, 9)) == {
+    assert trading.get_historical_prices(
+        "F", trading.as_market_time(2017, 1, 18, 7, 34, 9)) == {
             "at": 12.6, "eod": 12.41}
-    assert trading.get_historical_prices("GM",
-        trading.as_market_time(2017, 1, 18, 7, 34, 9)) == {
+    assert trading.get_historical_prices(
+        "GM", trading.as_market_time(2017, 1, 18, 7, 34, 9)) == {
             "at": 37.31, "eod": 37.47}
-    assert trading.get_historical_prices("LMT",
-        trading.as_market_time(2017, 1, 18, 7, 34, 9)) == {
+    assert trading.get_historical_prices(
+        "LMT", trading.as_market_time(2017, 1, 18, 7, 34, 9)) == {
             "at": 254.12, "eod": 254.07}
-    assert trading.get_historical_prices("GM",
-        trading.as_market_time(2017, 1, 17, 12, 55, 38)) == {
+    assert trading.get_historical_prices(
+        "GM", trading.as_market_time(2017, 1, 17, 12, 55, 38)) == {
             "at": 37.54, "eod": 37.31}
-    assert trading.get_historical_prices("STT",
-        trading.as_market_time(2017, 1, 17, 12, 55, 38)) == {
+    assert trading.get_historical_prices(
+        "STT", trading.as_market_time(2017, 1, 17, 12, 55, 38)) == {
             "at": 81.19, "eod": 80.2}
-    assert trading.get_historical_prices("WMT",
-        trading.as_market_time(2017, 1, 17, 12, 55, 38)) == {
+    assert trading.get_historical_prices(
+        "WMT", trading.as_market_time(2017, 1, 17, 12, 55, 38)) == {
             "at": 68.53, "eod": 68.5}
-    assert trading.get_historical_prices("F",
-        trading.as_market_time(2017, 1, 9, 9, 16, 34)) == {
+    assert trading.get_historical_prices(
+        "F", trading.as_market_time(2017, 1, 9, 9, 16, 34)) == {
             "at": 12.84, "eod": 12.64}
-    assert trading.get_historical_prices("FCAU",
-        trading.as_market_time(2017, 1, 9, 9, 16, 34)) == {
+    assert trading.get_historical_prices(
+        "FCAU", trading.as_market_time(2017, 1, 9, 9, 16, 34)) == {
             "at": 10.57, "eod": 10.57}
-    assert trading.get_historical_prices("FCAU",
-        trading.as_market_time(2017, 1, 9, 9, 14, 10)) == {
+    assert trading.get_historical_prices(
+        "FCAU", trading.as_market_time(2017, 1, 9, 9, 14, 10)) == {
             "at": 10.55, "eod": 10.57}
-    assert trading.get_historical_prices("TM",
-        trading.as_market_time(2017, 1, 5, 13, 14, 30)) == {
+    assert trading.get_historical_prices(
+        "TM", trading.as_market_time(2017, 1, 5, 13, 14, 30)) == {
             "at": 121.12, "eod": 120.44}
-    assert trading.get_historical_prices("F",
-        trading.as_market_time(2017, 1, 4, 8, 19, 9)) == {
+    assert trading.get_historical_prices(
+        "F", trading.as_market_time(2017, 1, 4, 8, 19, 9)) == {
             "at": 12.59, "eod": 13.17}
-    assert trading.get_historical_prices("F",
-        trading.as_market_time(2017, 1, 3, 11, 44, 13)) == {
+    assert trading.get_historical_prices(
+        "F", trading.as_market_time(2017, 1, 3, 11, 44, 13)) == {
             "at": 12.41, "eod": 12.59}
-    assert trading.get_historical_prices("GM",
-        trading.as_market_time(2017, 1, 3, 7, 30, 5)) == {
+    assert trading.get_historical_prices(
+        "GM", trading.as_market_time(2017, 1, 3, 7, 30, 5)) == {
             "at": 34.84, "eod": 35.15}
-    assert trading.get_historical_prices("BA",
-        trading.as_market_time(2016, 12, 22, 17, 26, 5)) == {
+    assert trading.get_historical_prices(
+        "BA", trading.as_market_time(2016, 12, 22, 17, 26, 5)) == {
             "at": 157.46, "eod": 157.92}
-    assert trading.get_historical_prices("BA",
-        trading.as_market_time(2016, 12, 6, 8, 52, 35)) == {
+    assert trading.get_historical_prices(
+        "BA", trading.as_market_time(2016, 12, 6, 8, 52, 35)) == {
             "at": 152.16, "eod": 152.3}
-    assert trading.get_historical_prices("M",
-        trading.as_market_time(2015, 11, 12, 16, 5, 28)) == {
+    assert trading.get_historical_prices(
+        "M", trading.as_market_time(2015, 11, 12, 16, 5, 28)) == {
             "at": 40.73, "eod": 40.15}
-    assert trading.get_historical_prices("M",
-        trading.as_market_time(2015, 7, 16, 9, 14, 15)) == {
+    assert trading.get_historical_prices(
+        "M", trading.as_market_time(2015, 7, 16, 9, 14, 15)) == {
             "at": 71.75, "eod": 72.8}
 
 
@@ -326,13 +328,14 @@ def test_quotes_to_prices(trading):
 
 
 def test_get_day_quotes(trading):
-    # TODO
+    # TODO: Implement.
     pass
 
 
 def test_get_cached_day_quotes(trading):
-    #TODO
+    # TODO: Implement.
     pass
+
 
 def test_get_quote_time(trading):
     assert trading.get_quote_time({
@@ -423,31 +426,31 @@ def test_make_order_request_fail(trading):
 
 def test_bull(trading):
     assert not USE_REAL_MONEY
-    # TODO: Find a way to test while the markets are closed and how to test sell
-    #        short orders without holding the stock.
-    #assert trading.bull("F", 10000.0)
+    # TODO: Find a way to test while the markets are closed and how to test
+    #       sell short orders without holding the stock.
+    # assert trading.bull("F", 10000.0)
 
 
 def test_bear(trading):
     assert not USE_REAL_MONEY
-    # TODO: Find a way to test while the markets are closed and how to test sell
-    #        short orders without holding the stock.
-    #assert trading.bear("F", 10000.0)
+    # TODO: Find a way to test while the markets are closed and how to test
+    #       sell short orders without holding the stock.
+    # assert trading.bear("F", 10000.0)
 
 
 def test_make_trades_success(trading):
     assert not USE_REAL_MONEY
-    # TODO: Find a way to test while the markets are closed and how to test sell
-    #        short orders without holding the stock.
-    #assert trading.make_trades([{
-    #    "exchange": "New York Stock Exchange",
-    #    "name": "Lockheed Martin",
-    #    "sentiment": -0.1,
-    #    "ticker": "LMT"}, {
-    #    "exchange": "New York Stock Exchange",
-    #    "name": "Boeing",
-    #    "sentiment": 0.1,
-    #    "ticker": "BA"}])
+    # TODO: Find a way to test while the markets are closed and how to test
+    #       sell short orders without holding the stock.
+    # assert trading.make_trades([{
+    #     "exchange": "New York Stock Exchange",
+    #     "name": "Lockheed Martin",
+    #     "sentiment": -0.1,
+    #     "ticker": "LMT"}, {
+    #     "exchange": "New York Stock Exchange",
+    #     "name": "Boeing",
+    #     "sentiment": 0.1,
+    #     "ticker": "BA"}])
 
 
 def test_make_trades_fail(trading):

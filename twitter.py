@@ -36,6 +36,7 @@ EMOJI_SHRUG = u"¯\_(\u30c4)_/¯"
 # The number of worker threads processing tweets.
 NUM_THREADS = 100
 
+
 class Twitter:
     """A helper for talking to Twitter APIs."""
 
@@ -161,7 +162,7 @@ class TwitterListener(StreamListener):
         # Create a new logs instance (with its own httplib2 instance) so that
         # there is a separate one for each thread.
         logs = Logs("twitter-listener-worker-%s" % worker_id,
-            to_cloud=self.logs_to_cloud)
+                    to_cloud=self.logs_to_cloud)
 
         logs.debug("Started worker thread: %s" % worker_id)
         while not self.stop_event.is_set():
@@ -213,7 +214,7 @@ class TwitterListener(StreamListener):
             return
 
         # Do a basic check on the response format we expect.
-        if not "user" in tweet:
+        if "user" not in tweet:
             logs.warn("Malformed tweet: %s" % tweet)
             return
 

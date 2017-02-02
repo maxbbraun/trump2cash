@@ -30,6 +30,7 @@ def test_info(logs, capfd):
     logs.info("info")
     assert get_last_log().endswith(" INFO info\n")
 
+
 def test_warn(logs, capfd):
     logs.warn("warn")
     assert get_last_log().endswith(" WARNING warn\n")
@@ -42,12 +43,12 @@ def test_error(logs, capfd):
 
 def test_catch(logs, capfd):
     try:
-      raise Exception("exception")
+        raise Exception("exception")
     except Exception as exception:
-      logs.catch(exception)
+        logs.catch(exception)
     assert get_last_log().endswith(" CRITICAL exception\n")
 
 
 def test_safe_cloud_log(logs):
-    #TODO
+    # TODO: Implement.
     pass

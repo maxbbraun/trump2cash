@@ -22,15 +22,18 @@ FUND_DOLLARS = 100000
 # The fee in dollars per trade (https://www.tradeking.com/rates).
 TRADE_FEE = 4.95
 
+
 def ratio_to_return(ratio):
     """Converts a ratio to a readable percentage return."""
 
     return "%.3f%%" % (100 * (ratio - 1))
 
+
 def format_dollar(amount):
     """Converts a dollar amount into a readable string."""
 
     return "${:,.2f}".format(amount)
+
 
 def format_timestamp(timestamp, weekday=False):
     """Converts a timestamp into a readable string."""
@@ -39,6 +42,7 @@ def format_timestamp(timestamp, weekday=False):
     if weekday:
         date_format += " (%A)"
     return timestamp.strftime(date_format)
+
 
 def get_ratio(strategy):
     """Calculates the profit ratio of a strategy."""
@@ -56,6 +60,7 @@ def get_ratio(strategy):
     else:
         return 1.0
 
+
 def get_sentiment_emoji(sentiment):
     """Returns an emoji representing the sentiment score."""
 
@@ -65,6 +70,7 @@ def get_sentiment_emoji(sentiment):
         return ":thumbsup:"
     else:  # sentiment < 0:
         return ":thumbsdown:"
+
 
 def get_market_status(timestamp):
     """Tries to infer the market status from a timestamp."""
@@ -89,14 +95,15 @@ def get_market_status(timestamp):
     else:
         return "closed"
 
+
 # TODO: Refactor trading so this logic can live there.
 def should_trade(strategy, date, previous_trade_date):
     """Determines whether a trade is happening for the strategy."""
 
     # We invest the whole value, so we can only trade once a day.
-    if (previous_trade_date
-        and previous_trade_date.replace(hour=0, minute=0, second=0)
-            == date.replace(hour=0, minute=0, second=0)):
+    if (previous_trade_date and
+        previous_trade_date.replace(hour=0, minute=0, second=0) ==
+            date.replace(hour=0, minute=0, second=0)):
         return False
 
     # The strategy needs to be active.
@@ -133,7 +140,7 @@ if __name__ == "__main__":
             # What would have been the strategy?
             market_status = get_market_status(timestamp)
             strategy = trading.get_strategy(company, market_status)
-            
+
             # What was the price at tweet and at EOD?
             price = trading.get_historical_prices(
                 company["ticker"], timestamp)
@@ -150,20 +157,17 @@ if __name__ == "__main__":
 
         events.append(event)
 
-    #if not events:
-    #    return
-
     # Make sure the events are ordered by ascending timestatmp.
     events = sorted(events, key=lambda event: event["timestamp"])
 
     # Print out the formatted benchmark results as markdown.
     print "## Benchmark Report"
     print
-    print ("This breakdown of the analysis results and market performance valid"
-           "ates the current implementation against historical data.")
+    print ("This breakdown of the analysis results and market performance vali"
+           "dates the current implementation against historical data.")
     print
-    print ("Use this command to regenerate the benchmark report after changes t"
-           "o the algorithm or data:")
+    print ("Use this command to regenerate the benchmark report after changes "
+           "to the algorithm or data:")
     print "```shell"
     print "$ ./benchmark.py > benchmark.md"
     print "```"
@@ -171,8 +175,8 @@ if __name__ == "__main__":
     print
     print "### Events overview"
     print
-    print ("Here's each tweet with the results of its analysis and individual m"
-           "arket performance.")
+    print ("Here's each tweet with the results of its analysis and individual "
+           "market performance.")
 
     for event in events:
         timestamp = format_timestamp(event["timestamp"], weekday=True)
@@ -193,8 +197,12 @@ if __name__ == "__main__":
                 root = "-" if "root" not in strategy else strategy["root"]
                 sentiment = strategy["sentiment"]
                 sentiment_emoji = get_sentiment_emoji(sentiment)
-                print "%s | %s | %s %s | %s | %s" % (strategy["name"], root,
-                    sentiment, sentiment_emoji, strategy["action"],
+                print "%s | %s | %s %s | %s | %s" % (
+                    strategy["name"],
+                    root,
+                    sentiment,
+                    sentiment_emoji,
+                    strategy["action"],
                     strategy["reason"])
 
             print
@@ -214,8 +222,11 @@ if __name__ == "__main__":
                     price_eod_str = "-"
                 ratio = get_ratio(strategy)
                 total_return = ratio_to_return(ratio)
-                print "%s | %s | %s | %s | %s" % (strategy["ticker"],
-                    strategy["exchange"], price_at_str, price_eod_str,
+                print "%s | %s | %s | %s | %s" % (
+                    strategy["ticker"],
+                    strategy["exchange"],
+                    price_at_str,
+                    price_eod_str,
                     total_return)
         else:
             print "*(No companies)*"
@@ -223,8 +234,8 @@ if __name__ == "__main__":
     print
     print "### Fund simulation"
     print
-    print ("This is how an initial investment of %s would have grown, including"
-           " fees of %s per trade.") % (
+    print ("This is how an initial investment of %s would have grown, includin"
+           "g fees of %s per trade.") % (
                format_dollar(FUND_DOLLARS), format_dollar(TRADE_FEE))
     print
     print "Time | Trade | Value | Return | Annualized"
@@ -277,15 +288,20 @@ if __name__ == "__main__":
                 annualized_return = "-"
 
             date_str = format_timestamp(date)
-            trade_str = u"%s %s" % (strategy["ticker"],
+            trade_str = u"%s %s" % (
+                strategy["ticker"],
                 get_sentiment_emoji(strategy["sentiment"]))
 
             if trade:
                 date_str = "**%s**" % date_str
                 trade_str = "**%s**" % trade_str
 
-            print "%s | %s | %s | %s | %s" % (date_str, trade_str,
-                format_dollar(value), total_return, annualized_return)
+            print "%s | %s | %s | %s | %s" % (
+                date_str,
+                trade_str,
+                format_dollar(value),
+                total_return,
+                annualized_return)
 
         if trade:
             previous_trade_date = date

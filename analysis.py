@@ -8,7 +8,8 @@ from logs import Logs
 
 # The URL for a GET request to the Wikidata API via a SPARQL query to find
 # stock ticker symbols. The parameter is the Freebase ID of the company.
-WIKIDATA_QUERY_URL = ('https://query.wikidata.org/sparql?query='
+WIKIDATA_QUERY_URL = (
+    'https://query.wikidata.org/sparql?query='
     'SELECT ?companyLabel ?ownerLabel ?parentLabel ?tickerLabel'
     ' ?exchangeNameLabel WHERE {'
     '  ?instance wdt:P646 "%s" .'  # Company with specified Freebase ID.
@@ -46,12 +47,12 @@ class Analysis:
         response = get(query).json()
         self.logs.debug("Wikidata response: %s" % response)
 
-        if not "results" in response:
+        if "results" not in response:
             self.logs.error("No results in Wikidata response: %s" % response)
             return None
 
         results = response["results"]
-        if not "bindings" in results:
+        if "bindings" not in results:
             self.logs.error("No bindings in Wikidata results: %s" % results)
             return None
 
@@ -113,7 +114,8 @@ class Analysis:
         # Run entity detection.
         document = self.gcnl_client.document_from_text(text)
         entities = document.analyze_entities()
-        self.logs.debug("Found entities: %s" % self.entities_tostring(entities))
+        self.logs.debug("Found entities: %s" %
+                        self.entities_tostring(entities))
 
         # Collect all entities which are publicly traded companies, i.e.
         # entities which have a known stock ticker symbol.
@@ -124,7 +126,7 @@ class Analysis:
             # entity which doesn't have a Freebase ID.
             name = entity.name
             metadata = entity.metadata
-            if not "mid" in metadata:
+            if "mid" not in metadata:
                 self.logs.debug("No MID found for entity: %s" % name)
                 continue
             mid = metadata["mid"]

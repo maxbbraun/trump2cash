@@ -9,6 +9,7 @@ from twitter import Twitter
 # Whether to send all logs to the cloud instead of a local file.
 LOGS_TO_CLOUD = True
 
+
 def twitter_callback(text, link):
     """Analyzes Trump tweets, makes stock trades, and sends tweet alerts."""
 

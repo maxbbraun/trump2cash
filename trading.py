@@ -54,6 +54,7 @@ TRADING_HOLIDAYS = [MARKET_TIMEZONE.localize(date) for date in [
 # The filename pattern for historical market data.
 MARKET_DATA_FILE = "market_data/%s_%s.txt"
 
+
 class Trading:
     """A helper for making stock trades."""
 
@@ -204,7 +205,8 @@ class Trading:
             previous_day = self.get_previous_day(timestamp)
             previous_quotes = self.get_day_quotes(ticker, previous_day)
             if not previous_quotes:
-                self.logs.error("No quotes for previous day: %s" % previous_day)
+                self.logs.error("No quotes for previous day: %s" %
+                                previous_day)
                 return None
             quote_at = previous_quotes[-1]
             quotes = self.get_day_quotes(ticker, timestamp)
@@ -214,8 +216,8 @@ class Trading:
             quote_eod = quotes[-1]
             return self.quotes_to_prices(quote_at, quote_eod)
 
-        # Depending on where we land relative to the trading day, pick the right
-        # quote and EOD quote.
+        # Depending on where we land relative to the trading day, pick the
+        # right quote and EOD quote.
         first_quote = quotes[0]
         first_quote_time = self.get_quote_time(first_quote)
         last_quote = quotes[-1]
@@ -225,7 +227,8 @@ class Trading:
             previous_day = self.get_previous_day(timestamp)
             previous_quotes = self.get_day_quotes(ticker, previous_day)
             if not previous_quotes:
-                self.logs.error("No quotes for previous day: %s" % previous_day)
+                self.logs.error("No quotes for previous day: %s" %
+                                previous_day)
                 return None
             quote_at = previous_quotes[-1]
             quote_eod = last_quote
@@ -287,7 +290,7 @@ class Trading:
         quotes = self.get_cached_day_quotes(ticker, timestamp)
         if quotes:
             self.logs.debug("Using quotes from cache for: %s %s" %
-                (ticker, timestamp))
+                            (ticker, timestamp))
             return quotes
 
         # Call the API. The timestamp is expected in market time.
@@ -311,7 +314,7 @@ class Trading:
 
         quotes = timesales_response["quotes"]["quote"]
         self.logs.debug("Using quotes from API for: %s %s" %
-            (ticker, timestamp))
+                        (ticker, timestamp))
         return quotes
 
     def get_cached_day_quotes(self, ticker, timestamp):
@@ -322,7 +325,7 @@ class Trading:
 
         if not path.isfile(filename):
             self.logs.warn("Day quotes not in cache for: %s %s" %
-                (ticker, timestamp))
+                           (ticker, timestamp))
             return None
 
         quotes_file = open(filename, "r")
@@ -337,10 +340,10 @@ class Trading:
                 market_time_str = columns[1]
                 try:
                     market_time = datetime.strptime(market_time_str,
-                        "%Y%m%d%H%M")
+                                                    "%Y%m%d%H%M")
                 except ValueError:
                     self.logs.error("Failed to decode market time: %s" %
-                        market_time_str)
+                                    market_time_str)
                     return None
                 utc_time = self.market_time_to_utc(market_time)
                 utc_time_str = utc_time.strftime("%Y-%m-%dT%H:%M:%SZ")
@@ -393,8 +396,8 @@ class Trading:
     def get_previous_day(self, timestamp):
         """Finds the previous trading day."""
 
-        day = (timestamp.replace(hour=0, minute=0, second=0)
-            - timedelta(days=1))
+        day = (timestamp.replace(hour=0, minute=0, second=0) -
+               timedelta(days=1))
 
         # Walk backwards until we hit a trading day.
         while not self.is_trading_day(day):
@@ -405,8 +408,8 @@ class Trading:
     def get_next_day(self, timestamp):
         """Finds the next trading day."""
 
-        day = (timestamp.replace(hour=0, minute=0, second=0)
-            + timedelta(days=1))
+        day = (timestamp.replace(hour=0, minute=0, second=0) +
+               timedelta(days=1))
 
         # Walk forward until we hit a trading day.
         while not self.is_trading_day(day):
@@ -581,14 +584,15 @@ class Trading:
 
         quote = quotes["quotes"]["quote"]
         self.logs.debug("Quote for %s: %s" % (ticker, quote))
-        if not "last" in quote:
+        if "last" not in quote:
             self.logs.error("Malformed quote for %s: %s" % (ticker, quote))
             return None
 
         try:
             last = float(quote["last"])
         except ValueError:
-            self.logs.error("Malformed last for %s: %s" % (ticker, quote["last"]))
+            self.logs.error("Malformed last for %s: %s" %
+                            (ticker, quote["last"]))
             return None
 
         if last > 0:
