@@ -17,7 +17,7 @@ TWEET_IDS = ["806134244384899072", "812061677160202240", "816260343391514624",
              "824055927200423936", "826041397232943104"]
 
 # The initial amount in dollars for the fund simulation.
-FUND_DOLLARS = 10000
+FUND_DOLLARS = 100000
 
 # The fee in dollars per trade (https://www.tradeking.com/rates).
 TRADE_FEE = 4.95
