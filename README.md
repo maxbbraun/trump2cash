@@ -18,6 +18,29 @@ done using Google's
 [Cloud Natural Language API](https://cloud.google.com/natural-language/) and the
 [Wikidata Query Service](https://query.wikidata.org/) provides the company data.
 The [TradeKing API](https://developers.tradeking.com/) does the stock trading.
+
+The [`main`](main.py) module defines a callback where incoming tweets are
+handled and starts streaming Trump's feed:
+
+```python
+def twitter_callback(text, link):
+    companies = analysis.find_companies(text)
+    if companies:
+        trading.make_trades(companies)
+        twitter.tweet(companies, link)
+
+if __name__ == "__main__":
+    twitter.start_streaming(twitter_callback)
+```
+
+The core algorithms are implemented in the [`analysis`](analysis.py) and
+[`trading`](trading.py) modules. The former finds mentions of companies in the
+text of the tweet, figures out what their ticker symbol is, and assigns a
+sentiment score to them. The latter chooses a trading strategy, which is either
+buy now and sell at close or sell short now and buy to cover at close. The
+[`twitter`](twitter.py) module deals with streaming and tweeting out the
+summary.
+
 Follow these steps to run the code yourself:
 
 ### 1. Create VM instance
