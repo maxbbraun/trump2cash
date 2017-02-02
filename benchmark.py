@@ -35,7 +35,7 @@ def format_dollar(amount):
 def format_timestamp(timestamp, weekday=False):
     """Converts a timestamp into a readable string."""
 
-    date_format = "%-m/%-d %Y %-I:%M %p"
+    date_format = "%-m/%-d/%Y %-I:%M %p"
     if weekday:
         date_format += " (%A)"
     return timestamp.strftime(date_format)
@@ -277,13 +277,12 @@ if __name__ == "__main__":
                 annualized_return = "-"
 
             date_str = format_timestamp(date)
-            trade_str = u"%s %s \u00d7 %s @ %s" % (
-                get_sentiment_emoji(strategy["sentiment"]), quantity,
-                strategy["ticker"], format_dollar(price_at))
+            trade_str = u"%s %s" % (strategy["ticker"],
+                get_sentiment_emoji(strategy["sentiment"]))
 
             if trade:
                 date_str = "**%s**" % date_str
-                trade_str = u"**%s**" % trade_str
+                trade_str = "**%s**" % trade_str
 
             print "%s | %s | %s | %s | %s" % (date_str, trade_str,
                 format_dollar(value), total_return, annualized_return)
