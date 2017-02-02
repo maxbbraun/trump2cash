@@ -10,12 +10,15 @@ out a summary of its findings in real time at
 
 *You can read more about the background story [here](https://medium.com/@maxbraun/this-machine-turns-trump-tweets-into-planned-parenthood-donations-928da9e433d2).*
 
-The code is written in Python and uses APIs from
-[Twitter](https://dev.twitter.com/docs),
-[Google](https://cloud.google.com/natural-language/), and
-[TradeKing](https://developers.tradeking.com/) to do it's thing. It is built to
-run in a [Compute Engine](https://cloud.google.com/compute/) instance. Follow
-these steps to run the code yourself:
+The code is written in Python and is meant to run on a
+[Google Compute Engine](https://cloud.google.com/compute/) instance. It uses the
+[Twitter Streaming APIs](https://dev.twitter.com/streaming/overview) to get
+notified whenever Trump tweets. The entity detection and sentiment analysis is
+done using Google's
+[Cloud Natural Language API](https://cloud.google.com/natural-language/) and the
+[Wikidata Query Service](https://query.wikidata.org/) provides the company data.
+The [TradeKing API](https://developers.tradeking.com/) does the stock trading.
+Follow these steps to run the code yourself:
 
 ### 1. Create VM instance
 
