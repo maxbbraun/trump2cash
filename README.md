@@ -8,7 +8,7 @@ the relevant stocks according to the expected market reaction. It also tweets
 out a summary of its findings in real time at
 [@Trump2Cash](https://twitter.com/Trump2Cash).
 
-*You can read more about the background story [here](https://medium.com/@maxbraun/this-machine-turns-trump-tweets-into-planned-parenthood-donations-928da9e433d2).*
+*You can read more about the background story [here](http://trump2cash.biz).*
 
 The code is written in Python and is meant to run on a
 [Google Compute Engine](https://cloud.google.com/compute/) instance. It uses the
