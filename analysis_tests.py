@@ -5,6 +5,8 @@ from os import getenv
 from pytest import fixture
 
 from analysis import Analysis
+from analysis import MID_TO_TICKER_QUERY
+from analysis import TWITTER_TO_MID_QUERY
 
 # TODO: Make commented-out tests work.
 
@@ -108,9 +110,9 @@ def test_get_company_data(analysis):
         "exchange": "New York Stock Exchange",
         "name": "Delta Air Lines",
         "ticker": "DAL"}]
-    assert analysis.get_company_data("/m/0d6lp") == []
-    assert analysis.get_company_data("xyz") == []
-    assert analysis.get_company_data("") == []
+    assert analysis.get_company_data("/m/0d6lp") == None
+    assert analysis.get_company_data("xyz") == None
+    assert analysis.get_company_data("") == None
 
 
 def test_entity_tostring(analysis):
@@ -221,8 +223,19 @@ TEXT_16 = (
     " at the @WhiteHouse today.")
 TEXT_17 = (
     "Only 109 people out of 325,000 were detained and held for questioning. Bi"
-    "g problems at airports were caused by Delta computer outage,....."
-)
+    "g problems at airports were caused by Delta computer outage,.....")
+TEXT_18 = (
+    "Will be interviewed by @SeanHannity on @FoxNews at 10:00pm tonight. Enjoy"
+    "!")
+TEXT_19 = (
+    "After being forced to apologize for its bad and inaccurate coverage of me"
+    " after winning the election, the FAKE NEWS @nytimes is still lost!")
+TEXT_20 = (
+    "The failing @nytimes writes total fiction concerning me. They have gotten"
+    " it wrong for two years, and now are making up stories &amp; sources!")
+TEXT_21 = (
+    "The failing @nytimes was forced to apologize to its subscribers for the p"
+    "oor reporting it did on my election win. Now they are worse!")
 
 
 def test_get_sentiment(analysis):
@@ -243,6 +256,10 @@ def test_get_sentiment(analysis):
     # assert analysis.get_sentiment(TEXT_15) > 0
     assert analysis.get_sentiment(TEXT_16) > 0
     assert analysis.get_sentiment(TEXT_17) < 0
+    assert analysis.get_sentiment(TEXT_18) > 0
+    assert analysis.get_sentiment(TEXT_19) < 0
+    assert analysis.get_sentiment(TEXT_20) < 0
+    assert analysis.get_sentiment(TEXT_21) < 0
     assert analysis.get_sentiment("") == 0
 
 
@@ -374,3 +391,69 @@ def test_find_companies(analysis):
         "name": "Delta Air Lines",
         "sentiment": -0.4,
         "ticker": "DAL"}]
+    # assert analysis.find_companies(TEXT_18) == [{
+    #     "exchange": "NASDAQ",
+    #     "name": "Fox News",
+    #     "root": "21st Century Fox"
+    #     "sentiment": 0.5,
+    #     "ticker": "FOXA"},{
+    #     "exchange": "NASDAQ",
+    #     "name": "Fox News",
+    #     "root": "21st Century Fox"
+    #     "sentiment": 0.5,
+    #     "ticker": "FOXB"}]
+    assert analysis.find_companies(TEXT_19) == [{
+        "exchange": "New York Stock Exchange",
+        "name": "The New York Times",
+        "root": "The New York Times Company",
+        "sentiment": -0.9,
+        "ticker": "NYT"}]
+    assert analysis.find_companies(TEXT_20) == [{
+        "exchange": "New York Stock Exchange",
+        "name": "The New York Times",
+        "root": "The New York Times Company",
+        "sentiment": -0.6,
+        "ticker": "NYT"}]
+    assert analysis.find_companies(TEXT_21) == [{
+        "exchange": "New York Stock Exchange",
+        "name": "The New York Times",
+        "root": "The New York Times Company",
+        "sentiment": -0.8,
+        "ticker": "NYT"}]
+    assert analysis.find_companies("") == []
+
+
+def test_get_mid_from_twitter(analysis):
+    assert analysis.get_mid_from_twitter("@nytimes") == "/m/07k2d"
+    assert analysis.get_mid_from_twitter("@NYTimes") == "/m/07k2d"
+    assert analysis.get_mid_from_twitter("@foxnews") == "/m/02z_b"
+    assert analysis.get_mid_from_twitter("@FoxNews") == "/m/02z_b"
+    assert analysis.get_mid_from_twitter("@realDonaldTrump") == "/m/0cqt90"
+    assert analysis.get_mid_from_twitter("@maxbraun") == None
+    assert analysis.get_mid_from_twitter("@") == None
+    assert analysis.get_mid_from_twitter("") == None
+
+
+def test_make_wikidata_request(analysis):
+    assert analysis.make_wikidata_request(
+        TWITTER_TO_MID_QUERY % "nytimes") == [{
+            "mid": {
+                "type": "literal",
+                "value": "/m/07k2d"}}]
+    assert analysis.make_wikidata_request(
+        MID_TO_TICKER_QUERY % "/m/07k2d") == [{
+            "companyLabel": {
+                "type": "literal",
+                "value": "The New York Times",
+                "xml:lang": "en"},
+            "exchangeNameLabel": {
+                "type": "literal",
+                "value": "New York Stock Exchange",
+                "xml:lang": "en"},
+            "ownerLabel": {
+                "type": "literal",
+                "value": "The New York Times Company",
+                "xml:lang": "en"},
+            "tickerLabel": {
+                "type": "literal",
+                "value": "NYT"}}]

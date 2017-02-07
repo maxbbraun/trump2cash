@@ -6,10 +6,13 @@ from requests import get
 
 from logs import Logs
 
-# The URL for a GET request to the Wikidata API via a SPARQL query to find
-# stock ticker symbols. The parameter is the Freebase ID of the company.
-WIKIDATA_QUERY_URL = (
-    'https://query.wikidata.org/sparql?query='
+# The URL for a GET request to the Wikidata API. The string parameter is the
+# SPARQL query.
+WIKIDATA_QUERY_URL = "https://query.wikidata.org/sparql?query=%s&format=JSON"
+
+# A Wikidata SPARQL query to find stock ticker symbols and other information
+# for a company. The string parameter is the Freebase ID of the company.
+MID_TO_TICKER_QUERY = (
     'SELECT ?companyLabel ?ownerLabel ?parentLabel ?tickerLabel'
     ' ?exchangeNameLabel WHERE {'
     '  ?instance wdt:P646 "%s" .'  # Company with specified Freebase ID.
@@ -27,8 +30,16 @@ WIKIDATA_QUERY_URL = (
     '    bd:serviceParam wikibase:language "en" .'  # Use English labels.
     '  }'
     '} GROUP BY ?companyLabel ?ownerLabel ?parentLabel ?tickerLabel'
-    ' ?exchangeNameLabel'
-    '&format=JSON')
+    ' ?exchangeNameLabel')
+
+# A Wikidata SPARQL query to find the Freebase ID of a company based on their
+# Twitter handle. The string parameter is the Twitter handle (without the '@').
+TWITTER_TO_MID_QUERY = (
+    'SELECT ?mid WHERE {'
+    '  ?instance wdt:P2002 ?twitter .'  # Company has a Twitter handle.
+    '  ?instance wdt:P646 ?mid .'  # Company has a Freebase ID.
+    '  FILTER (lcase(str(?twitter)) = "%s")'  # The lowercase handle matches.
+    '}')
 
 
 class Analysis:
@@ -42,24 +53,12 @@ class Analysis:
         """Looks up stock ticker information for a company via its Freebase ID.
         """
 
-        query = WIKIDATA_QUERY_URL % mid
-        self.logs.debug("Wikidata query: %s" % query)
-        response = get(query).json()
-        self.logs.debug("Wikidata response: %s" % response)
+        query = MID_TO_TICKER_QUERY % mid
+        bindings = self.make_wikidata_request(query)
 
-        if "results" not in response:
-            self.logs.error("No results in Wikidata response: %s" % response)
-            return None
-
-        results = response["results"]
-        if "bindings" not in results:
-            self.logs.error("No bindings in Wikidata results: %s" % results)
-            return None
-
-        bindings = results["bindings"]
         if not bindings:
-            self.logs.debug("Empty bindings in Wikidata results: %s" % results)
-            return []
+            self.logs.debug("No company data found for MID: %s" % mid)
+            return None
 
         # Collect the data from the response.
         datas = []
@@ -123,13 +122,22 @@ class Analysis:
         for entity in entities:
 
             # Use the Freebase ID of the entity to find company data. Skip any
-            # entity which doesn't have a Freebase ID.
+            # entity which doesn't have a Freebase ID (unless we find one via
+            # the Twitter handle).
             name = entity.name
             metadata = entity.metadata
-            if "mid" not in metadata:
-                self.logs.debug("No MID found for entity: %s" % name)
-                continue
-            mid = metadata["mid"]
+            if "mid" in metadata:
+                mid = metadata["mid"]
+                self.logs.debug("Using MID from metadata: %s %s" % (name, mid))
+            else:
+                mid = self.get_mid_from_twitter(name)
+                if mid:
+                    self.logs.debug("Using MID from Twitter handle: %s %s" %
+                                    (name, mid))
+                else:
+                    self.logs.debug("No MID found for entity: %s" % name)
+                    continue
+
             company_data = self.get_company_data(mid)
 
             # Skip any entity for which we can't find any company data.
@@ -157,6 +165,71 @@ class Analysis:
                         "Skipping company with duplicate ticker: %s" % company)
 
         return companies
+
+    def get_mid_from_twitter(self, name):
+        """Looks up the Freebase ID for a company if the name is a Twitter
+        handle.
+        """
+
+        if not name or not name.startswith("@") or len(name) < 2:
+            self.logs.debug("Name is not a Twitter handle: %s" % name)
+            return None
+
+        # To catch spelling variations we only use the lowercase version.
+        handle = name[1:].lower()
+
+        query = TWITTER_TO_MID_QUERY % handle
+        bindings = self.make_wikidata_request(query)
+        if not bindings:
+            self.logs.debug("No MID found for Twitter handle: %s" % handle)
+            return None
+
+        mids = []
+        for binding in bindings:
+            if "mid" in binding:
+                mids.append(binding["mid"]["value"])
+
+        if not mids:
+            self.logs.error("Failed to parse MID for Twitter handle: %s" %
+                            handle)
+            return None
+
+        # There should only be one MID, but we ignore any additional ones.
+        if len(mids) > 1:
+            self.logs.warn(
+                "Found more than one MID for Twitter handle: %s %s" %
+                (handle, mids))
+
+        mid = mids[0]
+
+        return mid
+
+    def make_wikidata_request(self, query):
+        """Makes a request to the Wikidata SPARQL API."""
+
+        query_url = WIKIDATA_QUERY_URL % query
+        self.logs.debug("Wikidata query: %s" % query_url)
+
+        response = get(query_url)
+        try:
+            response_json = response.json()
+        except ValueError:
+            self.logs.error("Failed to decode JSON response: %s" % response)
+            return None
+        self.logs.debug("Wikidata response: %s" % response_json)
+
+        if "results" not in response_json:
+            self.logs.error("No results in Wikidata response: %s" %
+                            response_json)
+            return None
+
+        results = response_json["results"]
+        if "bindings" not in results:
+            self.logs.error("No bindings in Wikidata results: %s" % results)
+            return None
+
+        bindings = results["bindings"]
+        return bindings
 
     def entities_tostring(self, entities):
         """Converts a list of entities to a readable string."""
