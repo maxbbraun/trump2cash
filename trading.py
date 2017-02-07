@@ -200,21 +200,9 @@ class Trading:
         quotes = self.get_day_quotes(ticker, timestamp)
         if not quotes:
             self.logs.warn("No quotes for day: %s" % timestamp)
-
-            # Use the previous trading day, but the same day for EOD.
+            # Use the previous trading day and retry recursively.
             previous_day = self.get_previous_day(timestamp)
-            previous_quotes = self.get_day_quotes(ticker, previous_day)
-            if not previous_quotes:
-                self.logs.error("No quotes for previous day: %s" %
-                                previous_day)
-                return None
-            quote_at = previous_quotes[-1]
-            quotes = self.get_day_quotes(ticker, timestamp)
-            if not quotes:
-                self.logs.error("No quotes for day: %s" % timestamp)
-                return None
-            quote_eod = quotes[-1]
-            return self.quotes_to_prices(quote_at, quote_eod)
+            return self.get_historical_prices(ticker, previous_day)
 
         # Depending on where we land relative to the trading day, pick the
         # right quote and EOD quote.
@@ -396,8 +384,7 @@ class Trading:
     def get_previous_day(self, timestamp):
         """Finds the previous trading day."""
 
-        day = (timestamp.replace(hour=0, minute=0, second=0) -
-               timedelta(days=1))
+        day = timestamp - timedelta(days=1)
 
         # Walk backwards until we hit a trading day.
         while not self.is_trading_day(day):
@@ -408,8 +395,7 @@ class Trading:
     def get_next_day(self, timestamp):
         """Finds the next trading day."""
 
-        day = (timestamp.replace(hour=0, minute=0, second=0) +
-               timedelta(days=1))
+        day = timestamp + timedelta(days=1)
 
         # Walk forward until we hit a trading day.
         while not self.is_trading_day(day):
