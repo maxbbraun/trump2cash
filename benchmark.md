@@ -232,6 +232,12 @@ Ticker | Exchange | Price @ tweet | Price EOD | Return
 F | New York Stock Exchange | $12.60 | $12.78 | 0.000%
 GM | New York Stock Exchange | $37.09 | $38.28 | 0.000%
 
+##### [1/26/2017 6:45 PM (Thursday)](https://twitter.com/realDonaldTrump/status/824765229527605248)
+
+> Will be interviewed by @SeanHannity on @FoxNews at 10:00pm tonight. Enjoy!
+
+*(No companies)*
+
 ##### [1/30/2017 7:16 AM (Monday)](https://twitter.com/realDonaldTrump/status/826041397232943104)
 
 > Only 109 people out of 325,000 were detained and held for questioning. Big problems at airports were caused by Delta computer outage,.....
@@ -247,6 +253,54 @@ Delta Air Lines | - | -0.4 :thumbsdown: | hold | market closed
 Ticker | Exchange | Price @ tweet | Price EOD | Return
 -------|----------|---------------|-----------|-------
 DAL | New York Stock Exchange | $49.70 | $47.75 | 0.000%
+
+##### [2/4/2017 8:39 AM (Saturday)](https://twitter.com/realDonaldTrump/status/827874208021639168)
+
+> After being forced to apologize for its bad and inaccurate coverage of me after winning the election, the FAKE NEWS @nytimes is still lost!
+
+*Strategy*
+
+Company | Root | Sentiment | Strategy | Reason
+--------|------|-----------|----------|-------
+The New York Times | The New York Times Company | -0.9 :thumbsdown: | hold | market closed
+
+*Performance*
+
+Ticker | Exchange | Price @ tweet | Price EOD | Return
+-------|----------|---------------|-----------|-------
+NYT | New York Stock Exchange | $13.55 | $14.35 | 0.000%
+
+##### [2/6/2017 11:32 AM (Monday)](https://twitter.com/realDonaldTrump/status/828642511698669569)
+
+> The failing @nytimes writes total fiction concerning me. They have gotten it wrong for two years, and now are making up stories &amp; sources!
+
+*Strategy*
+
+Company | Root | Sentiment | Strategy | Reason
+--------|------|-----------|----------|-------
+The New York Times | The New York Times Company | -0.6 :thumbsdown: | bear | negative sentiment
+
+*Performance*
+
+Ticker | Exchange | Price @ tweet | Price EOD | Return
+-------|----------|---------------|-----------|-------
+NYT | New York Stock Exchange | $14.40 | $14.50 | -0.690%
+
+##### [2/6/2017 9:33 PM (Monday)](https://twitter.com/realDonaldTrump/status/828793887275761665)
+
+> The failing @nytimes was forced to apologize to its subscribers for the poor reporting it did on my election win. Now they are worse!
+
+*Strategy*
+
+Company | Root | Sentiment | Strategy | Reason
+--------|------|-----------|----------|-------
+The New York Times | The New York Times Company | -0.8 :thumbsdown: | hold | market closed
+
+*Performance*
+
+Ticker | Exchange | Price @ tweet | Price EOD | Return
+-------|----------|---------------|-----------|-------
+NYT | New York Stock Exchange | - | - | 0.000%
 
 ### Fund simulation
 
@@ -275,3 +329,6 @@ Time | Trade | Value | Return | Annualized
 1/24/2017 7:46 PM | F :thumbsup: | $107,069.96 | 7.070% | 66.339%
 1/24/2017 7:46 PM | GM :thumbsup: | $107,069.96 | 7.070% | 66.339%
 1/30/2017 7:16 AM | DAL :thumbsdown: | $107,069.96 | 7.070% | 58.683%
+2/4/2017 8:39 AM | NYT :thumbsdown: | $107,069.96 | 7.070% | 52.594%
+**2/6/2017 11:32 AM** | **NYT :thumbsdown:** | $106,328.51 | 6.329% | 43.512%
+2/6/2017 9:33 PM | NYT :thumbsdown: | $106,328.51 | 6.329% | 43.512%

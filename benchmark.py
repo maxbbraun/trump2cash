@@ -14,7 +14,8 @@ TWEET_IDS = ["806134244384899072", "812061677160202240", "816260343391514624",
              "816324295781740544", "816635078067490816", "817071792711942145",
              "818460862675558400", "818461467766824961", "821415698278875137",
              "821697182235496450", "821703902940827648", "823950814163140609",
-             "824055927200423936", "826041397232943104"]
+             "824055927200423936", "826041397232943104", "827874208021639168",
+             "828642511698669569", "828793887275761665", "824765229527605248"]
 
 # The initial amount in dollars for the fund simulation.
 FUND_DOLLARS = 100000
@@ -108,6 +109,10 @@ def should_trade(strategy, date, previous_trade_date):
 
     # The strategy needs to be active.
     if strategy["action"] == "hold":
+        return False
+
+    # We need to know the stock price.
+    if not strategy["price_at"] or not strategy["price_eod"]:
         return False
 
     return True
@@ -250,8 +255,8 @@ if __name__ == "__main__":
         strategies = event["strategies"]
 
         # Figure out what to spend on each trade.
-        num_actionable_strategies = sum(
-            [1 for strategy in strategies if strategy["action"] != "hold"])
+        num_actionable_strategies = sum([1 for strategy in strategies if
+            should_trade(strategy, date, previous_trade_date)])
         budget = trading.get_budget(value, num_actionable_strategies)
 
         for strategy in strategies:
