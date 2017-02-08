@@ -268,7 +268,7 @@ The New York Times | The New York Times Company | -0.9 :thumbsdown: | hold | mar
 
 Ticker | Exchange | Price @ tweet | Price EOD | Return
 -------|----------|---------------|-----------|-------
-NYT | New York Stock Exchange | $13.55 | $14.35 | 0.000%
+NYT | New York Stock Exchange | $14.37 | $14.35 | 0.000%
 
 ##### [2/6/2017 11:32 AM (Monday)](https://twitter.com/realDonaldTrump/status/828642511698669569)
 
@@ -300,7 +300,7 @@ The New York Times | The New York Times Company | -0.8 :thumbsdown: | hold | mar
 
 Ticker | Exchange | Price @ tweet | Price EOD | Return
 -------|----------|---------------|-----------|-------
-NYT | New York Stock Exchange | - | - | 0.000%
+NYT | New York Stock Exchange | $14.50 | $14.65 | 0.000%
 
 ### Fund simulation
 
