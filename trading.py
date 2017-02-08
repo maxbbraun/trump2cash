@@ -200,16 +200,17 @@ class Trading:
         quotes = self.get_day_quotes(ticker, timestamp)
         if not quotes:
             self.logs.warn("No quotes for day: %s" % timestamp)
-            # Use the previous trading day and retry recursively.
-            previous_day = self.get_previous_day(timestamp)
+            # Use the end of the previous trading day and retry recursively.
+            timestamp_eod = timestamp.replace(hour=15, minute=59, second=59)
+            previous_day = self.get_previous_day(timestamp_eod)
             return self.get_historical_prices(ticker, previous_day)
 
         # Depending on where we land relative to the trading day, pick the
         # right quote and EOD quote.
         first_quote = quotes[0]
-        first_quote_time = self.get_quote_time(first_quote)
+        first_quote_time = first_quote["time"]
         last_quote = quotes[-1]
-        last_quote_time = self.get_quote_time(last_quote)
+        last_quote_time = last_quote["time"]
         if timestamp < first_quote_time:
             self.logs.debug("Using previous quote.")
             previous_day = self.get_previous_day(timestamp)
@@ -225,7 +226,7 @@ class Trading:
             # Walk through the quotes unitl we stepped over the timestamp.
             previous_quote = first_quote
             for quote in quotes:
-                quote_time = self.get_quote_time(quote)
+                quote_time = quote["time"]
                 if quote_time > timestamp:
                     break
                 previous_quote = quote
@@ -242,77 +243,17 @@ class Trading:
             quote_eod = next_quotes[-1]
 
         self.logs.debug("Using quotes: %s %s" % (quote_at, quote_eod))
-        return self.quotes_to_prices(quote_at, quote_eod)
-
-    def quotes_to_prices(self, quote_at, quote_eod):
-        """Extracts the price from a quote."""
-
-        if not quote_at or "last" not in quote_at:
-            self.logs.error("Bad quote at: %s" % quote_at)
-            return None
-
-        if not quote_eod or "last" not in quote_eod:
-            self.logs.error("Bad quote EOD: %s" % quote_eod)
-            return None
-
-        last_at = quote_at["last"]
-        try:
-            price_at = float(last_at)
-        except ValueError:
-            self.logs.error("Malformed number in price at: %s" % last_at)
-            return None
-
-        last_eod = quote_eod["last"]
-        try:
-            price_eod = float(last_eod)
-        except ValueError:
-            self.logs.error("Malformed number in price at: %s" % last_eod)
-            return None
-
-        return {"at": price_at, "eod": price_eod}
+        return {"at": quote_at["price"], "eod": quote_eod["price"]}
 
     def get_day_quotes(self, ticker, timestamp):
         """Collects all quotes from the day of the market timestamp."""
 
-        # Try the local cache first.
-        quotes = self.get_cached_day_quotes(ticker, timestamp)
-        if quotes:
-            self.logs.debug("Using quotes from cache for: %s %s" %
-                            (ticker, timestamp))
-            return quotes
-
-        # Call the API. The timestamp is expected in market time.
-        day = timestamp.strftime("%Y-%m-%d")
-        timesales_url = TRADEKING_API_URL % "market/timesales"
-        timesales_url += "?symbols=%s" % ticker
-        timesales_url += "&startdate=%s&enddate=%s" % (day, day)
-        timesales_url += "&interval=1min"
-        response = self.make_request(url=timesales_url)
-
-        if not response or "response" not in response:
-            self.logs.error("Missing timesales response: %s" % response)
-            return None
-
-        timesales_response = response["response"]
-        if ("quotes" not in timesales_response or
-            "quote" not in timesales_response["quotes"]):
-            self.logs.error("Malformed timesales response: %s" %
-                            timesales_response)
-            return None
-
-        quotes = timesales_response["quotes"]["quote"]
-        self.logs.debug("Using quotes from API for: %s %s" %
-                        (ticker, timestamp))
-        return quotes
-
-    def get_cached_day_quotes(self, ticker, timestamp):
-        """Looks up a day's quotes from a locally cached file."""
-
+        # The timestamp is expected in market time.
         day = timestamp.strftime("%Y%m%d")
         filename = MARKET_DATA_FILE % (ticker, day)
 
         if not path.isfile(filename):
-            self.logs.warn("Day quotes not in cache for: %s %s" %
+            self.logs.error("Day quotes not on file for: %s %s" %
                            (ticker, timestamp))
             return None
 
@@ -324,24 +265,24 @@ class Trading:
             # Skip the header line, then read the quotes.
             for line in lines[1:]:
                 columns = line.split(",")
-                # Convert to the same timezone and date format used by the API.
+
                 market_time_str = columns[1]
                 try:
-                    market_time = datetime.strptime(market_time_str,
-                                                    "%Y%m%d%H%M")
+                    market_time = MARKET_TIMEZONE.localize(datetime.strptime(
+                        market_time_str, "%Y%m%d%H%M"))
                 except ValueError:
                     self.logs.error("Failed to decode market time: %s" %
                                     market_time_str)
                     return None
-                utc_time = self.market_time_to_utc(market_time)
-                utc_time_str = utc_time.strftime("%Y-%m-%dT%H:%M:%SZ")
+
                 price_str = columns[2]
                 try:
                     price = float(price_str)
                 except ValueError:
                     self.logs.error("Failed to decode price: %s" % price_str)
                     return None
-                quote = {"datetime": utc_time_str, "last": price}
+
+                quote = {"time": market_time, "price": price}
                 quotes.append(quote)
 
             return quotes
@@ -350,18 +291,6 @@ class Trading:
             return None
         finally:
             quotes_file.close()
-
-    def get_quote_time(self, quote):
-        """Extracts the timestamp from a quote."""
-
-        # Timestamp is expected in UTC.
-        utc_time_str = quote["datetime"]
-        try:
-            utc_time = datetime.strptime(utc_time_str, "%Y-%m-%dT%H:%M:%SZ")
-            return self.utc_to_market_time(utc_time)
-        except ValueError:
-            self.logs.error("Failed to decode quote time: %s" % utc_time_str)
-            return None
 
     def is_trading_day(self, timestamp):
         """Tests whether markets are open on a given day."""
@@ -384,24 +313,28 @@ class Trading:
     def get_previous_day(self, timestamp):
         """Finds the previous trading day."""
 
-        day = timestamp - timedelta(days=1)
+        previous_day = timestamp - timedelta(days=1)
 
         # Walk backwards until we hit a trading day.
-        while not self.is_trading_day(day):
-            day -= timedelta(days=1)
+        while not self.is_trading_day(previous_day):
+            previous_day -= timedelta(days=1)
 
-        return day
+        self.logs.debug("Previous trading day for %s: %s" %
+                        (timestamp, previous_day))
+        return previous_day
 
     def get_next_day(self, timestamp):
         """Finds the next trading day."""
 
-        day = timestamp + timedelta(days=1)
+        next_day = timestamp + timedelta(days=1)
 
         # Walk forward until we hit a trading day.
-        while not self.is_trading_day(day):
-            day += timedelta(days=1)
+        while not self.is_trading_day(next_day):
+            next_day += timedelta(days=1)
 
-        return day
+        self.logs.debug("Next trading day for %s: %s" %
+                        (timestamp, next_day))
+        return next_day
 
     def utc_to_market_time(self, timestamp):
         """Converts a UTC timestamp to local market time."""

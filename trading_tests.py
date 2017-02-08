@@ -19,6 +19,13 @@ def trading():
     return Trading(logs_to_cloud=False)
 
 
+def as_market_time(year, month, day, hour=0, minute=0, second=0):
+    """Creates a timestamp in market time."""
+
+    market_time = datetime(year, month, day, hour, minute, second)
+    return MARKET_TIMEZONE.localize(market_time)
+
+
 def test_environment_variables():
     assert TRADEKING_CONSUMER_KEY
     assert TRADEKING_CONSUMER_SECRET
@@ -147,7 +154,7 @@ def test_get_budget(trading):
 
 def test_utc_to_market_time(trading):
     assert trading.utc_to_market_time(datetime(
-        2017, 1, 3, 16, 44, 13)) == trading.as_market_time(
+        2017, 1, 3, 16, 44, 13)) == as_market_time(
         2017, 1, 3, 11, 44, 13)
 
 
@@ -239,173 +246,127 @@ def test_get_quantity(trading):
 
 def test_get_historical_prices(trading):
     assert trading.get_historical_prices(
-        "F", trading.as_market_time(2017, 1, 24, 19, 46, 57)) == {
+        "F", as_market_time(2017, 1, 24, 19, 46, 57)) == {
             "at": 12.6, "eod": 12.78}
     assert trading.get_historical_prices(
-        "GM", trading.as_market_time(2017, 1, 24, 19, 46, 57)) == {
+        "GM", as_market_time(2017, 1, 24, 19, 46, 57)) == {
             "at": 37.09, "eod": 38.28}
     assert trading.get_historical_prices(
-        "TRP", trading.as_market_time(2017, 1, 24, 12, 49, 17)) == {
+        "TRP", as_market_time(2017, 1, 24, 12, 49, 17)) == {
             "at": 48.93, "eod": 48.87}
     assert trading.get_historical_prices(
-        "BLK", trading.as_market_time(2017, 1, 18, 8, 0, 51)) == {
+        "BLK", as_market_time(2017, 1, 18, 8, 0, 51)) == {
             "at": 374.8, "eod": 378.0}
     assert trading.get_historical_prices(
-        "F", trading.as_market_time(2017, 1, 18, 7, 34, 9)) == {
+        "F", as_market_time(2017, 1, 18, 7, 34, 9)) == {
             "at": 12.6, "eod": 12.41}
     assert trading.get_historical_prices(
-        "GM", trading.as_market_time(2017, 1, 18, 7, 34, 9)) == {
+        "GM", as_market_time(2017, 1, 18, 7, 34, 9)) == {
             "at": 37.31, "eod": 37.47}
     assert trading.get_historical_prices(
-        "LMT", trading.as_market_time(2017, 1, 18, 7, 34, 9)) == {
+        "LMT", as_market_time(2017, 1, 18, 7, 34, 9)) == {
             "at": 254.12, "eod": 254.07}
     assert trading.get_historical_prices(
-        "GM", trading.as_market_time(2017, 1, 17, 12, 55, 38)) == {
+        "GM", as_market_time(2017, 1, 17, 12, 55, 38)) == {
             "at": 37.54, "eod": 37.31}
     assert trading.get_historical_prices(
-        "STT", trading.as_market_time(2017, 1, 17, 12, 55, 38)) == {
+        "STT", as_market_time(2017, 1, 17, 12, 55, 38)) == {
             "at": 81.19, "eod": 80.2}
     assert trading.get_historical_prices(
-        "WMT", trading.as_market_time(2017, 1, 17, 12, 55, 38)) == {
+        "WMT", as_market_time(2017, 1, 17, 12, 55, 38)) == {
             "at": 68.53, "eod": 68.5}
     assert trading.get_historical_prices(
-        "F", trading.as_market_time(2017, 1, 9, 9, 16, 34)) == {
+        "F", as_market_time(2017, 1, 9, 9, 16, 34)) == {
             "at": 12.84, "eod": 12.64}
     assert trading.get_historical_prices(
-        "FCAU", trading.as_market_time(2017, 1, 9, 9, 16, 34)) == {
+        "FCAU", as_market_time(2017, 1, 9, 9, 16, 34)) == {
             "at": 10.57, "eod": 10.57}
     assert trading.get_historical_prices(
-        "FCAU", trading.as_market_time(2017, 1, 9, 9, 14, 10)) == {
+        "FCAU", as_market_time(2017, 1, 9, 9, 14, 10)) == {
             "at": 10.55, "eod": 10.57}
     assert trading.get_historical_prices(
-        "TM", trading.as_market_time(2017, 1, 5, 13, 14, 30)) == {
+        "TM", as_market_time(2017, 1, 5, 13, 14, 30)) == {
             "at": 121.12, "eod": 120.44}
     assert trading.get_historical_prices(
-        "F", trading.as_market_time(2017, 1, 4, 8, 19, 9)) == {
+        "F", as_market_time(2017, 1, 4, 8, 19, 9)) == {
             "at": 12.59, "eod": 13.17}
     assert trading.get_historical_prices(
-        "F", trading.as_market_time(2017, 1, 3, 11, 44, 13)) == {
+        "F", as_market_time(2017, 1, 3, 11, 44, 13)) == {
             "at": 12.41, "eod": 12.59}
     assert trading.get_historical_prices(
-        "GM", trading.as_market_time(2017, 1, 3, 7, 30, 5)) == {
+        "GM", as_market_time(2017, 1, 3, 7, 30, 5)) == {
             "at": 34.84, "eod": 35.15}
     assert trading.get_historical_prices(
-        "BA", trading.as_market_time(2016, 12, 22, 17, 26, 5)) == {
+        "BA", as_market_time(2016, 12, 22, 17, 26, 5)) == {
             "at": 157.46, "eod": 157.92}
     assert trading.get_historical_prices(
-        "BA", trading.as_market_time(2016, 12, 6, 8, 52, 35)) == {
+        "BA", as_market_time(2016, 12, 6, 8, 52, 35)) == {
             "at": 152.16, "eod": 152.3}
     assert trading.get_historical_prices(
-        "M", trading.as_market_time(2015, 11, 12, 16, 5, 28)) == {
+        "M", as_market_time(2015, 11, 12, 16, 5, 28)) == {
             "at": 40.73, "eod": 40.15}
     assert trading.get_historical_prices(
-        "M", trading.as_market_time(2015, 7, 16, 9, 14, 15)) == {
+        "M", as_market_time(2015, 7, 16, 9, 14, 15)) == {
             "at": 71.75, "eod": 72.8}
 
 
-def test_quotes_to_prices(trading):
-    assert trading.quotes_to_prices({
-        "last": "157.46",
-        "lo": "157.46",
-        "vl": "587941",
-        "datetime": "2016-12-22T21:01:00Z",
-        "incr_vl": "587941",
-        "hi": "157.46",
-        "timestamp": "2017-01-28T08:54:48Z",
-        "date": "2016-12-22",
-        "opn": "157.46"}, {
-        "last": "157.81",
-        "lo": "157.81",
-        "vl": "396858",
-        "datetime": "2016-12-23T21:02:00Z",
-        "incr_vl": "396858",
-        "hi": "157.81",
-        "timestamp": "2017-01-28T08:54:48Z",
-        "date": "2016-12-23",
-        "opn": "157.81"}) == {
-            "at": 157.46,
-            "eod": 157.81}
-
-
 def test_get_day_quotes(trading):
-    # TODO: Implement.
-    pass
-
-
-def test_get_cached_day_quotes(trading):
-    # TODO: Implement.
-    pass
-
-
-def test_get_quote_time(trading):
-    assert trading.get_quote_time({
-        "last": "157.46",
-        "lo": "157.46",
-        "vl": "587941",
-        "datetime": "2016-12-22T21:01:00Z",
-        "incr_vl": "587941",
-        "hi": "157.46",
-        "timestamp": "2017-01-28T08:54:48Z",
-        "date": "2016-12-22",
-        "opn": "157.46"}) == trading.as_market_time(
-            2016, 12, 22, 16, 1, 0)
+    quotes = trading.get_day_quotes("NYT",
+        as_market_time(2017, 2, 6, 11, 32, 0))
+    assert len(quotes) == 367
+    assert quotes[0] == {
+        "price": 14.25, "time": as_market_time(2017, 2, 6, 9, 30, 0)}
+    assert quotes[-1] == {
+        "price": 14.5, "time": as_market_time(2017, 2, 6, 16, 5, 0)}
 
 
 def test_is_trading_day(trading):
-    assert not trading.is_trading_day(
-        trading.as_market_time(2017, 1, 22))
-    assert trading.is_trading_day(
-        trading.as_market_time(2017, 1, 23))
-    assert trading.is_trading_day(
-        trading.as_market_time(2017, 1, 24))
-    assert trading.is_trading_day(
-        trading.as_market_time(2017, 1, 25))
-    assert trading.is_trading_day(
-        trading.as_market_time(2017, 1, 26))
-    assert trading.is_trading_day(
-        trading.as_market_time(2017, 1, 27))
-    assert not trading.is_trading_day(
-        trading.as_market_time(2017, 1, 28))
-    assert not trading.is_trading_day(
-        trading.as_market_time(2017, 1, 2))
+    assert not trading.is_trading_day(as_market_time(2017, 1, 22))
+    assert trading.is_trading_day(as_market_time(2017, 1, 23))
+    assert trading.is_trading_day(as_market_time(2017, 1, 24))
+    assert trading.is_trading_day(as_market_time(2017, 1, 25))
+    assert trading.is_trading_day(as_market_time(2017, 1, 26))
+    assert trading.is_trading_day(as_market_time(2017, 1, 27))
+    assert not trading.is_trading_day(as_market_time(2017, 1, 28))
+    assert not trading.is_trading_day(as_market_time(2017, 1, 2))
 
 
 def test_get_previous_day(trading):
-    assert trading.get_previous_day(trading.as_market_time(
-        2017, 1, 22)) == trading.as_market_time(2017, 1, 20)
-    assert trading.get_previous_day(trading.as_market_time(
-        2017, 1, 23)) == trading.as_market_time(2017, 1, 20)
-    assert trading.get_previous_day(trading.as_market_time(
-        2017, 1, 24)) == trading.as_market_time(2017, 1, 23)
-    assert trading.get_previous_day(trading.as_market_time(
-        2017, 1, 25)) == trading.as_market_time(2017, 1, 24)
-    assert trading.get_previous_day(trading.as_market_time(
-        2017, 1, 26)) == trading.as_market_time(2017, 1, 25)
-    assert trading.get_previous_day(trading.as_market_time(
-        2017, 1, 27)) == trading.as_market_time(2017, 1, 26)
-    assert trading.get_previous_day(trading.as_market_time(
-        2017, 1, 28)) == trading.as_market_time(2017, 1, 27)
-    assert trading.get_previous_day(trading.as_market_time(
-        2017, 1, 3)) == trading.as_market_time(2016, 12, 30)
+    assert trading.get_previous_day(as_market_time(
+        2017, 1, 22)) == as_market_time(2017, 1, 20)
+    assert trading.get_previous_day(as_market_time(
+        2017, 1, 23)) == as_market_time(2017, 1, 20)
+    assert trading.get_previous_day(as_market_time(
+        2017, 1, 24)) == as_market_time(2017, 1, 23)
+    assert trading.get_previous_day(as_market_time(
+        2017, 1, 25)) == as_market_time(2017, 1, 24)
+    assert trading.get_previous_day(as_market_time(
+        2017, 1, 26)) == as_market_time(2017, 1, 25)
+    assert trading.get_previous_day(as_market_time(
+        2017, 1, 27)) == as_market_time(2017, 1, 26)
+    assert trading.get_previous_day(as_market_time(
+        2017, 1, 28)) == as_market_time(2017, 1, 27)
+    assert trading.get_previous_day(as_market_time(
+        2017, 1, 3)) == as_market_time(2016, 12, 30)
 
 
 def test_get_next_day(trading):
-    assert trading.get_next_day(trading.as_market_time(
-        2017, 1, 22)) == trading.as_market_time(2017, 1, 23)
-    assert trading.get_next_day(trading.as_market_time(
-        2017, 1, 23)) == trading.as_market_time(2017, 1, 24)
-    assert trading.get_next_day(trading.as_market_time(
-        2017, 1, 24)) == trading.as_market_time(2017, 1, 25)
-    assert trading.get_next_day(trading.as_market_time(
-        2017, 1, 25)) == trading.as_market_time(2017, 1, 26)
-    assert trading.get_next_day(trading.as_market_time(
-        2017, 1, 26)) == trading.as_market_time(2017, 1, 27)
-    assert trading.get_next_day(trading.as_market_time(
-        2017, 1, 27)) == trading.as_market_time(2017, 1, 30)
-    assert trading.get_next_day(trading.as_market_time(
-        2017, 1, 28)) == trading.as_market_time(2017, 1, 30)
-    assert trading.get_next_day(trading.as_market_time(
-        2016, 12, 30)) == trading.as_market_time(2017, 1, 3)
+    assert trading.get_next_day(as_market_time(
+        2017, 1, 22)) == as_market_time(2017, 1, 23)
+    assert trading.get_next_day(as_market_time(
+        2017, 1, 23)) == as_market_time(2017, 1, 24)
+    assert trading.get_next_day(as_market_time(
+        2017, 1, 24)) == as_market_time(2017, 1, 25)
+    assert trading.get_next_day(as_market_time(
+        2017, 1, 25)) == as_market_time(2017, 1, 26)
+    assert trading.get_next_day(as_market_time(
+        2017, 1, 26)) == as_market_time(2017, 1, 27)
+    assert trading.get_next_day(as_market_time(
+        2017, 1, 27)) == as_market_time(2017, 1, 30)
+    assert trading.get_next_day(as_market_time(
+        2017, 1, 28)) == as_market_time(2017, 1, 30)
+    assert trading.get_next_day(as_market_time(
+        2016, 12, 30)) == as_market_time(2017, 1, 3)
 
 
 def test_make_order_request_success(trading):
