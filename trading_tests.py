@@ -311,8 +311,8 @@ def test_get_historical_prices(trading):
 
 
 def test_get_day_quotes(trading):
-    quotes = trading.get_day_quotes("NYT",
-        as_market_time(2017, 2, 6, 11, 32, 0))
+    quotes = trading.get_day_quotes(
+        "NYT", as_market_time(2017, 2, 6, 11, 32, 0))
     assert len(quotes) == 367
     assert quotes[0] == {
         "price": 14.25, "time": as_market_time(2017, 2, 6, 9, 30, 0)}

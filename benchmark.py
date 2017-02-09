@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
+from datetime import datetime
 from datetime import timedelta
 
 from analysis import Analysis
@@ -15,7 +16,8 @@ TWEET_IDS = ["806134244384899072", "812061677160202240", "816260343391514624",
              "818460862675558400", "818461467766824961", "821415698278875137",
              "821697182235496450", "821703902940827648", "823950814163140609",
              "824055927200423936", "826041397232943104", "827874208021639168",
-             "828642511698669569", "828793887275761665", "824765229527605248"]
+             "828642511698669569", "828793887275761665", "824765229527605248",
+             "829410107406614534", "829356871848951809"]
 
 # The initial amount in dollars for the fund simulation.
 FUND_DOLLARS = 100000
@@ -129,15 +131,16 @@ if __name__ == "__main__":
     for tweet in tweets:
         event = {}
 
-        timestamp = trading.utc_to_market_time(tweet.created_at)
-        text = tweet.text.encode("utf-8")
+        timestamp_str = tweet["created_at"]
+        timestamp = trading.utc_to_market_time(datetime.strptime(
+            timestamp_str, "%a %b %d %H:%M:%S +0000 %Y"))
+        text = tweet["text"]
         event["timestamp"] = timestamp
         event["text"] = text
-        event["link"] = "https://twitter.com/%s/status/%s" % (
-            tweet.user.screen_name, tweet.id_str)
+        event["link"] = twitter.get_tweet_link(tweet)
 
         # Extract the companies.
-        companies = analysis.find_companies(text)
+        companies = analysis.find_companies(tweet)
 
         strategies = []
         for company in companies:
@@ -188,7 +191,8 @@ if __name__ == "__main__":
         print
         print "##### [%s](%s)" % (timestamp, event["link"])
         print
-        print "> %s" % event["text"]
+        lines = ["> %s" % line for line in event["text"].split("\n")]
+        print "\n\n".join(lines)
         print
 
         strategies = event["strategies"]
@@ -255,8 +259,9 @@ if __name__ == "__main__":
         strategies = event["strategies"]
 
         # Figure out what to spend on each trade.
-        num_actionable_strategies = sum([1 for strategy in strategies if
-            should_trade(strategy, date, previous_trade_date)])
+        num_actionable_strategies = sum(
+            [1 for strategy in strategies if should_trade(
+                strategy, date, previous_trade_date)])
         budget = trading.get_budget(value, num_actionable_strategies)
 
         for strategy in strategies:
@@ -269,8 +274,8 @@ if __name__ == "__main__":
                 # Use the price at tweet to determine stock quantity.
                 quantity = int(budget // price_at)
 
-                # Pay the fees.
-                value -= TRADE_FEE
+                # Pay the fees for both trades.
+                value -= 2 * TRADE_FEE
 
                 # Calculate the returns depending on the strategy.
                 if strategy["action"] == "bull":

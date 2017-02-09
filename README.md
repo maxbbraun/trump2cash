@@ -23,11 +23,11 @@ The [`main`](main.py) module defines a callback where incoming tweets are
 handled and starts streaming Trump's feed:
 
 ```python
-def twitter_callback(text, link):
-    companies = analysis.find_companies(text)
+def twitter_callback(tweet):
+    companies = analysis.find_companies(tweet)
     if companies:
         trading.make_trades(companies)
-        twitter.tweet(companies, link)
+        twitter.tweet(companies, tweet)
 
 if __name__ == "__main__":
     twitter.start_streaming(twitter_callback)

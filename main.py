@@ -10,18 +10,18 @@ from twitter import Twitter
 LOGS_TO_CLOUD = True
 
 
-def twitter_callback(text, link):
+def twitter_callback(tweet):
     """Analyzes Trump tweets, makes stock trades, and sends tweet alerts."""
 
     # Initialize these here to create separate httplib2 instances per thread.
     analysis = Analysis(logs_to_cloud=LOGS_TO_CLOUD)
     trading = Trading(logs_to_cloud=LOGS_TO_CLOUD)
 
-    companies = analysis.find_companies(text)
+    companies = analysis.find_companies(tweet)
     logs.debug("Using companies: %s" % companies)
     if companies:
         trading.make_trades(companies)
-        twitter.tweet(companies, link)
+        twitter.tweet(companies, tweet)
 
 if __name__ == "__main__":
     logs = Logs(name="main", to_cloud=LOGS_TO_CLOUD)

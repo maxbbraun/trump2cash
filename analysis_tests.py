@@ -6,7 +6,7 @@ from pytest import fixture
 
 from analysis import Analysis
 from analysis import MID_TO_TICKER_QUERY
-from analysis import TWITTER_TO_MID_QUERY
+from twitter import Twitter
 
 # TODO: Make commented-out tests work.
 
@@ -14,6 +14,21 @@ from analysis import TWITTER_TO_MID_QUERY
 @fixture
 def analysis():
     return Analysis(logs_to_cloud=False)
+
+
+def get_tweet(tweet_id):
+    """Looks up data for a single tweet."""
+
+    twitter = Twitter(logs_to_cloud=False)
+    return twitter.get_tweets([tweet_id])[0]
+
+
+def get_tweet_text(tweet_id):
+    """Looks up the text for a single tweet."""
+
+    tweet = get_tweet(tweet_id)
+    analysis = Analysis(logs_to_cloud=False)
+    return analysis.get_expanded_text(tweet)
 
 
 def test_environment_variables():
@@ -172,104 +187,41 @@ def test_entities_tostring(analysis):
         ' mentions: ["jobs"]}]')
     assert analysis.entities_tostring([]) == "[]"
 
-TEXT_1 = (
-    "Boeing is building a brand new 747 Air Force One for future presidents, b"
-    "ut costs are out of control, more than $4 billion. Cancel order!")
-TEXT_2 = (
-    "Based on the tremendous cost and cost overruns of the Lockheed Martin F-3"
-    "5, I have asked Boeing to price-out a comparable F-18 Super Hornet!")
-TEXT_3 = (
-    "General Motors is sending Mexican made model of Chevy Cruze to U.S. car d"
-    "ealers-tax free across border. Make in U.S.A.or pay big border tax!")
-TEXT_4 = (
-    '"@DanScavino: Ford to scrap Mexico plant, invest in Michigan due to Trump'
-    ' policies" http://www.foxnews.com/politics/2017/01/03/ford-to-scrap-mexic'
-    'o-plant-invest-in-michigan-due-to-trump-policies.html')
-TEXT_5 = (
-    "Thank you to Ford for scrapping a new plant in Mexico and creating 700 ne"
-    "w jobs in the U.S. This is just the beginning - much more to follow")
-TEXT_6 = (
-    "Toyota Motor said will build a new plant in Baja, Mexico, to build Coroll"
-    "a cars for U.S. NO WAY! Build plant in U.S. or pay big border tax.")
-TEXT_7 = (
-    "It's finally happening - Fiat Chrysler just announced plans to invest $1B"
-    "ILLION in Michigan and Ohio plants, adding 2000 jobs. This after...")
-TEXT_8 = (
-    "Ford said last week that it will expand in Michigan and U.S. instead of b"
-    "uilding a BILLION dollar plant in Mexico. Thank you Ford & Fiat C!")
-TEXT_9 = (
-    "Thank you to General Motors and Walmart for starting the big jobs push ba"
-    "ck into the U.S.!")
-TEXT_10 = (
-    "Totally biased @NBCNews went out of its way to say that the big announcem"
-    "ent from Ford, G.M., Lockheed & others that jobs are coming back...")
-TEXT_11 = (
-    '"Bayer AG has pledged to add U.S. jobs and investments after meeting with'
-    ' President-elect Donald Trump, the latest in a string..." @WSJ')
-TEXT_12 = (
-    "Big day on Thursday for Indiana and the great workers of that wonderful s"
-    "tate.We will keep our companies and jobs in the U.S. Thanks Carrier")
-TEXT_13 = (
-    "I hope the boycott of @Macys continues forever. So many people are cuttin"
-    "g up their cards. Macy's stores suck and they are bad for U.S.A.")
-TEXT_14 = (
-    "Macy’s was very disloyal to me bc of my strong stance on illegal immigrat"
-    "ion. Their stock has crashed! #BoycottMacys")
-TEXT_15 = (
-    "Signing orders to move forward with the construction of the Keystone XL a"
-    "nd Dakota Access pipelines in the Oval Office.")
-TEXT_16 = (
-    "Great meeting with Ford CEO Mark Fields and General Motors CEO Mary Barra"
-    " at the @WhiteHouse today.")
-TEXT_17 = (
-    "Only 109 people out of 325,000 were detained and held for questioning. Bi"
-    "g problems at airports were caused by Delta computer outage,.....")
-TEXT_18 = (
-    "Will be interviewed by @SeanHannity on @FoxNews at 10:00pm tonight. Enjoy"
-    "!")
-TEXT_19 = (
-    "After being forced to apologize for its bad and inaccurate coverage of me"
-    " after winning the election, the FAKE NEWS @nytimes is still lost!")
-TEXT_20 = (
-    "The failing @nytimes writes total fiction concerning me. They have gotten"
-    " it wrong for two years, and now are making up stories &amp; sources!")
-TEXT_21 = (
-    "The failing @nytimes was forced to apologize to its subscribers for the p"
-    "oor reporting it did on my election win. Now they are worse!")
-
 
 def test_get_sentiment(analysis):
-    assert analysis.get_sentiment(TEXT_1) < 0
-    # assert analysis.get_sentiment(TEXT_2) < 0
-    assert analysis.get_sentiment(TEXT_3) < 0
-    assert analysis.get_sentiment(TEXT_4) > 0
-    assert analysis.get_sentiment(TEXT_5) > 0
-    assert analysis.get_sentiment(TEXT_6) < 0
-    assert analysis.get_sentiment(TEXT_7) > 0
-    assert analysis.get_sentiment(TEXT_8) > 0
-    assert analysis.get_sentiment(TEXT_9) > 0
-    # assert analysis.get_sentiment(TEXT_10) > 0
-    assert analysis.get_sentiment(TEXT_11) > 0
-    assert analysis.get_sentiment(TEXT_12) > 0
-    assert analysis.get_sentiment(TEXT_13) < 0
-    assert analysis.get_sentiment(TEXT_14) < 0
-    # assert analysis.get_sentiment(TEXT_15) > 0
-    assert analysis.get_sentiment(TEXT_16) > 0
-    assert analysis.get_sentiment(TEXT_17) < 0
-    assert analysis.get_sentiment(TEXT_18) > 0
-    assert analysis.get_sentiment(TEXT_19) < 0
-    assert analysis.get_sentiment(TEXT_20) < 0
-    assert analysis.get_sentiment(TEXT_21) < 0
+    assert analysis.get_sentiment(get_tweet_text("806134244384899072")) < 0
+    # assert analysis.get_sentiment(get_tweet_text("812061677160202240")) > 0
+    assert analysis.get_sentiment(get_tweet_text("816260343391514624")) < 0
+    assert analysis.get_sentiment(get_tweet_text("816324295781740544")) > 0
+    assert analysis.get_sentiment(get_tweet_text("816635078067490816")) > 0
+    assert analysis.get_sentiment(get_tweet_text("817071792711942145")) < 0
+    assert analysis.get_sentiment(get_tweet_text("818460862675558400")) > 0
+    assert analysis.get_sentiment(get_tweet_text("818461467766824961")) > 0
+    assert analysis.get_sentiment(get_tweet_text("821415698278875137")) > 0
+    # assert analysis.get_sentiment(get_tweet_text("821697182235496450")) > 0
+    assert analysis.get_sentiment(get_tweet_text("821703902940827648")) > 0
+    assert analysis.get_sentiment(get_tweet_text("803808454620094465")) > 0
+    assert analysis.get_sentiment(get_tweet_text("621669173534584833")) < 0
+    assert analysis.get_sentiment(get_tweet_text("664911913831301123")) < 0
+    # assert analysis.get_sentiment(get_tweet_text("823950814163140609")) > 0
+    assert analysis.get_sentiment(get_tweet_text("824055927200423936")) > 0
+    assert analysis.get_sentiment(get_tweet_text("826041397232943104")) < 0
+    assert analysis.get_sentiment(get_tweet_text("824765229527605248")) > 0
+    assert analysis.get_sentiment(get_tweet_text("827874208021639168")) < 0
+    assert analysis.get_sentiment(get_tweet_text("828642511698669569")) < 0
+    assert analysis.get_sentiment(get_tweet_text("828793887275761665")) < 0
+    assert analysis.get_sentiment(get_tweet_text("829410107406614534")) > 0
+    assert analysis.get_sentiment(get_tweet_text("829356871848951809")) < 0
     assert analysis.get_sentiment("") == 0
 
 
 def test_find_companies(analysis):
-    assert analysis.find_companies(TEXT_1) == [{
+    assert analysis.find_companies(get_tweet("806134244384899072")) == [{
         "exchange": "New York Stock Exchange",
         "name": "Boeing",
         "sentiment": -0.1,
         "ticker": "BA"}]
-    assert analysis.find_companies(TEXT_2) == [{
+    assert analysis.find_companies(get_tweet("812061677160202240")) == [{
         # "exchange": "New York Stock Exchange",
         # "name": "Lockheed Martin",
         # "sentiment": -0.1,
@@ -278,33 +230,33 @@ def test_find_companies(analysis):
         "name": "Boeing",
         "sentiment": 0,  # 0.1,
         "ticker": "BA"}]
-    assert analysis.find_companies(TEXT_3) == [{
+    assert analysis.find_companies(get_tweet("816260343391514624")) == [{
         "exchange": "New York Stock Exchange",
         "name": "General Motors",
         "sentiment": -0.1,
         "ticker": "GM"}]
-    assert analysis.find_companies(TEXT_4) == [{
+    assert analysis.find_companies(get_tweet("816324295781740544")) == [{
+        "exchange": "New York Stock Exchange",
+        "name": "Ford",
+        "sentiment": 0.5,
+        "ticker": "F"}]
+    assert analysis.find_companies(get_tweet("816635078067490816")) == [{
         "exchange": "New York Stock Exchange",
         "name": "Ford",
         "sentiment": 0.3,
         "ticker": "F"}]
-    assert analysis.find_companies(TEXT_5) == [{
-        "exchange": "New York Stock Exchange",
-        "name": "Ford",
-        "sentiment": 0.3,
-        "ticker": "F"}]
-    assert analysis.find_companies(TEXT_6) == [{
+    assert analysis.find_companies(get_tweet("817071792711942145")) == [{
         "exchange": "New York Stock Exchange",
         "name": "Toyota",
         "sentiment": -0.2,
         "ticker": "TM"}]
-    assert analysis.find_companies(TEXT_7) == [{
+    assert analysis.find_companies(get_tweet("818460862675558400")) == [{
         "exchange": "New York Stock Exchange",
         "name": "Fiat",
         "root": "Fiat Chrysler Automobiles",
         "sentiment": 0.2,
         "ticker": "FCAU"}]
-    assert analysis.find_companies(TEXT_8) == [{
+    assert analysis.find_companies(get_tweet("818461467766824961")) == [{
         "exchange": "New York Stock Exchange",
         "name": "Ford",
         "sentiment": 0.3,
@@ -314,7 +266,7 @@ def test_find_companies(analysis):
         "root": "Fiat Chrysler Automobiles",
         "sentiment": 0.3,
         "ticker": "FCAU"}]
-    assert analysis.find_companies(TEXT_9) == [{
+    assert analysis.find_companies(get_tweet("821415698278875137")) == [{
         "exchange": "New York Stock Exchange",
         "name": "General Motors",
         "sentiment": 0.4,
@@ -328,70 +280,70 @@ def test_find_companies(analysis):
         "root": "State Street Corporation",
         "sentiment": 0.4,
         "ticker": "STT"}]
-    assert analysis.find_companies(TEXT_10) == [{
+    assert analysis.find_companies(get_tweet("821697182235496450")) == [{
         "exchange": "New York Stock Exchange",
         "name": "Ford",
-        "sentiment": -0.5,  # 0,
+        "sentiment": -0.6,  # 0,
         "ticker": "F"}, {
         "exchange": "New York Stock Exchange",
         "name": "General Motors",
-        "sentiment": -0.5,  # 0,
+        "sentiment": -0.6,  # 0,
         "ticker": "GM"}, {
         "exchange": "New York Stock Exchange",
         "name": "Lockheed Martin",
-        "sentiment": -0.5,  # 0,
+        "sentiment": -0.6,  # 0,
         "ticker": "LMT"}]
-    assert analysis.find_companies(TEXT_11) == [{
+    assert analysis.find_companies(get_tweet("821703902940827648")) == [{
         "exchange": "New York Stock Exchange",
         "name": "Bayer",
-        "sentiment": 0.3,
+        "sentiment": 0.4,
         "root": "BlackRock",
         "ticker": "BLK"}]  # , {
         # "exchange": "New York Stock Exchange",
         # "name": "Bayer",
-        # "sentiment": 0.3,
+        # "sentiment": 0.4,
         # "root": "PNC Financial Services",
         # "exchange": "New York Stock Exchange",
         # "ticker": "PNC"}]
-    # assert analysis.find_companies(TEXT_12) == [{
+    # assert analysis.find_companies(get_tweet("803808454620094465")) == [{
     #     "exchange": "New York Stock Exchange",
     #     "name": "Carrier Corporation",
     #     "sentiment": 0.5,
     #     "root": "United Technologies Corporation",
     #     "ticker": "UTX"}]
-    assert analysis.find_companies(TEXT_13) == [{
+    assert analysis.find_companies(get_tweet("621669173534584833")) == [{
         "exchange": "New York Stock Exchange",
         "name": "Macy's",
         "root": "Macy's, Inc.",
-        "sentiment": -0.4,
+        "sentiment": -0.5,
         "ticker": "M"}]
-    assert analysis.find_companies(TEXT_14) == [{
+    assert analysis.find_companies(get_tweet("664911913831301123")) == [{
         "exchange": "New York Stock Exchange",
         "name": "Macy's",
         "root": "Macy's, Inc.",
         "sentiment": -0.3,
         "ticker": "M"}]
-    assert analysis.find_companies(TEXT_15) == [{
+    assert analysis.find_companies(get_tweet("823950814163140609")) == [{
         "exchange": "New York Stock Exchange",
         "name": "Keystone Pipeline",
         "root": "TransCanada Corporation",
-        "sentiment": 0,  # 0.1,
+        "sentiment": -0.1,  # 0.1,
         "ticker": "TRP"}]
-    assert analysis.find_companies(TEXT_16) == [{
+    assert analysis.find_companies(get_tweet("824055927200423936")) == [{
         "exchange": "New York Stock Exchange",
         "name": "Ford",
-        "sentiment": 0.9,
+        "sentiment": 0.5,
         "ticker": "F"}, {
         "exchange": "New York Stock Exchange",
         "name": "General Motors",
-        "sentiment": 0.9,
+        "sentiment": 0.5,
         "ticker": "GM"}]
-    assert analysis.find_companies(TEXT_17) == [{
+    assert analysis.find_companies(get_tweet("826041397232943104")) == [{
         "exchange": "New York Stock Exchange",
         "name": "Delta Air Lines",
         "sentiment": -0.4,
         "ticker": "DAL"}]
-    # assert analysis.find_companies(TEXT_18) == [{
+    # assert analysis.find_companies(get_tweet("824765229527605248")) == [{
     #     "exchange": "NASDAQ",
     #     "name": "Fox News",
     #     "root": "21st Century Fox"
@@ -402,44 +354,53 @@ def test_find_companies(analysis):
     #     "root": "21st Century Fox"
     #     "sentiment": 0.5,
     #     "ticker": "FOXB"}]
-    assert analysis.find_companies(TEXT_19) == [{
+    assert analysis.find_companies(get_tweet("827874208021639168")) == [{
         "exchange": "New York Stock Exchange",
         "name": "The New York Times",
         "root": "The New York Times Company",
         "sentiment": -0.9,
         "ticker": "NYT"}]
-    assert analysis.find_companies(TEXT_20) == [{
+    assert analysis.find_companies(get_tweet("828642511698669569")) == [{
         "exchange": "New York Stock Exchange",
         "name": "The New York Times",
         "root": "The New York Times Company",
         "sentiment": -0.6,
         "ticker": "NYT"}]
-    assert analysis.find_companies(TEXT_21) == [{
+    assert analysis.find_companies(get_tweet("828793887275761665")) == [{
         "exchange": "New York Stock Exchange",
         "name": "The New York Times",
         "root": "The New York Times Company",
         "sentiment": -0.8,
         "ticker": "NYT"}]
+    assert analysis.find_companies(get_tweet("829410107406614534")) == [{
+        "exchange": "NASDAQ",
+        "name": "Intel",
+        "sentiment": 0.8,
+        "ticker": "INTC"}]
+    assert analysis.find_companies(get_tweet("829356871848951809")) == [{
+        "exchange": "New York Stock Exchange",
+        "name": "Nordstrom",
+        "sentiment": -0.2,
+        "ticker": "JWN"}]
     assert analysis.find_companies("") == []
 
 
-def test_get_mid_from_twitter(analysis):
-    assert analysis.get_mid_from_twitter("@nytimes") == "/m/07k2d"
-    assert analysis.get_mid_from_twitter("@NYTimes") == "/m/07k2d"
-    assert analysis.get_mid_from_twitter("@foxnews") == "/m/02z_b"
-    assert analysis.get_mid_from_twitter("@FoxNews") == "/m/02z_b"
-    assert analysis.get_mid_from_twitter("@realDonaldTrump") == "/m/0cqt90"
-    assert analysis.get_mid_from_twitter("@maxbraun") == None
-    assert analysis.get_mid_from_twitter("@") == None
-    assert analysis.get_mid_from_twitter("") == None
+def test_get_expanded_text(analysis):
+    assert analysis.get_expanded_text(get_tweet("829410107406614534")) == (
+        u"Thank you Brian Krzanich, CEO of Intel. A great investment ($7 BILLI"
+        u"ON) in American INNOVATION and JOBS!\u2026 https://t.co/oicfDsPKHQ")
+    assert analysis.get_expanded_text(get_tweet("828574430800539648")) == (
+        "Any negative polls are fake news, just like the CNN, ABC, NBC polls i"
+        "n the election. Sorry, people want border security and extreme vettin"
+        "g.")
+    assert analysis.get_expanded_text(get_tweet("828642511698669569")) == (
+        "The failing The New York Times writes total fiction concerning me. Th"
+        "ey have gotten it wrong for two years, and now are making up stories "
+        "&amp; sources!")
+    assert analysis.get_expanded_text("") == None
 
 
 def test_make_wikidata_request(analysis):
-    assert analysis.make_wikidata_request(
-        TWITTER_TO_MID_QUERY % "nytimes") == [{
-            "mid": {
-                "type": "literal",
-                "value": "/m/07k2d"}}]
     assert analysis.make_wikidata_request(
         MID_TO_TICKER_QUERY % "/m/07k2d") == [{
             "companyLabel": {
@@ -457,3 +418,4 @@ def test_make_wikidata_request(analysis):
             "tickerLabel": {
                 "type": "literal",
                 "value": "NYT"}}]
+    assert analysis.make_wikidata_request("") == None

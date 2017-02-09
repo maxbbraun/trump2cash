@@ -62,13 +62,14 @@ GM | New York Stock Exchange | $34.84 | $35.15 | 0.000%
 ##### [1/3/2017 11:44 AM (Tuesday)](https://twitter.com/realDonaldTrump/status/816324295781740544)
 
 > "@DanScavino: Ford to scrap Mexico plant, invest in Michigan due to Trump policies"
-https://t.co/137nUo03Gl
+
+> https://t.co/137nUo03Gl
 
 *Strategy*
 
 Company | Root | Sentiment | Strategy | Reason
 --------|------|-----------|----------|-------
-Ford | - | 0.3 :thumbsup: | bull | positive sentiment
+Ford | - | 0.5 :thumbsup: | bull | positive sentiment
 
 *Performance*
 
@@ -170,9 +171,9 @@ STT | New York Stock Exchange | $81.19 | $80.20 | -1.219%
 
 Company | Root | Sentiment | Strategy | Reason
 --------|------|-----------|----------|-------
-Ford | - | -0.5 :thumbsdown: | hold | market closed
-General Motors | - | -0.5 :thumbsdown: | hold | market closed
-Lockheed Martin | - | -0.5 :thumbsdown: | hold | market closed
+Ford | - | -0.6 :thumbsdown: | hold | market closed
+General Motors | - | -0.6 :thumbsdown: | hold | market closed
+Lockheed Martin | - | -0.6 :thumbsdown: | hold | market closed
 
 *Performance*
 
@@ -190,7 +191,7 @@ LMT | New York Stock Exchange | $254.12 | $254.07 | 0.000%
 
 Company | Root | Sentiment | Strategy | Reason
 --------|------|-----------|----------|-------
-Bayer | BlackRock | 0.3 :thumbsup: | bull | positive sentiment
+Bayer | BlackRock | 0.4 :thumbsup: | bull | positive sentiment
 
 *Performance*
 
@@ -302,6 +303,38 @@ Ticker | Exchange | Price @ tweet | Price EOD | Return
 -------|----------|---------------|-----------|-------
 NYT | New York Stock Exchange | $14.50 | $14.65 | 0.000%
 
+##### [2/8/2017 10:51 AM (Wednesday)](https://twitter.com/realDonaldTrump/status/829356871848951809)
+
+> My daughter Ivanka has been treated so unfairly by @Nordstrom. She is a great person -- always pushing me to do the right thing! Terrible!
+
+*Strategy*
+
+Company | Root | Sentiment | Strategy | Reason
+--------|------|-----------|----------|-------
+Nordstrom | - | -0.2 :thumbsdown: | bear | negative sentiment
+
+*Performance*
+
+Ticker | Exchange | Price @ tweet | Price EOD | Return
+-------|----------|---------------|-----------|-------
+JWN | New York Stock Exchange | $42.64 | $44.53 | -4.244%
+
+##### [2/8/2017 2:22 PM (Wednesday)](https://twitter.com/realDonaldTrump/status/829410107406614534)
+
+> Thank you Brian Krzanich, CEO of @Intel. A great investment ($7 BILLION) in American INNOVATION and JOBS!… https://t.co/oicfDsPKHQ
+
+*Strategy*
+
+Company | Root | Sentiment | Strategy | Reason
+--------|------|-----------|----------|-------
+Intel | - | 0.8 :thumbsup: | bull | positive sentiment
+
+*Performance*
+
+Ticker | Exchange | Price @ tweet | Price EOD | Return
+-------|----------|---------------|-----------|-------
+INTC | NASDAQ | $36.43 | $36.47 | 0.110%
+
 ### Fund simulation
 
 This is how an initial investment of $100,000.00 would have grown, including fees of $4.95 per trade.
@@ -309,26 +342,28 @@ This is how an initial investment of $100,000.00 would have grown, including fee
 Time | Trade | Value | Return | Annualized
 -----|-------|-------|--------|-----------
 *Initial* | - | *$100,000.00* | - | -
-**12/6/2016 8:52 AM** | **BA :thumbsdown:** | $99,904.05 | -0.096% | -
-12/22/2016 5:26 PM | BA :neutral_face: | $99,904.05 | -0.096% | -2.166%
-1/3/2017 7:30 AM | GM :thumbsdown: | $99,904.05 | -0.096% | -1.289%
-**1/3/2017 11:44 AM** | **F :thumbsup:** | $101,333.52 | 1.334% | 18.849%
-**1/4/2017 8:19 AM** | **F :thumbsup:** | $105,950.59 | 5.951% | 112.442%
-**1/5/2017 1:14 PM** | **TM :thumbsdown:** | $106,534.52 | 6.535% | 116.006%
-**1/9/2017 9:14 AM** | **FCAU :thumbsup:** | $106,729.63 | 6.730% | 101.209%
-1/9/2017 9:16 AM | F :thumbsup: | $106,729.63 | 6.730% | 101.209%
-1/9/2017 9:16 AM | FCAU :thumbsup: | $106,729.63 | 6.730% | 101.209%
-**1/17/2017 12:55 PM** | **GM :thumbsup:** | $106,508.94 | 6.509% | 72.981%
-**1/17/2017 12:55 PM** | **WMT :thumbsup:** | $106,488.57 | 6.489% | 72.694%
-**1/17/2017 12:55 PM** | **STT :thumbsup:** | $106,053.96 | 6.054% | 66.664%
-1/18/2017 7:34 AM | F :thumbsdown: | $106,053.96 | 6.054% | 66.664%
-1/18/2017 7:34 AM | GM :thumbsdown: | $106,053.96 | 6.054% | 66.664%
-1/18/2017 7:34 AM | LMT :thumbsdown: | $106,053.96 | 6.054% | 66.664%
-**1/18/2017 8:00 AM** | **BLK :thumbsup:** | $106,945.01 | 6.945% | 79.233%
-**1/24/2017 12:49 PM** | **TRP :thumbsdown:** | $107,069.96 | 7.070% | 66.339%
-1/24/2017 7:46 PM | F :thumbsup: | $107,069.96 | 7.070% | 66.339%
-1/24/2017 7:46 PM | GM :thumbsup: | $107,069.96 | 7.070% | 66.339%
-1/30/2017 7:16 AM | DAL :thumbsdown: | $107,069.96 | 7.070% | 58.683%
-2/4/2017 8:39 AM | NYT :thumbsdown: | $107,069.96 | 7.070% | 52.594%
-**2/6/2017 11:32 AM** | **NYT :thumbsdown:** | $106,328.51 | 6.329% | 43.512%
-2/6/2017 9:33 PM | NYT :thumbsdown: | $106,328.51 | 6.329% | 43.512%
+**12/6/2016 8:52 AM** | **BA :thumbsdown:** | $99,899.10 | -0.101% | -
+12/22/2016 5:26 PM | BA :neutral_face: | $99,899.10 | -0.101% | -2.277%
+1/3/2017 7:30 AM | GM :thumbsdown: | $99,899.10 | -0.101% | -1.355%
+**1/3/2017 11:44 AM** | **F :thumbsup:** | $101,323.62 | 1.324% | 18.698%
+**1/4/2017 8:19 AM** | **F :thumbsup:** | $105,935.16 | 5.935% | 112.039%
+**1/5/2017 1:14 PM** | **TM :thumbsdown:** | $106,514.14 | 6.514% | 115.504%
+**1/9/2017 9:14 AM** | **FCAU :thumbsup:** | $106,704.26 | 6.704% | 100.696%
+1/9/2017 9:16 AM | F :thumbsup: | $106,704.26 | 6.704% | 100.696%
+1/9/2017 9:16 AM | FCAU :thumbsup: | $106,704.26 | 6.704% | 100.696%
+**1/17/2017 12:55 PM** | **GM :thumbsup:** | $106,478.62 | 6.479% | 72.553%
+**1/17/2017 12:55 PM** | **WMT :thumbsup:** | $106,453.30 | 6.453% | 72.197%
+**1/17/2017 12:55 PM** | **STT :thumbsup:** | $106,014.73 | 6.015% | 66.129%
+1/18/2017 7:34 AM | F :thumbsdown: | $106,014.73 | 6.015% | 66.129%
+1/18/2017 7:34 AM | GM :thumbsdown: | $106,014.73 | 6.015% | 66.129%
+1/18/2017 7:34 AM | LMT :thumbsdown: | $106,014.73 | 6.015% | 66.129%
+**1/18/2017 8:00 AM** | **BLK :thumbsup:** | $106,900.83 | 6.901% | 78.591%
+**1/24/2017 12:49 PM** | **TRP :thumbsdown:** | $107,020.77 | 7.021% | 65.770%
+1/24/2017 7:46 PM | F :thumbsup: | $107,020.77 | 7.021% | 65.770%
+1/24/2017 7:46 PM | GM :thumbsup: | $107,020.77 | 7.021% | 65.770%
+1/30/2017 7:16 AM | DAL :thumbsdown: | $107,020.77 | 7.021% | 58.191%
+2/4/2017 8:39 AM | NYT :thumbsdown: | $107,020.77 | 7.021% | 52.161%
+**2/6/2017 11:32 AM** | **NYT :thumbsdown:** | $106,274.67 | 6.275% | 43.085%
+2/6/2017 9:33 PM | NYT :thumbsdown: | $106,274.67 | 6.275% | 43.085%
+**2/8/2017 10:51 AM** | **JWN :thumbsdown:** | $101,600.25 | 1.600% | 9.477%
+2/8/2017 2:22 PM | INTC :thumbsup: | $101,600.25 | 1.600% | 9.477%

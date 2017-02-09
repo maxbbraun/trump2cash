@@ -73,12 +73,14 @@ class Twitter:
         self.logs.debug("Stopping stream.")
         self.twitter_listener.stop_queue()
 
-    def tweet(self, companies, link):
+    def tweet(self, companies, tweet):
         """Posts a tweet listing the companies, their ticker symbols, and a
         quote of the original tweet.
         """
 
+        link = self.get_tweet_link(tweet)
         text = self.make_tweet_text(companies, link)
+
         self.logs.info("Tweeting: %s" % text)
         self.twitter_api.update_status(text)
 
@@ -118,7 +120,22 @@ class Twitter:
         statuses = self.twitter_api.statuses_lookup(ids)
         self.logs.debug("Got statuses response: %s" % statuses)
 
-        return statuses
+        # Use the raw JSON, just like the streaming API.
+        return [status._json for status in statuses]
+
+    def get_tweet_link(self, tweet):
+        """Creates the link URL to a tweet."""
+
+        if (not tweet or "user" not in tweet or
+            "screen_name" not in tweet["user"] or "id_str" not in tweet):
+            self.logs.error("Malformed tweet for link: %s" % tweet)
+            return None
+
+        screen_name = tweet["user"]["screen_name"]
+        id_str = tweet["id_str"]
+
+        link = TWEET_URL % (screen_name, id_str)
+        return link
 
 
 class TwitterListener(StreamListener):
@@ -214,8 +231,9 @@ class TwitterListener(StreamListener):
             return
 
         # Do a basic check on the response format we expect.
-        if "user" not in tweet:
-            logs.warn("Malformed tweet: %s" % tweet)
+        if ("user" not in tweet or "id_str" not in tweet["user"] or
+            "screen_name" not in tweet["user"]):
+            logs.error("Malformed tweet: %s" % tweet)
             return
 
         # We're only interested in tweets from Mr. Trump himself, so skip the
@@ -227,11 +245,7 @@ class TwitterListener(StreamListener):
                        (screen_name, user_id_str))
             return
 
-        # Extract what data we need from the tweet.
-        text = tweet["text"]
-        id_str = tweet["id_str"]
-        link = TWEET_URL % (screen_name, id_str)
-        logs.debug("Examining tweet: %s %s" % (link, data))
+        logs.info("Examining tweet: %s" % tweet)
 
         # Call the callback.
-        self.callback(text, link)
+        self.callback(tweet)

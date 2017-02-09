@@ -2,6 +2,8 @@
 
 from google.cloud import language
 from os import getenv
+from re import compile
+from re import IGNORECASE
 from requests import get
 
 from logs import Logs
@@ -31,15 +33,6 @@ MID_TO_TICKER_QUERY = (
     '  }'
     '} GROUP BY ?companyLabel ?ownerLabel ?parentLabel ?tickerLabel'
     ' ?exchangeNameLabel')
-
-# A Wikidata SPARQL query to find the Freebase ID of a company based on their
-# Twitter handle. The string parameter is the Twitter handle (without the '@').
-TWITTER_TO_MID_QUERY = (
-    'SELECT ?mid WHERE {'
-    '  ?instance wdt:P2002 ?twitter .'  # Company has a Twitter handle.
-    '  ?instance wdt:P646 ?mid .'  # Company has a Freebase ID.
-    '  FILTER (lcase(str(?twitter)) = "%s")'  # The lowercase handle matches.
-    '}')
 
 
 class Analysis:
@@ -107,8 +100,15 @@ class Analysis:
 
         return datas
 
-    def find_companies(self, text):
-        """Finds mentions of companies in text."""
+    def find_companies(self, tweet):
+        """Finds mentions of companies in a tweet."""
+
+        # Use the text of the tweet with any mentions expanded to improve
+        # entity detection.
+        text = self.get_expanded_text(tweet)
+        if not text:
+            self.logs.error("Failed to get text from tweet: %s" % tweet)
+            return []
 
         # Run entity detection.
         document = self.gcnl_client.document_from_text(text)
@@ -126,18 +126,11 @@ class Analysis:
             # the Twitter handle).
             name = entity.name
             metadata = entity.metadata
-            if "mid" in metadata:
-                mid = metadata["mid"]
-                self.logs.debug("Using MID from metadata: %s %s" % (name, mid))
-            else:
-                mid = self.get_mid_from_twitter(name)
-                if mid:
-                    self.logs.debug("Using MID from Twitter handle: %s %s" %
-                                    (name, mid))
-                else:
-                    self.logs.debug("No MID found for entity: %s" % name)
-                    continue
+            if "mid" not in metadata:
+                self.logs.debug("No MID found for entity: %s" % name)
+                continue
 
+            mid = metadata["mid"]
             company_data = self.get_company_data(mid)
 
             # Skip any entity for which we can't find any company data.
@@ -166,43 +159,33 @@ class Analysis:
 
         return companies
 
-    def get_mid_from_twitter(self, name):
-        """Looks up the Freebase ID for a company if the name is a Twitter
-        handle.
+    def get_expanded_text(self, tweet):
+        """Retrieves the text from a tweet with any @mentions expanded to
+        their full names.
         """
 
-        if not name or not name.startswith("@") or len(name) < 2:
-            self.logs.debug("Name is not a Twitter handle: %s" % name)
+        if (not tweet or "text" not in tweet or "entities" not in tweet or
+            "user_mentions" not in tweet["entities"]):
+            self.logs.error("Malformed tweet: %s" % tweet)
             return None
 
-        # To catch spelling variations we only use the lowercase version.
-        handle = name[1:].lower()
+        text = tweet["text"]
+        mentions = tweet["entities"]["user_mentions"]
+        self.logs.debug("Using mentions: %s" % mentions)
 
-        query = TWITTER_TO_MID_QUERY % handle
-        bindings = self.make_wikidata_request(query)
-        if not bindings:
-            self.logs.debug("No MID found for Twitter handle: %s" % handle)
-            return None
+        for mention in mentions:
+            if "screen_name" not in mention or "name" not in mention:
+                self.logs.warn("Malformed mention: %s" % mention)
+                continue
 
-        mids = []
-        for binding in bindings:
-            if "mid" in binding:
-                mids.append(binding["mid"]["value"])
+            screen_name = "@%s" % mention["screen_name"]
+            name = mention["name"]
 
-        if not mids:
-            self.logs.error("Failed to parse MID for Twitter handle: %s" %
-                            handle)
-            return None
+            self.logs.debug("Expanding mention: %s %s" % (screen_name, name))
+            pattern = compile(screen_name, IGNORECASE)
+            text = pattern.sub(name, text)
 
-        # There should only be one MID, but we ignore any additional ones.
-        if len(mids) > 1:
-            self.logs.warn(
-                "Found more than one MID for Twitter handle: %s %s" %
-                (handle, mids))
-
-        mid = mids[0]
-
-        return mid
+        return text
 
     def make_wikidata_request(self, query):
         """Makes a request to the Wikidata SPARQL API."""

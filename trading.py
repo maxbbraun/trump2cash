@@ -193,8 +193,13 @@ class Trading:
         self.logs.debug("Current market status: %s" % current)
         return current
 
-    def get_historical_prices(self, ticker, timestamp):
+    def get_historical_prices(self, ticker, timestamp, depth=0):
         """Finds the last price at or before a timestamp and at EOD."""
+
+        # Limit the recursion depth to two weeks.
+        if depth >= 14:
+            self.logs.warn("Limiting recursion.")
+            return None
 
         # Start with today's quotes.
         quotes = self.get_day_quotes(ticker, timestamp)
@@ -203,7 +208,8 @@ class Trading:
             # Use the end of the previous trading day and retry recursively.
             timestamp_eod = timestamp.replace(hour=15, minute=59, second=59)
             previous_day = self.get_previous_day(timestamp_eod)
-            return self.get_historical_prices(ticker, previous_day)
+            return self.get_historical_prices(ticker, previous_day,
+                                              depth=depth + 1)
 
         # Depending on where we land relative to the trading day, pick the
         # right quote and EOD quote.
@@ -254,7 +260,7 @@ class Trading:
 
         if not path.isfile(filename):
             self.logs.error("Day quotes not on file for: %s %s" %
-                           (ticker, timestamp))
+                            (ticker, timestamp))
             return None
 
         quotes_file = open(filename, "r")
