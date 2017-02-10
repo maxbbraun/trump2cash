@@ -349,7 +349,7 @@ INTC | NASDAQ | $36.43 | $36.47 | 0.110%
 
 ### Fund simulation
 
-This is how an initial investment of $100,000.00 would have grown, including fees of $4.95 per trade.
+This is how an initial investment of $100,000.00 would have grown, including fees of 2 × $4.95 per pair of orders. Bold means that the data was used to trade.
 
 Time | Trade | Value | Return | Annualized
 -----|-------|-------|--------|-----------

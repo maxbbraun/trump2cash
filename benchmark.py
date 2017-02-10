@@ -243,8 +243,9 @@ if __name__ == "__main__":
     print
     print "### Fund simulation"
     print
-    print ("This is how an initial investment of %s would have grown, includin"
-           "g fees of %s per trade.") % (
+    print (u"This is how an initial investment of %s would have grown, includi"
+           u"ng fees of 2 \u00d7 %s per pair of orders. Bold means that the da"
+           u"ta was used to trade.") % (
                format_dollar(FUND_DOLLARS), format_dollar(TRADE_FEE))
     print
     print "Time | Trade | Value | Return | Annualized"
