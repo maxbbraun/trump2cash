@@ -56,34 +56,29 @@ class Analysis:
         # Collect the data from the response.
         datas = []
         for binding in bindings:
-            if ("companyLabel" in binding and
-                "value" in binding["companyLabel"]):
+            try:
                 name = binding["companyLabel"]["value"]
-            else:
+            except KeyError:
                 name = None
 
-            if ("rootLabel" in binding and
-                "value" in binding["rootLabel"]):
+            try:
                 root = binding["rootLabel"]["value"]
-            else:
+            except KeyError:
                 root = None
 
-            if ("tickerLabel" in binding and
-                "value" in binding["tickerLabel"]):
+            try:
                 ticker = binding["tickerLabel"]["value"]
-            else:
+            except KeyError:
                 ticker = None
 
-            if ("exchangeNameLabel" in binding and
-                "value" in binding["exchangeNameLabel"]):
+            try:
                 exchange = binding["exchangeNameLabel"]["value"]
-            else:
+            except KeyError:
                 exchange = None
 
-            data = {}
-            data["name"] = name
-            data["ticker"] = ticker
-            data["exchange"] = exchange
+            data = {"name": name,
+                    "ticker": ticker,
+                    "exchange": exchange}
 
             # Add the root if there is one.
             if root and root != name:
