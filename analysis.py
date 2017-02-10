@@ -5,6 +5,7 @@ from os import getenv
 from re import compile
 from re import IGNORECASE
 from requests import get
+from urllib import quote_plus
 
 from logs import Logs
 
@@ -190,7 +191,7 @@ class Analysis:
     def make_wikidata_request(self, query):
         """Makes a request to the Wikidata SPARQL API."""
 
-        query_url = WIKIDATA_QUERY_URL % query
+        query_url = WIKIDATA_QUERY_URL % quote_plus(query)
         self.logs.debug("Wikidata query: %s" % query_url)
 
         response = get(query_url)

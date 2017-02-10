@@ -192,12 +192,14 @@ LMT | New York Stock Exchange | $254.12 | $254.07 | 0.000%
 Company | Root | Sentiment | Strategy | Reason
 --------|------|-----------|----------|-------
 Bayer | BlackRock | 0.4 :thumbsup: | bull | positive sentiment
+Bayer | PNC Financial Services | 0.4 :thumbsup: | bull | positive sentiment
 
 *Performance*
 
 Ticker | Exchange | Price @ tweet | Price EOD | Return
 -------|----------|---------------|-----------|-------
 BLK | New York Stock Exchange | $374.80 | $378.00 | 0.854%
+PNC | New York Stock Exchange | $113.97 | $116.32 | 2.062%
 
 ##### [1/24/2017 12:49 PM (Tuesday)](https://twitter.com/realDonaldTrump/status/823950814163140609)
 
@@ -237,7 +239,17 @@ GM | New York Stock Exchange | $37.09 | $38.28 | 0.000%
 
 > Will be interviewed by @SeanHannity on @FoxNews at 10:00pm tonight. Enjoy!
 
-*(No companies)*
+*Strategy*
+
+Company | Root | Sentiment | Strategy | Reason
+--------|------|-----------|----------|-------
+Fox News Channel | 21st Century Fox | 0.5 :thumbsup: | hold | market closed
+
+*Performance*
+
+Ticker | Exchange | Price @ tweet | Price EOD | Return
+-------|----------|---------------|-----------|-------
+FOXA | NASDAQ | $31.00 | $31.29 | 0.000%
 
 ##### [1/30/2017 7:16 AM (Monday)](https://twitter.com/realDonaldTrump/status/826041397232943104)
 
@@ -357,13 +369,15 @@ Time | Trade | Value | Return | Annualized
 1/18/2017 7:34 AM | F :thumbsdown: | $106,014.73 | 6.015% | 66.129%
 1/18/2017 7:34 AM | GM :thumbsdown: | $106,014.73 | 6.015% | 66.129%
 1/18/2017 7:34 AM | LMT :thumbsdown: | $106,014.73 | 6.015% | 66.129%
-**1/18/2017 8:00 AM** | **BLK :thumbsup:** | $106,900.83 | 6.901% | 78.591%
-**1/24/2017 12:49 PM** | **TRP :thumbsdown:** | $107,020.77 | 7.021% | 65.770%
-1/24/2017 7:46 PM | F :thumbsup: | $107,020.77 | 7.021% | 65.770%
-1/24/2017 7:46 PM | GM :thumbsup: | $107,020.77 | 7.021% | 65.770%
-1/30/2017 7:16 AM | DAL :thumbsdown: | $107,020.77 | 7.021% | 58.191%
-2/4/2017 8:39 AM | NYT :thumbsdown: | $107,020.77 | 7.021% | 52.161%
-**2/6/2017 11:32 AM** | **NYT :thumbsdown:** | $106,274.67 | 6.275% | 43.085%
-2/6/2017 9:33 PM | NYT :thumbsdown: | $106,274.67 | 6.275% | 43.085%
-**2/8/2017 10:51 AM** | **JWN :thumbsdown:** | $101,600.25 | 1.600% | 9.477%
-2/8/2017 2:22 PM | INTC :thumbsup: | $101,600.25 | 1.600% | 9.477%
+**1/18/2017 8:00 AM** | **BLK :thumbsup:** | $106,452.83 | 6.453% | 72.190%
+**1/18/2017 8:00 AM** | **PNC :thumbsup:** | $107,523.93 | 7.524% | 87.843%
+**1/24/2017 12:49 PM** | **TRP :thumbsdown:** | $107,644.65 | 7.645% | 73.106%
+1/24/2017 7:46 PM | F :thumbsup: | $107,644.65 | 7.645% | 73.106%
+1/24/2017 7:46 PM | GM :thumbsup: | $107,644.65 | 7.645% | 73.106%
+1/26/2017 6:45 PM | FOXA :thumbsup: | $107,644.65 | 7.645% | 69.420%
+1/30/2017 7:16 AM | DAL :thumbsdown: | $107,644.65 | 7.645% | 64.530%
+2/4/2017 8:39 AM | NYT :thumbsdown: | $107,644.65 | 7.645% | 57.732%
+**2/6/2017 11:32 AM** | **NYT :thumbsdown:** | $106,894.25 | 6.894% | 48.067%
+2/6/2017 9:33 PM | NYT :thumbsdown: | $106,894.25 | 6.894% | 48.067%
+**2/8/2017 10:51 AM** | **JWN :thumbsdown:** | $102,191.48 | 2.191% | 13.160%
+2/8/2017 2:22 PM | INTC :thumbsup: | $102,191.48 | 2.191% | 13.160%

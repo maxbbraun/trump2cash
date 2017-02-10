@@ -8,8 +8,6 @@ from analysis import Analysis
 from analysis import MID_TO_TICKER_QUERY
 from twitter import Twitter
 
-# TODO: Make commented-out tests work.
-
 
 @fixture
 def analysis():
@@ -61,6 +59,14 @@ def test_get_company_data(analysis):
         "exchange": "NASDAQ",
         "name": "YouTube",
         "root": "Google",
+        "ticker": "GOOGL"}, {
+        "exchange": "NASDAQ",
+        "name": "YouTube",
+        "root": "Alphabet Inc.",
+        "ticker": "GOOG"}, {
+        "exchange": "NASDAQ",
+        "name": "YouTube",
+        "root": "Alphabet Inc.",
         "ticker": "GOOGL"}]
     assert analysis.get_company_data("/m/045c7b") == [{
         "exchange": "NASDAQ",
@@ -81,11 +87,11 @@ def test_get_company_data(analysis):
         "exchange": "New York Stock Exchange",
         "name": "Bayer",
         "root": "BlackRock",
-        "ticker": "BLK"}]  # , {
-        # "exchange": "New York Stock Exchange",
-        # "name": "Bayer",
-        # "root": "PNC Financial Services",
-        # "ticker": "PNC"}]
+        "ticker": "BLK"}, {
+        "exchange": "New York Stock Exchange",
+        "name": "Bayer",
+        "root": "PNC Financial Services",
+        "ticker": "PNC"}]
     assert analysis.get_company_data("/m/02zs4") == [{
         "exchange": "New York Stock Exchange",
         "name": "Ford",
@@ -298,13 +304,13 @@ def test_find_companies(analysis):
         "name": "Bayer",
         "sentiment": 0.4,
         "root": "BlackRock",
-        "ticker": "BLK"}]  # , {
-        # "exchange": "New York Stock Exchange",
-        # "name": "Bayer",
-        # "sentiment": 0.4,
-        # "root": "PNC Financial Services",
-        # "exchange": "New York Stock Exchange",
-        # "ticker": "PNC"}]
+        "ticker": "BLK"}, {
+        "exchange": "New York Stock Exchange",
+        "name": "Bayer",
+        "sentiment": 0.4,
+        "root": "PNC Financial Services",
+        "exchange": "New York Stock Exchange",
+        "ticker": "PNC"}]
     # assert analysis.find_companies(get_tweet("803808454620094465")) == [{
     #     "exchange": "New York Stock Exchange",
     #     "name": "Carrier Corporation",
@@ -343,17 +349,12 @@ def test_find_companies(analysis):
         "name": "Delta Air Lines",
         "sentiment": -0.4,
         "ticker": "DAL"}]
-    # assert analysis.find_companies(get_tweet("824765229527605248")) == [{
-    #     "exchange": "NASDAQ",
-    #     "name": "Fox News",
-    #     "root": "21st Century Fox"
-    #     "sentiment": 0.5,
-    #     "ticker": "FOXA"},{
-    #     "exchange": "NASDAQ",
-    #     "name": "Fox News",
-    #     "root": "21st Century Fox"
-    #     "sentiment": 0.5,
-    #     "ticker": "FOXB"}]
+    assert analysis.find_companies(get_tweet("824765229527605248")) == [{
+        "exchange": "NASDAQ",
+        "name": "Fox News Channel",
+        "root": "21st Century Fox",
+        "sentiment": 0.5,
+        "ticker": "FOXA"}]
     assert analysis.find_companies(get_tweet("827874208021639168")) == [{
         "exchange": "New York Stock Exchange",
         "name": "The New York Times",
