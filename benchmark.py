@@ -26,8 +26,8 @@ FUND_DOLLARS = 100000
 TRADE_FEE = 4.95
 
 
-def ratio_to_return(ratio):
-    """Converts a ratio to a readable percentage return."""
+def format_ratio(ratio):
+    """Converts a ratio to a readable percentage gain."""
 
     return "%.3f%%" % (100 * (ratio - 1))
 
@@ -217,8 +217,8 @@ if __name__ == "__main__":
             print
             print "*Performance*"
             print
-            print "Ticker | Exchange | Price @ tweet | Price EOD | Return"
-            print "-------|----------|---------------|-----------|-------"
+            print "Ticker | Exchange | Price @ tweet | Price EOD | Gain"
+            print "-------|----------|---------------|-----------|-----"
 
             for strategy in strategies:
                 price_at = strategy["price_at"]
@@ -230,13 +230,13 @@ if __name__ == "__main__":
                     price_at_str = "-"
                     price_eod_str = "-"
                 ratio = get_ratio(strategy)
-                total_return = ratio_to_return(ratio)
+                gain = format_ratio(ratio)
                 print "%s | %s | %s | %s | %s" % (
                     strategy["ticker"],
                     strategy["exchange"],
                     price_at_str,
                     price_eod_str,
-                    total_return)
+                    gain)
         else:
             print "*(No companies)*"
 
@@ -248,11 +248,11 @@ if __name__ == "__main__":
            u"ta was used to trade.") % (
                format_dollar(FUND_DOLLARS), format_dollar(TRADE_FEE))
     print
-    print "Time | Trade | Value | Return | Annualized"
-    print "-----|-------|-------|--------|-----------"
+    print "Time | Trade | Gain | Value | Return | Annualized"
+    print "-----|-------|------|-------|--------|-----------"
     start_date = events[0]["timestamp"]
     value = FUND_DOLLARS
-    print "*Initial* | - | *%s* | - | -" % format_dollar(value)
+    print "*Initial* | - | - | *%s* | - | -" % format_dollar(value)
 
     previous_trade_date = None
     for event in events:
@@ -289,11 +289,11 @@ if __name__ == "__main__":
                 quantity = 0
 
             total_ratio = value / FUND_DOLLARS
-            total_return = ratio_to_return(total_ratio)
+            total_return = format_ratio(total_ratio)
 
             if date != start_date:
                 days = (date - start_date).days
-                annualized_return = ratio_to_return(
+                annualized_return = format_ratio(
                     pow(total_ratio, 365.0 / days))
             else:
                 annualized_return = "-"
@@ -302,14 +302,17 @@ if __name__ == "__main__":
             trade_str = u"%s %s" % (
                 strategy["ticker"],
                 get_sentiment_emoji(strategy["sentiment"]))
+            ratio = get_ratio(strategy)
+            gain = format_ratio(ratio)
 
             if trade:
                 date_str = "**%s**" % date_str
                 trade_str = "**%s**" % trade_str
 
-            print "%s | %s | %s | %s | %s" % (
+            print "%s | %s | %s | %s | %s | %s" % (
                 date_str,
                 trade_str,
+                gain,
                 format_dollar(value),
                 total_return,
                 annualized_return)
