@@ -131,6 +131,29 @@ def test_get_company_data(analysis):
         "exchange": "New York Stock Exchange",
         "name": "Delta Air Lines",
         "ticker": "DAL"}]
+    assert analysis.get_company_data("/m/017b3j") == [{
+        "exchange": "NASDAQ",
+        "name": "The Wall Street Journal",
+        "root": "21st Century Fox",
+        "ticker": "FOXA"}, {
+        "exchange": "NASDAQ",
+        "name": "The Wall Street Journal",
+        "root": "News Corp",
+        "ticker": "NWSA"}]
+    assert analysis.get_company_data("/m/07k2d") == [{
+        "exchange": "New York Stock Exchange",
+        "name": "The New York Times",
+        "root": "The New York Times Company",
+        "ticker": "NYT"}]
+    assert analysis.get_company_data("/m/02z_b") == [{
+        "exchange": "NASDAQ",
+        "name": "Fox News Channel",
+        "root": "21st Century Fox",
+        "ticker": "FOXA"}, {
+        "exchange": "NASDAQ",
+        "name": "Fox News Channel",
+        "root": "News Corp",
+        "ticker": "NWSA"}]
     assert analysis.get_company_data("/m/0d6lp") == None
     assert analysis.get_company_data("xyz") == None
     assert analysis.get_company_data("") == None
@@ -310,7 +333,17 @@ def test_find_companies(analysis):
         "sentiment": 0.4,
         "root": "PNC Financial Services",
         "exchange": "New York Stock Exchange",
-        "ticker": "PNC"}]
+        "ticker": "PNC"}, {
+        "exchange": "NASDAQ",
+        "name": "The Wall Street Journal",
+        "sentiment": 0.4,
+        "root": "21st Century Fox",
+        "ticker": "FOXA"}, {
+        "exchange": "NASDAQ",
+        "name": "The Wall Street Journal",
+        "sentiment": 0.4,
+        "root": "News Corp",
+        "ticker": "NWSA"}]
     # assert analysis.find_companies(get_tweet("803808454620094465")) == [{
     #     "exchange": "New York Stock Exchange",
     #     "name": "Carrier Corporation",
@@ -354,7 +387,12 @@ def test_find_companies(analysis):
         "name": "Fox News Channel",
         "root": "21st Century Fox",
         "sentiment": 0.5,
-        "ticker": "FOXA"}]
+        "ticker": "FOXA"}, {
+        "exchange": "NASDAQ",
+        "name": "Fox News Channel",
+        "root": "News Corp",
+        "sentiment": 0.5,
+        "ticker": "NWSA"}]
     assert analysis.find_companies(get_tweet("827874208021639168")) == [{
         "exchange": "New York Stock Exchange",
         "name": "The New York Times",
@@ -408,13 +446,13 @@ def test_make_wikidata_request(analysis):
                 "type": "literal",
                 "value": "The New York Times",
                 "xml:lang": "en"},
+            "rootLabel": {
+                "type": "literal",
+                "value": "The New York Times Company",
+                "xml:lang": "en"},
             "exchangeNameLabel": {
                 "type": "literal",
                 "value": "New York Stock Exchange",
-                "xml:lang": "en"},
-            "ownerLabel": {
-                "type": "literal",
-                "value": "The New York Times Company",
                 "xml:lang": "en"},
             "tickerLabel": {
                 "type": "literal",

@@ -16,15 +16,15 @@ WIKIDATA_QUERY_URL = "https://query.wikidata.org/sparql?query=%s&format=JSON"
 # A Wikidata SPARQL query to find stock ticker symbols and other information
 # for a company. The string parameter is the Freebase ID of the company.
 MID_TO_TICKER_QUERY = (
-    'SELECT ?companyLabel ?ownerLabel ?parentLabel ?tickerLabel'
-    ' ?exchangeNameLabel WHERE {'
+    'SELECT ?companyLabel ?rootLabel ?tickerLabel ?exchangeNameLabel'
+    ' WHERE {'
     '  ?instance wdt:P646 "%s" .'  # Company with specified Freebase ID.
     '  ?instance wdt:P156* ?company .'  # Company may have restructured.
     '  { ?company p:P414 ?exchange }'  # Company traded on exchange.
-    '  UNION { ?company wdt:P127+ ?owner .'  # Or company is owned by another.
-    '          ?owner p:P414 ?exchange }'  # And owner traded on exchange.
-    '  UNION { ?company wdt:P749+ ?parent .'  # Or company is a subsidiary.
-    '          ?parent p:P414 ?exchange } .'  # And parent traded on exchange.
+    '  UNION { ?company wdt:P127+ / wdt:P156* ?root .'  # Or company has owner.
+    '          ?root p:P414 ?exchange }'  # Owner traded on exchange.
+    '  UNION { ?company wdt:P749+ / wdt:P156* ?root .'  # Or company has parent.
+    '          ?root p:P414 ?exchange } .'  # Parent traded on exchange.
     '  VALUES ?exchanges { wd:Q13677 wd:Q82059 }'  # Whitelist NYSE and NASDAQ.
     '  ?exchange ps:P414 ?exchanges .'  # Stock exchange is whitelisted.
     '  ?exchange pq:P249 ?ticker .'  # Get ticker symbol.
@@ -32,8 +32,7 @@ MID_TO_TICKER_QUERY = (
     '  SERVICE wikibase:label {'
     '    bd:serviceParam wikibase:language "en" .'  # Use English labels.
     '  }'
-    '} GROUP BY ?companyLabel ?ownerLabel ?parentLabel ?tickerLabel'
-    ' ?exchangeNameLabel')
+    ' } GROUP BY ?companyLabel ?rootLabel ?tickerLabel ?exchangeNameLabel')
 
 
 class Analysis:
@@ -57,27 +56,26 @@ class Analysis:
         # Collect the data from the response.
         datas = []
         for binding in bindings:
-            if "companyLabel" in binding:
+            if ("companyLabel" in binding and
+                "value" in binding["companyLabel"]):
                 name = binding["companyLabel"]["value"]
             else:
                 name = None
 
-            if "ownerLabel" in binding:
-                owner = binding["ownerLabel"]["value"]
+            if ("rootLabel" in binding and
+                "value" in binding["rootLabel"]):
+                root = binding["rootLabel"]["value"]
             else:
-                owner = None
+                root = None
 
-            if "parentLabel" in binding:
-                parent = binding["parentLabel"]["value"]
-            else:
-                parent = None
-
-            if "tickerLabel" in binding:
+            if ("tickerLabel" in binding and
+                "value" in binding["tickerLabel"]):
                 ticker = binding["tickerLabel"]["value"]
             else:
                 ticker = None
 
-            if "exchangeNameLabel" in binding:
+            if ("exchangeNameLabel" in binding and
+                "value" in binding["exchangeNameLabel"]):
                 exchange = binding["exchangeNameLabel"]["value"]
             else:
                 exchange = None
@@ -87,14 +85,13 @@ class Analysis:
             data["ticker"] = ticker
             data["exchange"] = exchange
 
-            # Owner or parent get turned into root.
-            if owner:
-                data["root"] = owner
-            elif parent:
-                data["root"] = parent
+            # Add the root if there is one.
+            if root and root != name:
+                data["root"] = root
 
             # Add to the list unless we already have the same entry.
             if data not in datas:
+                self.logs.debug("Adding company data: %s" % data)
                 datas.append(data)
             else:
                 self.logs.warn("Skipping duplicate company data: %s" % data)

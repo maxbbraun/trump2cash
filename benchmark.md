@@ -193,6 +193,8 @@ Company | Root | Sentiment | Strategy | Reason
 --------|------|-----------|----------|-------
 Bayer | BlackRock | 0.4 :thumbsup: | bull | positive sentiment
 Bayer | PNC Financial Services | 0.4 :thumbsup: | bull | positive sentiment
+The Wall Street Journal | 21st Century Fox | 0.4 :thumbsup: | bull | positive sentiment
+The Wall Street Journal | News Corp | 0.4 :thumbsup: | bull | positive sentiment
 
 *Performance*
 
@@ -200,6 +202,8 @@ Ticker | Exchange | Price @ tweet | Price EOD | Gain
 -------|----------|---------------|-----------|-----
 BLK | New York Stock Exchange | $374.80 | $378.00 | 0.854%
 PNC | New York Stock Exchange | $113.97 | $116.32 | 2.062%
+FOXA | NASDAQ | $29.93 | $30.27 | 1.136%
+NWSA | NASDAQ | $12.23 | $12.14 | -0.736%
 
 ##### [1/24/2017 12:49 PM (Tuesday)](https://twitter.com/realDonaldTrump/status/823950814163140609)
 
@@ -244,12 +248,14 @@ GM | New York Stock Exchange | $37.09 | $38.28 | 0.000%
 Company | Root | Sentiment | Strategy | Reason
 --------|------|-----------|----------|-------
 Fox News Channel | 21st Century Fox | 0.5 :thumbsup: | hold | market closed
+Fox News Channel | News Corp | 0.5 :thumbsup: | hold | market closed
 
 *Performance*
 
 Ticker | Exchange | Price @ tweet | Price EOD | Gain
 -------|----------|---------------|-----------|-----
 FOXA | NASDAQ | $31.00 | $31.29 | 0.000%
+NWSA | NASDAQ | $12.14 | $12.14 | 0.000%
 
 ##### [1/30/2017 7:16 AM (Monday)](https://twitter.com/realDonaldTrump/status/826041397232943104)
 
@@ -369,15 +375,18 @@ Time | Trade | Gain | Value | Return | Annualized
 1/18/2017 7:34 AM | F :thumbsdown: | 0.000% | $106,014.73 | 6.015% | 66.129%
 1/18/2017 7:34 AM | GM :thumbsdown: | 0.000% | $106,014.73 | 6.015% | 66.129%
 1/18/2017 7:34 AM | LMT :thumbsdown: | 0.000% | $106,014.73 | 6.015% | 66.129%
-**1/18/2017 8:00 AM** | **BLK :thumbsup:** | 0.854% | $106,452.83 | 6.453% | 72.190%
-**1/18/2017 8:00 AM** | **PNC :thumbsup:** | 2.062% | $107,523.93 | 7.524% | 87.843%
-**1/24/2017 12:49 PM** | **TRP :thumbsdown:** | 0.123% | $107,644.65 | 7.645% | 73.106%
-1/24/2017 7:46 PM | F :thumbsup: | 0.000% | $107,644.65 | 7.645% | 73.106%
-1/24/2017 7:46 PM | GM :thumbsup: | 0.000% | $107,644.65 | 7.645% | 73.106%
-1/26/2017 6:45 PM | FOXA :thumbsup: | 0.000% | $107,644.65 | 7.645% | 69.420%
-1/30/2017 7:16 AM | DAL :thumbsdown: | 0.000% | $107,644.65 | 7.645% | 64.530%
-2/4/2017 8:39 AM | NYT :thumbsdown: | 0.000% | $107,644.65 | 7.645% | 57.732%
-**2/6/2017 11:32 AM** | **NYT :thumbsdown:** | -0.690% | $106,894.25 | 6.894% | 48.067%
-2/6/2017 9:33 PM | NYT :thumbsdown: | 0.000% | $106,894.25 | 6.894% | 48.067%
-**2/8/2017 10:51 AM** | **JWN :thumbsdown:** | -4.244% | $102,191.48 | 2.191% | 13.160%
-2/8/2017 2:22 PM | INTC :thumbsup: | 0.110% | $102,191.48 | 2.191% | 13.160%
+**1/18/2017 8:00 AM** | **BLK :thumbsup:** | 0.854% | $106,228.83 | 6.229% | 69.067%
+**1/18/2017 8:00 AM** | **PNC :thumbsup:** | 2.062% | $106,759.43 | 6.759% | 76.548%
+**1/18/2017 8:00 AM** | **FOXA :thumbsup:** | 1.136% | $107,047.71 | 7.048% | 80.735%
+**1/18/2017 8:00 AM** | **NWSA :thumbsup:** | -0.736% | $106,844.67 | 6.845% | 77.777%
+**1/24/2017 12:49 PM** | **TRP :thumbsdown:** | 0.123% | $106,964.55 | 6.965% | 65.123%
+1/24/2017 7:46 PM | F :thumbsup: | 0.000% | $106,964.55 | 6.965% | 65.123%
+1/24/2017 7:46 PM | GM :thumbsup: | 0.000% | $106,964.55 | 6.965% | 65.123%
+1/26/2017 6:45 PM | FOXA :thumbsup: | 0.000% | $106,964.55 | 6.965% | 61.907%
+1/26/2017 6:45 PM | NWSA :thumbsup: | 0.000% | $106,964.55 | 6.965% | 61.907%
+1/30/2017 7:16 AM | DAL :thumbsdown: | 0.000% | $106,964.55 | 6.965% | 57.630%
+2/4/2017 8:39 AM | NYT :thumbsdown: | 0.000% | $106,964.55 | 6.965% | 51.667%
+**2/6/2017 11:32 AM** | **NYT :thumbsdown:** | -0.690% | $106,218.85 | 6.219% | 42.643%
+2/6/2017 9:33 PM | NYT :thumbsdown: | 0.000% | $106,218.85 | 6.219% | 42.643%
+**2/8/2017 10:51 AM** | **JWN :thumbsdown:** | -4.244% | $101,546.32 | 1.546% | 9.146%
+2/8/2017 2:22 PM | INTC :thumbsup: | 0.110% | $101,546.32 | 1.546% | 9.146%
