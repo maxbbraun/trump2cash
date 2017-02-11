@@ -6,6 +6,7 @@ from Queue import Queue
 from threading import Event
 from threading import Thread
 from tweepy import API
+from tweepy import Cursor
 from tweepy import OAuthHandler
 from tweepy import Stream
 from tweepy.streaming import StreamListener
@@ -114,14 +115,34 @@ class Twitter:
 
         return text
 
-    def get_tweets(self, ids):
-        """Looks up metadata for a list of tweets."""
+    def get_tweet(self, tweet_id):
+        """Looks up metadata for a single tweet."""
 
-        statuses = self.twitter_api.statuses_lookup(ids)
-        self.logs.debug("Got statuses response: %s" % statuses)
+        statuses = self.twitter_api.statuses_lookup([tweet_id])
+        if not statuses or len(statuses) != 1:
+            self.logs.error("Bad statuses response: %s" % statuses)
+            return None
 
         # Use the raw JSON, just like the streaming API.
-        return [status._json for status in statuses]
+        return statuses[0]._json
+
+    def get_tweets(self, since_id):
+        """Looks up metadata for all Trump tweets since the specified ID."""
+
+        # Include the first ID by passing along an earlier one.
+        since_id = str(int(since_id) - 1)
+
+        tweets = []
+        for status in Cursor(self.twitter_api.user_timeline,
+                             user_id=TRUMP_USER_ID,
+                             since_id=since_id).items():
+
+            # Use the raw JSON, just like the streaming API.
+            tweets.append(status._json)
+
+        self.logs.debug("Got tweets: %s" % tweets)
+
+        return tweets
 
     def get_tweet_link(self, tweet):
         """Creates the link URL to a tweet."""
