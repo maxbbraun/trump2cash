@@ -24,6 +24,7 @@ TWITTER_CONSUMER_SECRET = getenv("TWITTER_CONSUMER_SECRET")
 
 # The user ID of @realDonaldTrump.
 TRUMP_USER_ID = "25073877"
+POTUS_USER_ID = "822215679726100480"
 
 # The URL pattern for links to tweets.
 TWEET_URL = "https://twitter.com/%s/status/%s"
@@ -57,7 +58,7 @@ class Twitter:
         twitter_stream = Stream(self.twitter_auth, self.twitter_listener)
 
         self.logs.debug("Starting stream.")
-        twitter_stream.filter(follow=[TRUMP_USER_ID])
+        twitter_stream.filter(follow=[TRUMP_USER_ID,POTUS_USER_ID])
 
         # If we got here because of an API error, raise it.
         if self.twitter_listener.get_error_status():
@@ -243,6 +244,15 @@ class TwitterListener(StreamListener):
         if user_id_str != TRUMP_USER_ID:
             logs.debug("Skipping tweet from user: %s (%s)" %
                        (screen_name, user_id_str))
+            return
+        # Only look at POTUS tweets from POTUS, then check that tweet is signed -DJT
+        if user_id_str != POTUS_USER_ID:
+            logs.debug("Skipping tweet from user: %s (%s)" %
+                       (screen_name, user_id_str))
+            return
+        elif '-DJT' not in tweet:
+            logs.debug("Tweet not signed -DJT: %s" %
+                       (tweet))
             return
 
         logs.info("Examining tweet: %s" % tweet)
