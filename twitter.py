@@ -241,7 +241,7 @@ class TwitterListener(StreamListener):
         # or from the POTUS account so skip the rest.
         user_id_str = tweet["user"]["id_str"]
         screen_name = tweet["user"]["screen_name"]
-        if user_id_str != TRUMP_USER_ID or user_id_str != POTUS_USER_ID:
+        if user_id_str != TRUMP_USER_ID and user_id_str != POTUS_USER_ID:
             logs.debug("Skipping tweet from user: %s (%s)" %
                        (screen_name, user_id_str))
             return
