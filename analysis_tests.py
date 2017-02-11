@@ -131,6 +131,11 @@ def test_get_company_data(analysis):
         "exchange": "New York Stock Exchange",
         "name": "Delta Air Lines",
         "ticker": "DAL"}]
+    assert analysis.get_company_data("/m/033yz") ==[{
+        "exchange": "New York Stock Exchange",
+        "name": "Lockheed Martin Aeronautics",
+        "root": "Lockheed Martin",
+        "ticker": "LMT"}]
     assert analysis.get_company_data("/m/017b3j") == None
     assert analysis.get_company_data("/m/07k2d") == None
     assert analysis.get_company_data("/m/02z_b") == None
@@ -221,6 +226,7 @@ def test_get_sentiment(analysis):
     assert analysis.get_sentiment(get_tweet_text("828793887275761665")) < 0
     assert analysis.get_sentiment(get_tweet_text("829410107406614534")) > 0
     assert analysis.get_sentiment(get_tweet_text("829356871848951809")) < 0
+    # assert analysis.get_sentiment(get_tweet_text("808301935728230404")) < 0
     assert analysis.get_sentiment("") == 0
 
 
@@ -231,10 +237,11 @@ def test_find_companies(analysis):
         "sentiment": -0.1,
         "ticker": "BA"}]
     assert analysis.find_companies(get_tweet("812061677160202240")) == [{
-        # "exchange": "New York Stock Exchange",
-        # "name": "Lockheed Martin",
-        # "sentiment": -0.1,
-        # "ticker": "LMT"}, {
+        "exchange": "New York Stock Exchange",
+        "name": "Lockheed Martin Aeronautics",
+        "root": "Lockheed Martin",
+        "sentiment": 0,  # -0.1,
+        "ticker": "LMT"}, {
         "exchange": "New York Stock Exchange",
         "name": "Boeing",
         "sentiment": 0,  # 0.1,

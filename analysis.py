@@ -18,8 +18,9 @@ WIKIDATA_QUERY_URL = "https://query.wikidata.org/sparql?query=%s&format=JSON"
 MID_TO_TICKER_QUERY = (
     'SELECT ?companyLabel ?rootLabel ?tickerLabel ?exchangeNameLabel'
     ' WHERE {'
-    '  ?instance wdt:P646 "%s" .'  # Company with specified Freebase ID.
-    '  ?instance wdt:P156* ?company .'  # Company may have restructured.
+    '  ?entity wdt:P646 "%s" .'  # Entity with specified Freebase ID.
+    '  ?entity wdt:P176* ?manufacturer .'  # Entity may be product.
+    '  ?manufacturer wdt:P156* ?company .'  # Company may have restructured.
     '  { ?company p:P414 ?exchange }'  # Company traded on exchange.
     '  UNION { ?company wdt:P127+ / wdt:P156* ?root .'  # Or company has owner.
     '          ?root p:P414 ?exchange }'  # Owner traded on exchange.
@@ -34,7 +35,7 @@ MID_TO_TICKER_QUERY = (
     '  FILTER NOT EXISTS { ?company wdt:P31 /'
     '                               wdt:P279* wd:Q11032 } .'  # Blacklist news.
     '  SERVICE wikibase:label {'
-    '    bd:serviceParam wikibase:language "en" .'  # Use English labels.
+    '   bd:serviceParam wikibase:language "en" .'  # Use English labels.
     '  }'
     ' } GROUP BY ?companyLabel ?rootLabel ?tickerLabel ?exchangeNameLabel')
 
