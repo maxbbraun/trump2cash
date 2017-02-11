@@ -131,7 +131,7 @@ def test_get_company_data(analysis):
         "exchange": "New York Stock Exchange",
         "name": "Delta Air Lines",
         "ticker": "DAL"}]
-    assert analysis.get_company_data("/m/033yz") ==[{
+    assert analysis.get_company_data("/m/033yz") == [{
         "exchange": "New York Stock Exchange",
         "name": "Lockheed Martin Aeronautics",
         "root": "Lockheed Martin",
