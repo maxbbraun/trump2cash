@@ -1,8 +1,8 @@
+
 # -*- coding: utf-8 -*-
 
 from os import getenv
 from simplejson import loads
-from Queue import Queue
 from threading import Event
 from threading import Thread
 from tweepy import API
@@ -151,7 +151,6 @@ class TwitterListener(StreamListener):
     def start_queue(self):
         """Creates a queue and starts the worker threads."""
 
-        self.queue = Queue()
         self.stop_event = Event()
         self.logs.debug("Starting %s worker threads." % NUM_THREADS)
         self.workers = []
