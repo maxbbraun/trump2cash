@@ -18,7 +18,7 @@ def get_tweet(tweet_id):
     """Looks up data for a single tweet."""
 
     twitter = Twitter(logs_to_cloud=False)
-    return twitter.get_tweets([tweet_id])[0]
+    return twitter.get_tweet(tweet_id)
 
 
 def get_tweet_text(tweet_id):
@@ -131,29 +131,9 @@ def test_get_company_data(analysis):
         "exchange": "New York Stock Exchange",
         "name": "Delta Air Lines",
         "ticker": "DAL"}]
-    assert analysis.get_company_data("/m/017b3j") == [{
-        "exchange": "NASDAQ",
-        "name": "The Wall Street Journal",
-        "root": "21st Century Fox",
-        "ticker": "FOXA"}, {
-        "exchange": "NASDAQ",
-        "name": "The Wall Street Journal",
-        "root": "News Corp",
-        "ticker": "NWSA"}]
-    assert analysis.get_company_data("/m/07k2d") == [{
-        "exchange": "New York Stock Exchange",
-        "name": "The New York Times",
-        "root": "The New York Times Company",
-        "ticker": "NYT"}]
-    assert analysis.get_company_data("/m/02z_b") == [{
-        "exchange": "NASDAQ",
-        "name": "Fox News Channel",
-        "root": "21st Century Fox",
-        "ticker": "FOXA"}, {
-        "exchange": "NASDAQ",
-        "name": "Fox News Channel",
-        "root": "News Corp",
-        "ticker": "NWSA"}]
+    assert analysis.get_company_data("/m/017b3j") == None
+    assert analysis.get_company_data("/m/07k2d") == None
+    assert analysis.get_company_data("/m/02z_b") == None
     assert analysis.get_company_data("/m/0d6lp") == None
     assert analysis.get_company_data("xyz") == None
     assert analysis.get_company_data("") == None
@@ -333,17 +313,7 @@ def test_find_companies(analysis):
         "sentiment": 0.4,
         "root": "PNC Financial Services",
         "exchange": "New York Stock Exchange",
-        "ticker": "PNC"}, {
-        "exchange": "NASDAQ",
-        "name": "The Wall Street Journal",
-        "sentiment": 0.4,
-        "root": "21st Century Fox",
-        "ticker": "FOXA"}, {
-        "exchange": "NASDAQ",
-        "name": "The Wall Street Journal",
-        "sentiment": 0.4,
-        "root": "News Corp",
-        "ticker": "NWSA"}]
+        "ticker": "PNC"}]
     # assert analysis.find_companies(get_tweet("803808454620094465")) == [{
     #     "exchange": "New York Stock Exchange",
     #     "name": "Carrier Corporation",
@@ -382,35 +352,10 @@ def test_find_companies(analysis):
         "name": "Delta Air Lines",
         "sentiment": -0.4,
         "ticker": "DAL"}]
-    assert analysis.find_companies(get_tweet("824765229527605248")) == [{
-        "exchange": "NASDAQ",
-        "name": "Fox News Channel",
-        "root": "21st Century Fox",
-        "sentiment": 0.5,
-        "ticker": "FOXA"}, {
-        "exchange": "NASDAQ",
-        "name": "Fox News Channel",
-        "root": "News Corp",
-        "sentiment": 0.5,
-        "ticker": "NWSA"}]
-    assert analysis.find_companies(get_tweet("827874208021639168")) == [{
-        "exchange": "New York Stock Exchange",
-        "name": "The New York Times",
-        "root": "The New York Times Company",
-        "sentiment": -0.9,
-        "ticker": "NYT"}]
-    assert analysis.find_companies(get_tweet("828642511698669569")) == [{
-        "exchange": "New York Stock Exchange",
-        "name": "The New York Times",
-        "root": "The New York Times Company",
-        "sentiment": -0.6,
-        "ticker": "NYT"}]
-    assert analysis.find_companies(get_tweet("828793887275761665")) == [{
-        "exchange": "New York Stock Exchange",
-        "name": "The New York Times",
-        "root": "The New York Times Company",
-        "sentiment": -0.8,
-        "ticker": "NYT"}]
+    assert analysis.find_companies(get_tweet("824765229527605248")) == []
+    assert analysis.find_companies(get_tweet("827874208021639168")) == []
+    assert analysis.find_companies(get_tweet("828642511698669569")) == []
+    assert analysis.find_companies(get_tweet("828793887275761665")) == []
     assert analysis.find_companies(get_tweet("829410107406614534")) == [{
         "exchange": "NASDAQ",
         "name": "Intel",
@@ -441,20 +386,20 @@ def test_get_expanded_text(analysis):
 
 def test_make_wikidata_request(analysis):
     assert analysis.make_wikidata_request(
-        MID_TO_TICKER_QUERY % "/m/07k2d") == [{
+        MID_TO_TICKER_QUERY % "/m/02y1vz") == [{
             "companyLabel": {
                 "type": "literal",
-                "value": "The New York Times",
+                "value": "Facebook",
                 "xml:lang": "en"},
             "rootLabel": {
                 "type": "literal",
-                "value": "The New York Times Company",
+                "value": "Facebook Inc.",
                 "xml:lang": "en"},
             "exchangeNameLabel": {
                 "type": "literal",
-                "value": "New York Stock Exchange",
+                "value": "NASDAQ",
                 "xml:lang": "en"},
             "tickerLabel": {
                 "type": "literal",
-                "value": "NYT"}}]
+                "value": "FB"}}]
     assert analysis.make_wikidata_request("") == None

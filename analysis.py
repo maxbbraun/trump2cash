@@ -25,10 +25,14 @@ MID_TO_TICKER_QUERY = (
     '          ?root p:P414 ?exchange }'  # Owner traded on exchange.
     '  UNION { ?company wdt:P749+ / wdt:P156* ?root .'  # Or company has parent.
     '          ?root p:P414 ?exchange } .'  # Parent traded on exchange.
-    '  VALUES ?exchanges { wd:Q13677 wd:Q82059 }'  # Whitelist NYSE and NASDAQ.
+    '  VALUES ?exchanges { wd:Q13677 wd:Q82059 } .'  # Whitelist NYSE, NASDAQ.
     '  ?exchange ps:P414 ?exchanges .'  # Stock exchange is whitelisted.
     '  ?exchange pq:P249 ?ticker .'  # Get ticker symbol.
     '  ?exchange ps:P414 ?exchangeName .'  # Get name of exchange.
+    '  FILTER NOT EXISTS { ?company wdt:P31 /'
+    '                               wdt:P279* wd:Q1616075 } .'  # Blacklist TV.
+    '  FILTER NOT EXISTS { ?company wdt:P31 /'
+    '                               wdt:P279* wd:Q11032 } .'  # Blacklist news.
     '  SERVICE wikibase:label {'
     '    bd:serviceParam wikibase:language "en" .'  # Use English labels.
     '  }'
