@@ -237,22 +237,17 @@ class TwitterListener(StreamListener):
             logs.error("Malformed tweet: %s" % tweet)
             return
 
-        # We're only interested in tweets from Mr. Trump himself, so skip the
-        # rest.
+        # We're only interested in tweets from Mr. Trump himself
+        # or from the POTUS account so skip the rest.
         user_id_str = tweet["user"]["id_str"]
         screen_name = tweet["user"]["screen_name"]
-        if user_id_str != TRUMP_USER_ID:
+        if user_id_str != TRUMP_USER_ID or user_id_str != POTUS_USER_ID:
             logs.debug("Skipping tweet from user: %s (%s)" %
                        (screen_name, user_id_str))
             return
-        # Only look at POTUS tweets from POTUS, then check that tweet is signed -DJT
-        if user_id_str != POTUS_USER_ID:
-            logs.debug("Skipping tweet from user: %s (%s)" %
-                       (screen_name, user_id_str))
-            return
-        elif '-DJT' not in tweet:
-            logs.debug("Tweet not signed -DJT: %s" %
-                       (tweet))
+        # Also skip if tweet is from POTUS but not signed -DJT
+        if user_id_str == POTUS_USER_ID and '-DJT' not in tweet:
+            logs.debug("Skipping POTUS tweet because not signed -DJT")
             return
 
         logs.info("Examining tweet: %s" % tweet)
