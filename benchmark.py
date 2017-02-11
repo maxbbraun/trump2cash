@@ -210,8 +210,8 @@ if __name__ == "__main__":
             print
             print "*Performance*"
             print
-            print "Ticker | Exchange | Price @ tweet | Price EOD | Gain"
-            print "-------|----------|---------------|-----------|-----"
+            print "Ticker | Exchange | Price @ tweet | Price @ close | Gain"
+            print "-------|----------|---------------|---------------|-----"
 
             for strategy in strategies:
                 price_at = strategy["price_at"]

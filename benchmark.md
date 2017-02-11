@@ -23,8 +23,8 @@ Boeing | - | -0.1 :thumbsdown: | bear | negative sentiment
 
 *Performance*
 
-Ticker | Exchange | Price @ tweet | Price EOD | Gain
--------|----------|---------------|-----------|-----
+Ticker | Exchange | Price @ tweet | Price @ close | Gain
+-------|----------|---------------|---------------|-----
 BA | New York Stock Exchange | $152.16 | $152.30 | -0.092%
 
 ##### [12/11/2016 10:29 AM (Sunday)](https://twitter.com/realDonaldTrump/status/807970490635743237)
@@ -42,12 +42,28 @@ ExxonMobil | PNC Financial Services | 0.2 :thumbsup: | hold | market closed
 
 *Performance*
 
-Ticker | Exchange | Price @ tweet | Price EOD | Gain
--------|----------|---------------|-----------|-----
-XOM | New York Stock Exchange | $88.95 | $89.05 | 0.000%
-BLK | New York Stock Exchange | $388.55 | $388.43 | 0.000%
-STT | New York Stock Exchange | $80.48 | $80.30 | 0.000%
-PNC | New York Stock Exchange | $114.98 | $115.02 | 0.000%
+Ticker | Exchange | Price @ tweet | Price @ close | Gain
+-------|----------|---------------|---------------|-----
+XOM | New York Stock Exchange | - | - | 0.000%
+BLK | New York Stock Exchange | - | - | 0.000%
+STT | New York Stock Exchange | - | - | 0.000%
+PNC | New York Stock Exchange | - | - | 0.000%
+
+##### [12/12/2016 8:26 AM (Monday)](https://twitter.com/realDonaldTrump/status/808301935728230404)
+
+> The F-35 program and cost is out of control. Billions of dollars can and will be saved on military (and other) purchases after January 20th.
+
+*Strategy*
+
+Company | Root | Sentiment | Strategy | Reason
+--------|------|-----------|----------|-------
+Lockheed Martin Aeronautics | Lockheed Martin | 0 :neutral_face: | hold | neutral sentiment
+
+*Performance*
+
+Ticker | Exchange | Price @ tweet | Price @ close | Gain
+-------|----------|---------------|---------------|-----
+LMT | New York Stock Exchange | $260.47 | $253.25 | 0.000%
 
 ##### [12/13/2016 6:43 AM (Tuesday)](https://twitter.com/realDonaldTrump/status/808638507161882624)
 
@@ -64,8 +80,8 @@ ExxonMobil | PNC Financial Services | 0.5 :thumbsup: | hold | market closed
 
 *Performance*
 
-Ticker | Exchange | Price @ tweet | Price EOD | Gain
--------|----------|---------------|-----------|-----
+Ticker | Exchange | Price @ tweet | Price @ close | Gain
+-------|----------|---------------|---------------|-----
 XOM | New York Stock Exchange | $90.98 | $92.27 | 0.000%
 BLK | New York Stock Exchange | $390.28 | $392.64 | 0.000%
 STT | New York Stock Exchange | $80.39 | $79.10 | 0.000%
@@ -85,9 +101,9 @@ Facebook | Facebook Inc. | 0.4 :thumbsup: | hold | market closed
 
 *Performance*
 
-Ticker | Exchange | Price @ tweet | Price EOD | Gain
--------|----------|---------------|-----------|-----
-FB | NASDAQ | $119.75 | $119.89 | 0.000%
+Ticker | Exchange | Price @ tweet | Price @ close | Gain
+-------|----------|---------------|---------------|-----
+FB | NASDAQ | - | - | 0.000%
 
 ##### [12/22/2016 5:26 PM (Thursday)](https://twitter.com/realDonaldTrump/status/812061677160202240)
 
@@ -97,12 +113,14 @@ FB | NASDAQ | $119.75 | $119.89 | 0.000%
 
 Company | Root | Sentiment | Strategy | Reason
 --------|------|-----------|----------|-------
+Lockheed Martin Aeronautics | Lockheed Martin | 0 :neutral_face: | hold | market closed
 Boeing | - | 0 :neutral_face: | hold | market closed
 
 *Performance*
 
-Ticker | Exchange | Price @ tweet | Price EOD | Gain
--------|----------|---------------|-----------|-----
+Ticker | Exchange | Price @ tweet | Price @ close | Gain
+-------|----------|---------------|---------------|-----
+LMT | New York Stock Exchange | $252.80 | $249.55 | 0.000%
 BA | New York Stock Exchange | $157.46 | $157.92 | 0.000%
 
 ##### [1/3/2017 7:30 AM (Tuesday)](https://twitter.com/realDonaldTrump/status/816260343391514624)
@@ -117,8 +135,8 @@ General Motors | - | -0.1 :thumbsdown: | hold | market closed
 
 *Performance*
 
-Ticker | Exchange | Price @ tweet | Price EOD | Gain
--------|----------|---------------|-----------|-----
+Ticker | Exchange | Price @ tweet | Price @ close | Gain
+-------|----------|---------------|---------------|-----
 GM | New York Stock Exchange | $34.84 | $35.15 | 0.000%
 
 ##### [1/3/2017 11:44 AM (Tuesday)](https://twitter.com/realDonaldTrump/status/816324295781740544)
@@ -135,8 +153,8 @@ Ford | - | 0.5 :thumbsup: | bull | positive sentiment
 
 *Performance*
 
-Ticker | Exchange | Price @ tweet | Price EOD | Gain
--------|----------|---------------|-----------|-----
+Ticker | Exchange | Price @ tweet | Price @ close | Gain
+-------|----------|---------------|---------------|-----
 F | New York Stock Exchange | $12.41 | $12.59 | 1.450%
 
 ##### [1/4/2017 8:19 AM (Wednesday)](https://twitter.com/realDonaldTrump/status/816635078067490816)
@@ -151,8 +169,8 @@ Ford | - | 0.3 :thumbsup: | bull | positive sentiment
 
 *Performance*
 
-Ticker | Exchange | Price @ tweet | Price EOD | Gain
--------|----------|---------------|-----------|-----
+Ticker | Exchange | Price @ tweet | Price @ close | Gain
+-------|----------|---------------|---------------|-----
 F | New York Stock Exchange | $12.59 | $13.17 | 4.607%
 
 ##### [1/5/2017 1:14 PM (Thursday)](https://twitter.com/realDonaldTrump/status/817071792711942145)
@@ -167,8 +185,8 @@ Toyota | - | -0.2 :thumbsdown: | bear | negative sentiment
 
 *Performance*
 
-Ticker | Exchange | Price @ tweet | Price EOD | Gain
--------|----------|---------------|-----------|-----
+Ticker | Exchange | Price @ tweet | Price @ close | Gain
+-------|----------|---------------|---------------|-----
 TM | New York Stock Exchange | $121.12 | $120.44 | 0.565%
 
 ##### [1/9/2017 9:14 AM (Monday)](https://twitter.com/realDonaldTrump/status/818460862675558400)
@@ -183,8 +201,8 @@ Fiat | Fiat Chrysler Automobiles | 0.2 :thumbsup: | bull | positive sentiment
 
 *Performance*
 
-Ticker | Exchange | Price @ tweet | Price EOD | Gain
--------|----------|---------------|-----------|-----
+Ticker | Exchange | Price @ tweet | Price @ close | Gain
+-------|----------|---------------|---------------|-----
 FCAU | New York Stock Exchange | $10.55 | $10.57 | 0.190%
 
 ##### [1/9/2017 9:16 AM (Monday)](https://twitter.com/realDonaldTrump/status/818461467766824961)
@@ -200,8 +218,8 @@ Fiat | Fiat Chrysler Automobiles | 0.3 :thumbsup: | bull | positive sentiment
 
 *Performance*
 
-Ticker | Exchange | Price @ tweet | Price EOD | Gain
--------|----------|---------------|-----------|-----
+Ticker | Exchange | Price @ tweet | Price @ close | Gain
+-------|----------|---------------|---------------|-----
 F | New York Stock Exchange | $12.84 | $12.64 | -1.558%
 FCAU | New York Stock Exchange | $10.57 | $10.57 | 0.000%
 
@@ -219,8 +237,8 @@ Walmart | State Street Corporation | 0.4 :thumbsup: | bull | positive sentiment
 
 *Performance*
 
-Ticker | Exchange | Price @ tweet | Price EOD | Gain
--------|----------|---------------|-----------|-----
+Ticker | Exchange | Price @ tweet | Price @ close | Gain
+-------|----------|---------------|---------------|-----
 GM | New York Stock Exchange | $37.54 | $37.31 | -0.613%
 WMT | New York Stock Exchange | $68.53 | $68.50 | -0.044%
 STT | New York Stock Exchange | $81.19 | $80.20 | -1.219%
@@ -239,8 +257,8 @@ Lockheed Martin | - | -0.6 :thumbsdown: | hold | market closed
 
 *Performance*
 
-Ticker | Exchange | Price @ tweet | Price EOD | Gain
--------|----------|---------------|-----------|-----
+Ticker | Exchange | Price @ tweet | Price @ close | Gain
+-------|----------|---------------|---------------|-----
 F | New York Stock Exchange | $12.60 | $12.41 | 0.000%
 GM | New York Stock Exchange | $37.31 | $37.47 | 0.000%
 LMT | New York Stock Exchange | $254.12 | $254.07 | 0.000%
@@ -258,8 +276,8 @@ Bayer | PNC Financial Services | 0.4 :thumbsup: | bull | positive sentiment
 
 *Performance*
 
-Ticker | Exchange | Price @ tweet | Price EOD | Gain
--------|----------|---------------|-----------|-----
+Ticker | Exchange | Price @ tweet | Price @ close | Gain
+-------|----------|---------------|---------------|-----
 BLK | New York Stock Exchange | $374.80 | $378.00 | 0.854%
 PNC | New York Stock Exchange | $113.97 | $116.32 | 2.062%
 
@@ -275,8 +293,8 @@ Keystone Pipeline | TransCanada Corporation | -0.1 :thumbsdown: | bear | negativ
 
 *Performance*
 
-Ticker | Exchange | Price @ tweet | Price EOD | Gain
--------|----------|---------------|-----------|-----
+Ticker | Exchange | Price @ tweet | Price @ close | Gain
+-------|----------|---------------|---------------|-----
 TRP | New York Stock Exchange | $48.93 | $48.87 | 0.123%
 
 ##### [1/24/2017 7:46 PM (Tuesday)](https://twitter.com/realDonaldTrump/status/824055927200423936)
@@ -292,10 +310,26 @@ General Motors | - | 0.5 :thumbsup: | hold | market closed
 
 *Performance*
 
-Ticker | Exchange | Price @ tweet | Price EOD | Gain
--------|----------|---------------|-----------|-----
+Ticker | Exchange | Price @ tweet | Price @ close | Gain
+-------|----------|---------------|---------------|-----
 F | New York Stock Exchange | $12.60 | $12.78 | 0.000%
 GM | New York Stock Exchange | $37.09 | $38.28 | 0.000%
+
+##### [1/28/2017 10:42 AM (Saturday)](https://twitter.com/realDonaldTrump/status/825368580325773312)
+
+> Today, we remember the crew of the Space Shuttle Challenger, 31 years later. #NeverForget https://t.co/OhshQsFRfl
+
+*Strategy*
+
+Company | Root | Sentiment | Strategy | Reason
+--------|------|-----------|----------|-------
+Rockwell International | - | 0.2 :thumbsup: | hold | market closed
+
+*Performance*
+
+Ticker | Exchange | Price @ tweet | Price @ close | Gain
+-------|----------|---------------|---------------|-----
+ROK | New York Stock Exchange | - | - | 0.000%
 
 ##### [1/30/2017 7:16 AM (Monday)](https://twitter.com/realDonaldTrump/status/826041397232943104)
 
@@ -309,8 +343,8 @@ Delta Air Lines | - | -0.4 :thumbsdown: | hold | market closed
 
 *Performance*
 
-Ticker | Exchange | Price @ tweet | Price EOD | Gain
--------|----------|---------------|-----------|-----
+Ticker | Exchange | Price @ tweet | Price @ close | Gain
+-------|----------|---------------|---------------|-----
 DAL | New York Stock Exchange | $49.70 | $47.75 | 0.000%
 
 ##### [2/8/2017 10:51 AM (Wednesday)](https://twitter.com/realDonaldTrump/status/829356871848951809)
@@ -325,8 +359,8 @@ Nordstrom | - | -0.2 :thumbsdown: | bear | negative sentiment
 
 *Performance*
 
-Ticker | Exchange | Price @ tweet | Price EOD | Gain
--------|----------|---------------|-----------|-----
+Ticker | Exchange | Price @ tweet | Price @ close | Gain
+-------|----------|---------------|---------------|-----
 JWN | New York Stock Exchange | $42.64 | $44.53 | -4.244%
 
 ##### [2/8/2017 2:22 PM (Wednesday)](https://twitter.com/realDonaldTrump/status/829410107406614534)
@@ -341,9 +375,25 @@ Intel | - | 0.8 :thumbsup: | bull | positive sentiment
 
 *Performance*
 
-Ticker | Exchange | Price @ tweet | Price EOD | Gain
--------|----------|---------------|-----------|-----
+Ticker | Exchange | Price @ tweet | Price @ close | Gain
+-------|----------|---------------|---------------|-----
 INTC | NASDAQ | $36.43 | $36.47 | 0.110%
+
+##### [2/11/2017 8:24 AM (Saturday)](https://twitter.com/realDonaldTrump/status/830407172747988992)
+
+> ...design or negotiations yet. When I do, just like with the F-35 FighterJet or the Air Force One Program, price will come WAY DOWN!
+
+*Strategy*
+
+Company | Root | Sentiment | Strategy | Reason
+--------|------|-----------|----------|-------
+Lockheed Martin Aeronautics | Lockheed Martin | 0 :neutral_face: | hold | market closed
+
+*Performance*
+
+Ticker | Exchange | Price @ tweet | Price @ close | Gain
+-------|----------|---------------|---------------|-----
+LMT | New York Stock Exchange | - | - | 0.000%
 
 ### Fund simulation
 
@@ -357,11 +407,13 @@ Time | Trade | Gain | Value | Return | Annualized
 12/11/2016 10:29 AM | BLK :thumbsup: | 0.000% | $99,899.10 | -0.101% | -7.104%
 12/11/2016 10:29 AM | STT :thumbsup: | 0.000% | $99,899.10 | -0.101% | -7.104%
 12/11/2016 10:29 AM | PNC :thumbsup: | 0.000% | $99,899.10 | -0.101% | -7.104%
+12/12/2016 8:26 AM | LMT :neutral_face: | 0.000% | $99,899.10 | -0.101% | -7.104%
 12/13/2016 6:43 AM | XOM :thumbsup: | 0.000% | $99,899.10 | -0.101% | -5.956%
 12/13/2016 6:43 AM | BLK :thumbsup: | 0.000% | $99,899.10 | -0.101% | -5.956%
 12/13/2016 6:43 AM | STT :thumbsup: | 0.000% | $99,899.10 | -0.101% | -5.956%
 12/13/2016 6:43 AM | PNC :thumbsup: | 0.000% | $99,899.10 | -0.101% | -5.956%
 12/17/2016 4:17 PM | FB :thumbsup: | 0.000% | $99,899.10 | -0.101% | -3.294%
+12/22/2016 5:26 PM | LMT :neutral_face: | 0.000% | $99,899.10 | -0.101% | -2.277%
 12/22/2016 5:26 PM | BA :neutral_face: | 0.000% | $99,899.10 | -0.101% | -2.277%
 1/3/2017 7:30 AM | GM :thumbsdown: | 0.000% | $99,899.10 | -0.101% | -1.355%
 **1/3/2017 11:44 AM** | **F :thumbsup:** | 1.450% | $101,323.62 | 1.324% | 18.698%
@@ -381,6 +433,8 @@ Time | Trade | Gain | Value | Return | Annualized
 **1/24/2017 12:49 PM** | **TRP :thumbsdown:** | 0.123% | $107,644.65 | 7.645% | 73.106%
 1/24/2017 7:46 PM | F :thumbsup: | 0.000% | $107,644.65 | 7.645% | 73.106%
 1/24/2017 7:46 PM | GM :thumbsup: | 0.000% | $107,644.65 | 7.645% | 73.106%
+1/28/2017 10:42 AM | ROK :thumbsup: | 0.000% | $107,644.65 | 7.645% | 66.083%
 1/30/2017 7:16 AM | DAL :thumbsdown: | 0.000% | $107,644.65 | 7.645% | 64.530%
 **2/8/2017 10:51 AM** | **JWN :thumbsdown:** | -4.244% | $102,907.86 | 2.908% | 17.759%
 2/8/2017 2:22 PM | INTC :thumbsup: | 0.110% | $102,907.86 | 2.908% | 17.759%
+2/11/2017 8:24 AM | LMT :neutral_face: | 0.000% | $102,907.86 | 2.908% | 17.178%
