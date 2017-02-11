@@ -2,8 +2,6 @@
 # -*- coding: utf-8 -*-
 
 from datetime import datetime
-from datetime import timedelta
-
 from analysis import Analysis
 from trading import Trading
 from twitter import Twitter
