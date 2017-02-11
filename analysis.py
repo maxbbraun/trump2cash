@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from google.cloud import language
-from os import getenv
 from re import compile
 from re import IGNORECASE
 from requests import get
