@@ -174,17 +174,16 @@ class Trading:
         clock_url = TRADEKING_API_URL % "market/clock"
         response = self.make_request(url=clock_url)
 
-        if not response or "response" not in response:
-            self.logs.error("Missing clock response: %s" % response)
+        if not response:
+            self.logs.error("No clock response.")
             return None
 
-        clock_response = response["response"]
-        if ("status" not in clock_response or
-            "current" not in clock_response["status"]):
-            self.logs.error("Malformed clock response: %s" % clock_response)
+        try:
+            clock_response = response["response"]
+            current = clock_response["status"]["current"]
+        except KeyError:
+            self.logs.error("Malformed clock response: %s" % response)
             return None
-
-        current = clock_response["status"]["current"]
 
         if current not in ["pre", "open", "after", "close"]:
             self.logs.error("Unknown market status: %s" % current)
@@ -456,26 +455,26 @@ class Trading:
             "accounts/%s" % TRADEKING_ACCOUNT_NUMBER)
         response = self.make_request(url=balances_url)
 
-        if not response or "response" not in response:
-            self.logs.error("Missing balances response: %s" % response)
-            return 0.0
+        if not response:
+            self.logs.error("No balances response.")
+            return 0
 
-        balances = response["response"]
-        if ("accountbalance" not in balances or
-            "money" not in balances["accountbalance"] or
-            "cash" not in balances["accountbalance"]["money"] or
-            "uncleareddeposits" not in balances["accountbalance"]["money"]):
-            self.logs.error("Malformed balance response: %s" % balances)
-            return 0.0
-
-        money = balances["accountbalance"]["money"]
         try:
-            cash = float(money["cash"])
-            uncleareddeposits = float(money["uncleareddeposits"])
+            balances = response["response"]
+            money = balances["accountbalance"]["money"]
+            cash_str = money["cash"]
+            uncleareddeposits_str = money["uncleareddeposits"]
+        except KeyError:
+            self.logs.error("Malformed balances response: %s" % response)
+            return 0
+
+        try:
+            cash = float(cash_str)
+            uncleareddeposits = float(uncleareddeposits_str)
             return cash - uncleareddeposits
         except ValueError:
             self.logs.error("Malformed number in response: %s" % money)
-            return 0.0
+            return 0
 
     def get_last_price(self, ticker):
         """Finds the last trade price for the specified stock."""
@@ -486,35 +485,31 @@ class Trading:
 
         response = self.make_request(url=quotes_url)
 
-        if not response or "response" not in response:
-            self.logs.error("Missing quotes response for %s: %s" %
+        if not response:
+            self.logs.error("No quotes response for %s: %s" %
                             (ticker, response))
             return None
 
-        quotes = response["response"]
-        if (not quotes or "quotes" not in quotes or
-            "quote" not in quotes["quotes"]):
-            self.logs.error("Malformed quotes response for %s: %s" %
-                            (ticker, quotes_response))
+        try:
+            quotes = response["response"]
+            quote = quotes["quotes"]["quote"]
+            last_str = quote["last"]
+        except KeyError:
+            self.logs.error("Malformed quotes response: %s" % response)
             return None
 
-        quote = quotes["quotes"]["quote"]
         self.logs.debug("Quote for %s: %s" % (ticker, quote))
-        if "last" not in quote:
-            self.logs.error("Malformed quote for %s: %s" % (ticker, quote))
-            return None
 
         try:
-            last = float(quote["last"])
+            last = float(last_str)
         except ValueError:
-            self.logs.error("Malformed last for %s: %s" %
-                            (ticker, quote["last"]))
+            self.logs.error("Malformed last for %s: %s" % (ticker, last_str))
             return None
 
         if last > 0:
             return last
         else:
-            self.logs.error("Zero quote for: %s" % ticker)
+            self.logs.error("Bad quote for: %s" % ticker)
             return None
 
     def get_order_url(self):
@@ -601,15 +596,15 @@ class Trading:
         response = self.make_request(url=self.get_order_url(), method="POST",
                                      body=fixml, headers=FIXML_HEADERS)
 
-        # Check if there is a response.
-        if not response or "response" not in response:
-            self.logs.error("Order request failed: %s %s" % (fixml, response))
+        if not response:
+            self.logs.error("No order response for: %s" % fixml)
             return False
 
-        # Check if the response is in the expected format.
-        order_response = response["response"]
-        if not order_response or "error" not in order_response:
-            self.logs.error("Malformed order response: %s" % order_response)
+        try:
+            order_response = response["response"]
+            error = order_response["error"]
+        except KeyError:
+            self.logs.error("Malformed order response: %s" % response)
             return False
 
         # The error field indicates whether the order succeeded.

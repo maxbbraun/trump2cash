@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from datetime import datetime
 from pytest import fixture
 from threading import Timer
 from time import sleep

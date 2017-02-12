@@ -23,6 +23,7 @@ def twitter_callback(tweet):
         trading.make_trades(companies)
         twitter.tweet(companies, tweet)
 
+
 if __name__ == "__main__":
     logs = Logs(name="main", to_cloud=LOGS_TO_CLOUD)
 

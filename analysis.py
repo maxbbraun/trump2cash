@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from google.cloud import language
-from os import getenv
 from re import compile
 from re import IGNORECASE
 from requests import get
@@ -61,34 +60,29 @@ class Analysis:
         # Collect the data from the response.
         datas = []
         for binding in bindings:
-            if ("companyLabel" in binding and
-                "value" in binding["companyLabel"]):
+            try:
                 name = binding["companyLabel"]["value"]
-            else:
+            except KeyError:
                 name = None
 
-            if ("rootLabel" in binding and
-                "value" in binding["rootLabel"]):
+            try:
                 root = binding["rootLabel"]["value"]
-            else:
+            except KeyError:
                 root = None
 
-            if ("tickerLabel" in binding and
-                "value" in binding["tickerLabel"]):
+            try:
                 ticker = binding["tickerLabel"]["value"]
-            else:
+            except KeyError:
                 ticker = None
 
-            if ("exchangeNameLabel" in binding and
-                "value" in binding["exchangeNameLabel"]):
+            try:
                 exchange = binding["exchangeNameLabel"]["value"]
-            else:
+            except KeyError:
                 exchange = None
 
-            data = {}
-            data["name"] = name
-            data["ticker"] = ticker
-            data["exchange"] = exchange
+            data = {"name": name,
+                    "ticker": ticker,
+                    "exchange": exchange}
 
             # Add the root if there is one.
             if root and root != name:
@@ -106,12 +100,16 @@ class Analysis:
     def find_companies(self, tweet):
         """Finds mentions of companies in a tweet."""
 
+        if not tweet:
+            self.logs.warn("No tweet to find companies.")
+            return None
+
         # Use the text of the tweet with any mentions expanded to improve
         # entity detection.
         text = self.get_expanded_text(tweet)
         if not text:
             self.logs.error("Failed to get text from tweet: %s" % tweet)
-            return []
+            return None
 
         # Run entity detection.
         document = self.gcnl_client.document_from_text(text)
@@ -129,11 +127,12 @@ class Analysis:
             # the Twitter handle).
             name = entity.name
             metadata = entity.metadata
-            if "mid" not in metadata:
+            try:
+                mid = metadata["mid"]
+            except KeyError:
                 self.logs.debug("No MID found for entity: %s" % name)
                 continue
 
-            mid = metadata["mid"]
             company_data = self.get_company_data(mid)
 
             # Skip any entity for which we can't find any company data.
@@ -167,22 +166,25 @@ class Analysis:
         their full names.
         """
 
-        if (not tweet or "text" not in tweet or "entities" not in tweet or
-            "user_mentions" not in tweet["entities"]):
+        if not tweet:
+            self.logs.warn("No tweet to expand text.")
+            return None
+
+        try:
+            text = tweet["text"]
+            mentions = tweet["entities"]["user_mentions"]
+        except KeyError:
             self.logs.error("Malformed tweet: %s" % tweet)
             return None
 
-        text = tweet["text"]
-        mentions = tweet["entities"]["user_mentions"]
         self.logs.debug("Using mentions: %s" % mentions)
-
         for mention in mentions:
-            if "screen_name" not in mention or "name" not in mention:
+            try:
+                screen_name = "@%s" % mention["screen_name"]
+                name = mention["name"]
+            except KeyError:
                 self.logs.warn("Malformed mention: %s" % mention)
                 continue
-
-            screen_name = "@%s" % mention["screen_name"]
-            name = mention["name"]
 
             self.logs.debug("Expanding mention: %s %s" % (screen_name, name))
             pattern = compile(screen_name, IGNORECASE)
@@ -204,17 +206,13 @@ class Analysis:
             return None
         self.logs.debug("Wikidata response: %s" % response_json)
 
-        if "results" not in response_json:
-            self.logs.error("No results in Wikidata response: %s" %
-                            response_json)
+        try:
+            results = response_json["results"]
+            bindings = results["bindings"]
+        except KeyError:
+            self.logs.error("Malformed Wikidata response: %s" % response_json)
             return None
 
-        results = response_json["results"]
-        if "bindings" not in results:
-            self.logs.error("No bindings in Wikidata results: %s" % results)
-            return None
-
-        bindings = results["bindings"]
         return bindings
 
     def entities_tostring(self, entities):
@@ -252,7 +250,9 @@ class Analysis:
     def get_sentiment(self, text):
         """Extracts a sentiment score [-1, 1] from text."""
 
-        # TODO: Determine sentiment targeted at the specific entity.
+        if not text:
+            self.logs.warn("No sentiment for empty text.")
+            return 0
 
         document = self.gcnl_client.document_from_text(text)
         sentiment = document.analyze_sentiment()

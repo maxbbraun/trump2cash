@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 
 from datetime import datetime
-from datetime import timedelta
 
 from analysis import Analysis
 from trading import Trading
@@ -111,6 +110,7 @@ def should_trade(strategy, date, previous_trade_date):
         return False
 
     return True
+
 
 if __name__ == "__main__":
     analysis = Analysis(logs_to_cloud=False)

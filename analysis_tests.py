@@ -136,12 +136,12 @@ def test_get_company_data(analysis):
         "name": "Lockheed Martin Aeronautics",
         "root": "Lockheed Martin",
         "ticker": "LMT"}]
-    assert analysis.get_company_data("/m/017b3j") == None
-    assert analysis.get_company_data("/m/07k2d") == None
-    assert analysis.get_company_data("/m/02z_b") == None
-    assert analysis.get_company_data("/m/0d6lp") == None
-    assert analysis.get_company_data("xyz") == None
-    assert analysis.get_company_data("") == None
+    assert analysis.get_company_data("/m/017b3j") is None
+    assert analysis.get_company_data("/m/07k2d") is None
+    assert analysis.get_company_data("/m/02z_b") is None
+    assert analysis.get_company_data("/m/0d6lp") is None
+    assert analysis.get_company_data("xyz") is None
+    assert analysis.get_company_data("") is None
 
 
 def test_entity_tostring(analysis):
@@ -227,7 +227,7 @@ def test_get_sentiment(analysis):
     assert analysis.get_sentiment(get_tweet_text("829410107406614534")) > 0
     assert analysis.get_sentiment(get_tweet_text("829356871848951809")) < 0
     # assert analysis.get_sentiment(get_tweet_text("808301935728230404")) < 0
-    assert analysis.get_sentiment("") == 0
+    assert analysis.get_sentiment(None) == 0
 
 
 def test_find_companies(analysis):
@@ -373,7 +373,7 @@ def test_find_companies(analysis):
         "name": "Nordstrom",
         "sentiment": -0.2,
         "ticker": "JWN"}]
-    assert analysis.find_companies("") == []
+    assert analysis.find_companies(None) is None
 
 
 def test_get_expanded_text(analysis):
@@ -388,7 +388,7 @@ def test_get_expanded_text(analysis):
         "The failing The New York Times writes total fiction concerning me. Th"
         "ey have gotten it wrong for two years, and now are making up stories "
         "&amp; sources!")
-    assert analysis.get_expanded_text("") == None
+    assert analysis.get_expanded_text(None) is None
 
 
 def test_make_wikidata_request(analysis):
@@ -409,4 +409,4 @@ def test_make_wikidata_request(analysis):
             "tickerLabel": {
                 "type": "literal",
                 "value": "FB"}}]
-    assert analysis.make_wikidata_request("") == None
+    assert analysis.make_wikidata_request("") is None

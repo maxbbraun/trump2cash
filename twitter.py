@@ -147,13 +147,16 @@ class Twitter:
     def get_tweet_link(self, tweet):
         """Creates the link URL to a tweet."""
 
-        if (not tweet or "user" not in tweet or
-            "screen_name" not in tweet["user"] or "id_str" not in tweet):
-            self.logs.error("Malformed tweet for link: %s" % tweet)
+        if not tweet:
+            self.logs.error("No tweet to get link.")
             return None
 
-        screen_name = tweet["user"]["screen_name"]
-        id_str = tweet["id_str"]
+        try:
+            screen_name = tweet["user"]["screen_name"]
+            id_str = tweet["id_str"]
+        except KeyError:
+            self.logs.error("Malformed tweet for link: %s" % tweet)
+            return None
 
         link = TWEET_URL % (screen_name, id_str)
         return link
@@ -244,23 +247,21 @@ class TwitterListener(StreamListener):
         callback.
         """
 
-        # Decode the JSON response.
         try:
             tweet = loads(data)
         except ValueError:
             logs.error("Failed to decode JSON data: %s" % data)
             return
 
-        # Do a basic check on the response format we expect.
-        if ("user" not in tweet or "id_str" not in tweet["user"] or
-            "screen_name" not in tweet["user"]):
+        try:
+            user_id_str = tweet["user"]["id_str"]
+            screen_name = tweet["user"]["screen_name"]
+        except KeyError:
             logs.error("Malformed tweet: %s" % tweet)
             return
 
         # We're only interested in tweets from Mr. Trump himself, so skip the
         # rest.
-        user_id_str = tweet["user"]["id_str"]
-        screen_name = tweet["user"]["screen_name"]
         if user_id_str != TRUMP_USER_ID:
             logs.debug("Skipping tweet from user: %s (%s)" %
                        (screen_name, user_id_str))
