@@ -10,7 +10,7 @@ out a summary of its findings in real time at
 
 *You can read more about the background story [here](http://trump2cash.biz).*
 
-[![Trump2Cash](https://cdn-images-1.medium.com/max/1400/1*VbnhlLnZz0KvWO0QsM5Ihw.png)](http://trump2cash.biz)
+[![Trump2Cash](https://lh3.googleusercontent.com/psRQPdRy1UmrJYEQgZPY5M-I8ogyfI1MQgF4JXrA23HI2Ewpcc0CjzmPWXW5FetbkoeY3-ulrmxq1ZdCFHyTB7qX9yP4QS8nioxsFdfiTsjA7GUSC0ZledlGww1lVBD2OeN1CIZ88XmMceV0bPlV8Gy4fjqyhnoZnGjTGRz9KmnugVNSJShqNvsPF0L73MCnDCyFM35Cn3LwzyWIfNdHI2jVlRCRjSVb7lHDto61lL9uVlz5lVo3rZDlqnYzOyby6vu1v5DmxBirZ7-m4v8RlP6Fq6DZi_U8B-LMQvG8pEdF9Oi_dOTt1FyKEg7j-wV75VrwbjrJdSy9v-IWQTFcRulwXiHfKwtZIaj7U_YTT9Vn1TWoKMm31Ua5b_kIiekt6zWQRa32tc2YCFiX03bM6Wze0Zs0BIWKOEzdDHfAdsdtv5wxmL-4QDUuW75Vt5Rry2x7y3kdwYV85P2tXPSBh6RYeed1wV1tiiIa2G3iXwx3kQJYdAB13xFsskw0j9mcxR8FcoENi9Fkiu2y2Q5mfXf6v3t3ZGC6vV5wIN1bZ8Ve5n9_yKkVz-auCz6ZKwEt6YGqlwgUb7uC8Xyodn_5RhmxSgi8SCgQpYMkr1D26nIDgqT585obE92-aWSvDkUBvXPfEmSNKAf1ZUIC5nsLP4dnZZ-boSANOpBi888lu5s=w1400-h700-no)](http://trump2cash.biz)
 
 The code is written in Python and is meant to run on a
 [Google Compute Engine](https://cloud.google.com/compute/) instance. It uses the
