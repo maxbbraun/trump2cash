@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from datetime import datetime
 from pytest import fixture
 from threading import Timer
 from time import sleep
@@ -78,27 +77,23 @@ def test_make_tweet_text(twitter):
         u"https://twitter.com/realDonaldTrump/status/821697182235496450")
 
 
-def test_get_tweets(twitter):
-    statuses = twitter.get_tweets(["806134244384899072", "812061677160202240"])
-    assert len(statuses) == 2
-    assert statuses[0]["text"] == (
+def test_get_tweet(twitter):
+    tweet = twitter.get_tweet("806134244384899072")
+    assert tweet["text"] == (
         "Boeing is building a brand new 747 Air Force One for future president"
         "s, but costs are out of control, more than $4 billion. Cancel order!")
-    assert statuses[0]["id_str"] == "806134244384899072"
-    assert statuses[0]["user"]["id_str"] == "25073877"
-    assert statuses[0]["user"]["screen_name"] == "realDonaldTrump"
-    assert statuses[0]["created_at"] == "Tue Dec 06 13:52:35 +0000 2016"
-    assert statuses[1]["text"] == (
-        "Based on the tremendous cost and cost overruns of the Lockheed Martin"
-        " F-35, I have asked Boeing to price-out a comparable F-18 Super Horne"
-        "t!")
-    assert statuses[1]["id_str"] == "812061677160202240"
-    assert statuses[1]["user"]["id_str"] == "25073877"
-    assert statuses[1]["user"]["screen_name"] == "realDonaldTrump"
-    assert statuses[1]["created_at"] == "Thu Dec 22 22:26:05 +0000 2016"
+    assert tweet["id_str"] == "806134244384899072"
+    assert tweet["user"]["id_str"] == "25073877"
+    assert tweet["user"]["screen_name"] == "realDonaldTrump"
+    assert tweet["created_at"] == "Tue Dec 06 13:52:35 +0000 2016"
+
+
+def test_get_tweets(twitter):
+    # TODO
+    pass
 
 
 def test_get_tweet_link(twitter):
-    tweet = twitter.get_tweets(["828574430800539648"])[0]
+    tweet = twitter.get_tweet("828574430800539648")
     assert twitter.get_tweet_link(tweet) == (
         "https://twitter.com/realDonaldTrump/status/828574430800539648")

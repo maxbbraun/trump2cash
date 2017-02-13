@@ -6,6 +6,7 @@ from Queue import Queue
 from threading import Event
 from threading import Thread
 from tweepy import API
+from tweepy import Cursor
 from tweepy import OAuthHandler
 from tweepy import Stream
 from tweepy.streaming import StreamListener
@@ -115,25 +116,48 @@ class Twitter:
 
         return text
 
-    def get_tweets(self, ids):
-        """Looks up metadata for a list of tweets."""
+    def get_tweet(self, tweet_id):
+        """Looks up metadata for a single tweet."""
 
-        statuses = self.twitter_api.statuses_lookup(ids)
-        self.logs.debug("Got statuses response: %s" % statuses)
+        statuses = self.twitter_api.statuses_lookup([tweet_id])
+        if not statuses or len(statuses) != 1:
+            self.logs.error("Bad statuses response: %s" % statuses)
+            return None
 
         # Use the raw JSON, just like the streaming API.
-        return [status._json for status in statuses]
+        return statuses[0]._json
+
+    def get_tweets(self, since_id):
+        """Looks up metadata for all Trump tweets since the specified ID."""
+
+        # Include the first ID by passing along an earlier one.
+        since_id = str(int(since_id) - 1)
+
+        tweets = []
+        for status in Cursor(self.twitter_api.user_timeline,
+                             user_id=TRUMP_USER_ID,
+                             since_id=since_id).items():
+
+            # Use the raw JSON, just like the streaming API.
+            tweets.append(status._json)
+
+        self.logs.debug("Got tweets: %s" % tweets)
+
+        return tweets
 
     def get_tweet_link(self, tweet):
         """Creates the link URL to a tweet."""
 
-        if (not tweet or "user" not in tweet or
-            "screen_name" not in tweet["user"] or "id_str" not in tweet):
-            self.logs.error("Malformed tweet for link: %s" % tweet)
+        if not tweet:
+            self.logs.error("No tweet to get link.")
             return None
 
-        screen_name = tweet["user"]["screen_name"]
-        id_str = tweet["id_str"]
+        try:
+            screen_name = tweet["user"]["screen_name"]
+            id_str = tweet["id_str"]
+        except KeyError:
+            self.logs.error("Malformed tweet for link: %s" % tweet)
+            return None
 
         link = TWEET_URL % (screen_name, id_str)
         return link
@@ -224,23 +248,21 @@ class TwitterListener(StreamListener):
         callback.
         """
 
-        # Decode the JSON response.
         try:
             tweet = loads(data)
         except ValueError:
             logs.error("Failed to decode JSON data: %s" % data)
             return
 
-        # Do a basic check on the response format we expect.
-        if ("user" not in tweet or "id_str" not in tweet["user"] or
-            "screen_name" not in tweet["user"]):
+        try:
+            user_id_str = tweet["user"]["id_str"]
+            screen_name = tweet["user"]["screen_name"]
+        except KeyError:
             logs.error("Malformed tweet: %s" % tweet)
             return
 
         # We're only interested in tweets from Mr. Trump himself
         # or from the POTUS account so skip the rest.
-        user_id_str = tweet["user"]["id_str"]
-        screen_name = tweet["user"]["screen_name"]
         if user_id_str != TRUMP_USER_ID and user_id_str != POTUS_USER_ID:
             logs.debug("Skipping tweet from user: %s (%s)" %
                        (screen_name, user_id_str))

@@ -312,12 +312,12 @@ def test_get_historical_prices(trading):
 
 def test_get_day_quotes(trading):
     quotes = trading.get_day_quotes(
-        "NYT", as_market_time(2017, 2, 6, 11, 32, 0))
-    assert len(quotes) == 367
+        "BA", as_market_time(2016, 12, 22, 17, 26, 0))
+    assert len(quotes) == 395
     assert quotes[0] == {
-        "price": 14.25, "time": as_market_time(2017, 2, 6, 9, 30, 0)}
+        "price": 158.73, "time": as_market_time(2016, 12, 22, 9, 3, 0)}
     assert quotes[-1] == {
-        "price": 14.5, "time": as_market_time(2017, 2, 6, 16, 5, 0)}
+        "price": 157.46, "time": as_market_time(2016, 12, 22, 16, 30, 0)}
 
 
 def test_is_trading_day(trading):

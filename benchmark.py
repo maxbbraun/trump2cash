@@ -2,22 +2,14 @@
 # -*- coding: utf-8 -*-
 
 from datetime import datetime
-from datetime import timedelta
 
 from analysis import Analysis
 from trading import Trading
 from twitter import Twitter
 
-# TODO: Consider older tweets: 621669173534584833, 664911913831301123,
-#       672926510924374016, 803808454620094465
-# The IDs of all Trump tweets that mention companies.
-TWEET_IDS = ["806134244384899072", "812061677160202240", "816260343391514624",
-             "816324295781740544", "816635078067490816", "817071792711942145",
-             "818460862675558400", "818461467766824961", "821415698278875137",
-             "821697182235496450", "821703902940827648", "823950814163140609",
-             "824055927200423936", "826041397232943104", "827874208021639168",
-             "828642511698669569", "828793887275761665", "824765229527605248",
-             "829410107406614534", "829356871848951809"]
+# TODO: Consider going back further, e.g. 621669173534584833.
+# The first tweet ID to include.
+SINCE_TWEET_ID = "806134244384899072"
 
 # The initial amount in dollars for the fund simulation.
 FUND_DOLLARS = 100000
@@ -119,13 +111,14 @@ def should_trade(strategy, date, previous_trade_date):
 
     return True
 
+
 if __name__ == "__main__":
     analysis = Analysis(logs_to_cloud=False)
     trading = Trading(logs_to_cloud=False)
     twitter = Twitter(logs_to_cloud=False)
 
     # Look up the metadata for the tweets.
-    tweets = twitter.get_tweets(TWEET_IDS)
+    tweets = twitter.get_tweets(SINCE_TWEET_ID)
 
     events = []
     for tweet in tweets:
@@ -187,16 +180,16 @@ if __name__ == "__main__":
            "market performance.")
 
     for event in events:
-        timestamp = format_timestamp(event["timestamp"], weekday=True)
-        print
-        print "##### [%s](%s)" % (timestamp, event["link"])
-        print
-        lines = ["> %s" % line for line in event["text"].split("\n")]
-        print "\n\n".join(lines)
-        print
-
         strategies = event["strategies"]
+
         if strategies:
+            timestamp = format_timestamp(event["timestamp"], weekday=True)
+            print
+            print "##### [%s](%s)" % (timestamp, event["link"])
+            print
+            lines = ["> %s" % line for line in event["text"].split("\n")]
+            print "\n\n".join(lines)
+            print
             print "*Strategy*"
             print
             print "Company | Root | Sentiment | Strategy | Reason"
@@ -217,8 +210,8 @@ if __name__ == "__main__":
             print
             print "*Performance*"
             print
-            print "Ticker | Exchange | Price @ tweet | Price EOD | Gain"
-            print "-------|----------|---------------|-----------|-----"
+            print "Ticker | Exchange | Price @ tweet | Price @ close | Gain"
+            print "-------|----------|---------------|---------------|-----"
 
             for strategy in strategies:
                 price_at = strategy["price_at"]
@@ -237,8 +230,6 @@ if __name__ == "__main__":
                     price_at_str,
                     price_eod_str,
                     gain)
-        else:
-            print "*(No companies)*"
 
     print
     print "### Fund simulation"
@@ -265,6 +256,7 @@ if __name__ == "__main__":
                 strategy, date, previous_trade_date)])
         budget = trading.get_budget(value, num_actionable_strategies)
 
+        trade = False
         for strategy in strategies:
             trade = should_trade(strategy, date, previous_trade_date)
 
@@ -293,8 +285,11 @@ if __name__ == "__main__":
 
             if date != start_date:
                 days = (date - start_date).days
-                annualized_return = format_ratio(
-                    pow(total_ratio, 365.0 / days))
+                if days > 0:
+                    annualized_ratio = pow(total_ratio, 365.0 / days)
+                else:
+                    annualized_ratio = 1
+                annualized_return = format_ratio(annualized_ratio)
             else:
                 annualized_return = "-"
 

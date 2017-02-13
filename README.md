@@ -10,6 +10,8 @@ out a summary of its findings in real time at
 
 *You can read more about the background story [here](http://trump2cash.biz).*
 
+[![Trump2Cash](https://cdn-images-1.medium.com/max/1400/1*VbnhlLnZz0KvWO0QsM5Ihw.png)](http://trump2cash.biz)
+
 The code is written in Python and is meant to run on a
 [Google Compute Engine](https://cloud.google.com/compute/) instance. It uses the
 [Twitter Streaming APIs](https://dev.twitter.com/streaming/overview) to get
