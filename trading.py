@@ -2,7 +2,9 @@
 
 from datetime import datetime
 from datetime import timedelta
-from simplejson import loads
+from lxml.etree import Element
+from lxml.etree import SubElement
+from lxml.etree import tostring
 from oauth2 import Consumer
 from oauth2 import Client
 from oauth2 import Token
@@ -10,9 +12,8 @@ from os import getenv
 from os import path
 from pytz import timezone
 from pytz import utc
-from lxml.etree import Element
-from lxml.etree import SubElement
-from lxml.etree import tostring
+from simplejson import loads
+from threading import Timer
 
 from logs import Logs
 
@@ -39,6 +40,9 @@ FIXML_HEADERS = {"Content-Type": "text/xml"}
 
 # The amount of cash in dollars to hold from being spent.
 CASH_HOLD = 1000
+
+# The delay in seconds for the second leg of a trade.
+ORDER_DELAY_S = 5 * 60
 
 # Blacklsited stock ticker symbols, e.g. to avoid insider trading.
 TICKER_BLACKLIST = ["GOOG", "GOOGL"]
@@ -561,8 +565,10 @@ class Trading:
 
         # Sell the stock at close.
         sell_fixml = self.fixml_sell_eod(ticker, quantity)
-        if not self.make_order_request(sell_fixml):
-            return False
+        # TODO: Do this properly by checking the order status API and using
+        #       retries with exponential backoff.
+        # Wait until the previous order has been executed.
+        Timer(ORDER_DELAY_S, self.make_order_request, [sell_fixml]).start()
 
         return True
 
@@ -585,8 +591,10 @@ class Trading:
 
         # Cover the short at close.
         cover_fixml = self.fixml_cover_eod(ticker, quantity)
-        if not self.make_order_request(cover_fixml):
-            return False
+        # TODO: Do this properly by checking the order status API and using
+        #       retries with exponential backoff.
+        # Wait until the previous order has been executed.
+        Timer(ORDER_DELAY_S, self.make_order_request, [cover_fixml]).start()
 
         return True
 
