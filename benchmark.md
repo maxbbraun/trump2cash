@@ -395,6 +395,24 @@ Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
 LMT | New York Stock Exchange | - | - | 0.000%
 
+##### [2/14/2017 5:50 PM (Tuesday)](https://twitter.com/realDonaldTrump/status/831636777110757377)
+
+> Obamacare continues to fail. Humana to pull out in 2018. Will repeal, replace &amp; save healthcare for ALL Americans. 
+
+> https://t.co/glWEQ0lNR4
+
+*Strategy*
+
+Company | Root | Sentiment | Strategy | Reason
+--------|------|-----------|----------|-------
+Humana | - | 0 :neutral_face: | hold | market closed
+
+*Performance*
+
+Ticker | Exchange | Price @ tweet | Price @ close | Gain
+-------|----------|---------------|---------------|-----
+HUM | New York Stock Exchange | - | - | 0.000%
+
 ### Fund simulation
 
 This is how an initial investment of $100,000.00 would have grown, including fees of 2 × $4.95 per pair of orders. Bold means that the data was used to trade.
@@ -438,3 +456,4 @@ Time | Trade | Gain | Value | Return | Annualized
 **2/8/2017 10:51 AM** | **JWN :thumbsdown:** | -4.244% | $102,907.86 | 2.908% | 17.759%
 2/8/2017 2:22 PM | INTC :thumbsup: | 0.110% | $102,907.86 | 2.908% | 17.759%
 2/11/2017 8:24 AM | LMT :neutral_face: | 0.000% | $102,907.86 | 2.908% | 17.178%
+2/14/2017 5:50 PM | HUM :neutral_face: | 0.000% | $102,907.86 | 2.908% | 16.121%
