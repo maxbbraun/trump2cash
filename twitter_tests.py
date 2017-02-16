@@ -24,7 +24,7 @@ def test_environment_variables():
 
 
 def callback(tweet):
-    # TODO: Test whether the callback was called.
+    # TODO: Test the callback without relying on Trump tweets.
     assert tweet
 
 
@@ -89,7 +89,7 @@ def test_get_tweet(twitter):
 
 
 def test_get_tweets(twitter):
-    # TODO
+    # TODO: Test without relying on latest tweets.
     pass
 
 
