@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from backoff import expo
+from backoff import on_exception
 from google.cloud import error_reporting
 from google.cloud import logging
 from logging import basicConfig
@@ -25,7 +27,7 @@ class Logs:
         self.to_cloud = to_cloud
         if self.to_cloud:
             # Use the Stackdriver logging and error reporting clients.
-            self.logger = logging.Client(use_gax=False).logger(name)
+            self.logger = logging.Client().logger(name)
             self.error_client = error_reporting.Client()
         else:
             # Log to a local file.
@@ -36,7 +38,7 @@ class Logs:
         """Logs at the DEBUG level."""
 
         if self.to_cloud:
-            self.safe_cloud_log(text, severity="DEBUG")
+            self.safe_log_text(text, severity="DEBUG")
         else:
             self.logger.debug(text)
 
@@ -44,7 +46,7 @@ class Logs:
         """Logs at the INFO level."""
 
         if self.to_cloud:
-            self.safe_cloud_log(text, severity="INFO")
+            self.safe_log_text(text, severity="INFO")
         else:
             self.logger.info(text)
 
@@ -52,7 +54,7 @@ class Logs:
         """Logs at the WARNING level."""
 
         if self.to_cloud:
-            self.safe_cloud_log(text, severity="WARNING")
+            self.safe_log_text(text, severity="WARNING")
         else:
             self.logger.warning(text)
 
@@ -60,7 +62,7 @@ class Logs:
         """Logs at the ERROR level."""
 
         if self.to_cloud:
-            self.safe_cloud_log(text, severity="ERROR")
+            self.safe_log_text(text, severity="ERROR")
         else:
             self.logger.error(text)
 
@@ -68,20 +70,23 @@ class Logs:
         """Logs an exception."""
 
         if self.to_cloud:
-            self.error_client.report_exception()
-            self.safe_cloud_log(str(exception), severity="CRITICAL")
+            self.safe_report_exception()
+            self.safe_log_text(str(exception), severity="CRITICAL")
         else:
             self.logger.critical(str(exception))
 
-    def safe_cloud_log(self, text, severity):
-        """Logs to the cloud and catches exceptions if the upload fails."""
+    @on_exception(expo, BaseException, max_tries=5)
+    def safe_log_text(self, text, severity):
+        """Logs to the cloud and retries up to 5 times with exponential backoff
+        if the upload fails.
+        """
 
-        # TODO: Implement retry logic with exponential backoff.
-        try:
-            self.logger.log_text(text, severity=severity)
-        except BaseException as exception:
-            # Note that these calls will attempt new logs, but without the
-            # exception catch to avoid recursion for permanent failures.
-            self.error_client.report_exception()
-            self.logger.log_text(str(exception), severity="CRITICAL")
-            self.logger.log_text("Skipped log: %s" % text, severity="ERROR")
+        self.logger.log_text(text, severity=severity)
+
+    @on_exception(expo, BaseException, max_tries=5)
+    def safe_report_exception(self):
+        """Reports the latest exception to the cloud and retries up to 5 times
+        with exponential backoff if the upload fails.
+        """
+
+        self.error_client.report_exception()
