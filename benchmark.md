@@ -431,6 +431,22 @@ Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
 AET | New York Stock Exchange | - | - | 0.000%
 
+##### [2/17/2017 6:38 AM (Friday)](https://twitter.com/realDonaldTrump/status/832554772318322688)
+
+> Going to Charleston, South Carolina, in order to spend time with Boeing and talk jobs! Look forward to it.
+
+*Strategy*
+
+Company | Root | Sentiment | Strategy | Reason
+--------|------|-----------|----------|-------
+Boeing | - | 0.2 :thumbsup: | hold | market closed
+
+*Performance*
+
+Ticker | Exchange | Price @ tweet | Price @ close | Gain
+-------|----------|---------------|---------------|-----
+BA | New York Stock Exchange | - | - | 0.000%
+
 ### Fund simulation
 
 This is how an initial investment of $100,000.00 would have grown, including fees of 2 × $4.95 per pair of orders. Bold means that the data was used to trade.
@@ -476,3 +492,4 @@ Time | Trade | Gain | Value | Return | Annualized
 2/11/2017 8:24 AM | LMT :neutral_face: | 0.000% | $102,907.86 | 2.908% | 17.178%
 2/14/2017 5:50 PM | HUM :neutral_face: | 0.000% | $102,907.86 | 2.908% | 16.121%
 2/15/2017 4:34 PM | AET :thumbsdown: | 0.000% | $102,907.86 | 2.908% | 15.877%
+2/17/2017 6:38 AM | BA :thumbsup: | 0.000% | $102,907.86 | 2.908% | 15.640%
