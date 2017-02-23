@@ -19,6 +19,9 @@ LOGS_FORMAT = ("%(asctime)s "
 # The path to the log file for local logging.
 LOG_FILE = "/tmp/trump2cash.log"
 
+# The path to the log file for the local fallback of cloud logging.
+FALLBACK_LOG_FILE = "/tmp/trump2cash-fallback.log"
+
 
 class Logs:
     """A helper for logging locally or in the cloud."""
@@ -26,15 +29,19 @@ class Logs:
     def __init__(self, name, to_cloud=True):
         self.to_cloud = to_cloud
 
-        # Initialize the local file logger.
-        self.local_logger = getLogger(name)
-        basicConfig(format=LOGS_FORMAT, level=NOTSET, filename=LOG_FILE)
-
-        # If requested, also initialize the Stackdriver logging and error
-        # reporting clients.
         if self.to_cloud:
+            # Initialize the Stackdriver logging and error reporting clients.
             self.cloud_logger = logging.Client().logger(name)
             self.error_client = error_reporting.Client()
+
+            # Initialize the local fallback logger.
+            self.local_fallback_logger = getLogger(name)
+            basicConfig(format=LOGS_FORMAT, level=NOTSET,
+                        filename=FALLBACK_LOG_FILE)
+        else:
+            # Initialize the local file logger.
+            self.local_logger = getLogger(name)
+            basicConfig(format=LOGS_FORMAT, level=NOTSET, filename=LOG_FILE)
 
     def debug(self, text):
         """Logs at the DEBUG level."""
@@ -85,8 +92,9 @@ class Logs:
         try:
             self.retry_cloud_log_text(text, severity)
         except BaseException as exception:
-            self.local_logger.error("Failed to log to cloud: %s %s %s" %
-                                    (exception, severity, text))
+            self.local_fallback_logger.error(
+                "Failed to log to cloud: %s %s %s" %
+                (exception, severity, text))
 
     @on_exception(expo, BaseException, max_tries=7)
     def retry_cloud_log_text(self, text, severity):
@@ -104,8 +112,8 @@ class Logs:
         try:
             self.retry_report_exception()
         except BaseException as exception:
-            self.local_logger.error("Failed to report exception: %s" %
-                                    exception)
+            self.local_fallback_logger.error("Failed to report exception: %s" %
+                                             exception)
 
     @on_exception(expo, BaseException, max_tries=7)
     def retry_report_exception(self):
