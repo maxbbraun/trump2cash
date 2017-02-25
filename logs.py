@@ -4,9 +4,10 @@ from backoff import expo
 from backoff import on_exception
 from google.cloud import error_reporting
 from google.cloud import logging
-from logging import basicConfig
+from logging import Formatter
 from logging import getLogger
-from logging import NOTSET
+from logging import DEBUG
+from logging.handlers import RotatingFileHandler
 
 # The format for local logs.
 LOGS_FORMAT = ("%(asctime)s "
@@ -22,6 +23,9 @@ LOG_FILE = "/tmp/trump2cash.log"
 # The path to the log file for the local fallback of cloud logging.
 FALLBACK_LOG_FILE = "/tmp/trump2cash-fallback.log"
 
+# The maximum size in bytes for each local log file.
+MAX_LOG_BYTES = 10 * 1024 * 1024
+
 
 class Logs:
     """A helper for logging locally or in the cloud."""
@@ -35,13 +39,24 @@ class Logs:
             self.error_client = error_reporting.Client()
 
             # Initialize the local fallback logger.
-            self.local_fallback_logger = getLogger(name)
-            basicConfig(format=LOGS_FORMAT, level=NOTSET,
-                        filename=FALLBACK_LOG_FILE)
+            self.local_fallback_logger = self.get_local_logger(
+                name, FALLBACK_LOG_FILE)
         else:
             # Initialize the local file logger.
-            self.local_logger = getLogger(name)
-            basicConfig(format=LOGS_FORMAT, level=NOTSET, filename=LOG_FILE)
+            self.local_logger = self.get_local_logger(name, LOG_FILE)
+
+    def get_local_logger(self, name, log_file):
+        """Returns a local logger with a file handler."""
+
+        handler = RotatingFileHandler(log_file, maxBytes=MAX_LOG_BYTES)
+        handler.setFormatter(Formatter(LOGS_FORMAT))
+        handler.setLevel(DEBUG)
+
+        logger = getLogger(name)
+        logger.setLevel(DEBUG)
+        logger.handlers = [handler]
+
+        return logger
 
     def debug(self, text):
         """Logs at the DEBUG level."""
