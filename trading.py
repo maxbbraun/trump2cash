@@ -2,6 +2,7 @@
 
 from datetime import datetime
 from datetime import timedelta
+from holidays import UnitedStates
 from lxml.etree import Element
 from lxml.etree import SubElement
 from lxml.etree import tostring
@@ -49,11 +50,6 @@ TICKER_BLACKLIST = ["GOOG", "GOOGL"]
 
 # We're using NYSE and NASDAQ, which are both in the easters timezone.
 MARKET_TIMEZONE = timezone("US/Eastern")
-
-# TODO: Use a comprehensive list.
-# A list of days where the markets are closed apart from weekends.
-TRADING_HOLIDAYS = [MARKET_TIMEZONE.localize(date) for date in [
-    datetime(2017, 1, 2)]]
 
 # The filename pattern for historical market data.
 MARKET_DATA_FILE = "market_data/%s_%s.txt"
@@ -295,15 +291,13 @@ class Trading:
     def is_trading_day(self, timestamp):
         """Tests whether markets are open on a given day."""
 
-        day = timestamp.replace(hour=0, minute=0, second=0)
-
         # Markets are closed on holidays.
-        if day in TRADING_HOLIDAYS:
+        if timestamp in UnitedStates():
             self.logs.debug("Identified holiday: %s" % timestamp)
             return False
 
         # Markets are closed on weekends.
-        if day.weekday() in [5, 6]:
+        if timestamp.weekday() in [5, 6]:
             self.logs.debug("Identified weekend: %s" % timestamp)
             return False
 
