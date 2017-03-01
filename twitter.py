@@ -49,6 +49,7 @@ class Twitter:
         self.twitter_auth.set_access_token(TWITTER_ACCESS_TOKEN,
                                            TWITTER_ACCESS_TOKEN_SECRET)
         self.twitter_api = API(self.twitter_auth)
+        self.twitter_listener = None
 
     def start_streaming(self, callback):
         """Starts streaming tweets and returning data to the callback."""
@@ -61,7 +62,7 @@ class Twitter:
         twitter_stream.filter(follow=[TRUMP_USER_ID])
 
         # If we got here because of an API error, raise it.
-        if self.twitter_listener.get_error_status():
+        if self.twitter_listener and self.twitter_listener.get_error_status():
             raise Exception(self.twitter_listener.get_error_status())
 
     def stop_streaming(self):
@@ -73,6 +74,7 @@ class Twitter:
 
         self.logs.debug("Stopping stream.")
         self.twitter_listener.stop_queue()
+        self.twitter_listener = None
 
     def tweet(self, companies, tweet):
         """Posts a tweet listing the companies, their ticker symbols, and a
