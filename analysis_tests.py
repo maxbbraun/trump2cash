@@ -54,19 +54,19 @@ def test_get_company_data(analysis):
     assert analysis.get_company_data("/m/09jcvs") == [{
         "exchange": "NASDAQ",
         "name": "YouTube",
-        "root": "Google",
+        "root": "Alphabet Inc.",
         "ticker": "GOOG"}, {
         "exchange": "NASDAQ",
         "name": "YouTube",
-        "root": "Google",
+        "root": "Alphabet Inc.",
         "ticker": "GOOGL"}, {
         "exchange": "NASDAQ",
         "name": "YouTube",
-        "root": "Alphabet Inc.",
+        "root": "Google",
         "ticker": "GOOG"}, {
         "exchange": "NASDAQ",
         "name": "YouTube",
-        "root": "Alphabet Inc.",
+        "root": "Google",
         "ticker": "GOOGL"}]
     assert analysis.get_company_data("/m/045c7b") == [{
         "exchange": "NASDAQ",

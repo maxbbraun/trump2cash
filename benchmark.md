@@ -37,8 +37,8 @@ Company | Root | Sentiment | Strategy | Reason
 --------|------|-----------|----------|-------
 ExxonMobil | - | 0.2 :thumbsup: | hold | market closed
 ExxonMobil | BlackRock | 0.2 :thumbsup: | hold | market closed
-ExxonMobil | State Street Corporation | 0.2 :thumbsup: | hold | market closed
 ExxonMobil | PNC Financial Services | 0.2 :thumbsup: | hold | market closed
+ExxonMobil | State Street Corporation | 0.2 :thumbsup: | hold | market closed
 
 *Performance*
 
@@ -46,8 +46,8 @@ Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
 XOM | New York Stock Exchange | - | - | 0.000%
 BLK | New York Stock Exchange | - | - | 0.000%
-STT | New York Stock Exchange | - | - | 0.000%
 PNC | New York Stock Exchange | - | - | 0.000%
+STT | New York Stock Exchange | - | - | 0.000%
 
 ##### [12/12/2016 8:26 AM (Monday)](https://twitter.com/realDonaldTrump/status/808301935728230404)
 
@@ -75,8 +75,8 @@ Company | Root | Sentiment | Strategy | Reason
 --------|------|-----------|----------|-------
 ExxonMobil | - | 0.5 :thumbsup: | hold | market closed
 ExxonMobil | BlackRock | 0.5 :thumbsup: | hold | market closed
-ExxonMobil | State Street Corporation | 0.5 :thumbsup: | hold | market closed
 ExxonMobil | PNC Financial Services | 0.5 :thumbsup: | hold | market closed
+ExxonMobil | State Street Corporation | 0.5 :thumbsup: | hold | market closed
 
 *Performance*
 
@@ -84,8 +84,8 @@ Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
 XOM | New York Stock Exchange | $90.98 | $92.27 | 0.000%
 BLK | New York Stock Exchange | $390.28 | $392.64 | 0.000%
-STT | New York Stock Exchange | $80.39 | $79.10 | 0.000%
 PNC | New York Stock Exchange | $114.07 | $114.70 | 0.000%
+STT | New York Stock Exchange | $80.39 | $79.10 | 0.000%
 
 ##### [12/17/2016 4:17 PM (Saturday)](https://twitter.com/realDonaldTrump/status/810232514749075456)
 
@@ -323,7 +323,7 @@ GM | New York Stock Exchange | $37.09 | $38.28 | 0.000%
 
 Company | Root | Sentiment | Strategy | Reason
 --------|------|-----------|----------|-------
-Rockwell International | - | 0.2 :thumbsup: | hold | market closed
+Rockwell Automation | - | 0.2 :thumbsup: | hold | market closed
 
 *Performance*
 
@@ -457,13 +457,13 @@ Time | Trade | Gain | Value | Return | Annualized
 **12/6/2016 8:52 AM** | **BA :thumbsdown:** | -0.092% | $99,899.10 | -0.101% | -
 12/11/2016 10:29 AM | XOM :thumbsup: | 0.000% | $99,899.10 | -0.101% | -7.104%
 12/11/2016 10:29 AM | BLK :thumbsup: | 0.000% | $99,899.10 | -0.101% | -7.104%
-12/11/2016 10:29 AM | STT :thumbsup: | 0.000% | $99,899.10 | -0.101% | -7.104%
 12/11/2016 10:29 AM | PNC :thumbsup: | 0.000% | $99,899.10 | -0.101% | -7.104%
+12/11/2016 10:29 AM | STT :thumbsup: | 0.000% | $99,899.10 | -0.101% | -7.104%
 12/12/2016 8:26 AM | LMT :neutral_face: | 0.000% | $99,899.10 | -0.101% | -7.104%
 12/13/2016 6:43 AM | XOM :thumbsup: | 0.000% | $99,899.10 | -0.101% | -5.956%
 12/13/2016 6:43 AM | BLK :thumbsup: | 0.000% | $99,899.10 | -0.101% | -5.956%
-12/13/2016 6:43 AM | STT :thumbsup: | 0.000% | $99,899.10 | -0.101% | -5.956%
 12/13/2016 6:43 AM | PNC :thumbsup: | 0.000% | $99,899.10 | -0.101% | -5.956%
+12/13/2016 6:43 AM | STT :thumbsup: | 0.000% | $99,899.10 | -0.101% | -5.956%
 12/17/2016 4:17 PM | FB :thumbsup: | 0.000% | $99,899.10 | -0.101% | -3.294%
 12/22/2016 5:26 PM | LMT :neutral_face: | 0.000% | $99,899.10 | -0.101% | -2.277%
 12/22/2016 5:26 PM | BA :neutral_face: | 0.000% | $99,899.10 | -0.101% | -2.277%

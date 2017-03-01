@@ -36,7 +36,8 @@ MID_TO_TICKER_QUERY = (
     '  SERVICE wikibase:label {'
     '   bd:serviceParam wikibase:language "en" .'  # Use English labels.
     '  }'
-    ' } GROUP BY ?companyLabel ?rootLabel ?tickerLabel ?exchangeNameLabel')
+    ' } GROUP BY ?companyLabel ?rootLabel ?tickerLabel ?exchangeNameLabel'
+    ' ORDER BY ?companyLabel ?rootLabel ?tickerLabel ?exchangeNameLabel')
 
 
 class Analysis:
