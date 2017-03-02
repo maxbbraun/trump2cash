@@ -8,6 +8,8 @@ from logging import Formatter
 from logging import getLogger
 from logging import DEBUG
 from logging.handlers import RotatingFileHandler
+from sys import exc_info
+from traceback import format_exception
 
 # The format for local logs.
 LOGS_FORMAT = ("%(asctime)s "
@@ -90,14 +92,16 @@ class Logs:
         else:
             self.local_logger.error(text)
 
-    def catch(self, exception):
-        """Logs an exception."""
+    def catch(self):
+        """Logs the latest exception."""
+
+        exception_str = self.format_exception()
 
         if self.to_cloud:
-            self.safe_report_exception()
-            self.safe_cloud_log_text(str(exception), severity="CRITICAL")
+            self.safe_report_exception(exception_str)
+            self.safe_cloud_log_text(exception_str, severity="CRITICAL")
         else:
-            self.local_logger.critical(str(exception))
+            self.local_logger.critical(exception_str)
 
     def safe_cloud_log_text(self, text, severity):
         """Logs to the cloud, retries if necessary, and eventually fails over
@@ -106,12 +110,13 @@ class Logs:
 
         try:
             self.retry_cloud_log_text(text, severity)
-        except BaseException as exception:
+        except Exception:
+            exception_str = self.format_exception()
             self.local_fallback_logger.error(
-                "Failed to log to cloud: %s %s %s" %
-                (exception, severity, text))
+                "Failed to log to cloud: %s %s\n%s" %
+                (severity, text, exception_str))
 
-    @on_exception(expo, BaseException, max_tries=7)
+    @on_exception(expo, Exception, max_tries=7)
     def retry_cloud_log_text(self, text, severity):
         """Logs to the cloud and retries up to 7 times with exponential backoff
         if the upload fails.
@@ -119,21 +124,30 @@ class Logs:
 
         self.cloud_logger.log_text(text, severity=severity)
 
-    def safe_report_exception(self):
-        """Reports the latest exception, retries if necessary, and eventually
-        fails over to local logs.
+    def safe_report_exception(self, exception_str):
+        """Reports the exception, retries if necessary, and eventually fails
+        over to local logs.
         """
 
         try:
-            self.retry_report_exception()
-        except BaseException as exception:
-            self.local_fallback_logger.error("Failed to report exception: %s" %
-                                             exception)
+            self.retry_report_exception(exception_str)
+        except Exception:
+            meta_exception_str = format_exception()
+            self.local_fallback_logger.error(
+                "Failed to report exception: %s\n%s" %
+                (exception_str, meta_exception_str))
 
-    @on_exception(expo, BaseException, max_tries=7)
-    def retry_report_exception(self):
-        """Reports the latest exception and retries up to 7 times with
-        exponential backoff if the upload fails.
+    @on_exception(expo, Exception, max_tries=7)
+    def retry_report_exception(self, exception_str):
+        """Reports the exception and retries up to 7 times with exponential
+        backoff if the upload fails.
         """
 
-        self.error_client.report_exception()
+        self.error_client.report(exception_str)
+
+    def format_exception(self):
+        """Grabs the latest exception and formats it."""
+
+        exc_type, exc_value, exc_traceback = exc_info()
+        exc_format = format_exception(exc_type, exc_value, exc_traceback)
+        return "".join(exc_format).strip()

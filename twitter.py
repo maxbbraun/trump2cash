@@ -63,7 +63,8 @@ class Twitter:
 
         # If we got here because of an API error, raise it.
         if self.twitter_listener and self.twitter_listener.get_error_status():
-            raise Exception(self.twitter_listener.get_error_status())
+            raise Exception("Twitter API error: %s" %
+                            self.twitter_listener.get_error_status())
 
     def stop_streaming(self):
         """Stops the current stream."""
@@ -217,8 +218,8 @@ class TwitterListener(StreamListener):
                 data = self.queue.get(block=True)
                 self.handle_data(logs, data)
                 self.queue.task_done()
-            except BaseException as exception:
-                logs.catch(exception)
+            except Exception:
+                logs.catch()
         logs.debug("Stopped worker thread: %s" % worker_id)
 
     def on_error(self, status):

@@ -34,8 +34,8 @@ if __name__ == "__main__":
         twitter = Twitter(logs_to_cloud=LOGS_TO_CLOUD)
         try:
             twitter.start_streaming(twitter_callback)
-        except BaseException as exception:
-            logs.catch(exception)
+        except Exception:
+            logs.catch()
         finally:
             twitter.stop_streaming()
             logs.info("Ending session.")
