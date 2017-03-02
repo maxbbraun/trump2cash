@@ -155,9 +155,8 @@ def test_entity_tostring(analysis):
         mentions=["General Motors"])) == (
             '{name: "General Motors",'
             ' entity_type: "ORGANIZATION",'
-            ' metadata:'
-            ' {"mid": "/m/035nm",'
-            ' "wikipedia_url": "http://en.wikipedia.org/wiki/General_Motors"},'
+            ' wikipedia_url: "http://en.wikipedia.org/wiki/General_Motors",'
+            ' metadata: {"mid": "/m/035nm"},'
             ' salience: 0.33838183,'
             ' mentions: ["General Motors"]}')
     assert analysis.entity_tostring(Entity(
@@ -168,6 +167,7 @@ def test_entity_tostring(analysis):
         mentions=["jobs"])) == (
         '{name: "jobs",'
         ' entity_type: "OTHER",'
+        ' wikipedia_url: None,'
         ' metadata: {},'
         ' salience: 0.31634554,'
         ' mentions: ["jobs"]}')
@@ -189,14 +189,14 @@ def test_entities_tostring(analysis):
         mentions=["jobs"])]) == (
         '[{name: "General Motors",'
         ' entity_type: "ORGANIZATION",'
-        ' metadata:'
-        ' {"mid": "/m/035nm",'
-        ' "wikipedia_url": "http://en.wikipedia.org/wiki/General_Motors"},'
+        ' wikipedia_url: "http://en.wikipedia.org/wiki/General_Motors",'
+        ' metadata: {"mid": "/m/035nm"},'
         ' salience: 0.33838183,'
         ' mentions: ["General Motors"]}, '
         '{name: "jobs",'
         ' entity_type: "OTHER",'
-        ' metadata: {"wikipedia_url": "None"},'
+        ' wikipedia_url: None,'
+        ' metadata: {},'
         ' salience: 0.31634554,'
         ' mentions: ["jobs"]}]')
     assert analysis.entities_tostring([]) == "[]"

@@ -114,7 +114,7 @@ class Analysis:
 
         # Run entity detection.
         document = self.gcnl_client.document_from_text(text)
-        entities = document.analyze_entities().entities
+        entities = document.analyze_entities()
         self.logs.debug("Found entities: %s" %
                         self.entities_tostring(entities))
 
@@ -225,6 +225,11 @@ class Analysis:
     def entity_tostring(self, entity):
         """Converts one entity to a readable string."""
 
+        if entity.wikipedia_url:
+            wikipedia_url = '"%s"' % entity.wikipedia_url
+        else:
+            wikipedia_url = None
+
         metadata = ", ".join(['"%s": "%s"' % (key, value) for
                               key, value in entity.metadata.iteritems()])
 
@@ -232,11 +237,13 @@ class Analysis:
 
         return ('{name: "%s",'
                 ' entity_type: "%s",'
+                ' wikipedia_url: %s,'
                 ' metadata: {%s},'
                 ' salience: %s,'
                 ' mentions: [%s]}') % (
             entity.name,
             entity.entity_type,
+            wikipedia_url,
             metadata,
             entity.salience,
             mentions)
@@ -249,7 +256,7 @@ class Analysis:
             return 0
 
         document = self.gcnl_client.document_from_text(text)
-        sentiment = document.analyze_sentiment().sentiment
+        sentiment = document.analyze_sentiment()
 
         self.logs.debug(
             "Sentiment score and magnitude for text: %s %s \"%s\"" %
