@@ -41,11 +41,16 @@ class Logs:
             self.error_client = error_reporting.Client()
 
             # Initialize the local fallback logger.
-            self.local_fallback_logger = self.get_local_logger(
+            self.fallback_logger, fallback_handler = self.get_local_logger(
                 name, FALLBACK_LOG_FILE)
+
+            # Redirect the backoff logs to the local fallback handler.
+            backoff_logger = getLogger("backoff")
+            backoff_logger.setLevel(DEBUG)
+            backoff_logger.handlers = [fallback_handler]
         else:
             # Initialize the local file logger.
-            self.local_logger = self.get_local_logger(name, LOG_FILE)
+            self.local_logger, _ = self.get_local_logger(name, LOG_FILE)
 
     def get_local_logger(self, name, log_file):
         """Returns a local logger with a file handler."""
@@ -58,7 +63,7 @@ class Logs:
         logger.setLevel(DEBUG)
         logger.handlers = [handler]
 
-        return logger
+        return (logger, handler)
 
     def debug(self, text):
         """Logs at the DEBUG level."""
@@ -112,14 +117,13 @@ class Logs:
             self.retry_cloud_log_text(text, severity)
         except Exception:
             exception_str = self.format_exception()
-            self.local_fallback_logger.error(
-                "Failed to log to cloud: %s %s\n%s" %
-                (severity, text, exception_str))
+            self.fallback_logger.error("Failed to log to cloud: %s %s\n%s" %
+                                       (severity, text, exception_str))
 
-    @on_exception(expo, Exception, max_tries=7)
+    @on_exception(expo, Exception, max_tries=10)
     def retry_cloud_log_text(self, text, severity):
-        """Logs to the cloud and retries up to 7 times with exponential backoff
-        if the upload fails.
+        """Logs to the cloud and retries up to 10 times with exponential backoff
+        (51.2 seconds max total) if the upload fails.
         """
 
         self.cloud_logger.log_text(text, severity=severity)
@@ -132,15 +136,14 @@ class Logs:
         try:
             self.retry_report_exception(exception_str)
         except Exception:
-            meta_exception_str = format_exception()
-            self.local_fallback_logger.error(
-                "Failed to report exception: %s\n%s" %
-                (exception_str, meta_exception_str))
+            meta_exception_str = self.format_exception()
+            self.fallback_logger.error("Failed to report exception: %s\n%s" %
+                                       (exception_str, meta_exception_str))
 
-    @on_exception(expo, Exception, max_tries=7)
+    @on_exception(expo, Exception, max_tries=10)
     def retry_report_exception(self, exception_str):
-        """Reports the exception and retries up to 7 times with exponential
-        backoff if the upload fails.
+        """Reports the exception and retries up to 10 times with exponential
+        backoff (51.2 seconds max total) if the upload fails.
         """
 
         self.error_client.report(exception_str)
