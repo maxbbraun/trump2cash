@@ -180,9 +180,9 @@ def test_make_request_fail(trading):
 
 
 def test_fixml_buy_now(trading):
-    assert trading.fixml_buy_now("GM", 23) == (
+    assert trading.fixml_buy_now("GM", 23, 38.32) == (
         '<FIXML xmlns="http://www.fixprotocol.org/FIXML-5-0-SP2">'
-        '<Order TmInForce="0" Typ="1" Side="1" Acct="%s">'
+        '<Order TmInForce="0" Typ="2" Side="1" Px="38.32" Acct="%s">'
         '<Instrmt SecTyp="CS" Sym="GM"/>'
         '<OrdQty Qty="23"/>'
         '</Order>'
@@ -190,9 +190,9 @@ def test_fixml_buy_now(trading):
 
 
 def test_fixml_sell_eod(trading):
-    assert trading.fixml_sell_eod("GM", 23) == (
+    assert trading.fixml_sell_eod("GM", 23, 31.36) == (
         '<FIXML xmlns="http://www.fixprotocol.org/FIXML-5-0-SP2">'
-        '<Order TmInForce="7" Typ="1" Side="2" Acct="%s">'
+        '<Order TmInForce="7" Typ="2" Side="2" Px="31.36" Acct="%s">'
         '<Instrmt SecTyp="CS" Sym="GM"/>'
         '<OrdQty Qty="23"/>'
         '</Order>'
@@ -200,9 +200,9 @@ def test_fixml_sell_eod(trading):
 
 
 def test_fixml_short_now(trading):
-    assert trading.fixml_short_now("GM", 23) == (
+    assert trading.fixml_short_now("GM", 23, 31.36) == (
         '<FIXML xmlns="http://www.fixprotocol.org/FIXML-5-0-SP2">'
-        '<Order TmInForce="0" Typ="1" Side="5" Acct="%s">'
+        '<Order TmInForce="0" Typ="2" Side="5" Px="31.36" Acct="%s">'
         '<Instrmt SecTyp="CS" Sym="GM"/>'
         '<OrdQty Qty="23"/>'
         '</Order>'
@@ -210,13 +210,22 @@ def test_fixml_short_now(trading):
 
 
 def test_fixml_cover_eod(trading):
-    assert trading.fixml_cover_eod("GM", 23) == (
+    assert trading.fixml_cover_eod("GM", 23, 38.32) == (
         '<FIXML xmlns="http://www.fixprotocol.org/FIXML-5-0-SP2">'
-        '<Order TmInForce="7" Typ="1" Side="1" AcctTyp="5" Acct="%s">'
+        '<Order TmInForce="7" Typ="2" Side="1" Px="38.32" AcctTyp="5"'
+        ' Acct="%s">'
         '<Instrmt SecTyp="CS" Sym="GM"/>'
         '<OrdQty Qty="23"/>'
         '</Order>'
         '</FIXML>' % TRADEKING_ACCOUNT_NUMBER)
+
+
+def test_get_buy_limit(trading):
+    assert trading.get_buy_limit(34.84) == 38.32
+
+
+def test_get_sell_limit(trading):
+    assert trading.get_sell_limit(34.84) == 31.36
 
 
 def test_get_balance(trading):
@@ -373,7 +382,7 @@ def test_make_order_request_success(trading):
     assert not USE_REAL_MONEY
     assert trading.make_order_request((
         '<FIXML xmlns="http://www.fixprotocol.org/FIXML-5-0-SP2">'
-        '<Order TmInForce="0" Typ="1" Side="1" Acct="%s">'
+        '<Order TmInForce="0" Typ="2" Side="1" Px="38.32" Acct="%s">'
         '<Instrmt SecTyp="CS" Sym="GM"/>'
         '<OrdQty Qty="23"/>'
         '</Order>'

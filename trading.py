@@ -42,6 +42,9 @@ FIXML_HEADERS = {"Content-Type": "text/xml"}
 # The amount of cash in dollars to hold from being spent.
 CASH_HOLD = 1000
 
+# The fraction of the stock price at which to set order limits.
+LIMIT_FRACTION = 0.1
+
 # The delay in seconds for the second leg of a trade.
 ORDER_DELAY_S = 5 * 60
 
@@ -102,7 +105,6 @@ class Trading:
             ticker = strategy["ticker"]
             action = strategy["action"]
 
-            # TODO: Use limits for orders.
             # Execute the strategy.
             if action == "bull":
                 self.logs.debug("Bull: %s %s" % (ticker, budget))
@@ -373,15 +375,16 @@ class Trading:
             self.logs.error("Failed to decode JSON response: %s" % content)
             return None
 
-    def fixml_buy_now(self, ticker, quantity):
-        """Generates the FIXML for a buy order at market price."""
+    def fixml_buy_now(self, ticker, quantity, limit):
+        """Generates the FIXML for a buy order."""
 
         fixml = Element("FIXML")
         fixml.set("xmlns", FIXML_NAMESPACE)
         order = SubElement(fixml, "Order")
         order.set("TmInForce", "0")  # Day order
-        order.set("Typ", "1")  # Market price
+        order.set("Typ", "2")  # Limit
         order.set("Side", "1")  # Buy
+        order.set("Px", "%.2f" % limit)  # Limit price
         order.set("Acct", TRADEKING_ACCOUNT_NUMBER)
         instrmt = SubElement(order, "Instrmt")
         instrmt.set("SecTyp", "CS")  # Common stock
@@ -391,15 +394,16 @@ class Trading:
 
         return tostring(fixml)
 
-    def fixml_sell_eod(self, ticker, quantity):
-        """Generates the FIXML for a sell order at market price on close."""
+    def fixml_sell_eod(self, ticker, quantity, limit):
+        """Generates the FIXML for a sell order."""
 
         fixml = Element("FIXML")
         fixml.set("xmlns", FIXML_NAMESPACE)
         order = SubElement(fixml, "Order")
         order.set("TmInForce", "7")  # Market on close
-        order.set("Typ", "1")  # Market price
+        order.set("Typ", "2")  # Limit
         order.set("Side", "2")  # Sell
+        order.set("Px", "%.2f" % limit)  # Limit price
         order.set("Acct", TRADEKING_ACCOUNT_NUMBER)
         instrmt = SubElement(order, "Instrmt")
         instrmt.set("SecTyp", "CS")  # Common stock
@@ -409,15 +413,16 @@ class Trading:
 
         return tostring(fixml)
 
-    def fixml_short_now(self, ticker, quantity):
-        """Generates the FIXML for a sell short order at market price."""
+    def fixml_short_now(self, ticker, quantity, limit):
+        """Generates the FIXML for a sell short order."""
 
         fixml = Element("FIXML")
         fixml.set("xmlns", FIXML_NAMESPACE)
         order = SubElement(fixml, "Order")
         order.set("TmInForce", "0")  # Day order
-        order.set("Typ", "1")  # Market price
+        order.set("Typ", "2")  # Limit
         order.set("Side", "5")  # Sell short
+        order.set("Px", "%.2f" % limit)  # Limit price
         order.set("Acct", TRADEKING_ACCOUNT_NUMBER)
         instrmt = SubElement(order, "Instrmt")
         instrmt.set("SecTyp", "CS")  # Common stock
@@ -427,15 +432,16 @@ class Trading:
 
         return tostring(fixml)
 
-    def fixml_cover_eod(self, ticker, quantity):
-        """Generates the FIXML for a sell to cover order at market close."""
+    def fixml_cover_eod(self, ticker, quantity, limit):
+        """Generates the FIXML for a sell to cover order."""
 
         fixml = Element("FIXML")
         fixml.set("xmlns", FIXML_NAMESPACE)
         order = SubElement(fixml, "Order")
         order.set("TmInForce", "7")  # Market on close
-        order.set("Typ", "1")  # Market price
+        order.set("Typ", "2")  # Limit
         order.set("Side", "1")  # Buy
+        order.set("Px", "%.2f" % limit)  # Limit price
         order.set("AcctTyp", "5")  # Cover
         order.set("Acct", TRADEKING_ACCOUNT_NUMBER)
         instrmt = SubElement(order, "Instrmt")
@@ -445,6 +451,16 @@ class Trading:
         ord_qty.set("Qty", str(quantity))
 
         return tostring(fixml)
+
+    def get_buy_limit(self, price):
+        """Calculates the limit price for a buy (or cover) order."""
+
+        return round((1 + LIMIT_FRACTION) * price, 2)
+
+    def get_sell_limit(self, price):
+        """Calculates the limit price for a sell (or short) order."""
+
+        return round((1 - LIMIT_FRACTION) * price, 2)
 
     def get_balance(self):
         """Finds the cash balance in dollars available to spend."""
@@ -527,18 +543,14 @@ class Trading:
         price = self.get_last_price(ticker)
         if not price:
             self.logs.error("Failed to determine price for: %s" % ticker)
-            return None
+            return (None, None)
 
         # Use maximum possible quantity within the budget.
         quantity = int(budget // price)
         self.logs.debug("Determined quantity %s for %s at $%s within $%s." %
                         (quantity, ticker, price, budget))
 
-        # If quantity is too low we can't buy.
-        if quantity <= 0:
-            return None
-
-        return quantity
+        return (quantity, price)
 
     def bull(self, ticker, budget):
         """Executes the bullish strategy on the specified stock within the
@@ -547,18 +559,20 @@ class Trading:
         """
 
         # Calculate the quantity.
-        quantity = self.get_quantity(ticker, budget)
+        quantity, price = self.get_quantity(ticker, budget)
         if not quantity:
             self.logs.warn("Not trading without quantity.")
             return False
 
         # Buy the stock now.
-        buy_fixml = self.fixml_buy_now(ticker, quantity)
+        buy_limit = self.get_buy_limit(price)
+        buy_fixml = self.fixml_buy_now(ticker, quantity, buy_limit)
         if not self.make_order_request(buy_fixml):
             return False
 
         # Sell the stock at close.
-        sell_fixml = self.fixml_sell_eod(ticker, quantity)
+        sell_limit = self.get_sell_limit(price)
+        sell_fixml = self.fixml_sell_eod(ticker, quantity, sell_limit)
         # TODO: Do this properly by checking the order status API and using
         #       retries with exponential backoff.
         # Wait until the previous order has been executed.
@@ -573,18 +587,20 @@ class Trading:
         """
 
         # Calculate the quantity.
-        quantity = self.get_quantity(ticker, budget)
+        quantity, price = self.get_quantity(ticker, budget)
         if not quantity:
             self.logs.warn("Not trading without quantity.")
             return False
 
         # Short the stock now.
-        short_fixml = self.fixml_short_now(ticker, quantity)
+        short_limit = self.get_sell_limit(price)
+        short_fixml = self.fixml_short_now(ticker, quantity, short_limit)
         if not self.make_order_request(short_fixml):
             return False
 
         # Cover the short at close.
-        cover_fixml = self.fixml_cover_eod(ticker, quantity)
+        cover_limit = self.get_buy_limit(price)
+        cover_fixml = self.fixml_cover_eod(ticker, quantity, cover_limit)
         # TODO: Do this properly by checking the order status API and using
         #       retries with exponential backoff.
         # Wait until the previous order has been executed.
