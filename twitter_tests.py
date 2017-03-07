@@ -99,6 +99,24 @@ def test_make_tweet_text(twitter):
         u"ExxonMobil \U0001f44d $XOM $BLK $PNC $STT\n"
         "https://twitter.com/realDonaldTrump/status/838862131852369922")
     assert twitter.make_tweet_text([{
+        "ticker": "GM",
+        "name": "General Motors",
+        "sentiment": 0.4,
+        "exchange": "New York Stock Exchange"}, {
+        "ticker": "WMT",
+        "name": "Walmart",
+        "sentiment": 0.4,
+        "exchange": "New York Stock Exchange"}, {
+        "root": "State Street Corporation",
+        "ticker": "STT",
+        "name": "Walmart",
+        "sentiment": 0.4,
+        "exchange": "New York Stock Exchange"}],
+        "https://twitter.com/realDonaldTrump/status/821415698278875137") == (
+        u"General Motors \U0001f44d $GM\n"
+        u"Walmart \U0001f44d $WMT $STT\n"
+        "https://twitter.com/realDonaldTrump/status/821415698278875137")
+    assert twitter.make_tweet_text([{
         "ticker": chr(i - 32),
         "name": chr(i),
         "sentiment": 0} for i in range(97, 123)],
