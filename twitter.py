@@ -34,6 +34,9 @@ EMOJI_THUMBS_UP = u"\U0001f44d"
 EMOJI_THUMBS_DOWN = u"\U0001f44e"
 EMOJI_SHRUG = u"¯\_(\u30c4)_/¯"
 
+# The maximum number of characters in a tweet.
+MAX_TWEET_SIZE = 140
+
 # The number of worker threads processing tweets.
 NUM_THREADS = 100
 
@@ -91,32 +94,61 @@ class Twitter:
     def make_tweet_text(self, companies, link):
         """Generates the text for a tweet."""
 
-        text = ""
-
+        # Find all distinct company names.
+        names = []
         for company in companies:
-            line = company["name"]
+            name = company["name"]
+            if name not in names:
+                names.append(name)
 
-            if "root" in company and company["root"]:
-                line += " (%s)" % company["root"]
+        # Collect the ticker symbols and sentiment scores for each name.
+        tickers = {}
+        sentiments = {}
+        for name in names:
+            tickers[name] = []
+            for company in companies:
+                if company["name"] == name:
+                    ticker = company["ticker"]
+                    tickers[name].append(ticker)
+                    sentiment = company["sentiment"]
+                    # Assuming the same sentiment for each ticker.
+                    sentiments[name] = sentiment
 
-            ticker = company["ticker"]
-            line += " $%s" % ticker
+        # Create lines for each name with sentiment emoji and ticker symbols.
+        lines = []
+        for name in names:
+            sentiment_str = self.get_sentiment_emoji(sentiments[name])
+            tickers_str = " ".join(["$%s" % t for t in tickers[name]])
+            line = "%s %s %s" % (name, sentiment_str, tickers_str)
+            lines.append(line)
 
-            if "sentiment" in company:
-                if company["sentiment"] == 0:
-                    sentiment = EMOJI_SHRUG
-                else:
-                    if company["sentiment"] > 0:
-                        sentiment = EMOJI_THUMBS_UP
-                    else:
-                        sentiment = EMOJI_THUMBS_DOWN
-                line += " %s" % sentiment
+        # Combine the lines and ellipsize if necessary.
+        lines_str = "\n".join(lines)
+        size = len(lines_str) + 1 + len(link)
+        if size > MAX_TWEET_SIZE:
+            self.logs.warn("Ellipsizing lines: %s" % lines_str)
+            lines_size = MAX_TWEET_SIZE - len(link) - 2
+            lines_str = u"%s\u2026" % lines_str[:lines_size]
 
-            text += "%s\n" % line
-
-        text += link
+        # Combine the lines with the link.
+        text = "%s\n%s" % (lines_str, link)
 
         return text
+
+    def get_sentiment_emoji(self, sentiment):
+        """Returns the emoji matching the sentiment."""
+
+        if not sentiment:
+            return EMOJI_SHRUG
+
+        if sentiment > 0:
+            return EMOJI_THUMBS_UP
+
+        if sentiment < 0:
+            return EMOJI_THUMBS_DOWN
+
+        self.logs.warn("Unknown sentiment: %s" % sentiment)
+        return EMOJI_SHRUG
 
     def get_tweet(self, tweet_id):
         """Looks up metadata for a single tweet."""

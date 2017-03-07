@@ -43,8 +43,8 @@ def test_make_tweet_text(twitter):
         "sentiment": -0.1,
         "ticker": "BA"}],
         "https://twitter.com/realDonaldTrump/status/806134244384899072") == (
-        u"Boeing $BA \U0001f44e\n"
-        u"https://twitter.com/realDonaldTrump/status/806134244384899072")
+        u"Boeing \U0001f44e $BA\n"
+        "https://twitter.com/realDonaldTrump/status/806134244384899072")
     assert twitter.make_tweet_text([{
         "name": "Ford",
         "sentiment": 0.3,
@@ -54,9 +54,9 @@ def test_make_tweet_text(twitter):
         "sentiment": 0.3,
         "ticker": "FCAU"}],
         "https://twitter.com/realDonaldTrump/status/818461467766824961") == (
-        u"Ford $F \U0001f44d\n"
-        u"Fiat (Fiat Chrysler Automobiles) $FCAU \U0001f44d\n"
-        u"https://twitter.com/realDonaldTrump/status/818461467766824961")
+        u"Ford \U0001f44d $F\n"
+        u"Fiat \U0001f44d $FCAU\n"
+        "https://twitter.com/realDonaldTrump/status/818461467766824961")
     assert twitter.make_tweet_text([{
         "name": "Lockheed Martin",
         "sentiment": -0.1,
@@ -65,16 +65,59 @@ def test_make_tweet_text(twitter):
         "sentiment": 0.1,
         "ticker": "BA"}],
         "https://twitter.com/realDonaldTrump/status/812061677160202240") == (
-        u"Lockheed Martin $LMT \U0001f44e\n"
-        u"Boeing $BA \U0001f44d\n"
-        u"https://twitter.com/realDonaldTrump/status/812061677160202240")
+        u"Lockheed Martin \U0001f44e $LMT\n"
+        u"Boeing \U0001f44d $BA\n"
+        "https://twitter.com/realDonaldTrump/status/812061677160202240")
     assert twitter.make_tweet_text([{
         "name": "General Motors",
         "sentiment": 0,
         "ticker": "GM"}],
         "https://twitter.com/realDonaldTrump/status/821697182235496450") == (
-        u"General Motors $GM ¯\_(\u30c4)_/¯\n"
-        u"https://twitter.com/realDonaldTrump/status/821697182235496450")
+        u"General Motors ¯\_(\u30c4)_/¯ $GM\n"
+        "https://twitter.com/realDonaldTrump/status/821697182235496450")
+    assert twitter.make_tweet_text([{
+        "ticker": "XOM",
+        "name": "ExxonMobil",
+        "sentiment": 0.5,
+        "exchange": "New York Stock Exchange"}, {
+        "root": "BlackRock",
+        "ticker": "BLK",
+        "name": "ExxonMobil",
+        "sentiment": 0.5,
+        "exchange": "New York Stock Exchange"}, {
+        "root": "PNC Financial Services",
+        "ticker": "PNC",
+        "name": "ExxonMobil",
+        "sentiment": 0.5,
+        "exchange": "New York Stock Exchange"}, {
+        "root": "State Street Corporation",
+        "ticker": "STT",
+        "name": "ExxonMobil",
+        "sentiment": 0.5,
+        "exchange": "New York Stock Exchange"}],
+        "https://twitter.com/realDonaldTrump/status/838862131852369922") == (
+        u"ExxonMobil \U0001f44d $XOM $BLK $PNC $STT\n"
+        "https://twitter.com/realDonaldTrump/status/838862131852369922")
+    assert twitter.make_tweet_text([{
+        "ticker": chr(i - 32),
+        "name": chr(i),
+        "sentiment": 0} for i in range(97, 123)],
+        "https://twitter.com/realDonaldTrump/status/0") == (
+        u"a ¯\_(\u30c4)_/¯ $A\n"
+        u"b ¯\_(\u30c4)_/¯ $B\n"
+        u"c ¯\_(\u30c4)_/¯ $C\n"
+        u"d ¯\_(\u30c4)_/¯ $D\n"
+        u"e ¯\_(\u30c4)_/¯ $E\n"
+        u"f ¯\_(\u30c4)_/¯ $F\n"
+        u"g ¯\\\u2026\n"
+        "https://twitter.com/realDonaldTrump/status/0")
+
+
+def test_get_sentiment_emoji(twitter):
+    assert twitter.get_sentiment_emoji(0.5) == u"\U0001f44d"
+    assert twitter.get_sentiment_emoji(-0.5) == u"\U0001f44e"
+    assert twitter.get_sentiment_emoji(0) == u"¯\_(\u30c4)_/¯"
+    assert twitter.get_sentiment_emoji(None) == u"¯\_(\u30c4)_/¯"
 
 
 def test_get_tweet(twitter):
