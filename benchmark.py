@@ -101,11 +101,11 @@ def should_trade(strategy, date, previous_trade_date):
             date.replace(hour=0, minute=0, second=0)):
         return False
 
-    # The strategy needs to be active.
+    # The strategy needs to be active for the trade to occur.
     if strategy["action"] == "hold":
         return False
 
-    # We need to know the stock price.
+    # We need to know the stock price before trading.
     if not strategy["price_at"] or not strategy["price_eod"]:
         return False
 
@@ -138,11 +138,11 @@ if __name__ == "__main__":
         strategies = []
         for company in companies:
 
-            # What would have been the strategy?
+            # Uses the market status to find the trading strategy
             market_status = get_market_status(timestamp)
             strategy = trading.get_strategy(company, market_status)
 
-            # What was the price at tweet and at EOD?
+            # Returns the price of the stock when the tweet was sent and at the end of the day
             price = trading.get_historical_prices(
                 company["ticker"], timestamp)
             if price:
@@ -179,7 +179,7 @@ if __name__ == "__main__":
     print ("Here's each tweet with the results of its analysis and individual "
            "market performance.")
 
-    for event in events:
+    for event in events:##formats the data given into a table
         strategies = event["strategies"]
 
         if strategies:
@@ -192,7 +192,7 @@ if __name__ == "__main__":
             print
             print "*Strategy*"
             print
-            print "Company | Root | Sentiment | Strategy | Reason"
+            print "Company | Root | Sentiment | Strategy | Reason"##The Strategy Table is organized in this format
             print "--------|------|-----------|----------|-------"
 
             for strategy in strategies:
@@ -210,7 +210,7 @@ if __name__ == "__main__":
             print
             print "*Performance*"
             print
-            print "Ticker | Exchange | Price @ tweet | Price @ close | Gain"
+            print "Ticker | Exchange | Price @ tweet | Price @ close | Gain"##The Performance Table is organized in this format
             print "-------|----------|---------------|---------------|-----"
 
             for strategy in strategies:
@@ -250,7 +250,7 @@ if __name__ == "__main__":
         date = event["timestamp"]
         strategies = event["strategies"]
 
-        # Figure out what to spend on each trade.
+        # Figure out how much to spend on each trade.
         num_actionable_strategies = sum(
             [1 for strategy in strategies if should_trade(
                 strategy, date, previous_trade_date)])
@@ -281,10 +281,10 @@ if __name__ == "__main__":
                 quantity = 0
 
             total_ratio = value / FUND_DOLLARS
-            total_return = format_ratio(total_ratio)
+            total_return = format_ratio(total_ratio)##Calculates and formats the total ratio
 
             if date != start_date:
-                days = (date - start_date).days
+                days = (date - start_date).days##Calculates the number of days trading has occurred for
                 if days > 0:
                     annualized_ratio = pow(total_ratio, 365.0 / days)
                 else:
@@ -298,7 +298,7 @@ if __name__ == "__main__":
                 strategy["ticker"],
                 get_sentiment_emoji(strategy["sentiment"]))
             ratio = get_ratio(strategy)
-            gain = format_ratio(ratio)
+            gain = format_ratio(ratio)##gets the ratio and formats it
 
             if trade:
                 date_str = "**%s**" % date_str
