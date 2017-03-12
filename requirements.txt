@@ -7,4 +7,5 @@ pytest==3.0.6
 pytz==2016.10
 requests==2.13.0
 simplejson==3.10.0
+tqdm==4.11.2
 tweepy==3.5.0

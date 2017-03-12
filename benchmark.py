@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from datetime import datetime
+from tqdm import tqdm
 
 from analysis import Analysis
 from trading import Trading
@@ -121,7 +122,7 @@ if __name__ == "__main__":
     tweets = twitter.get_tweets(SINCE_TWEET_ID)
 
     events = []
-    for tweet in tweets:
+    for tweet in tqdm(tweets):
         event = {}
 
         timestamp_str = tweet["created_at"]
