@@ -261,9 +261,6 @@ def test_get_historical_prices(trading):
         "GM", as_market_time(2017, 1, 24, 19, 46, 57)) == {
             "at": 37.09, "eod": 38.28}
     assert trading.get_historical_prices(
-        "TRP", as_market_time(2017, 1, 24, 12, 49, 17)) == {
-            "at": 48.93, "eod": 48.87}
-    assert trading.get_historical_prices(
         "BLK", as_market_time(2017, 1, 18, 8, 0, 51)) == {
             "at": 374.8, "eod": 378.0}
     assert trading.get_historical_prices(

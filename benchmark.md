@@ -223,6 +223,22 @@ Ticker | Exchange | Price @ tweet | Price @ close | Gain
 F | New York Stock Exchange | $12.84 | $12.64 | -1.558%
 FCAU | New York Stock Exchange | $10.57 | $10.57 | 0.000%
 
+##### [1/16/2017 8:42 PM (Monday)](https://twitter.com/realDonaldTrump/status/821170750983995392)
+
+> "@levisteveholt: @realDonaldTrump I appreciate your use of Twitter to keep us informed and maintain transparency." Very dishonest media!
+
+*Strategy*
+
+Company | Root | Sentiment | Strategy | Reason
+--------|------|-----------|----------|-------
+Twitter | - | 0 :neutral_face: | hold | market closed
+
+*Performance*
+
+Ticker | Exchange | Price @ tweet | Price @ close | Gain
+-------|----------|---------------|---------------|-----
+TWTR | New York Stock Exchange | - | - | 0.000%
+
 ##### [1/17/2017 12:55 PM (Tuesday)](https://twitter.com/realDonaldTrump/status/821415698278875137)
 
 > Thank you to General Motors and Walmart for starting the big jobs push back into the U.S.!
@@ -283,19 +299,19 @@ PNC | New York Stock Exchange | $113.97 | $116.32 | 2.062%
 
 ##### [1/24/2017 12:49 PM (Tuesday)](https://twitter.com/realDonaldTrump/status/823950814163140609)
 
-> Signing orders to move forward with the construction of the Keystone XL and Dakota Access pipelines in the Oval Off… https://t.co/aOxmfO0vOK
+> Signing orders to move forward with the construction of the Keystone XL and Dakota Access pipelines in the Oval Office. https://t.co/OErGmbBvYK
 
 *Strategy*
 
 Company | Root | Sentiment | Strategy | Reason
 --------|------|-----------|----------|-------
-Keystone Pipeline | TransCanada Corporation | -0.1 :thumbsdown: | bear | negative sentiment
+Keystone Pipeline | TransCanada Corporation | 0 :neutral_face: | hold | neutral sentiment
 
 *Performance*
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-TRP | New York Stock Exchange | $48.93 | $48.87 | 0.123%
+TRP | New York Stock Exchange | - | - | 0.000%
 
 ##### [1/24/2017 7:46 PM (Tuesday)](https://twitter.com/realDonaldTrump/status/824055927200423936)
 
@@ -365,13 +381,13 @@ JWN | New York Stock Exchange | $42.64 | $44.53 | -4.244%
 
 ##### [2/8/2017 2:22 PM (Wednesday)](https://twitter.com/realDonaldTrump/status/829410107406614534)
 
-> Thank you Brian Krzanich, CEO of @Intel. A great investment ($7 BILLION) in American INNOVATION and JOBS!… https://t.co/oicfDsPKHQ
+> Thank you Brian Krzanich, CEO of @Intel. A great investment ($7 BILLION) in American INNOVATION and JOBS! #AmericaFirst🇺🇸 https://t.co/76lAiSSQ1l
 
 *Strategy*
 
 Company | Root | Sentiment | Strategy | Reason
 --------|------|-----------|----------|-------
-Intel | - | 0.8 :thumbsup: | bull | positive sentiment
+Intel | - | 0.6 :thumbsup: | bull | positive sentiment
 
 *Performance*
 
@@ -515,6 +531,42 @@ BLK | New York Stock Exchange | - | - | 0.000%
 PNC | New York Stock Exchange | - | - | 0.000%
 STT | New York Stock Exchange | - | - | 0.000%
 
+##### [3/22/2017 9:03 PM (Wednesday)](https://twitter.com/realDonaldTrump/status/844716149828993025)
+
+> RT @mitchellvii: EXACTLY AS I SAID - House Intel Chair: We Cannot Rule Out Sr. Obama Officials Were Involved in Trump Surveillance https://…
+
+*Strategy*
+
+Company | Root | Sentiment | Strategy | Reason
+--------|------|-----------|----------|-------
+Intel | - | 0.2 :thumbsup: | hold | market closed
+
+*Performance*
+
+Ticker | Exchange | Price @ tweet | Price @ close | Gain
+-------|----------|---------------|---------------|-----
+INTC | NASDAQ | - | - | 0.000%
+
+##### [3/24/2017 1:59 PM (Friday)](https://twitter.com/realDonaldTrump/status/845334323045765121)
+
+> Today, I was thrilled to announce a commitment of $25 BILLION &amp; 20K AMERICAN JOBS over the next 4 years. THANK YOU Charter Communications! https://t.co/PLxUmXVl0h
+
+*Strategy*
+
+Company | Root | Sentiment | Strategy | Reason
+--------|------|-----------|----------|-------
+Charter Communications | - | 0.6 :thumbsup: | bull | positive sentiment
+Charter Communications | Berkshire Hathaway | 0.6 :thumbsup: | bull | positive sentiment
+Charter Communications | Berkshire Hathaway | 0.6 :thumbsup: | bull | positive sentiment
+
+*Performance*
+
+Ticker | Exchange | Price @ tweet | Price @ close | Gain
+-------|----------|---------------|---------------|-----
+CHTR | NASDAQ | $326.01 | $325.35 | -0.202%
+BRK.A | New York Stock Exchange | $253,710.00 | $252,301.00 | -0.555%
+BRK.B | New York Stock Exchange | $169.17 | $168.66 | -0.301%
+
 ### Fund simulation
 
 This is how an initial investment of $100,000.00 would have grown, including fees of 2 × $4.95 per pair of orders. Bold means that the data was used to trade.
@@ -542,6 +594,7 @@ Time | Trade | Gain | Value | Return | Annualized
 **1/9/2017 9:14 AM** | **FCAU :thumbsup:** | 0.190% | $106,704.26 | 6.704% | 100.696%
 1/9/2017 9:16 AM | F :thumbsup: | -1.558% | $106,704.26 | 6.704% | 100.696%
 1/9/2017 9:16 AM | FCAU :thumbsup: | 0.000% | $106,704.26 | 6.704% | 100.696%
+1/16/2017 8:42 PM | TWTR :neutral_face: | 0.000% | $106,704.26 | 6.704% | 78.191%
 **1/17/2017 12:55 PM** | **GM :thumbsup:** | -0.613% | $106,478.62 | 6.479% | 72.553%
 **1/17/2017 12:55 PM** | **WMT :thumbsup:** | -0.044% | $106,453.30 | 6.453% | 72.197%
 **1/17/2017 12:55 PM** | **STT :thumbsup:** | -1.219% | $106,014.73 | 6.015% | 66.129%
@@ -550,26 +603,30 @@ Time | Trade | Gain | Value | Return | Annualized
 1/18/2017 7:34 AM | LMT :thumbsdown: | 0.000% | $106,014.73 | 6.015% | 66.129%
 **1/18/2017 8:00 AM** | **BLK :thumbsup:** | 0.854% | $106,452.83 | 6.453% | 72.190%
 **1/18/2017 8:00 AM** | **PNC :thumbsup:** | 2.062% | $107,523.93 | 7.524% | 87.843%
-**1/24/2017 12:49 PM** | **TRP :thumbsdown:** | 0.123% | $107,644.65 | 7.645% | 73.106%
-1/24/2017 7:46 PM | F :thumbsup: | 0.000% | $107,644.65 | 7.645% | 73.106%
-1/24/2017 7:46 PM | GM :thumbsup: | 0.000% | $107,644.65 | 7.645% | 73.106%
-1/28/2017 10:42 AM | ROK :thumbsup: | 0.000% | $107,644.65 | 7.645% | 66.083%
-1/30/2017 7:16 AM | DAL :thumbsdown: | 0.000% | $107,644.65 | 7.645% | 64.530%
-**2/8/2017 10:51 AM** | **JWN :thumbsdown:** | -4.244% | $102,907.86 | 2.908% | 17.759%
-2/8/2017 2:22 PM | INTC :thumbsup: | 0.110% | $102,907.86 | 2.908% | 17.759%
-2/11/2017 8:24 AM | LMT :neutral_face: | 0.000% | $102,907.86 | 2.908% | 17.178%
-2/14/2017 5:50 PM | HUM :neutral_face: | 0.000% | $102,907.86 | 2.908% | 16.121%
-2/15/2017 4:34 PM | AET :thumbsdown: | 0.000% | $102,907.86 | 2.908% | 15.877%
-2/17/2017 6:38 AM | BA :thumbsup: | 0.000% | $102,907.86 | 2.908% | 15.640%
-3/6/2017 4:19 PM | XOM :thumbsup: | 0.000% | $102,907.86 | 2.908% | 12.327%
-3/6/2017 4:19 PM | BLK :thumbsup: | 0.000% | $102,907.86 | 2.908% | 12.327%
-3/6/2017 4:19 PM | PNC :thumbsup: | 0.000% | $102,907.86 | 2.908% | 12.327%
-3/6/2017 4:19 PM | STT :thumbsup: | 0.000% | $102,907.86 | 2.908% | 12.327%
-3/6/2017 10:49 PM | XOM :thumbsup: | 0.000% | $102,907.86 | 2.908% | 12.327%
-3/6/2017 10:49 PM | BLK :thumbsup: | 0.000% | $102,907.86 | 2.908% | 12.327%
-3/6/2017 10:49 PM | PNC :thumbsup: | 0.000% | $102,907.86 | 2.908% | 12.327%
-3/6/2017 10:49 PM | STT :thumbsup: | 0.000% | $102,907.86 | 2.908% | 12.327%
-3/6/2017 10:50 PM | XOM :thumbsup: | 0.000% | $102,907.86 | 2.908% | 12.327%
-3/6/2017 10:50 PM | BLK :thumbsup: | 0.000% | $102,907.86 | 2.908% | 12.327%
-3/6/2017 10:50 PM | PNC :thumbsup: | 0.000% | $102,907.86 | 2.908% | 12.327%
-3/6/2017 10:50 PM | STT :thumbsup: | 0.000% | $102,907.86 | 2.908% | 12.327%
+1/24/2017 12:49 PM | TRP :neutral_face: | 0.000% | $107,523.93 | 7.524% | 71.665%
+1/24/2017 7:46 PM | F :thumbsup: | 0.000% | $107,523.93 | 7.524% | 71.665%
+1/24/2017 7:46 PM | GM :thumbsup: | 0.000% | $107,523.93 | 7.524% | 71.665%
+1/28/2017 10:42 AM | ROK :thumbsup: | 0.000% | $107,523.93 | 7.524% | 64.805%
+1/30/2017 7:16 AM | DAL :thumbsdown: | 0.000% | $107,523.93 | 7.524% | 63.287%
+**2/8/2017 10:51 AM** | **JWN :thumbsdown:** | -4.244% | $102,792.81 | 2.793% | 17.011%
+2/8/2017 2:22 PM | INTC :thumbsup: | 0.110% | $102,792.81 | 2.793% | 17.011%
+2/11/2017 8:24 AM | LMT :neutral_face: | 0.000% | $102,792.81 | 2.793% | 16.455%
+2/14/2017 5:50 PM | HUM :neutral_face: | 0.000% | $102,792.81 | 2.793% | 15.446%
+2/15/2017 4:34 PM | AET :thumbsdown: | 0.000% | $102,792.81 | 2.793% | 15.212%
+2/17/2017 6:38 AM | BA :thumbsup: | 0.000% | $102,792.81 | 2.793% | 14.986%
+3/6/2017 4:19 PM | XOM :thumbsup: | 0.000% | $102,792.81 | 2.793% | 11.819%
+3/6/2017 4:19 PM | BLK :thumbsup: | 0.000% | $102,792.81 | 2.793% | 11.819%
+3/6/2017 4:19 PM | PNC :thumbsup: | 0.000% | $102,792.81 | 2.793% | 11.819%
+3/6/2017 4:19 PM | STT :thumbsup: | 0.000% | $102,792.81 | 2.793% | 11.819%
+3/6/2017 10:49 PM | XOM :thumbsup: | 0.000% | $102,792.81 | 2.793% | 11.819%
+3/6/2017 10:49 PM | BLK :thumbsup: | 0.000% | $102,792.81 | 2.793% | 11.819%
+3/6/2017 10:49 PM | PNC :thumbsup: | 0.000% | $102,792.81 | 2.793% | 11.819%
+3/6/2017 10:49 PM | STT :thumbsup: | 0.000% | $102,792.81 | 2.793% | 11.819%
+3/6/2017 10:50 PM | XOM :thumbsup: | 0.000% | $102,792.81 | 2.793% | 11.819%
+3/6/2017 10:50 PM | BLK :thumbsup: | 0.000% | $102,792.81 | 2.793% | 11.819%
+3/6/2017 10:50 PM | PNC :thumbsup: | 0.000% | $102,792.81 | 2.793% | 11.819%
+3/6/2017 10:50 PM | STT :thumbsup: | 0.000% | $102,792.81 | 2.793% | 11.819%
+3/22/2017 9:03 PM | INTC :thumbsup: | 0.000% | $102,792.81 | 2.793% | 9.949%
+**3/24/2017 1:59 PM** | **CHTR :thumbsup:** | -0.202% | $102,714.27 | 2.714% | 9.473%
+3/24/2017 1:59 PM | BRK.A :thumbsup: | -0.555% | $102,714.27 | 2.714% | 9.473%
+**3/24/2017 1:59 PM** | **BRK.B :thumbsup:** | -0.301% | $102,602.37 | 2.602% | 9.071%
