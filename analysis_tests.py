@@ -228,6 +228,7 @@ def test_get_sentiment(analysis):
     assert analysis.get_sentiment(get_tweet_text("829410107406614534")) > 0
     assert analysis.get_sentiment(get_tweet_text("829356871848951809")) < 0
     # assert analysis.get_sentiment(get_tweet_text("808301935728230404")) < 0
+    assert analysis.get_sentiment(get_tweet_text("845334323045765121")) > 0
     assert analysis.get_sentiment(None) == 0
 
 
@@ -374,6 +375,21 @@ def test_find_companies(analysis):
         "name": "Nordstrom",
         "sentiment": -0.2,
         "ticker": "JWN"}]
+    assert analysis.find_companies(get_tweet("845334323045765121")) == [{
+        "exchange": "NASDAQ",
+        "name": "Charter Communications",
+        "sentiment": 0.6,
+        "ticker": "CHTR"}, {
+        "exchange": "New York Stock Exchange",
+        "name": "Charter Communications",
+        "root": "Berkshire Hathaway",
+        "sentiment": 0.6,
+        "ticker": "BRK.A"}, {
+        "exchange": "New York Stock Exchange",
+        "name": "Charter Communications",
+        "root": "Berkshire Hathaway",
+        "sentiment": 0.6,
+        "ticker": "BRK.B"}]
     assert analysis.find_companies(None) is None
 
 
