@@ -180,6 +180,14 @@ class Analysis:
             self.logs.error("Malformed tweet: %s" % tweet)
             return None
 
+        if not text:
+            self.logs.warn("Empty text.")
+            return None
+
+        if not mentions:
+            self.logs.debug("No mentions.")
+            return text
+
         self.logs.debug("Using mentions: %s" % mentions)
         for mention in mentions:
             try:

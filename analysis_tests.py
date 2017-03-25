@@ -393,7 +393,7 @@ def test_find_companies(analysis):
     assert analysis.find_companies(None) is None
 
 
-STREAMING_TWEET = literal_eval(
+STREAMING_TWEET_LONG = literal_eval(
     u'{"contributors": None, "truncated": True, "text": "Today, I was thrilled'
     ' to announce a commitment of $25 BILLION &amp; 20K AMERICAN JOBS over the'
     ' next 4 years. THANK YOU\u2026 https://t.co/nWJ1hNmzoR", "is_quote_status'
@@ -473,6 +473,40 @@ STREAMING_TWEET = literal_eval(
     'munications! https://t.co/PLxUmXVl0h"}, "created_at": "Fri Mar 24 17:59:4'
     '2 +0000 2017", "filter_level": "low", "in_reply_to_status_id_str": None, '
     '"place": None}')
+STREAMING_TWEET_SHORT = literal_eval(
+    u'{"contributors": None, "truncated": False, "text": "ObamaCare will explo'
+    'de and we will all get together and piece together a great healthcare pla'
+    'n for THE PEOPLE. Do not worry!", "is_quote_status": False, "in_reply_to_'
+    'status_id": None, "id": 845645916732358656, "favorite_count": 0, "source"'
+    ': "<a href=\\"http://twitter.com/download/android\\" rel=\\"nofollow\\">T'
+    'witter for Android</a>", "retweeted": False, "coordinates": None, "timest'
+    'amp_ms": "1490452672547", "entities": {"user_mentions": [], "symbols": []'
+    ', "hashtags": [], "urls": []}, "in_reply_to_screen_name": None, "id_str":'
+    ' "845645916732358656", "retweet_count": 0, "in_reply_to_user_id": None, "'
+    'favorited": False, "user": {"follow_request_sent": None, "profile_use_bac'
+    'kground_image": True, "default_profile_image": False, "id": 25073877, "ve'
+    'rified": True, "profile_image_url_https": "https://pbs.twimg.com/profile_'
+    'images/1980294624/DJT_Headshot_V2_normal.jpg", "profile_sidebar_fill_colo'
+    'r": "C5CEC0", "profile_text_color": "333333", "followers_count": 27003111'
+    ', "profile_sidebar_border_color": "BDDCAD", "id_str": "25073877", "profil'
+    'e_background_color": "6D5C18", "listed_count": 67477, "profile_background'
+    '_image_url_https": "https://pbs.twimg.com/profile_background_images/53002'
+    '1613/trump_scotland__43_of_70_cc.jpg", "utc_offset": -14400, "statuses_co'
+    'unt": 34649, "description": "45th President of the United States of Ameri'
+    'ca", "friends_count": 43, "location": "Washington, DC", "profile_link_col'
+    'or": "0D5B73", "profile_image_url": "http://pbs.twimg.com/profile_images/'
+    '1980294624/DJT_Headshot_V2_normal.jpg", "following": None, "geo_enabled":'
+    ' True, "profile_banner_url": "https://pbs.twimg.com/profile_banners/25073'
+    '877/1489657715", "profile_background_image_url": "http://pbs.twimg.com/pr'
+    'ofile_background_images/530021613/trump_scotland__43_of_70_cc.jpg", "name'
+    '": "Donald J. Trump", "lang": "en", "profile_background_tile": True, "fav'
+    'ourites_count": 46, "screen_name": "realDonaldTrump", "notifications": No'
+    'ne, "url": None, "created_at": "Wed Mar 18 13:46:38 +0000 2009", "contrib'
+    'utors_enabled": False, "time_zone": "Eastern Time (US & Canada)", "protec'
+    'ted": False, "default_profile": False, "is_translator": False}, "geo": No'
+    'ne, "in_reply_to_user_id_str": None, "lang": "en", "created_at": "Sat Mar'
+    ' 25 14:37:52 +0000 2017", "filter_level": "low", "in_reply_to_status_id_s'
+    'tr": None, "place": None}')
 
 
 def test_get_expanded_text(analysis):
@@ -492,10 +526,16 @@ def test_get_expanded_text(analysis):
         "Today, I was thrilled to announce a commitment of $25 BILLION &amp; 2"
         "0K AMERICAN JOBS over the next 4 years. THANK YOU Charter Communicati"
         "ons! https://t.co/PLxUmXVl0h")
-    assert analysis.get_expanded_text(STREAMING_TWEET) == (
+    assert analysis.get_expanded_text(STREAMING_TWEET_LONG) == (
         "Today, I was thrilled to announce a commitment of $25 BILLION &amp; 2"
         "0K AMERICAN JOBS over the next 4 years. THANK YOU Charter Communicati"
         "ons! https://t.co/PLxUmXVl0h")
+    assert analysis.get_expanded_text(get_tweet("845645916732358656")) == (
+        "ObamaCare will explode and we will all get together and piece togethe"
+        "r a great healthcare plan for THE PEOPLE. Do not worry!")
+    assert analysis.get_expanded_text(STREAMING_TWEET_SHORT) == (
+        "ObamaCare will explode and we will all get together and piece togethe"
+        "r a great healthcare plan for THE PEOPLE. Do not worry!")
     assert analysis.get_expanded_text(None) is None
 
 

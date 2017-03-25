@@ -188,20 +188,19 @@ class Twitter:
         # The format for getting at the full text is different depending on
         # whether the tweet came through the REST API or the Streaming API:
         # https://dev.twitter.com/overview/api/upcoming-changes-to-tweets
-        if "extended_tweet" in tweet:
-            self.logs.debug("Decoding tweet from Streaming API.")
-            try:
+        try:
+            if "extended_tweet" in tweet:
+                self.logs.debug("Decoding extended tweet from Streaming API.")
                 return tweet["extended_tweet"]["full_text"]
-            except KeyError:
-                self.logs.error("Malformed tweet: %s" % tweet)
-                return None
-        else:
-            self.logs.debug("Decoding tweet from REST API.")
-            try:
+            elif "full_text" in tweet:
+                self.logs.debug("Decoding extended tweet from REST API.")
                 return tweet["full_text"]
-            except KeyError:
-                self.logs.error("Malformed tweet: %s" % tweet)
-                return None
+            else:
+                self.logs.debug("Decoding short tweet.")
+                return tweet["text"]
+        except KeyError:
+            self.logs.error("Malformed tweet: %s" % tweet)
+            return None
 
     def get_tweet_link(self, tweet):
         """Creates the link URL to a tweet."""
