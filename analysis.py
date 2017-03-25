@@ -7,6 +7,7 @@ from requests import get
 from urllib import quote_plus
 
 from logs import Logs
+from twitter import Twitter
 
 # The URL for a GET request to the Wikidata API. The string parameter is the
 # SPARQL query.
@@ -46,6 +47,7 @@ class Analysis:
     def __init__(self, logs_to_cloud):
         self.logs = Logs(name="analysis", to_cloud=logs_to_cloud)
         self.gcnl_client = language.Client()
+        self.twitter = Twitter(logs_to_cloud=logs_to_cloud)
 
     def get_company_data(self, mid):
         """Looks up stock ticker information for a company via its Freebase ID.
@@ -172,7 +174,7 @@ class Analysis:
             return None
 
         try:
-            text = tweet["text"]
+            text = self.twitter.get_tweet_text(tweet)
             mentions = tweet["entities"]["user_mentions"]
         except KeyError:
             self.logs.error("Malformed tweet: %s" % tweet)

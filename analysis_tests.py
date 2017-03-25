@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from ast import literal_eval
 from google.cloud.language.entity import Entity
 from os import getenv
 from pytest import fixture
@@ -343,7 +344,7 @@ def test_find_companies(analysis):
         "exchange": "New York Stock Exchange",
         "name": "Keystone Pipeline",
         "root": "TransCanada Corporation",
-        "sentiment": -0.1,  # 0.1,
+        "sentiment": 0,  # 0.1,
         "ticker": "TRP"}]
     assert analysis.find_companies(get_tweet("824055927200423936")) == [{
         "exchange": "New York Stock Exchange",
@@ -366,7 +367,7 @@ def test_find_companies(analysis):
     assert analysis.find_companies(get_tweet("829410107406614534")) == [{
         "exchange": "NASDAQ",
         "name": "Intel",
-        "sentiment": 0.8,
+        "sentiment": 0.6,
         "ticker": "INTC"}]
     assert analysis.find_companies(get_tweet("829356871848951809")) == [{
         "exchange": "New York Stock Exchange",
@@ -376,10 +377,93 @@ def test_find_companies(analysis):
     assert analysis.find_companies(None) is None
 
 
+STREAMING_TWEET = literal_eval(
+    u'{"contributors": None, "truncated": True, "text": "Today, I was thrilled'
+    ' to announce a commitment of $25 BILLION &amp; 20K AMERICAN JOBS over the'
+    ' next 4 years. THANK YOU\u2026 https://t.co/nWJ1hNmzoR", "is_quote_status'
+    '": False, "in_reply_to_status_id": None, "id": 845334323045765121, "favor'
+    'ite_count": 0, "source": "<a href=\\"http://twitter.com/download/iphone\\'
+    '" rel=\\"nofollow\\">Twitter for iPhone</a>", "retweeted": False, "coordi'
+    'nates": None, "timestamp_ms": "1490378382823", "entities": {"user_mention'
+    's": [], "symbols": [], "hashtags": [], "urls": [{"url": "https://t.co/nWJ'
+    '1hNmzoR", "indices": [120, 143], "expanded_url": "https://twitter.com/i/w'
+    'eb/status/845334323045765121", "display_url": "twitter.com/i/web/status/8'
+    '\u2026"}]}, "in_reply_to_screen_name": None, "id_str": "84533432304576512'
+    '1", "display_text_range": [0, 140], "retweet_count": 0, "in_reply_to_user'
+    '_id": None, "favorited": False, "user": {"follow_request_sent": None, "pr'
+    'ofile_use_background_image": True, "default_profile_image": False, "id": '
+    '25073877, "verified": True, "profile_image_url_https": "https://pbs.twimg'
+    '.com/profile_images/1980294624/DJT_Headshot_V2_normal.jpg", "profile_side'
+    'bar_fill_color": "C5CEC0", "profile_text_color": "333333", "followers_cou'
+    'nt": 26964041, "profile_sidebar_border_color": "BDDCAD", "id_str": "25073'
+    '877", "profile_background_color": "6D5C18", "listed_count": 67185, "profi'
+    'le_background_image_url_https": "https://pbs.twimg.com/profile_background'
+    '_images/530021613/trump_scotland__43_of_70_cc.jpg", "utc_offset": -14400,'
+    ' "statuses_count": 34648, "description": "45th President of the United St'
+    'ates of America", "friends_count": 43, "location": "Washington, DC", "pro'
+    'file_link_color": "0D5B73", "profile_image_url": "http://pbs.twimg.com/pr'
+    'ofile_images/1980294624/DJT_Headshot_V2_normal.jpg", "following": None, "'
+    'geo_enabled": True, "profile_banner_url": "https://pbs.twimg.com/profile_'
+    'banners/25073877/1489657715", "profile_background_image_url": "http://pbs'
+    '.twimg.com/profile_background_images/530021613/trump_scotland__43_of_70_c'
+    'c.jpg", "name": "Donald J. Trump", "lang": "en", "profile_background_tile'
+    '": True, "favourites_count": 46, "screen_name": "realDonaldTrump", "notif'
+    'ications": None, "url": None, "created_at": "Wed Mar 18 13:46:38 +0000 20'
+    '09", "contributors_enabled": False, "time_zone": "Eastern Time (US & Cana'
+    'da)", "protected": False, "default_profile": False, "is_translator": Fals'
+    'e}, "geo": None, "in_reply_to_user_id_str": None, "possibly_sensitive": F'
+    'alse, "lang": "en", "extended_tweet": {"display_text_range": [0, 142], "e'
+    'ntities": {"user_mentions": [], "symbols": [], "hashtags": [], "urls": []'
+    ', "media": [{"expanded_url": "https://twitter.com/realDonaldTrump/status/'
+    '845334323045765121/video/1", "display_url": "pic.twitter.com/PLxUmXVl0h",'
+    ' "url": "https://t.co/PLxUmXVl0h", "media_url_https": "https://pbs.twimg.'
+    'com/ext_tw_video_thumb/845330366156210176/pu/img/NdRWqCDX-r734Vpd.jpg", "'
+    'video_info": {"aspect_ratio": [16, 9], "duration_millis": 121367, "varian'
+    'ts": [{"url": "https://video.twimg.com/ext_tw_video/845330366156210176/pu'
+    '/vid/640x360/eu6vsoGqW43Cc64C.mp4", "bitrate": 832000, "content_type": "v'
+    'ideo/mp4"}, {"url": "https://video.twimg.com/ext_tw_video/845330366156210'
+    '176/pu/vid/320x180/QPwu682wzK5C4e0V.mp4", "bitrate": 320000, "content_typ'
+    'e": "video/mp4"}, {"url": "https://video.twimg.com/ext_tw_video/845330366'
+    '156210176/pu/pl/flkqzlPIkchbfIGZ.m3u8", "content_type": "application/x-mp'
+    'egURL"}, {"url": "https://video.twimg.com/ext_tw_video/845330366156210176'
+    '/pu/vid/1280x720/6l5bIhFXEih9is4L.mp4", "bitrate": 2176000, "content_type'
+    '": "video/mp4"}]}, "id_str": "845330366156210176", "sizes": {"small": {"h'
+    '": 191, "resize": "fit", "w": 340}, "large": {"h": 576, "resize": "fit", '
+    '"w": 1024}, "medium": {"h": 338, "resize": "fit", "w": 600}, "thumb": {"h'
+    '": 150, "resize": "crop", "w": 150}}, "indices": [143, 166], "type": "vid'
+    'eo", "id": 845330366156210176, "media_url": "http://pbs.twimg.com/ext_tw_'
+    'video_thumb/845330366156210176/pu/img/NdRWqCDX-r734Vpd.jpg"}]}, "extended'
+    '_entities": {"media": [{"expanded_url": "https://twitter.com/realDonaldTr'
+    'ump/status/845334323045765121/video/1", "display_url": "pic.twitter.com/P'
+    'LxUmXVl0h", "url": "https://t.co/PLxUmXVl0h", "media_url_https": "https:/'
+    '/pbs.twimg.com/ext_tw_video_thumb/845330366156210176/pu/img/NdRWqCDX-r734'
+    'Vpd.jpg", "video_info": {"aspect_ratio": [16, 9], "duration_millis": 1213'
+    '67, "variants": [{"url": "https://video.twimg.com/ext_tw_video/8453303661'
+    '56210176/pu/vid/640x360/eu6vsoGqW43Cc64C.mp4", "bitrate": 832000, "conten'
+    't_type": "video/mp4"}, {"url": "https://video.twimg.com/ext_tw_video/8453'
+    '30366156210176/pu/vid/320x180/QPwu682wzK5C4e0V.mp4", "bitrate": 320000, "'
+    'content_type": "video/mp4"}, {"url": "https://video.twimg.com/ext_tw_vide'
+    'o/845330366156210176/pu/pl/flkqzlPIkchbfIGZ.m3u8", "content_type": "appli'
+    'cation/x-mpegURL"}, {"url": "https://video.twimg.com/ext_tw_video/8453303'
+    '66156210176/pu/vid/1280x720/6l5bIhFXEih9is4L.mp4", "bitrate": 2176000, "c'
+    'ontent_type": "video/mp4"}]}, "id_str": "845330366156210176", "sizes": {"'
+    'small": {"h": 191, "resize": "fit", "w": 340}, "large": {"h": 576, "resiz'
+    'e": "fit", "w": 1024}, "medium": {"h": 338, "resize": "fit", "w": 600}, "'
+    'thumb": {"h": 150, "resize": "crop", "w": 150}}, "indices": [143, 166], "'
+    'type": "video", "id": 845330366156210176, "media_url": "http://pbs.twimg.'
+    'com/ext_tw_video_thumb/845330366156210176/pu/img/NdRWqCDX-r734Vpd.jpg"}]}'
+    ', "full_text": "Today, I was thrilled to announce a commitment of $25 BIL'
+    'LION &amp; 20K AMERICAN JOBS over the next 4 years. THANK YOU Charter Com'
+    'munications! https://t.co/PLxUmXVl0h"}, "created_at": "Fri Mar 24 17:59:4'
+    '2 +0000 2017", "filter_level": "low", "in_reply_to_status_id_str": None, '
+    '"place": None}')
+
+
 def test_get_expanded_text(analysis):
     assert analysis.get_expanded_text(get_tweet("829410107406614534")) == (
         u"Thank you Brian Krzanich, CEO of Intel. A great investment ($7 BILLI"
-        u"ON) in American INNOVATION and JOBS!\u2026 https://t.co/oicfDsPKHQ")
+        u"ON) in American INNOVATION and JOBS! #AmericaFirst\U0001f1fa"
+        u"\U0001f1f8 https://t.co/76lAiSSQ1l")
     assert analysis.get_expanded_text(get_tweet("828574430800539648")) == (
         "Any negative polls are fake news, just like the CNN, ABC, NBC polls i"
         "n the election. Sorry, people want border security and extreme vettin"
@@ -388,6 +472,14 @@ def test_get_expanded_text(analysis):
         "The failing The New York Times writes total fiction concerning me. Th"
         "ey have gotten it wrong for two years, and now are making up stories "
         "&amp; sources!")
+    assert analysis.get_expanded_text(get_tweet("845334323045765121")) == (
+        "Today, I was thrilled to announce a commitment of $25 BILLION &amp; 2"
+        "0K AMERICAN JOBS over the next 4 years. THANK YOU Charter Communicati"
+        "ons! https://t.co/PLxUmXVl0h")
+    assert analysis.get_expanded_text(STREAMING_TWEET) == (
+        "Today, I was thrilled to announce a commitment of $25 BILLION &amp; 2"
+        "0K AMERICAN JOBS over the next 4 years. THANK YOU Charter Communicati"
+        "ons! https://t.co/PLxUmXVl0h")
     assert analysis.get_expanded_text(None) is None
 
 

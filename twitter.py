@@ -153,24 +153,27 @@ class Twitter:
     def get_tweet(self, tweet_id):
         """Looks up metadata for a single tweet."""
 
-        statuses = self.twitter_api.statuses_lookup([tweet_id])
-        if not statuses or len(statuses) != 1:
-            self.logs.error("Bad statuses response: %s" % statuses)
+        # Use tweet_mode=extended so we get the full text.
+        status = self.twitter_api.get_status(tweet_id, tweet_mode="extended")
+        if not status:
+            self.logs.error("Bad status response: %s" % status)
             return None
 
         # Use the raw JSON, just like the streaming API.
-        return statuses[0]._json
+        return status._json
 
     def get_tweets(self, since_id):
         """Looks up metadata for all Trump tweets since the specified ID."""
 
+        tweets = []
+
         # Include the first ID by passing along an earlier one.
         since_id = str(int(since_id) - 1)
 
-        tweets = []
+        # Use tweet_mode=extended so we get the full text.
         for status in Cursor(self.twitter_api.user_timeline,
-                             user_id=TRUMP_USER_ID,
-                             since_id=since_id).items():
+                             user_id=TRUMP_USER_ID, since_id=since_id,
+                             tweet_mode="extended").items():
 
             # Use the raw JSON, just like the streaming API.
             tweets.append(status._json)
@@ -178,6 +181,27 @@ class Twitter:
         self.logs.debug("Got tweets: %s" % tweets)
 
         return tweets
+
+    def get_tweet_text(self, tweet):
+        """Returns the full text of a tweet."""
+
+        # The format for getting at the full text is different depending on
+        # whether the tweet came through the REST API or the Streaming API:
+        # https://dev.twitter.com/overview/api/upcoming-changes-to-tweets
+        if "extended_tweet" in tweet:
+            self.logs.debug("Decoding tweet from Streaming API.")
+            try:
+                return tweet["extended_tweet"]["full_text"]
+            except KeyError:
+                self.logs.error("Malformed tweet: %s" % tweet)
+                return None
+        else:
+            self.logs.debug("Decoding tweet from REST API.")
+            try:
+                return tweet["full_text"]
+            except KeyError:
+                self.logs.error("Malformed tweet: %s" % tweet)
+                return None
 
     def get_tweet_link(self, tweet):
         """Creates the link URL to a tweet."""

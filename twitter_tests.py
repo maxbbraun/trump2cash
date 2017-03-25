@@ -139,14 +139,15 @@ def test_get_sentiment_emoji(twitter):
 
 
 def test_get_tweet(twitter):
-    tweet = twitter.get_tweet("806134244384899072")
-    assert tweet["text"] == (
-        "Boeing is building a brand new 747 Air Force One for future president"
-        "s, but costs are out of control, more than $4 billion. Cancel order!")
-    assert tweet["id_str"] == "806134244384899072"
+    tweet = twitter.get_tweet("845334323045765121")
+    assert tweet["full_text"] == (
+        "Today, I was thrilled to announce a commitment of $25 BILLION &amp; 2"
+        "0K AMERICAN JOBS over the next 4 years. THANK YOU Charter Communicati"
+        "ons! https://t.co/PLxUmXVl0h")
+    assert tweet["id_str"] == "845334323045765121"
     assert tweet["user"]["id_str"] == "25073877"
     assert tweet["user"]["screen_name"] == "realDonaldTrump"
-    assert tweet["created_at"] == "Tue Dec 06 13:52:35 +0000 2016"
+    assert tweet["created_at"] == "Fri Mar 24 17:59:42 +0000 2017"
 
 
 def test_get_tweets(twitter):

@@ -128,7 +128,7 @@ if __name__ == "__main__":
         timestamp_str = tweet["created_at"]
         timestamp = trading.utc_to_market_time(datetime.strptime(
             timestamp_str, "%a %b %d %H:%M:%S +0000 %Y"))
-        text = tweet["text"]
+        text = twitter.get_tweet_text(tweet)
         event["timestamp"] = timestamp
         event["text"] = text
         event["link"] = twitter.get_tweet_link(tweet)
@@ -268,16 +268,20 @@ if __name__ == "__main__":
                 # Use the price at tweet to determine stock quantity.
                 quantity = int(budget // price_at)
 
-                # Pay the fees for both trades.
-                value -= 2 * TRADE_FEE
+                if quantity:
+                    # Pay the fees for both trades.
+                    value -= 2 * TRADE_FEE
 
-                # Calculate the returns depending on the strategy.
-                if strategy["action"] == "bull":
-                    value -= quantity * price_at  # Buy
-                    value += quantity * price_eod  # Sell
-                elif strategy["action"] == "bear":
-                    value += quantity * price_at  # Short
-                    value -= quantity * price_eod  # Cover
+                    # Calculate the returns depending on the strategy.
+                    if strategy["action"] == "bull":
+                        value -= quantity * price_at  # Buy
+                        value += quantity * price_eod  # Sell
+                    elif strategy["action"] == "bear":
+                        value += quantity * price_at  # Short
+                        value -= quantity * price_eod  # Cover
+                else:
+                    # Not enough budget to buy even one share.
+                    trade = False
             else:
                 quantity = 0
 
