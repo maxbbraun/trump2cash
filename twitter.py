@@ -40,6 +40,15 @@ MAX_TWEET_SIZE = 140
 # The number of worker threads processing tweets.
 NUM_THREADS = 100
 
+# The number of retries to attempt when an error occurs.
+API_RETRY_COUNT = 60
+
+# The number of seconds to wait between retries.
+API_RETRY_DELAY = 1
+
+# The HTTP status codes for which to retry.
+API_RETRY_ERRORS = [400, 401, 500, 502, 503, 504]
+
 
 class Twitter:
     """A helper for talking to Twitter APIs."""
@@ -51,7 +60,12 @@ class Twitter:
                                          TWITTER_CONSUMER_SECRET)
         self.twitter_auth.set_access_token(TWITTER_ACCESS_TOKEN,
                                            TWITTER_ACCESS_TOKEN_SECRET)
-        self.twitter_api = API(self.twitter_auth)
+        self.twitter_api = API(auth_handler=self.twitter_auth,
+                               retry_count=API_RETRY_COUNT,
+                               retry_delay=API_RETRY_DELAY,
+                               retry_errors=API_RETRY_ERRORS,
+                               wait_on_rate_limit=True,
+                               wait_on_rate_limit_notify=True)
         self.twitter_listener = None
 
     def start_streaming(self, callback):
