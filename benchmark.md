@@ -567,6 +567,22 @@ CHTR | NASDAQ | $326.01 | $325.35 | -0.202%
 BRK.A | New York Stock Exchange | $253,710.00 | $252,301.00 | -0.555%
 BRK.B | New York Stock Exchange | $169.17 | $168.66 | -0.301%
 
+##### [3/28/2017 6:36 AM (Tuesday)](https://twitter.com/realDonaldTrump/status/846672219073863681)
+
+> Big announcement by Ford today. Major investment to be made in three Michigan plants. Car companies coming back to U.S.  JOBS! JOBS! JOBS!
+
+*Strategy*
+
+Company | Root | Sentiment | Strategy | Reason
+--------|------|-----------|----------|-------
+Ford | - | 0.3 :thumbsup: | hold | market closed
+
+*Performance*
+
+Ticker | Exchange | Price @ tweet | Price @ close | Gain
+-------|----------|---------------|---------------|-----
+F | New York Stock Exchange | - | - | 0.000%
+
 ### Fund simulation
 
 This is how an initial investment of $100,000.00 would have grown, including fees of 2 × $4.95 per pair of orders. Bold means that the data was used to trade.
@@ -630,3 +646,4 @@ Time | Trade | Gain | Value | Return | Annualized
 **3/24/2017 1:59 PM** | **CHTR :thumbsup:** | -0.202% | $102,714.27 | 2.714% | 9.473%
 3/24/2017 1:59 PM | BRK.A :thumbsup: | -0.555% | $102,714.27 | 2.714% | 9.473%
 **3/24/2017 1:59 PM** | **BRK.B :thumbsup:** | -0.301% | $102,602.37 | 2.602% | 9.071%
+3/28/2017 6:36 AM | F :thumbsup: | 0.000% | $102,602.37 | 2.602% | 8.815%
