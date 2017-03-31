@@ -8,4 +8,4 @@ pytz==2017.2
 requests==2.13.0
 simplejson==3.10.0
 tqdm==4.11.2
-tweepy==3.5.0
+git+git://github.com/tweepy/tweepy.git#egg=tweepy
