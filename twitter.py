@@ -283,7 +283,8 @@ class TwitterListener(StreamListener):
             # threads, so do that here.
             try:
                 size = self.queue.qsize()
-                logs.debug("Processing queue of size: %s" % size)
+                logs.debug("Processing queue of size %d on worker thread: %s" %
+                           (size, worker_id))
                 data = self.queue.get(block=True)
                 self.handle_data(logs, data)
                 self.queue.task_done()
