@@ -48,7 +48,7 @@ QUEUE_TIMEOUT_S = 1
 API_RETRY_COUNT = 60
 
 # The number of seconds to wait between retries.
-API_RETRY_DELAY = 1
+API_RETRY_DELAY_S = 1
 
 # The HTTP status codes for which to retry.
 API_RETRY_ERRORS = [400, 401, 500, 502, 503, 504]
@@ -66,7 +66,7 @@ class Twitter:
                                            TWITTER_ACCESS_TOKEN_SECRET)
         self.twitter_api = API(auth_handler=self.twitter_auth,
                                retry_count=API_RETRY_COUNT,
-                               retry_delay=API_RETRY_DELAY,
+                               retry_delay=API_RETRY_DELAY_S,
                                retry_errors=API_RETRY_ERRORS,
                                wait_on_rate_limit=True,
                                wait_on_rate_limit_notify=True)
