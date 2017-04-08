@@ -2,6 +2,7 @@
 
 from os import getenv
 from simplejson import loads
+from Queue import Empty
 from Queue import Queue
 from threading import Event
 from threading import Thread
@@ -39,6 +40,9 @@ MAX_TWEET_SIZE = 140
 
 # The number of worker threads processing tweets.
 NUM_THREADS = 10
+
+# The maximum time in seconds that workers wait for a new task on the queue.
+QUEUE_TIMEOUT_S = 1
 
 # The number of retries to attempt when an error occurs.
 API_RETRY_COUNT = 60
@@ -258,16 +262,24 @@ class TwitterListener(StreamListener):
             self.workers.append(worker)
 
     def stop_queue(self):
-        """Shuts down the worker threads."""
+        """Shuts down the queue and worker threads."""
 
-        if not self.workers:
+        # First stop the queue.
+        if self.queue:
+            self.logs.debug("Stopping queue.")
+            self.queue.join()
+        else:
+            self.logs.warn("No queue to stop.")
+
+        # Then stop the worker threads.
+        if self.workers:
+            self.logs.debug("Stopping %d worker threads." % len(self.workers))
+            self.stop_event.set()
+            for worker in self.workers:
+                # Block until the thread terminates.
+                worker.join()
+        else:
             self.logs.warn("No worker threads to stop.")
-            return
-
-        self.stop_event.set()
-        for worker in self.workers:
-            # Block until the thread terminates.
-            worker.join()
 
     def process_queue(self, worker_id):
         """Continuously processes tasks on the queue."""
@@ -279,16 +291,18 @@ class TwitterListener(StreamListener):
 
         logs.debug("Started worker thread: %s" % worker_id)
         while not self.stop_event.is_set():
-            # The main loop doesn't catch and report exceptions from background
-            # threads, so do that here.
             try:
                 size = self.queue.qsize()
                 logs.debug("Processing queue of size %d on worker thread: %s" %
                            (size, worker_id))
-                data = self.queue.get(block=True)
+                data = self.queue.get(block=True, timeout=QUEUE_TIMEOUT_S)
                 self.handle_data(logs, data)
                 self.queue.task_done()
+            except Empty:
+                self.logs.debug("Timed out on empty queue.")
             except Exception:
+                # The main loop doesn't catch and report exceptions from
+                # background threads, so do that here.
                 logs.catch()
         logs.debug("Stopped worker thread: %s" % worker_id)
 
