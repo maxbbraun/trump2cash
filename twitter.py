@@ -266,8 +266,8 @@ class TwitterListener(StreamListener):
 
         self.stop_event.set()
         for worker in self.workers:
-            # Terminate the thread immediately.
-            worker.join(0)
+            # Block until the thread terminates.
+            worker.join()
 
     def process_queue(self, worker_id):
         """Continuously processes tasks on the queue."""
