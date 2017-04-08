@@ -39,7 +39,7 @@ EMOJI_SHRUG = u"¯\_(\u30c4)_/¯"
 MAX_TWEET_SIZE = 140
 
 # The number of worker threads processing tweets.
-NUM_THREADS = 10
+NUM_THREADS = 100
 
 # The maximum time in seconds that workers wait for a new task on the queue.
 QUEUE_TIMEOUT_S = 1
