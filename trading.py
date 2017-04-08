@@ -107,10 +107,10 @@ class Trading:
 
             # Execute the strategy.
             if action == "bull":
-                self.logs.debug("Bull: %s %s" % (ticker, budget))
+                self.logs.info("Bull: %s %s" % (ticker, budget))
                 success = success and self.bull(ticker, budget)
             elif action == "bear":
-                self.logs.debug("Bear: %s %s" % (ticker, budget))
+                self.logs.info("Bear: %s %s" % (ticker, budget))
                 success = success and self.bear(ticker, budget)
             else:
                 self.logs.error("Unknown strategy: %s" % strategy)
