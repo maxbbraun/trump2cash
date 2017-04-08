@@ -42,7 +42,7 @@ MAX_TWEET_SIZE = 140
 NUM_THREADS = 100
 
 # The maximum time in seconds that workers wait for a new task on the queue.
-QUEUE_TIMEOUT_S = 1
+QUEUE_TIMEOUT_S = 10
 
 # The number of retries to attempt when an error occurs.
 API_RETRY_COUNT = 60
