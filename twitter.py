@@ -38,7 +38,7 @@ EMOJI_SHRUG = u"¯\_(\u30c4)_/¯"
 MAX_TWEET_SIZE = 140
 
 # The number of worker threads processing tweets.
-NUM_THREADS = 100
+NUM_THREADS = 10
 
 # The number of retries to attempt when an error occurs.
 API_RETRY_COUNT = 60
