@@ -120,7 +120,7 @@ class Logs:
             self.fallback_logger.error("Failed to log to cloud: %s %s\n%s" %
                                        (severity, text, exception_str))
 
-    @on_exception(expo, Exception, max_tries=10)
+    @on_exception(expo, Exception, max_tries=8)
     def retry_cloud_log_text(self, text, severity):
         """Logs to the cloud and retries up to 10 times with exponential backoff
         (51.2 seconds max total) if the upload fails.
@@ -140,7 +140,7 @@ class Logs:
             self.fallback_logger.error("Failed to report exception: %s\n%s" %
                                        (exception_str, meta_exception_str))
 
-    @on_exception(expo, Exception, max_tries=10)
+    @on_exception(expo, Exception, max_tries=8)
     def retry_report_exception(self, exception_str):
         """Reports the exception and retries up to 10 times with exponential
         backoff (51.2 seconds max total) if the upload fails.
