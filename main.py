@@ -42,7 +42,7 @@ class Main:
 
         # Analyze the tweet.
         companies = analysis.find_companies(tweet)
-        logs.debug("Using companies: %s" % companies)
+        logs.info("Using companies: %s" % companies)
         if not companies:
             return
 
