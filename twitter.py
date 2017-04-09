@@ -6,6 +6,7 @@ from Queue import Empty
 from Queue import Queue
 from threading import Event
 from threading import Thread
+from time import time
 from tweepy import API
 from tweepy import Cursor
 from tweepy import OAuthHandler
@@ -42,7 +43,7 @@ MAX_TWEET_SIZE = 140
 NUM_THREADS = 100
 
 # The maximum time in seconds that workers wait for a new task on the queue.
-QUEUE_TIMEOUT_S = 10
+QUEUE_TIMEOUT_S = 1
 
 # The number of retries to attempt when an error occurs.
 API_RETRY_COUNT = 60
@@ -292,14 +293,17 @@ class TwitterListener(StreamListener):
         logs.debug("Started worker thread: %s" % worker_id)
         while not self.stop_event.is_set():
             try:
-                size = self.queue.qsize()
-                logs.debug("Processing queue of size %d on worker thread: %s" %
-                           (size, worker_id))
                 data = self.queue.get(block=True, timeout=QUEUE_TIMEOUT_S)
+                start_time = time()
                 self.handle_data(logs, data)
                 self.queue.task_done()
+                end_time = time()
+                qsize = self.queue.qsize()
+                logs.debug("Worker %s took %.f ms with %d tasks remaining." %
+                           (worker_id, end_time - start_time, qsize))
             except Empty:
-                self.logs.debug("Timed out on empty queue.")
+                # Timed out on an empty queue.
+                continue
             except Exception:
                 # The main loop doesn't catch and report exceptions from
                 # background threads, so do that here.
