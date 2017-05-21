@@ -160,7 +160,7 @@ Have the code start running in the background with this command:
 $ nohup ./main.py &
 ```
 
-##License
+## License
 
 Copyright 2017 Max Braun
 
