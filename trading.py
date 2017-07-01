@@ -46,7 +46,7 @@ CASH_HOLD = 1000
 LIMIT_FRACTION = 0.1
 
 # The delay in seconds for the second leg of a trade.
-ORDER_DELAY_S = 5 * 60
+ORDER_DELAY_S = 30 * 60
 
 # Blacklsited stock ticker symbols, e.g. to avoid insider trading.
 TICKER_BLACKLIST = ["GOOG", "GOOGL"]
