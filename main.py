@@ -5,7 +5,11 @@ from datetime import datetime
 from time import sleep
 
 from analysis import Analysis
+from BaseHTTPServer import BaseHTTPRequestHandler
+from BaseHTTPServer import HTTPServer
 from logs import Logs
+from threading import Event
+from threading import Thread
 from trading import Trading
 from twitter import Twitter
 
@@ -23,6 +27,50 @@ MAX_TRIES = 12
 # The time in seconds after which to reset a backoff sequence. This is the
 # smallest interval at which backoff sequences may repeat normally.
 BACKOFF_RESET_S = 30 * 60
+
+# The host for the monitor Web server.
+MONITOR_HOST = "0.0.0.0"
+
+# The port for the monitor Web server.
+MONITOR_PORT = 80
+
+
+class Monitor:
+    """A monitor exposing a Web server while the main loop is running."""
+
+    def __init__(self):
+        """Creates a Web server on a background thread."""
+
+        self.server = HTTPServer((MONITOR_HOST, MONITOR_PORT),
+                                 self.MonitorHandler)
+        self.thread = Thread(target=self.server.serve_forever)
+        self.thread.daemon = True
+
+    def start(self):
+        """Starts the Web server background thread."""
+
+        self.thread.start()
+
+    def stop(self):
+        """Stops the Web server and background thread."""
+
+        self.server.shutdown()
+        self.server.server_close()
+
+    class MonitorHandler(BaseHTTPRequestHandler):
+        """An HTTP request handler that responds with "OK" while running."""
+
+        def _set_headers(self):
+            self.send_response(200)
+            self.send_header("Content-type", "text/plain")
+            self.end_headers()
+
+        def do_GET(self):
+            self._set_headers()
+            self.wfile.write("OK")
+
+        def do_HEAD(self):
+            self._set_headers()
 
 
 class Main:
@@ -111,4 +159,9 @@ class Main:
 
 
 if __name__ == "__main__":
-    Main().run()
+    monitor = Monitor()
+    monitor.start()
+    try:
+        Main().run()
+    finally:
+        monitor.stop()
