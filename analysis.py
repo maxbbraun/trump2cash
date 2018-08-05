@@ -46,7 +46,7 @@ class Analysis:
 
     def __init__(self, logs_to_cloud):
         self.logs = Logs(name="analysis", to_cloud=logs_to_cloud)
-        self.gcnl_client = language.Client()
+        self.language_client = language.LanguageServiceClient()
         self.twitter = Twitter(logs_to_cloud=logs_to_cloud)
 
     def get_company_data(self, mid):
@@ -115,8 +115,10 @@ class Analysis:
             return None
 
         # Run entity detection.
-        document = self.gcnl_client.document_from_text(text)
-        entities = document.analyze_entities()
+        document = language.types.Document(
+            content=text,
+            type=language.enums.Document.Type.PLAIN_TEXT)
+        entities = self.language_client.analyze_entities(document).entities
         self.logs.debug("Found entities: %s" %
                         self.entities_tostring(entities))
 
@@ -235,25 +237,18 @@ class Analysis:
     def entity_tostring(self, entity):
         """Converts one entity to a readable string."""
 
-        if entity.wikipedia_url:
-            wikipedia_url = '"%s"' % entity.wikipedia_url
-        else:
-            wikipedia_url = None
-
         metadata = ", ".join(['"%s": "%s"' % (key, value) for
                               key, value in entity.metadata.iteritems()])
 
         mentions = ", ".join(['"%s"' % mention for mention in entity.mentions])
 
         return ('{name: "%s",'
-                ' entity_type: "%s",'
-                ' wikipedia_url: %s,'
+                ' type: "%s",'
                 ' metadata: {%s},'
                 ' salience: %s,'
                 ' mentions: [%s]}') % (
             entity.name,
-            entity.entity_type,
-            wikipedia_url,
+            entity.type,
             metadata,
             entity.salience,
             mentions)
@@ -265,8 +260,11 @@ class Analysis:
             self.logs.warn("No sentiment for empty text.")
             return 0
 
-        document = self.gcnl_client.document_from_text(text)
-        sentiment = document.analyze_sentiment()
+        document = language.types.Document(
+            content=text,
+            type=language.enums.Document.Type.PLAIN_TEXT)
+        sentiment = self.language_client.analyze_sentiment(
+            document).document_sentiment
 
         self.logs.debug(
             "Sentiment score and magnitude for text: %s %s \"%s\"" %
