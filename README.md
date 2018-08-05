@@ -49,9 +49,16 @@ Follow these steps to run the code yourself:
 
 Check out the [quickstart](https://cloud.google.com/compute/docs/quickstart-linux)
 to create a Cloud Platform project and a Linux VM instance with Compute Engine,
-then SSH into it for the steps below. The predefined
-[machine type](https://cloud.google.com/compute/docs/machine-types) `g1-small`
-(1 vCPU, 1.7 GB memory) seems to work well.
+then SSH into it for the steps below. Pick a predefined
+[machine type](https://cloud.google.com/compute/docs/machine-types) matching
+your preferred price and performance.
+
+#### Container
+
+Alternatively, you can use the [`Dockerfile`](Dockerfile) to build a
+[Docker container](https://www.docker.com/what-container) and
+[run it on Compute Engine](https://cloud.google.com/compute/docs/containers/deploying-containers)
+or other platforms.
 
 ### 2. Set up auth
 
