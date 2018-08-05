@@ -122,8 +122,8 @@ class Logs:
 
     @on_exception(expo, Exception, max_tries=8)
     def retry_cloud_log_text(self, text, severity):
-        """Logs to the cloud and retries up to 10 times with exponential backoff
-        (51.2 seconds max total) if the upload fails.
+        """Logs to the cloud and retries up to 10 times with exponential
+        backoff (51.2 seconds max total) if the upload fails.
         """
 
         self.cloud_logger.log_text(text, severity=severity)
