@@ -405,6 +405,10 @@ def test_get_sentiment_25(analysis):
     assert analysis.get_sentiment(get_tweet_text("845334323045765121")) > 0
 
 
+def test_get_sentiment_26(analysis):
+    assert analysis.get_sentiment(get_tweet_text("1042161534603063301")) > 0
+
+
 def test_get_sentiment_none(analysis):
     assert analysis.get_sentiment(None) == 0
 

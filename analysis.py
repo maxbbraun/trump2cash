@@ -117,7 +117,8 @@ class Analysis:
         # Run entity detection.
         document = language.types.Document(
             content=text,
-            type=language.enums.Document.Type.PLAIN_TEXT)
+            type=language.enums.Document.Type.PLAIN_TEXT,
+            language="en")
         entities = self.language_client.analyze_entities(document).entities
         self.logs.debug("Found entities: %s" %
                         self.entities_tostring(entities))
@@ -262,7 +263,8 @@ class Analysis:
 
         document = language.types.Document(
             content=text,
-            type=language.enums.Document.Type.PLAIN_TEXT)
+            type=language.enums.Document.Type.PLAIN_TEXT,
+            language="en")
         sentiment = self.language_client.analyze_sentiment(
             document).document_sentiment
 
