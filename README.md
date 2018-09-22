@@ -60,6 +60,12 @@ Alternatively, you can use the [`Dockerfile`](Dockerfile) to build a
 [run it on Compute Engine](https://cloud.google.com/compute/docs/containers/deploying-containers)
 or other platforms.
 
+```shell
+docker build -t trump2cash .
+docker tag trump2cash gcr.io/<YOUR_GCP_PROJECT_NAME>/trump2cash
+docker push gcr.io/<YOUR_GCP_PROJECT_NAME>/trump2cash:latest
+```
+
 ### 2. Set up auth
 
 The authentication keys for the different APIs are read from shell environment
