@@ -486,15 +486,15 @@ def test_find_companies_6(analysis):
 
 def test_find_companies_8(analysis):
     assert analysis.find_companies(get_tweet("818461467766824961")) == [{
-        "exchange": "New York Stock Exchange",
-        "name": "Ford",
-        "sentiment": 0.0,  # 0.1
-        "ticker": "F"}]
         # "exchange": "New York Stock Exchange",
-        # "name": "Fiat",
-        # "root": "Fiat Chrysler Automobiles",
-        # "sentiment": 0.3,
-        # "ticker": "FCAU"
+        # "name": "Ford",
+        # "sentiment": 0.0,  # 0.1
+        # "ticker": "F"},
+        "exchange": "New York Stock Exchange",
+        "name": "Fiat",
+        "root": "Fiat Chrysler Automobiles",
+        "sentiment": 0.0,  # 0.1
+        "ticker": "FCAU"}]
 
 
 def test_find_companies_9(analysis):
