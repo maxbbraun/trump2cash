@@ -140,7 +140,7 @@ Verify that everything is working as intended by running the tests with
 command:
 
 ```shell
-$ export USE_REAL_MONEY=NO && pytest *.py --verbose
+$ export USE_REAL_MONEY=NO && pytest *.py -vv
 ```
 
 ### 5. Run the benchmark
