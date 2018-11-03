@@ -156,7 +156,7 @@ analysis and trading algorithms would have performed against historical data.
 You can run it again to benchmark any changes you may have made:
 
 ```shell
-$ ./benchmark.py > benchmark.md
+$ python benchmark.py > benchmark.md
 ```
 
 ### 6. Start the bot
@@ -170,7 +170,7 @@ $ export USE_REAL_MONEY=YES
 Have the code start running in the background with this command:
 
 ```shell
-$ nohup ./main.py &
+$ nohup python main.py &
 ```
 
 ## License
