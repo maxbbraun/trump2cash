@@ -43,7 +43,7 @@ MAX_TWEET_SIZE = 140
 NUM_THREADS = 100
 
 # The maximum time in seconds that workers wait for a new task on the queue.
-QUEUE_TIMEOUT_S = 1
+QUEUE_TIMEOUT_S = 5 * 60
 
 # The number of retries to attempt when an error occurs.
 API_RETRY_COUNT = 60
@@ -302,7 +302,8 @@ class TwitterListener(StreamListener):
                 logs.debug("Worker %s took %.f ms with %d tasks remaining." %
                            (worker_id, end_time - start_time, qsize))
             except Empty:
-                # Timed out on an empty queue.
+                logs.debug("Worker %s timed out on an empty queue." %
+                           worker_id)
                 continue
             except Exception:
                 # The main loop doesn't catch and report exceptions from
