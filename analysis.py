@@ -20,11 +20,11 @@ MID_TO_TICKER_QUERY = (
     ' WHERE {'
     '  ?entity wdt:P646 "%s" .'  # Entity with specified Freebase ID.
     '  ?entity wdt:P176* ?manufacturer .'  # Entity may be product.
-    '  ?manufacturer wdt:P156* ?company .'  # Company may have restructured.
-    '  { ?company p:P414 ?exchange } UNION'  # Company traded on exchange or...
-    '  { ?company wdt:P127+ / wdt:P156* ?root .'  # ... company has owner.
+    '  ?manufacturer wdt:P1366* ?company .'  # Company may have restructured.
+    '  { ?company p:P414 ?exchange } UNION'  # Company traded on exchange ...
+    '  { ?company wdt:P127+ / wdt:P1366* ?root .'  # ... or company has owner.
     '    ?root p:P414 ?exchange } UNION'  # Owner traded on exchange or ...
-    '  { ?company wdt:P749+ / wdt:P156* ?root .'  # ... company has parent.
+    '  { ?company wdt:P749+ / wdt:P1366* ?root .'  # ... company has parent.
     '    ?root p:P414 ?exchange } .'  # Parent traded on exchange.
     '  VALUES ?exchanges { wd:Q13677 wd:Q82059 } .'  # Whitelist NYSE, NASDAQ.
     '  ?exchange ps:P414 ?exchanges .'  # Stock exchange is whitelisted.

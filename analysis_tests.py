@@ -45,14 +45,6 @@ def make_entity(name, type, metadata, salience, mentions):
 def test_get_company_data_1(analysis):
     assert analysis.get_company_data("/m/035nm") == [{
         "exchange": "New York Stock Exchange",
-        "name": "Detroit Diesel",
-        "root": "BlackRock",
-        "ticker": "BLK"}, {
-        "exchange": "New York Stock Exchange",
-        "name": "Detroit Diesel",
-        "root": "PNC Financial Services",
-        "ticker": "PNC"}, {
-        "exchange": "New York Stock Exchange",
         "name": "General Motors",
         "ticker": "GM"}]
 
@@ -436,16 +428,6 @@ def test_find_companies_2(analysis):
 def test_find_companies_3(analysis):
     assert analysis.find_companies(get_tweet("816260343391514624")) == [{
         "exchange": "New York Stock Exchange",
-        "name": "Detroit Diesel",
-        "root": "BlackRock",
-        "sentiment": 0.0,  # -0.1
-        "ticker": "BLK"}, {
-        "exchange": "New York Stock Exchange",
-        "name": "Detroit Diesel",
-        "root": "PNC Financial Services",
-        "sentiment": 0.0,  # -0.1
-        "ticker": "PNC"}, {
-        "exchange": "New York Stock Exchange",
         "name": "General Motors",
         "sentiment": 0.0,  # -0.1
         "ticker": "GM"}]
@@ -486,10 +468,10 @@ def test_find_companies_6(analysis):
 
 def test_find_companies_8(analysis):
     assert analysis.find_companies(get_tweet("818461467766824961")) == [{
-        # "exchange": "New York Stock Exchange",
-        # "name": "Ford",
-        # "sentiment": 0.0,  # 0.1
-        # "ticker": "F"},
+        "exchange": "New York Stock Exchange",
+        "name": "Ford",
+        "sentiment": 0.0,  # 0.1
+        "ticker": "F"}, {
         "exchange": "New York Stock Exchange",
         "name": "Fiat",
         "root": "Fiat Chrysler Automobiles",
@@ -499,16 +481,6 @@ def test_find_companies_8(analysis):
 
 def test_find_companies_9(analysis):
     assert analysis.find_companies(get_tweet("821415698278875137")) == [{
-        "exchange": "New York Stock Exchange",
-        "name": "Detroit Diesel",
-        "root": "BlackRock",
-        "sentiment": 0.20000000298023224,
-        "ticker": "BLK"}, {
-        "exchange": "New York Stock Exchange",
-        "name": "Detroit Diesel",
-        "root": "PNC Financial Services",
-        "sentiment": 0.20000000298023224,
-        "ticker": "PNC"}, {
         "exchange": "New York Stock Exchange",
         "name": "General Motors",
         "sentiment": 0.20000000298023224,
@@ -528,18 +500,8 @@ def test_find_companies_10(analysis):
     assert analysis.find_companies(get_tweet("821697182235496450")) == [{
         "exchange": "New York Stock Exchange",
         "name": "Ford",
-        "sentiment": -0.800000011920929,  # 0,
+        "sentiment": -0.800000011920929,  # 0
         "ticker": "F"}, {
-        "exchange": "New York Stock Exchange",
-        "name": "Detroit Diesel",
-        "root": "BlackRock",
-        "sentiment": -0.800000011920929,  # 0,
-        "ticker": "BLK"}, {
-        "exchange": "New York Stock Exchange",
-        "name": "Detroit Diesel",
-        "root": "PNC Financial Services",
-        "sentiment": -0.800000011920929,  # 0,
-        "ticker": "PNC"}, {
         "exchange": "New York Stock Exchange",
         "name": "General Motors",
         "sentiment": -0.800000011920929,  # 0,
@@ -608,16 +570,6 @@ def test_find_companies_16(analysis):
         "sentiment": 0.4000000059604645,
         "ticker": "F"}, {
         "exchange": "New York Stock Exchange",
-        "name": "Detroit Diesel",
-        "root": "BlackRock",
-        "sentiment":  0.4000000059604645,
-        "ticker": "BLK"}, {
-        "exchange": "New York Stock Exchange",
-        "name": "Detroit Diesel",
-        "root": "PNC Financial Services",
-        "sentiment":  0.4000000059604645,
-        "ticker": "PNC"}, {
-        "exchange": "New York Stock Exchange",
         "name": "General Motors",
         "sentiment": 0.4000000059604645,
         "ticker": "GM"}]
@@ -679,6 +631,14 @@ def test_find_companies_23(analysis):
 #         "root": "Berkshire Hathaway",
 #         "sentiment": 0.6,
 #         "ticker": "BRK.B"}]
+
+
+def test_find_companies_25(analysis):
+    assert analysis.find_companies(get_tweet("1067494680416407552")) == [{
+        "exchange": "New York Stock Exchange",
+        "name": "General Motors",
+        "sentiment": -0.10000000149011612,
+        "ticker": "GM"}]
 
 
 def test_find_companies_none(analysis):
