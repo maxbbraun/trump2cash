@@ -1,8 +1,7 @@
-# -*- coding: utf-8 -*-
-
 from datetime import datetime
 from datetime import timedelta
 from holidays import UnitedStates
+from json import loads
 from lxml.etree import Element
 from lxml.etree import SubElement
 from lxml.etree import tostring
@@ -13,7 +12,6 @@ from os import getenv
 from os import path
 from pytz import timezone
 from pytz import utc
-from simplejson import loads
 from threading import Timer
 
 from logs import Logs
@@ -363,9 +361,11 @@ class Trading:
                       secret=TRADEKING_ACCESS_TOKEN_SECRET)
         client = Client(consumer, token)
 
+        body_bytes = body.encode("utf-8")
         self.logs.debug("TradeKing request: %s %s %s %s" %
-                        (url, method, body, headers))
-        response, content = client.request(url, method=method, body=body,
+                        (url, method, body_bytes, headers))
+        response, content = client.request(url, method=method,
+                                           body=body_bytes,
                                            headers=headers)
         self.logs.debug("TradeKing response: %s %s" % (response, content))
 
@@ -374,6 +374,11 @@ class Trading:
         except ValueError:
             self.logs.error("Failed to decode JSON response: %s" % content)
             return None
+
+    def xml_tostring(self, xml):
+        """Generates a string representation of the XML."""
+
+        return tostring(xml, encoding="utf-8").decode("utf-8")
 
     def fixml_buy_now(self, ticker, quantity, limit):
         """Generates the FIXML for a buy order."""
@@ -392,7 +397,7 @@ class Trading:
         ord_qty = SubElement(order, "OrdQty")
         ord_qty.set("Qty", str(quantity))
 
-        return tostring(fixml)
+        return self.xml_tostring(fixml)
 
     def fixml_sell_eod(self, ticker, quantity, limit):
         """Generates the FIXML for a sell order."""
@@ -411,7 +416,7 @@ class Trading:
         ord_qty = SubElement(order, "OrdQty")
         ord_qty.set("Qty", str(quantity))
 
-        return tostring(fixml)
+        return self.xml_tostring(fixml)
 
     def fixml_short_now(self, ticker, quantity, limit):
         """Generates the FIXML for a sell short order."""
@@ -430,7 +435,7 @@ class Trading:
         ord_qty = SubElement(order, "OrdQty")
         ord_qty.set("Qty", str(quantity))
 
-        return tostring(fixml)
+        return self.xml_tostring(fixml)
 
     def fixml_cover_eod(self, ticker, quantity, limit):
         """Generates the FIXML for a sell to cover order."""
@@ -450,7 +455,7 @@ class Trading:
         ord_qty = SubElement(order, "OrdQty")
         ord_qty.set("Qty", str(quantity))
 
-        return tostring(fixml)
+        return self.xml_tostring(fixml)
 
     def get_buy_limit(self, price):
         """Calculates the limit price for a buy (or cover) order."""

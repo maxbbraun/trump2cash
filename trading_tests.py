@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from datetime import datetime
 from pytest import fixture
 from pytz import utc
@@ -229,7 +227,7 @@ def test_get_sell_limit(trading):
 
 
 def test_get_balance(trading):
-    assert trading.get_balance() > 0.0
+    assert trading.get_balance() >= 0.0
 
 
 def test_get_last_price(trading):
@@ -250,7 +248,9 @@ def test_get_order_url(trading):
 
 
 def test_get_quantity(trading):
-    assert trading.get_quantity("F", 10000.0) > 0
+    quantity, price = trading.get_quantity("F", 10000.0)
+    assert quantity > 0
+    assert price > 0
 
 
 def test_get_historical_prices(trading):
@@ -388,7 +388,7 @@ def test_make_order_request_success(trading):
 
 def test_make_order_request_fail(trading):
     assert not USE_REAL_MONEY
-    assert not trading.make_order_request("<FIXML\>")
+    assert not trading.make_order_request("<FIXML\\>")
 
 
 def test_bull(trading):

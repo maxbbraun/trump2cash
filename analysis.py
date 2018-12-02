@@ -1,10 +1,8 @@
-# -*- coding: utf-8 -*-
-
 from google.cloud import language
 from re import compile
 from re import IGNORECASE
 from requests import get
-from urllib import quote_plus
+from urllib.parse import quote_plus
 
 from logs import Logs
 from twitter import Twitter
@@ -239,7 +237,7 @@ class Analysis:
         """Converts one entity to a readable string."""
 
         metadata = ", ".join(['"%s": "%s"' % (key, value) for
-                              key, value in entity.metadata.iteritems()])
+                              key, value in entity.metadata.items()])
 
         mentions = ", ".join(['"%s"' % mention for mention in entity.mentions])
 

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from backoff import expo
 from backoff import on_exception
 from google.cloud import error_reporting

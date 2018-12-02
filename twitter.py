@@ -1,9 +1,7 @@
-# -*- coding: utf-8 -*-
-
+from json import loads
 from os import getenv
-from simplejson import loads
-from Queue import Empty
-from Queue import Queue
+from queue import Empty
+from queue import Queue
 from threading import Event
 from threading import Thread
 from time import time
@@ -32,9 +30,9 @@ TRUMP_USER_ID = "25073877"
 TWEET_URL = "https://twitter.com/%s/status/%s"
 
 # Some emoji.
-EMOJI_THUMBS_UP = u"\U0001f44d"
-EMOJI_THUMBS_DOWN = u"\U0001f44e"
-EMOJI_SHRUG = u"¯\_(\u30c4)_/¯"
+EMOJI_THUMBS_UP = "\U0001f44d"
+EMOJI_THUMBS_DOWN = "\U0001f44e"
+EMOJI_SHRUG = "¯\\_(\u30c4)_/¯"
 
 # The maximum number of characters in a tweet.
 MAX_TWEET_SIZE = 140
@@ -147,7 +145,7 @@ class Twitter:
         if size > MAX_TWEET_SIZE:
             self.logs.warn("Ellipsizing lines: %s" % lines_str)
             lines_size = MAX_TWEET_SIZE - len(link) - 2
-            lines_str = u"%s\u2026" % lines_str[:lines_size]
+            lines_str = "%s\u2026" % lines_str[:lines_size]
 
         # Combine the lines with the link.
         text = "%s\n%s" % (lines_str, link)

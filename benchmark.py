@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from datetime import datetime
 from tqdm import tqdm
 
@@ -162,56 +160,56 @@ if __name__ == "__main__":
     events = sorted(events, key=lambda event: event["timestamp"])
 
     # Print out the formatted benchmark results as markdown.
-    print "## Benchmark Report"
-    print
-    print ("This breakdown of the analysis results and market performance vali"
-           "dates the current implementation against historical data.")
-    print
-    print ("Use this command to regenerate the benchmark report after changes "
-           "to the algorithm or data:")
-    print "```shell"
-    print "$ ./benchmark.py > benchmark.md"
-    print "```"
+    print("## Benchmark Report")
+    print()
+    print("This breakdown of the analysis results and market performance vali"
+          "dates the current implementation against historical data.")
+    print()
+    print("Use this command to regenerate the benchmark report after changes "
+          "to the algorithm or data:")
+    print("```shell")
+    print("$ ./benchmark.py > benchmark.md")
+    print("```")
 
-    print
-    print "### Events overview"
-    print
-    print ("Here's each tweet with the results of its analysis and individual "
-           "market performance.")
+    print()
+    print("### Events overview")
+    print()
+    print("Here's each tweet with the results of its analysis and individual "
+          "market performance.")
 
     for event in events:
         strategies = event["strategies"]
 
         if strategies:
             timestamp = format_timestamp(event["timestamp"], weekday=True)
-            print
-            print "##### [%s](%s)" % (timestamp, event["link"])
-            print
+            print()
+            print("##### [%s](%s)" % (timestamp, event["link"]))
+            print()
             lines = ["> %s" % line for line in event["text"].split("\n")]
-            print "\n\n".join(lines)
-            print
-            print "*Strategy*"
-            print
-            print "Company | Root | Sentiment | Strategy | Reason"
-            print "--------|------|-----------|----------|-------"
+            print("\n\n".join(lines))
+            print()
+            print("*Strategy*")
+            print()
+            print("Company | Root | Sentiment | Strategy | Reason")
+            print("--------|------|-----------|----------|-------")
 
             for strategy in strategies:
                 root = "-" if "root" not in strategy else strategy["root"]
                 sentiment = strategy["sentiment"]
                 sentiment_emoji = get_sentiment_emoji(sentiment)
-                print "%s | %s | %s %s | %s | %s" % (
+                print("%s | %s | %s %s | %s | %s" % (
                     strategy["name"],
                     root,
                     sentiment,
                     sentiment_emoji,
                     strategy["action"],
-                    strategy["reason"])
+                    strategy["reason"]))
 
-            print
-            print "*Performance*"
-            print
-            print "Ticker | Exchange | Price @ tweet | Price @ close | Gain"
-            print "-------|----------|---------------|---------------|-----"
+            print()
+            print("*Performance*")
+            print()
+            print("Ticker | Exchange | Price @ tweet | Price @ close | Gain")
+            print("-------|----------|---------------|---------------|-----")
 
             for strategy in strategies:
                 price_at = strategy["price_at"]
@@ -224,26 +222,26 @@ if __name__ == "__main__":
                     price_eod_str = "-"
                 ratio = get_ratio(strategy)
                 gain = format_ratio(ratio)
-                print "%s | %s | %s | %s | %s" % (
+                print("%s | %s | %s | %s | %s" % (
                     strategy["ticker"],
                     strategy["exchange"],
                     price_at_str,
                     price_eod_str,
-                    gain)
+                    gain))
 
-    print
-    print "### Fund simulation"
-    print
-    print (u"This is how an initial investment of %s would have grown, includi"
-           u"ng fees of 2 \u00d7 %s per pair of orders. Bold means that the da"
-           u"ta was used to trade.") % (
-               format_dollar(FUND_DOLLARS), format_dollar(TRADE_FEE))
-    print
-    print "Time | Trade | Gain | Value | Return | Annualized"
-    print "-----|-------|------|-------|--------|-----------"
+    print()
+    print("### Fund simulation")
+    print()
+    print(("This is how an initial investment of %s would have grown, includin"
+           "g fees of 2 \u00d7 %s per pair of orders. Bold means that the data"
+           " was used to trade.") % (
+               format_dollar(FUND_DOLLARS), format_dollar(TRADE_FEE)))
+    print()
+    print("Time | Trade | Gain | Value | Return | Annualized")
+    print("-----|-------|------|-------|--------|-----------")
     start_date = events[0]["timestamp"]
     value = FUND_DOLLARS
-    print "*Initial* | - | - | *%s* | - | -" % format_dollar(value)
+    print("*Initial* | - | - | *%s* | - | -" % format_dollar(value))
 
     previous_trade_date = None
     for event in events:
@@ -298,7 +296,7 @@ if __name__ == "__main__":
                 annualized_return = "-"
 
             date_str = format_timestamp(date)
-            trade_str = u"%s %s" % (
+            trade_str = "%s %s" % (
                 strategy["ticker"],
                 get_sentiment_emoji(strategy["sentiment"]))
             ratio = get_ratio(strategy)
@@ -308,13 +306,13 @@ if __name__ == "__main__":
                 date_str = "**%s**" % date_str
                 trade_str = "**%s**" % trade_str
 
-            print "%s | %s | %s | %s | %s | %s" % (
+            print("%s | %s | %s | %s | %s | %s" % (
                 date_str,
                 trade_str,
                 gain,
                 format_dollar(value),
                 total_return,
-                annualized_return)
+                annualized_return))
 
         if trade:
             previous_trade_date = date

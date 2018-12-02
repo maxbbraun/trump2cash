@@ -1,14 +1,12 @@
-# -*- coding: utf-8 -*-
-
 from datetime import datetime
+from http.server import BaseHTTPRequestHandler
+from http.server import HTTPServer
+from threading import Event
+from threading import Thread
 from time import sleep
 
 from analysis import Analysis
-from BaseHTTPServer import BaseHTTPRequestHandler
-from BaseHTTPServer import HTTPServer
 from logs import Logs
-from threading import Event
-from threading import Thread
 from trading import Trading
 from twitter import Twitter
 

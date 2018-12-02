@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from ast import literal_eval
 from google.cloud import language
 from os import getenv
@@ -140,7 +138,7 @@ def test_get_company_data_7(analysis):
 def test_get_company_data_8(analysis):
     assert analysis.get_company_data("/m/02zs4") == [{
         "exchange": "New York Stock Exchange",
-        "name": "Ford",
+        "name": "Ford Motor Company",
         "ticker": "F"}]
 
 
@@ -245,7 +243,7 @@ def test_entity_tostring_1(analysis):
         salience=0.33838183,
         mentions=["General Motors"])) == (
             '{name: "General Motors",'
-            ' type: "3",'
+            ' type: "Type.ORGANIZATION",'
             ' metadata: {"mid": "/m/035nm",'
             ' "wikipedia_url": "http://en.wikipedia.org/wiki/General_Motors"},'
             ' salience: 0.33838183,'
@@ -260,7 +258,7 @@ def test_entity_tostring_2(analysis):
         salience=0.31634554,
         mentions=["jobs"])) == (
         '{name: "jobs",'
-        ' type: "7",'
+        ' type: "Type.OTHER",'
         ' metadata: {},'
         ' salience: 0.31634554,'
         ' mentions: ["jobs"]}')
@@ -281,13 +279,13 @@ def test_entities_tostring(analysis):
         salience=0.31634554,
         mentions=["jobs"])]) == (
         '[{name: "General Motors",'
-        ' type: "3",'
+        ' type: "Type.ORGANIZATION",'
         ' metadata: {"mid": "/m/035nm",'
         ' "wikipedia_url": "http://en.wikipedia.org/wiki/General_Motors"},'
         ' salience: 0.33838183,'
         ' mentions: ["General Motors"]}, '
         '{name: "jobs",'
-        ' type: "7",'
+        ' type: "Type.OTHER",'
         ' metadata: {},'
         ' salience: 0.31634554,'
         ' mentions: ["jobs"]}]')
@@ -444,7 +442,7 @@ def test_find_companies_3(analysis):
 def test_find_companies_5(analysis):
     assert analysis.find_companies(get_tweet("816635078067490816")) == [{
         "exchange": "New York Stock Exchange",
-        "name": "Ford",
+        "name": "Ford Motor Company",
         "sentiment": 0.20000000298023224,
         "ticker": "F"}]
 
@@ -470,6 +468,7 @@ def test_find_companies_8(analysis):
     assert analysis.find_companies(get_tweet("818461467766824961")) == [{
         "exchange": "New York Stock Exchange",
         "name": "Ford",
+        "root": "Ford Motor Company",
         "sentiment": 0.0,  # 0.1
         "ticker": "F"}, {
         "exchange": "New York Stock Exchange",
@@ -499,7 +498,7 @@ def test_find_companies_9(analysis):
 def test_find_companies_10(analysis):
     assert analysis.find_companies(get_tweet("821697182235496450")) == [{
         "exchange": "New York Stock Exchange",
-        "name": "Ford",
+        "name": "Ford Motor Company",
         "sentiment": -0.800000011920929,  # 0
         "ticker": "F"}, {
         "exchange": "New York Stock Exchange",
@@ -566,7 +565,7 @@ def test_find_companies_15(analysis):
 def test_find_companies_16(analysis):
     assert analysis.find_companies(get_tweet("824055927200423936")) == [{
         "exchange": "New York Stock Exchange",
-        "name": "Ford",
+        "name": "Ford Motor Company",
         "sentiment": 0.4000000059604645,
         "ticker": "F"}, {
         "exchange": "New York Stock Exchange",
@@ -647,9 +646,9 @@ def test_find_companies_none(analysis):
 
 def test_get_expanded_text_1(analysis):
     assert analysis.get_expanded_text(get_tweet("829410107406614534")) == (
-        u"Thank you Brian Krzanich, CEO of Intel. A great investment ($7 BILLI"
-        u"ON) in American INNOVATION and JOBS! #AmericaFirst\U0001f1fa"
-        u"\U0001f1f8 https://t.co/76lAiSSQ1l")
+        "Thank you Brian Krzanich, CEO of Intel. A great investment ($7 BILLIO"
+        "N) in American INNOVATION and JOBS! #AmericaFirst\U0001f1fa\U0001f1f8"
+        " https://t.co/76lAiSSQ1l")
 
 
 def test_get_expanded_text_2(analysis):
@@ -680,16 +679,16 @@ def test_get_expanded_text_5(analysis):
 
 
 STREAMING_TWEET_LONG = literal_eval(
-    u'{"contributors": None, "truncated": True, "text": "Today, I was thrilled'
-    ' to announce a commitment of $25 BILLION &amp; 20K AMERICAN JOBS over the'
-    ' next 4 years. THANK YOU\u2026 https://t.co/nWJ1hNmzoR", "is_quote_status'
-    '": False, "in_reply_to_status_id": None, "id": 845334323045765121, "favor'
-    'ite_count": 0, "source": "<a href=\\"http://twitter.com/download/iphone\\'
-    '" rel=\\"nofollow\\">Twitter for iPhone</a>", "retweeted": False, "coordi'
-    'nates": None, "timestamp_ms": "1490378382823", "entities": {"user_mention'
-    's": [], "symbols": [], "hashtags": [], "urls": [{"url": "https://t.co/nWJ'
-    '1hNmzoR", "indices": [120, 143], "expanded_url": "https://twitter.com/i/w'
-    'eb/status/845334323045765121", "display_url": "twitter.com/i/web/status/8'
+    '{"contributors": None, "truncated": True, "text": "Today, I was thrilled '
+    'to announce a commitment of $25 BILLION &amp; 20K AMERICAN JOBS over the '
+    'next 4 years. THANK YOU\u2026 https://t.co/nWJ1hNmzoR", "is_quote_status"'
+    ': False, "in_reply_to_status_id": None, "id": 845334323045765121, "favori'
+    'te_count": 0, "source": "<a href=\\"http://twitter.com/download/iphone\\"'
+    ' rel=\\"nofollow\\">Twitter for iPhone</a>", "retweeted": False, "coordin'
+    'ates": None, "timestamp_ms": "1490378382823", "entities": {"user_mentions'
+    '": [], "symbols": [], "hashtags": [], "urls": [{"url": "https://t.co/nWJ1'
+    'hNmzoR", "indices": [120, 143], "expanded_url": "https://twitter.com/i/we'
+    'b/status/845334323045765121", "display_url": "twitter.com/i/web/status/8'
     '\u2026"}]}, "in_reply_to_screen_name": None, "id_str": "84533432304576512'
     '1", "display_text_range": [0, 140], "retweet_count": 0, "in_reply_to_user'
     '_id": None, "favorited": False, "user": {"follow_request_sent": None, "pr'
@@ -710,55 +709,55 @@ STREAMING_TWEET_LONG = literal_eval(
     '.twimg.com/profile_background_images/530021613/trump_scotland__43_of_70_c'
     'c.jpg", "name": "Donald J. Trump", "lang": "en", "profile_background_tile'
     '": True, "favourites_count": 46, "screen_name": "realDonaldTrump", "notif'
-    'ications": None, "url": None, "created_at": "Wed Mar 18 13:46:38 +0000 20'
-    '09", "contributors_enabled": False, "time_zone": "Eastern Time (US & Cana'
-    'da)", "protected": False, "default_profile": False, "is_translator": Fals'
-    'e}, "geo": None, "in_reply_to_user_id_str": None, "possibly_sensitive": F'
-    'alse, "lang": "en", "extended_tweet": {"display_text_range": [0, 142], "e'
-    'ntities": {"user_mentions": [], "symbols": [], "hashtags": [], "urls": []'
-    ', "media": [{"expanded_url": "https://twitter.com/realDonaldTrump/status/'
-    '845334323045765121/video/1", "display_url": "pic.twitter.com/PLxUmXVl0h",'
-    ' "url": "https://t.co/PLxUmXVl0h", "media_url_https": "https://pbs.twimg.'
-    'com/ext_tw_video_thumb/845330366156210176/pu/img/NdRWqCDX-r734Vpd.jpg", "'
-    'video_info": {"aspect_ratio": [16, 9], "duration_millis": 121367, "varian'
-    'ts": [{"url": "https://video.twimg.com/ext_tw_video/845330366156210176/pu'
-    '/vid/640x360/eu6vsoGqW43Cc64C.mp4", "bitrate": 832000, "content_type": "v'
-    'ideo/mp4"}, {"url": "https://video.twimg.com/ext_tw_video/845330366156210'
-    '176/pu/vid/320x180/QPwu682wzK5C4e0V.mp4", "bitrate": 320000, "content_typ'
-    'e": "video/mp4"}, {"url": "https://video.twimg.com/ext_tw_video/845330366'
-    '156210176/pu/pl/flkqzlPIkchbfIGZ.m3u8", "content_type": "application/x-mp'
-    'egURL"}, {"url": "https://video.twimg.com/ext_tw_video/845330366156210176'
-    '/pu/vid/1280x720/6l5bIhFXEih9is4L.mp4", "bitrate": 2176000, "content_type'
-    '": "video/mp4"}]}, "id_str": "845330366156210176", "sizes": {"small": {"h'
-    '": 191, "resize": "fit", "w": 340}, "large": {"h": 576, "resize": "fit", '
-    '"w": 1024}, "medium": {"h": 338, "resize": "fit", "w": 600}, "thumb": {"h'
-    '": 150, "resize": "crop", "w": 150}}, "indices": [143, 166], "type": "vid'
-    'eo", "id": 845330366156210176, "media_url": "http://pbs.twimg.com/ext_tw_'
-    'video_thumb/845330366156210176/pu/img/NdRWqCDX-r734Vpd.jpg"}]}, "extended'
-    '_entities": {"media": [{"expanded_url": "https://twitter.com/realDonaldTr'
-    'ump/status/845334323045765121/video/1", "display_url": "pic.twitter.com/P'
-    'LxUmXVl0h", "url": "https://t.co/PLxUmXVl0h", "media_url_https": "https:/'
-    '/pbs.twimg.com/ext_tw_video_thumb/845330366156210176/pu/img/NdRWqCDX-r734'
-    'Vpd.jpg", "video_info": {"aspect_ratio": [16, 9], "duration_millis": 1213'
-    '67, "variants": [{"url": "https://video.twimg.com/ext_tw_video/8453303661'
-    '56210176/pu/vid/640x360/eu6vsoGqW43Cc64C.mp4", "bitrate": 832000, "conten'
-    't_type": "video/mp4"}, {"url": "https://video.twimg.com/ext_tw_video/8453'
-    '30366156210176/pu/vid/320x180/QPwu682wzK5C4e0V.mp4", "bitrate": 320000, "'
-    'content_type": "video/mp4"}, {"url": "https://video.twimg.com/ext_tw_vide'
-    'o/845330366156210176/pu/pl/flkqzlPIkchbfIGZ.m3u8", "content_type": "appli'
-    'cation/x-mpegURL"}, {"url": "https://video.twimg.com/ext_tw_video/8453303'
-    '66156210176/pu/vid/1280x720/6l5bIhFXEih9is4L.mp4", "bitrate": 2176000, "c'
-    'ontent_type": "video/mp4"}]}, "id_str": "845330366156210176", "sizes": {"'
-    'small": {"h": 191, "resize": "fit", "w": 340}, "large": {"h": 576, "resiz'
-    'e": "fit", "w": 1024}, "medium": {"h": 338, "resize": "fit", "w": 600}, "'
-    'thumb": {"h": 150, "resize": "crop", "w": 150}}, "indices": [143, 166], "'
-    'type": "video", "id": 845330366156210176, "media_url": "http://pbs.twimg.'
-    'com/ext_tw_video_thumb/845330366156210176/pu/img/NdRWqCDX-r734Vpd.jpg"}]}'
-    ', "full_text": "Today, I was thrilled to announce a commitment of $25 BIL'
-    'LION &amp; 20K AMERICAN JOBS over the next 4 years. THANK YOU Charter Com'
-    'munications! https://t.co/PLxUmXVl0h"}, "created_at": "Fri Mar 24 17:59:4'
-    '2 +0000 2017", "filter_level": "low", "in_reply_to_status_id_str": None, '
-    '"place": None}')
+    'cations": None, "url": None, "created_at": "Wed Mar 18 13:46:38 +0000 200'
+    '9", "contributors_enabled": False, "time_zone": "Eastern Time (US & Canad'
+    'a)", "protected": False, "default_profile": False, "is_translator": False'
+    '}, "geo": None, "in_reply_to_user_id_str": None, "possibly_sensitive": Fa'
+    'lse, "lang": "en", "extended_tweet": {"display_text_range": [0, 142], "en'
+    'tities": {"user_mentions": [], "symbols": [], "hashtags": [], "urls": [],'
+    ' "media": [{"expanded_url": "https://twitter.com/realDonaldTrump/status/8'
+    '45334323045765121/video/1", "display_url": "pic.twitter.com/PLxUmXVl0h", '
+    '"url": "https://t.co/PLxUmXVl0h", "media_url_https": "https://pbs.twimg.c'
+    'om/ext_tw_video_thumb/845330366156210176/pu/img/NdRWqCDX-r734Vpd.jpg", "v'
+    'ideo_info": {"aspect_ratio": [16, 9], "duration_millis": 121367, "variant'
+    's": [{"url": "https://video.twimg.com/ext_tw_video/845330366156210176/pu/'
+    'vid/640x360/eu6vsoGqW43Cc64C.mp4", "bitrate": 832000, "content_type": "vi'
+    'deo/mp4"}, {"url": "https://video.twimg.com/ext_tw_video/8453303661562101'
+    '76/pu/vid/320x180/QPwu682wzK5C4e0V.mp4", "bitrate": 320000, "content_type'
+    '": "video/mp4"}, {"url": "https://video.twimg.com/ext_tw_video/8453303661'
+    '56210176/pu/pl/flkqzlPIkchbfIGZ.m3u8", "content_type": "application/x-mpe'
+    'gURL"}, {"url": "https://video.twimg.com/ext_tw_video/845330366156210176/'
+    'pu/vid/1280x720/6l5bIhFXEih9is4L.mp4", "bitrate": 2176000, "content_type"'
+    ': "video/mp4"}]}, "id_str": "845330366156210176", "sizes": {"small": {"h"'
+    ': 191, "resize": "fit", "w": 340}, "large": {"h": 576, "resize": "fit", "'
+    'w": 1024}, "medium": {"h": 338, "resize": "fit", "w": 600}, "thumb": {"h"'
+    ': 150, "resize": "crop", "w": 150}}, "indices": [143, 166], "type": "vide'
+    'o", "id": 845330366156210176, "media_url": "http://pbs.twimg.com/ext_tw_v'
+    'ideo_thumb/845330366156210176/pu/img/NdRWqCDX-r734Vpd.jpg"}]}, "extended_'
+    'entities": {"media": [{"expanded_url": "https://twitter.com/realDonaldTru'
+    'mp/status/845334323045765121/video/1", "display_url": "pic.twitter.com/PL'
+    'xUmXVl0h", "url": "https://t.co/PLxUmXVl0h", "media_url_https": "https://'
+    'pbs.twimg.com/ext_tw_video_thumb/845330366156210176/pu/img/NdRWqCDX-r734V'
+    'pd.jpg", "video_info": {"aspect_ratio": [16, 9], "duration_millis": 12136'
+    '7, "variants": [{"url": "https://video.twimg.com/ext_tw_video/84533036615'
+    '6210176/pu/vid/640x360/eu6vsoGqW43Cc64C.mp4", "bitrate": 832000, "content'
+    '_type": "video/mp4"}, {"url": "https://video.twimg.com/ext_tw_video/84533'
+    '0366156210176/pu/vid/320x180/QPwu682wzK5C4e0V.mp4", "bitrate": 320000, "c'
+    'ontent_type": "video/mp4"}, {"url": "https://video.twimg.com/ext_tw_video'
+    '/845330366156210176/pu/pl/flkqzlPIkchbfIGZ.m3u8", "content_type": "applic'
+    'ation/x-mpegURL"}, {"url": "https://video.twimg.com/ext_tw_video/84533036'
+    '6156210176/pu/vid/1280x720/6l5bIhFXEih9is4L.mp4", "bitrate": 2176000, "co'
+    'ntent_type": "video/mp4"}]}, "id_str": "845330366156210176", "sizes": {"s'
+    'mall": {"h": 191, "resize": "fit", "w": 340}, "large": {"h": 576, "resize'
+    '": "fit", "w": 1024}, "medium": {"h": 338, "resize": "fit", "w": 600}, "t'
+    'humb": {"h": 150, "resize": "crop", "w": 150}}, "indices": [143, 166], "t'
+    'ype": "video", "id": 845330366156210176, "media_url": "http://pbs.twimg.c'
+    'om/ext_tw_video_thumb/845330366156210176/pu/img/NdRWqCDX-r734Vpd.jpg"}]},'
+    ' "full_text": "Today, I was thrilled to announce a commitment of $25 BILL'
+    'ION &amp; 20K AMERICAN JOBS over the next 4 years. THANK YOU Charter Comm'
+    'unications! https://t.co/PLxUmXVl0h"}, "created_at": "Fri Mar 24 17:59:42'
+    ' +0000 2017", "filter_level": "low", "in_reply_to_status_id_str": None, "'
+    'place": None}')
 
 
 def test_get_expanded_text_streaming_long(analysis):
@@ -769,39 +768,39 @@ def test_get_expanded_text_streaming_long(analysis):
 
 
 STREAMING_TWEET_SHORT = literal_eval(
-    u'{"contributors": None, "truncated": False, "text": "ObamaCare will explo'
-    'de and we will all get together and piece together a great healthcare pla'
-    'n for THE PEOPLE. Do not worry!", "is_quote_status": False, "in_reply_to_'
-    'status_id": None, "id": 845645916732358656, "favorite_count": 0, "source"'
-    ': "<a href=\\"http://twitter.com/download/android\\" rel=\\"nofollow\\">T'
-    'witter for Android</a>", "retweeted": False, "coordinates": None, "timest'
-    'amp_ms": "1490452672547", "entities": {"user_mentions": [], "symbols": []'
-    ', "hashtags": [], "urls": []}, "in_reply_to_screen_name": None, "id_str":'
-    ' "845645916732358656", "retweet_count": 0, "in_reply_to_user_id": None, "'
-    'favorited": False, "user": {"follow_request_sent": None, "profile_use_bac'
-    'kground_image": True, "default_profile_image": False, "id": 25073877, "ve'
-    'rified": True, "profile_image_url_https": "https://pbs.twimg.com/profile_'
-    'images/1980294624/DJT_Headshot_V2_normal.jpg", "profile_sidebar_fill_colo'
-    'r": "C5CEC0", "profile_text_color": "333333", "followers_count": 27003111'
-    ', "profile_sidebar_border_color": "BDDCAD", "id_str": "25073877", "profil'
-    'e_background_color": "6D5C18", "listed_count": 67477, "profile_background'
-    '_image_url_https": "https://pbs.twimg.com/profile_background_images/53002'
-    '1613/trump_scotland__43_of_70_cc.jpg", "utc_offset": -14400, "statuses_co'
-    'unt": 34649, "description": "45th President of the United States of Ameri'
-    'ca", "friends_count": 43, "location": "Washington, DC", "profile_link_col'
-    'or": "0D5B73", "profile_image_url": "http://pbs.twimg.com/profile_images/'
-    '1980294624/DJT_Headshot_V2_normal.jpg", "following": None, "geo_enabled":'
-    ' True, "profile_banner_url": "https://pbs.twimg.com/profile_banners/25073'
-    '877/1489657715", "profile_background_image_url": "http://pbs.twimg.com/pr'
-    'ofile_background_images/530021613/trump_scotland__43_of_70_cc.jpg", "name'
-    '": "Donald J. Trump", "lang": "en", "profile_background_tile": True, "fav'
-    'ourites_count": 46, "screen_name": "realDonaldTrump", "notifications": No'
-    'ne, "url": None, "created_at": "Wed Mar 18 13:46:38 +0000 2009", "contrib'
-    'utors_enabled": False, "time_zone": "Eastern Time (US & Canada)", "protec'
-    'ted": False, "default_profile": False, "is_translator": False}, "geo": No'
-    'ne, "in_reply_to_user_id_str": None, "lang": "en", "created_at": "Sat Mar'
-    ' 25 14:37:52 +0000 2017", "filter_level": "low", "in_reply_to_status_id_s'
-    'tr": None, "place": None}')
+    '{"contributors": None, "truncated": False, "text": "ObamaCare will explod'
+    'e and we will all get together and piece together a great healthcare plan'
+    ' for THE PEOPLE. Do not worry!", "is_quote_status": False, "in_reply_to_s'
+    'tatus_id": None, "id": 845645916732358656, "favorite_count": 0, "source":'
+    ' "<a href=\\"http://twitter.com/download/android\\" rel=\\"nofollow\\">Tw'
+    'itter for Android</a>", "retweeted": False, "coordinates": None, "timesta'
+    'mp_ms": "1490452672547", "entities": {"user_mentions": [], "symbols": [],'
+    ' "hashtags": [], "urls": []}, "in_reply_to_screen_name": None, "id_str": '
+    '"845645916732358656", "retweet_count": 0, "in_reply_to_user_id": None, "f'
+    'avorited": False, "user": {"follow_request_sent": None, "profile_use_back'
+    'ground_image": True, "default_profile_image": False, "id": 25073877, "ver'
+    'ified": True, "profile_image_url_https": "https://pbs.twimg.com/profile_i'
+    'mages/1980294624/DJT_Headshot_V2_normal.jpg", "profile_sidebar_fill_color'
+    '": "C5CEC0", "profile_text_color": "333333", "followers_count": 27003111,'
+    ' "profile_sidebar_border_color": "BDDCAD", "id_str": "25073877", "profile'
+    '_background_color": "6D5C18", "listed_count": 67477, "profile_background_'
+    'image_url_https": "https://pbs.twimg.com/profile_background_images/530021'
+    '613/trump_scotland__43_of_70_cc.jpg", "utc_offset": -14400, "statuses_cou'
+    'nt": 34649, "description": "45th President of the United States of Americ'
+    'a", "friends_count": 43, "location": "Washington, DC", "profile_link_colo'
+    'r": "0D5B73", "profile_image_url": "http://pbs.twimg.com/profile_images/1'
+    '980294624/DJT_Headshot_V2_normal.jpg", "following": None, "geo_enabled": '
+    'True, "profile_banner_url": "https://pbs.twimg.com/profile_banners/250738'
+    '77/1489657715", "profile_background_image_url": "http://pbs.twimg.com/pro'
+    'file_background_images/530021613/trump_scotland__43_of_70_cc.jpg", "name"'
+    ': "Donald J. Trump", "lang": "en", "profile_background_tile": True, "favo'
+    'urites_count": 46, "screen_name": "realDonaldTrump", "notifications": Non'
+    'e, "url": None, "created_at": "Wed Mar 18 13:46:38 +0000 2009", "contribu'
+    'tors_enabled": False, "time_zone": "Eastern Time (US & Canada)", "protect'
+    'ed": False, "default_profile": False, "is_translator": False}, "geo": Non'
+    'e, "in_reply_to_user_id_str": None, "lang": "en", "created_at": "Sat Mar '
+    '25 14:37:52 +0000 2017", "filter_level": "low", "in_reply_to_status_id_st'
+    'r": None, "place": None}')
 
 
 def test_get_expanded_text_streaming_short(analysis):
