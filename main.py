@@ -31,6 +31,9 @@ MONITOR_HOST = "0.0.0.0"
 # The port for the monitor Web server.
 MONITOR_PORT = 80
 
+# The message returned by the monitor Web server.
+MONITOR_MESSAGE = "OK"
+
 
 class Monitor:
     """A monitor exposing a Web server while the main loop is running."""
@@ -64,7 +67,7 @@ class Monitor:
 
         def do_GET(self):
             self._set_headers()
-            self.wfile.write("OK")
+            self.wfile.write(MONITOR_MESSAGE.encode("utf-8"))
 
         def do_HEAD(self):
             self._set_headers()
