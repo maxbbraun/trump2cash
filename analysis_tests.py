@@ -126,11 +126,11 @@ def test_get_company_data_6(analysis):
 def test_get_company_data_7(analysis):
     assert analysis.get_company_data("/m/01snr1") == [{
         "exchange": "New York Stock Exchange",
-        "name": "Bayer AG",
+        "name": "Bayer",
         "root": "BlackRock",
         "ticker": "BLK"}, {
         "exchange": "New York Stock Exchange",
-        "name": "Bayer AG",
+        "name": "Bayer",
         "root": "PNC Financial Services",
         "ticker": "PNC"}]
 
@@ -223,6 +223,10 @@ def test_get_company_data_19(analysis):
 
 def test_get_company_data_20(analysis):
     assert analysis.get_company_data("/m/0d6lp") is None
+
+
+def test_get_company_data_21(analysis):
+    assert analysis.get_company_data("/m/04mzd6n") is None
 
 
 def test_get_company_data_invalid(analysis):
@@ -514,12 +518,12 @@ def test_find_companies_10(analysis):
 def test_find_companies_11(analysis):
     assert analysis.find_companies(get_tweet("821703902940827648")) == [{
         "exchange": "New York Stock Exchange",
-        "name": "Bayer AG",
+        "name": "Bayer",
         "sentiment": 0.0,  # 0.1
         "root": "BlackRock",
         "ticker": "BLK"}, {
         "exchange": "New York Stock Exchange",
-        "name": "Bayer AG",
+        "name": "Bayer",
         "sentiment": 0.0,  # 0.1
         "root": "PNC Financial Services",
         "exchange": "New York Stock Exchange",

@@ -28,10 +28,18 @@ MID_TO_TICKER_QUERY = (
     '  ?exchange ps:P414 ?exchanges .'  # Stock exchange is whitelisted.
     '  ?exchange pq:P249 ?ticker .'  # Get ticker symbol.
     '  ?exchange ps:P414 ?exchangeName .'  # Get name of exchange.
-    '  FILTER NOT EXISTS { ?company wdt:P31 /'
-    '                               wdt:P279* wd:Q1616075 } .'  # Blacklist TV.
-    '  FILTER NOT EXISTS { ?company wdt:P31 /'
-    '                               wdt:P279* wd:Q11032 } .'  # Blacklist news.
+    '  FILTER NOT EXISTS { ?company wdt:P31 /'  # Exclude newspapers.
+    '                               wdt:P279* wd:Q11032 } .'
+    '  FILTER NOT EXISTS { ?company wdt:P31 /'  # Exclude news agencies.
+    '                               wdt:P279* wd:Q192283 } .'
+    '  FILTER NOT EXISTS { ?company wdt:P31 /'  # Exclude news magazines.
+    '                               wdt:P279* wd:Q1684600 } .'
+    '  FILTER NOT EXISTS { ?company wdt:P31 /'  # Exclude radio stations.
+    '                               wdt:P279* wd:Q14350 } .'
+    '  FILTER NOT EXISTS { ?company wdt:P31 /'  # Exclude TV stations.
+    '                               wdt:P279* wd:Q1616075 } .'
+    '  FILTER NOT EXISTS { ?company wdt:P31 /'  # Exclude TV channels.
+    '                               wdt:P279* wd:Q2001305 } .'
     '  SERVICE wikibase:label {'
     '   bd:serviceParam wikibase:language "en" .'  # Use English labels.
     '  }'
