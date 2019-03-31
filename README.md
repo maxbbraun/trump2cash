@@ -8,9 +8,9 @@ the relevant stocks according to the expected market reaction. It also tweets
 out a summary of its findings in real time at
 [@Trump2Cash](https://twitter.com/Trump2Cash).
 
-*You can read more about the background story [here](http://trump2cash.biz).*
+*You can read more about the background story [here](https://trump2cash.biz).*
 
-[![Trump2Cash](https://cdn-images-1.medium.com/max/1400/1*VbnhlLnZz0KvWO0QsM5Ihw.png)](http://trump2cash.biz)
+[![Trump2Cash](https://cdn-images-1.medium.com/max/1400/1*VbnhlLnZz0KvWO0QsM5Ihw.png)](https://trump2cash.biz)
 
 The code is written in Python and is meant to run on a
 [Google Compute Engine](https://cloud.google.com/compute/) instance. It uses the
@@ -142,7 +142,7 @@ $ pip install -r requirements.txt
 ### 4. Run the tests
 
 Verify that everything is working as intended by running the tests with
-[pytest](http://doc.pytest.org/en/latest/getting-started.html) using this
+[pytest](https://doc.pytest.org/en/latest/getting-started.html) using this
 command:
 
 ```shell
