@@ -14,6 +14,7 @@ from pytz import timezone
 from pytz import utc
 from threading import Timer
 
+from gen_historical import gen_historical
 from logs import Logs
 
 # Read the authentication keys for TradeKing from environment variables.
@@ -249,9 +250,10 @@ class Trading:
         filename = MARKET_DATA_FILE % (ticker, day)
 
         if not path.isfile(filename):
-            self.logs.error("Day quotes not on file for: %s %s" %
-                            (ticker, timestamp))
-            return None
+            self.logs.warn("Generating quotes for: %s %s" %
+                           (ticker, timestamp))
+            gen_historical(ticker, timestamp)
+            return self.get_day_quotes(ticker, timestamp)
 
         quotes_file = open(filename, "r")
         try:
