@@ -179,17 +179,14 @@ class Twitter:
         # Use the raw JSON, just like the streaming API.
         return status._json
 
-    def get_tweets(self, since_id):
-        """Looks up metadata for all Trump tweets since the specified ID."""
+    def get_all_tweets(self):
+        """Looks up metadata for the 3,200 most recent Trump tweets."""
 
         tweets = []
 
-        # Include the first ID by passing along an earlier one.
-        since_id = str(int(since_id) - 1)
-
         # Use tweet_mode=extended so we get the full text.
         for status in Cursor(self.twitter_api.user_timeline,
-                             user_id=TRUMP_USER_ID, since_id=since_id,
+                             user_id=TRUMP_USER_ID,
                              tweet_mode="extended").items():
 
             # Use the raw JSON, just like the streaming API.

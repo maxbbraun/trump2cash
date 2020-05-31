@@ -5,15 +5,11 @@ from analysis import Analysis
 from trading import Trading
 from twitter import Twitter
 
-# TODO: Consider going back further, e.g. 621669173534584833.
-# The first tweet ID to include.
-SINCE_TWEET_ID = "806134244384899072"
-
 # The initial amount in dollars for the fund simulation.
 FUND_DOLLARS = 100000
 
 # The fee in dollars per trade (https://www.tradeking.com/rates).
-TRADE_FEE = 4.95
+TRADE_FEE = 0
 
 
 def format_ratio(ratio):
@@ -116,7 +112,7 @@ if __name__ == "__main__":
     twitter = Twitter(logs_to_cloud=False)
 
     # Look up the metadata for the tweets.
-    tweets = twitter.get_tweets(SINCE_TWEET_ID)
+    tweets = twitter.get_all_tweets()
 
     events = []
     for tweet in tqdm(tweets):
@@ -197,7 +193,7 @@ if __name__ == "__main__":
                 root = "-" if "root" not in strategy else strategy["root"]
                 sentiment = strategy["sentiment"]
                 sentiment_emoji = get_sentiment_emoji(sentiment)
-                print("%s | %s | %s %s | %s | %s" % (
+                print("%s | %s | %.1f %s | %s | %s" % (
                     strategy["name"],
                     root,
                     sentiment,
