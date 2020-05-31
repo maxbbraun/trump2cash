@@ -1,7 +1,10 @@
+from backoff import expo
+from backoff import on_exception
 from google.cloud import language
 from re import compile
 from re import IGNORECASE
 from requests import get
+from requests.exceptions import HTTPError
 from urllib.parse import quote_plus
 
 from logs import Logs
@@ -10,6 +13,10 @@ from twitter import Twitter
 # The URL for a GET request to the Wikidata API. The string parameter is the
 # SPARQL query.
 WIKIDATA_QUERY_URL = "https://query.wikidata.org/sparql?query=%s&format=JSON"
+
+# The HTTP headers with a User-Agent used for Wikidata requests.
+WIKIDATA_QUERY_HEADERS = {
+    "User-Agent": "Trump2Cash/1.0 (https://trump2cash.biz)"}
 
 # A Wikidata SPARQL query to find stock ticker symbols and other information
 # for a company. The string parameter is the Freebase ID of the company.
@@ -60,7 +67,11 @@ class Analysis:
         """
 
         query = MID_TO_TICKER_QUERY % mid
-        bindings = self.make_wikidata_request(query)
+        try:
+            bindings = self.make_wikidata_request(query)
+        except HTTPError as e:
+            self.logs.error("Wikidata request failed: %s" % e)
+            bindings = None
 
         if not bindings:
             self.logs.debug("No company data found for MID: %s" % mid)
@@ -158,7 +169,7 @@ class Analysis:
 
                 # Extract and add a sentiment score.
                 sentiment = self.get_sentiment(text)
-                self.logs.debug("Using sentiment for company: %s %s" %
+                self.logs.debug("Using sentiment for company: %f %s" %
                                 (sentiment, company))
                 company["sentiment"] = sentiment
 
@@ -212,13 +223,16 @@ class Analysis:
 
         return text
 
+    @on_exception(expo, HTTPError, max_tries=8)
     def make_wikidata_request(self, query):
         """Makes a request to the Wikidata SPARQL API."""
 
         query_url = WIKIDATA_QUERY_URL % quote_plus(query)
         self.logs.debug("Wikidata query: %s" % query_url)
 
-        response = get(query_url)
+        response = get(query_url, headers=WIKIDATA_QUERY_HEADERS)
+        response.raise_for_status()
+
         try:
             response_json = response.json()
         except ValueError:
@@ -275,7 +289,7 @@ class Analysis:
             document).document_sentiment
 
         self.logs.debug(
-            "Sentiment score and magnitude for text: %s %s \"%s\"" %
+            "Sentiment score and magnitude for text: %f %f \"%s\"" %
             (sentiment.score, sentiment.magnitude, text))
 
         return sentiment.score
