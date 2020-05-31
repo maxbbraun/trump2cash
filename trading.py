@@ -1,6 +1,7 @@
 from datetime import datetime
 from datetime import timedelta
 from holidays import UnitedStates
+from iexfinance.stocks import get_historical_intraday
 from json import loads
 from lxml.etree import Element
 from lxml.etree import SubElement
@@ -9,7 +10,6 @@ from oauth2 import Consumer
 from oauth2 import Client
 from oauth2 import Token
 from os import getenv
-from os import path
 from pytz import timezone
 from pytz import utc
 from threading import Timer
@@ -51,9 +51,6 @@ TICKER_BLACKLIST = ["GOOG", "GOOGL"]
 
 # We're using NYSE and NASDAQ, which are both in the easters timezone.
 MARKET_TIMEZONE = timezone("US/Eastern")
-
-# The filename pattern for historical market data.
-MARKET_DATA_FILE = "market_data/%s_%s.txt"
 
 
 class Trading:
@@ -244,49 +241,41 @@ class Trading:
     def get_day_quotes(self, ticker, timestamp):
         """Collects all quotes from the day of the market timestamp."""
 
-        # The timestamp is expected in market time.
-        day = timestamp.strftime("%Y%m%d")
-        filename = MARKET_DATA_FILE % (ticker, day)
+        quotes = []
 
-        if not path.isfile(filename):
-            self.logs.error("Day quotes not on file for: %s %s" %
-                            (ticker, timestamp))
+        # The timestamp is expected in market time.
+        response = get_historical_intraday(ticker, timestamp)
+        if not response:
+            self.logs.error(
+                "Failed to request historical data for %s on %s." % (
+                    ticker, timestamp))
             return None
 
-        quotes_file = open(filename, "r")
-        try:
-            lines = quotes_file.readlines()
-            quotes = []
+        for data in response:
+            try:
+                market_time_str = "%s %s" % (data["date"], data["minute"])
 
-            # Skip the header line, then read the quotes.
-            for line in lines[1:]:
-                columns = line.split(",")
-
-                market_time_str = columns[1]
                 try:
                     market_time = MARKET_TIMEZONE.localize(datetime.strptime(
-                        market_time_str, "%Y%m%d%H%M"))
+                        market_time_str, "%Y-%m-%d %H:%M"))
                 except ValueError:
-                    self.logs.error("Failed to decode market time: %s" %
-                                    market_time_str)
-                    return None
+                    self.logs.warn("Failed to decode market time: %s" %
+                                   market_time_str)
+                    continue
 
-                price_str = columns[2]
+                price_str = data["average"]
                 try:
                     price = float(price_str)
-                except ValueError:
-                    self.logs.error("Failed to decode price: %s" % price_str)
-                    return None
+                except (ValueError, TypeError):
+                    self.logs.warn("Failed to decode price: %s" % price_str)
+                    continue
 
                 quote = {"time": market_time, "price": price}
                 quotes.append(quote)
+            except KeyError as e:
+                self.logs.warn("Failed to find data: %s" % e)
 
-            return quotes
-        except IOError as exception:
-            self.logs.error("Failed to read quotes cache file: %s" % exception)
-            return None
-        finally:
-            quotes_file.close()
+        return quotes
 
     def is_trading_day(self, timestamp):
         """Tests whether markets are open on a given day."""
