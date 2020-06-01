@@ -26,6 +26,9 @@ TWITTER_CONSUMER_SECRET = getenv("TWITTER_CONSUMER_SECRET")
 # The user ID of @realDonaldTrump.
 TRUMP_USER_ID = "25073877"
 
+# The user ID of @Trump2Cash.
+TRUMP2CASH_USER_ID = "812529080998432769"
+
 # The URL pattern for links to tweets.
 TWEET_URL = "https://twitter.com/%s/status/%s"
 
@@ -180,17 +183,26 @@ class Twitter:
         return status._json
 
     def get_all_tweets(self):
-        """Looks up metadata for the 3,200 most recent Trump tweets."""
+        """Looks up metadata for the most recent Trump tweets."""
 
         tweets = []
 
-        # Use tweet_mode=extended so we get the full text.
+        # Only the 3,200 most recent tweets are available through the API. Use
+        # the @Trump2Cash account to filter down to the relevant ones.
         for status in Cursor(self.twitter_api.user_timeline,
-                             user_id=TRUMP_USER_ID,
-                             tweet_mode="extended").items():
+                             user_id=TRUMP2CASH_USER_ID,
+                             exclude_replies=True).items():
 
-            # Use the raw JSON, just like the streaming API.
-            tweets.append(status._json)
+            # Extract the quoted @realDonaldTrump tweet, if available.
+            try:
+                quoted_tweet_id = status.quoted_status_id
+            except AttributeError:
+                self.logs.warn('Skipping tweet: %s' % status)
+                continue
+
+            # Get the tweet details and add it to the list.
+            quoted_tweet = self.get_tweet(quoted_tweet_id)
+            tweets.append(quoted_tweet)
 
         self.logs.debug("Got tweets: %s" % tweets)
 

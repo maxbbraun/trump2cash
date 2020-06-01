@@ -263,11 +263,9 @@ class Trading:
                                    market_time_str)
                     continue
 
-                price_str = data["average"]
-                try:
-                    price = float(price_str)
-                except (ValueError, TypeError):
-                    self.logs.warn("Failed to decode price: %s" % price_str)
+                price = data["average"]
+                if not price or price < 0:
+                    self.logs.warn("Invalid price: %s" % price)
                     continue
 
                 quote = {"time": market_time, "price": price}
