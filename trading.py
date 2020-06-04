@@ -1,7 +1,6 @@
 from datetime import datetime
 from datetime import timedelta
 from holidays import UnitedStates
-from iexfinance.stocks import get_historical_intraday
 from json import loads
 from lxml.etree import Element
 from lxml.etree import SubElement
@@ -10,6 +9,7 @@ from oauth2 import Consumer
 from oauth2 import Client
 from oauth2 import Token
 from os import getenv
+from polygon import RESTClient as PolygonClient
 from pytz import timezone
 from pytz import utc
 from threading import Timer
@@ -30,6 +30,9 @@ USE_REAL_MONEY = getenv("USE_REAL_MONEY") == "YES"
 
 # The base URL for API requests to TradeKing.
 TRADEKING_API_URL = "https://api.tradeking.com/v1/%s.json"
+
+# The Polygon API key used for historical market data.
+POLYGON_API_KEY = getenv("POLYGON_API_KEY")
 
 # The XML namespace for FIXML requests.
 FIXML_NAMESPACE = "http://www.fixprotocol.org/FIXML-5-0-SP2"
@@ -216,7 +219,7 @@ class Trading:
             quote_eod = last_quote
         elif timestamp >= first_quote_time and timestamp <= last_quote_time:
             self.logs.debug("Using closest quote.")
-            # Walk through the quotes unitl we stepped over the timestamp.
+            # Walk through the quotes until we stepped over the timestamp.
             previous_quote = first_quote
             for quote in quotes:
                 quote_time = quote["time"]
@@ -241,37 +244,36 @@ class Trading:
     def get_day_quotes(self, ticker, timestamp):
         """Collects all quotes from the day of the market timestamp."""
 
+        polygon_client = PolygonClient(POLYGON_API_KEY)
         quotes = []
 
         # The timestamp is expected in market time.
-        response = get_historical_intraday(ticker, timestamp)
-        if not response:
+        day_str = timestamp.strftime("%Y-%m-%d")
+        response = polygon_client.stocks_equities_aggregates(
+            ticker, 1, "minute", day_str, day_str)
+        if not response or response.status != "OK" or not response.results:
             self.logs.error(
-                "Failed to request historical data for %s on %s." % (
-                    ticker, timestamp))
+                "Failed to request historical data for %s on %s: %s" % (
+                    ticker, timestamp, response))
             return None
 
-        for data in response:
+        for result in response.results:
             try:
-                market_time_str = "%s %s" % (data["date"], data["minute"])
+                # Parse and convert the current minute's timestamp.
+                minute_timestamp = result["t"] / 1000
+                minute_market_time = self.utc_to_market_time(
+                    datetime.fromtimestamp(minute_timestamp))
 
-                try:
-                    market_time = MARKET_TIMEZONE.localize(datetime.strptime(
-                        market_time_str, "%Y-%m-%d %H:%M"))
-                except ValueError:
-                    self.logs.warn("Failed to decode market time: %s" %
-                                   market_time_str)
-                    continue
-
-                price = data["average"]
+                # Use the price at the beginning of the minute.
+                price = result["o"]
                 if not price or price < 0:
                     self.logs.warn("Invalid price: %s" % price)
                     continue
 
-                quote = {"time": market_time, "price": price}
+                quote = {"time": minute_market_time, "price": price}
                 quotes.append(quote)
-            except KeyError as e:
-                self.logs.warn("Failed to find data: %s" % e)
+            except (KeyError, TypeError, ValueError) as e:
+                self.logs.warn("Failed to parse result: %s" % e)
 
         return quotes
 

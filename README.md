@@ -153,10 +153,10 @@ $ export USE_REAL_MONEY=NO && pytest *.py -vv
 
 The [benchmark report](benchmark.md) shows how the current implementation of the
 analysis and trading algorithms would have performed against historical data.
-You can run it again to benchmark any changes you may have made. You'll need an [IEX Cloud](https://iexcloud.io) account:
+You can run it again to benchmark any changes you may have made. You'll need a [Polygon](https://polygon.io) account:
 
 ```shell
-$ export IEX_TOKEN="<YOUR_IEX_AUTH_TOKEN>"
+$ export POLYGON_API_KEY="<YOUR_POLYGON_API_KEY>"
 $ python benchmark.py > benchmark.md
 ```
 

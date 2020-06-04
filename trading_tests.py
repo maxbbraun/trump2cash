@@ -256,143 +256,143 @@ def test_get_quantity(trading):
 def test_get_historical_prices_1(trading):
     assert trading.get_historical_prices(
         "TSLA", as_market_time(2020, 5, 12, 6, 40, 0)) == {
-            "at": 810.878, "eod": 810.225}
+            "at": 821.00, "eod": 795.68}
 
 
 def test_get_historical_prices_2(trading):
     assert trading.get_historical_prices(
         "TWTR", as_market_time(2020, 5, 27, 13, 22, 0)) == {
-            "at": 32.956, "eod": 33.062}
+            "at": 32.96, "eod": 32.15}
 
 
-# def test_get_historical_prices_3(trading):
-#     assert trading.get_historical_prices(
-#         "F", as_market_time(2017, 1, 24, 19, 46, 57)) == {
-#             "at": 12.6, "eod": 12.78}
+def test_get_historical_prices_3(trading):
+    assert trading.get_historical_prices(
+        "F", as_market_time(2017, 1, 24, 19, 46, 57)) == {
+            "at": 12.58, "eod": 12.60}
 
 
-# def test_get_historical_prices_4(trading):
-#     assert trading.get_historical_prices(
-#         "GM", as_market_time(2017, 1, 24, 19, 46, 57)) == {
-#             "at": 37.09, "eod": 38.28}
+def test_get_historical_prices_4(trading):
+    assert trading.get_historical_prices(
+        "GM", as_market_time(2017, 1, 24, 19, 46, 57)) == {
+            "at": 37.00, "eod": 37.05}
 
 
-# def test_get_historical_prices_5(trading):
-#     assert trading.get_historical_prices(
-#         "BLK", as_market_time(2017, 1, 18, 8, 0, 51)) == {
-#             "at": 374.8, "eod": 378.0}
+def test_get_historical_prices_5(trading):
+    assert trading.get_historical_prices(
+        "BLK", as_market_time(2017, 1, 18, 8, 0, 51)) == {
+            "at": 374.80, "eod": 378.00}
 
 
-# def test_get_historical_prices_6(trading):
-#     assert trading.get_historical_prices(
-#         "F", as_market_time(2017, 1, 18, 7, 34, 9)) == {
-#             "at": 12.6, "eod": 12.41}
+def test_get_historical_prices_6(trading):
+    assert trading.get_historical_prices(
+        "F", as_market_time(2017, 1, 18, 7, 34, 9)) == {
+            "at": 12.49, "eod": 12.42}
 
 
-# def test_get_historical_prices_7(trading):
-#     assert trading.get_historical_prices(
-#         "GM", as_market_time(2017, 1, 18, 7, 34, 9)) == {
-#             "at": 37.31, "eod": 37.47}
+def test_get_historical_prices_7(trading):
+    assert trading.get_historical_prices(
+        "GM", as_market_time(2017, 1, 18, 7, 34, 9)) == {
+            "at": 37.35, "eod": 37.45}
 
 
-# def test_get_historical_prices_8(trading):
-#     assert trading.get_historical_prices(
-#         "LMT", as_market_time(2017, 1, 18, 7, 34, 9)) == {
-#             "at": 254.12, "eod": 254.07}
+def test_get_historical_prices_8(trading):
+    assert trading.get_historical_prices(
+        "LMT", as_market_time(2017, 1, 18, 7, 34, 9)) == {
+            "at": 254.12, "eod": 254.07}
 
 
-# def test_get_historical_prices_9(trading):
-#     assert trading.get_historical_prices(
-#         "GM", as_market_time(2017, 1, 17, 12, 55, 38)) == {
-#             "at": 37.54, "eod": 37.31}
+def test_get_historical_prices_9(trading):
+    assert trading.get_historical_prices(
+        "GM", as_market_time(2017, 1, 17, 12, 55, 38)) == {
+            "at": 37.54, "eod": 37.35}
 
 
-# def test_get_historical_prices_10(trading):
-#     assert trading.get_historical_prices(
-#         "STT", as_market_time(2017, 1, 17, 12, 55, 38)) == {
-#             "at": 81.19, "eod": 80.2}
+def test_get_historical_prices_10(trading):
+    assert trading.get_historical_prices(
+        "STT", as_market_time(2017, 1, 17, 12, 55, 38)) == {
+            "at": 81.19, "eod": 80.2}
 
 
-# def test_get_historical_prices_11(trading):
-#     assert trading.get_historical_prices(
-#         "WMT", as_market_time(2017, 1, 17, 12, 55, 38)) == {
-#             "at": 68.53, "eod": 68.5}
+def test_get_historical_prices_11(trading):
+    assert trading.get_historical_prices(
+        "WMT", as_market_time(2017, 1, 17, 12, 55, 38)) == {
+            "at": 68.53, "eod": 68.47}
 
 
-# def test_get_historical_prices_12(trading):
-#     assert trading.get_historical_prices(
-#         "F", as_market_time(2017, 1, 9, 9, 16, 34)) == {
-#             "at": 12.84, "eod": 12.64}
+def test_get_historical_prices_12(trading):
+    assert trading.get_historical_prices(
+        "F", as_market_time(2017, 1, 9, 9, 16, 34)) == {
+            "at": 12.84, "eod": 12.62}
 
 
-# def test_get_historical_prices_13(trading):
-#     assert trading.get_historical_prices(
-#         "FCAU", as_market_time(2017, 1, 9, 9, 16, 34)) == {
-#             "at": 10.57, "eod": 10.57}
+def test_get_historical_prices_13(trading):
+    assert trading.get_historical_prices(
+        "FCAU", as_market_time(2017, 1, 9, 9, 16, 34)) == {
+            "at": 10.57, "eod": 10.61}
 
 
-# def test_get_historical_prices_14(trading):
-#     assert trading.get_historical_prices(
-#         "FCAU", as_market_time(2017, 1, 9, 9, 14, 10)) == {
-#             "at": 10.55, "eod": 10.57}
+def test_get_historical_prices_14(trading):
+    assert trading.get_historical_prices(
+        "FCAU", as_market_time(2017, 1, 9, 9, 14, 10)) == {
+            "at": 10.55, "eod": 10.61}
 
 
-# def test_get_historical_prices_15(trading):
-#     assert trading.get_historical_prices(
-#         "TM", as_market_time(2017, 1, 5, 13, 14, 30)) == {
-#             "at": 121.12, "eod": 120.44}
+def test_get_historical_prices_15(trading):
+    assert trading.get_historical_prices(
+        "TM", as_market_time(2017, 1, 5, 13, 14, 30)) == {
+            "at": 121.12, "eod": 119.94}
 
 
-# def test_get_historical_prices_16(trading):
-#     assert trading.get_historical_prices(
-#         "F", as_market_time(2017, 1, 4, 8, 19, 9)) == {
-#             "at": 12.59, "eod": 13.17}
+def test_get_historical_prices_16(trading):
+    assert trading.get_historical_prices(
+        "F", as_market_time(2017, 1, 4, 8, 19, 9)) == {
+            "at": 12.69, "eod": 13.2}
 
 
-# def test_get_historical_prices_17(trading):
-#     assert trading.get_historical_prices(
-#         "F", as_market_time(2017, 1, 3, 11, 44, 13)) == {
-#             "at": 12.41, "eod": 12.59}
+def test_get_historical_prices_17(trading):
+    assert trading.get_historical_prices(
+        "F", as_market_time(2017, 1, 3, 11, 44, 13)) == {
+            "at": 12.41, "eod": 12.60}
 
 
-# def test_get_historical_prices_18(trading):
-#     assert trading.get_historical_prices(
-#         "GM", as_market_time(2017, 1, 3, 7, 30, 5)) == {
-#             "at": 34.84, "eod": 35.15}
+def test_get_historical_prices_18(trading):
+    assert trading.get_historical_prices(
+        "GM", as_market_time(2017, 1, 3, 7, 30, 5)) == {
+            "at": 35.03, "eod": 35.15}
 
 
-# def test_get_historical_prices_19(trading):
-#     assert trading.get_historical_prices(
-#         "BA", as_market_time(2016, 12, 22, 17, 26, 5)) == {
-#             "at": 157.46, "eod": 157.92}
+def test_get_historical_prices_19(trading):
+    assert trading.get_historical_prices(
+        "BA", as_market_time(2016, 12, 22, 17, 26, 5)) == {
+            "at": 157.69, "eod": 158.50}
 
 
-# def test_get_historical_prices_20(trading):
-#     assert trading.get_historical_prices(
-#         "BA", as_market_time(2016, 12, 6, 8, 52, 35)) == {
-#             "at": 152.16, "eod": 152.3}
+def test_get_historical_prices_20(trading):
+    assert trading.get_historical_prices(
+        "BA", as_market_time(2016, 12, 6, 8, 52, 35)) == {
+            "at": 151.70, "eod": 152.02}
 
 
-# def test_get_historical_prices_21(trading):
-#     assert trading.get_historical_prices(
-#         "M", as_market_time(2015, 11, 12, 16, 5, 28)) == {
-#             "at": 40.73, "eod": 40.15}
+def test_get_historical_prices_21(trading):
+    assert trading.get_historical_prices(
+        "M", as_market_time(2015, 11, 12, 16, 5, 28)) == {
+            "at": 40.73, "eod": 40.31}
 
 
-# def test_get_historical_prices_22(trading):
-#     assert trading.get_historical_prices(
-#         "M", as_market_time(2015, 7, 16, 9, 14, 15)) == {
-#             "at": 71.75, "eod": 72.8}
+def test_get_historical_prices_22(trading):
+    assert trading.get_historical_prices(
+        "M", as_market_time(2015, 7, 16, 9, 14, 15)) == {
+            "at": 71.75, "eod": 72.80}
 
 
 def test_get_day_quotes(trading):
     quotes = trading.get_day_quotes(
         "F", as_market_time(2020, 5, 21, 20, 20, 0))
-    assert len(quotes) == 370
+    assert len(quotes) == 660
     assert quotes[0] == {
-        "price": 5.459, "time": as_market_time(2020, 5, 21, 9, 30, 0)}
+        "price": 5.41, "time": as_market_time(2020, 5, 21, 4, 10, 0)}
     assert quotes[-1] == {
-        "price": 5.633, "time": as_market_time(2020, 5, 21, 15, 59, 0)}
+        "price": 5.64, "time": as_market_time(2020, 5, 21, 19, 59, 0)}
 
 
 def test_is_trading_day(trading):

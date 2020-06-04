@@ -4,7 +4,7 @@ This breakdown of the analysis results and market performance validates the curr
 
 Use this command to regenerate the benchmark report after changes to the algorithm or data:
 ```shell
-$ ./benchmark.py > benchmark.md
+$ python benchmark.py > benchmark.md
 ```
 
 ### Events overview
@@ -27,9 +27,9 @@ Boeing | T. Rowe Price | -0.5 :thumbsdown: | bear | negative sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-BA | New York Stock Exchange | - | - | 0.000%
-BLK | New York Stock Exchange | - | - | 0.000%
-TROW | NASDAQ | - | - | 0.000%
+BA | New York Stock Exchange | $151.70 | $152.02 | -0.210%
+BLK | New York Stock Exchange | $374.35 | $373.97 | 0.102%
+TROW | NASDAQ | $75.44 | $76.09 | -0.854%
 
 ##### [1/3/2017 7:30 AM (Tuesday)](https://twitter.com/realDonaldTrump/status/816260343391514624)
 
@@ -45,7 +45,7 @@ General Motors | - | 0.0 :neutral_face: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-GM | New York Stock Exchange | - | - | 0.000%
+GM | New York Stock Exchange | $35.03 | $35.15 | 0.000%
 
 ##### [1/3/2017 11:44 AM (Tuesday)](https://twitter.com/realDonaldTrump/status/816324295781740544)
 
@@ -63,7 +63,7 @@ Ford | Ford Motor Company | -0.5 :thumbsdown: | bear | negative sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-F | New York Stock Exchange | - | - | 0.000%
+F | New York Stock Exchange | $12.41 | $12.60 | -1.508%
 
 ##### [1/4/2017 8:19 AM (Wednesday)](https://twitter.com/realDonaldTrump/status/816635078067490816)
 
@@ -79,7 +79,7 @@ Ford Motor Company | - | 0.4 :thumbsup: | bull | positive sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-F | New York Stock Exchange | - | - | 0.000%
+F | New York Stock Exchange | $12.69 | $13.20 | 4.019%
 
 ##### [1/5/2017 1:14 PM (Thursday)](https://twitter.com/realDonaldTrump/status/817071792711942145)
 
@@ -95,7 +95,7 @@ Toyota | - | -0.1 :thumbsdown: | bear | negative sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-TM | New York Stock Exchange | - | - | 0.000%
+TM | New York Stock Exchange | $121.12 | $119.94 | 0.984%
 
 ##### [1/9/2017 9:16 AM (Monday)](https://twitter.com/realDonaldTrump/status/818461467766824961)
 
@@ -112,8 +112,8 @@ Fiat | Fiat Chrysler Automobiles | 0.3 :thumbsup: | bull | positive sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-F | New York Stock Exchange | - | - | 0.000%
-FCAU | New York Stock Exchange | - | - | 0.000%
+F | New York Stock Exchange | $12.84 | $12.62 | -1.713%
+FCAU | New York Stock Exchange | $10.57 | $10.61 | 0.378%
 
 ##### [1/17/2017 12:55 PM (Tuesday)](https://twitter.com/realDonaldTrump/status/821415698278875137)
 
@@ -132,10 +132,10 @@ Walmart | State Street Corporation | 0.9 :thumbsup: | bull | positive sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-GM | New York Stock Exchange | - | - | 0.000%
-WMT | New York Stock Exchange | - | - | 0.000%
-BLK | New York Stock Exchange | - | - | 0.000%
-STT | New York Stock Exchange | - | - | 0.000%
+GM | New York Stock Exchange | $37.54 | $37.35 | -0.506%
+WMT | New York Stock Exchange | $68.53 | $68.47 | -0.088%
+BLK | New York Stock Exchange | $374.25 | $374.80 | 0.147%
+STT | New York Stock Exchange | $81.19 | $80.20 | -1.219%
 
 ##### [1/18/2017 7:34 AM (Wednesday)](https://twitter.com/realDonaldTrump/status/821697182235496450)
 
@@ -152,8 +152,8 @@ Lockheed Martin | - | -0.6 :thumbsdown: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-GM | New York Stock Exchange | - | - | 0.000%
-LMT | New York Stock Exchange | - | - | 0.000%
+GM | New York Stock Exchange | $37.35 | $37.45 | 0.000%
+LMT | New York Stock Exchange | $254.12 | $254.07 | 0.000%
 
 ##### [1/24/2017 12:49 PM (Tuesday)](https://twitter.com/realDonaldTrump/status/823950814163140609)
 
@@ -169,7 +169,7 @@ Dakota Access Pipeline | Energy Transfer Partners | 0.2 :thumbsup: | bull | posi
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-ETP | New York Stock Exchange | - | - | 0.000%
+ETP | New York Stock Exchange | $37.07 | $37.20 | 0.351%
 
 ##### [1/24/2017 7:46 PM (Tuesday)](https://twitter.com/realDonaldTrump/status/824055927200423936)
 
@@ -186,8 +186,8 @@ General Motors | - | 0.5 :thumbsup: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-F | New York Stock Exchange | - | - | 0.000%
-GM | New York Stock Exchange | - | - | 0.000%
+F | New York Stock Exchange | $12.58 | $12.60 | 0.000%
+GM | New York Stock Exchange | $37.00 | $37.05 | 0.000%
 
 ##### [1/30/2017 7:16 AM (Monday)](https://twitter.com/realDonaldTrump/status/826041397232943104)
 
@@ -203,7 +203,7 @@ Delta Air Lines | - | -0.6 :thumbsdown: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-DAL | New York Stock Exchange | - | - | 0.000%
+DAL | New York Stock Exchange | $49.75 | $47.85 | 0.000%
 
 ##### [2/8/2017 10:51 AM (Wednesday)](https://twitter.com/realDonaldTrump/status/829356871848951809)
 
@@ -219,7 +219,7 @@ Nordstrom | - | -0.2 :thumbsdown: | bear | negative sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-JWN | New York Stock Exchange | - | - | 0.000%
+JWN | New York Stock Exchange | $42.65 | $44.53 | -4.233%
 
 ##### [2/8/2017 2:22 PM (Wednesday)](https://twitter.com/realDonaldTrump/status/829410107406614534)
 
@@ -235,11 +235,11 @@ Intel | - | 0.6 :thumbsup: | bull | positive sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-INTC | NASDAQ | - | - | 0.000%
+INTC | NASDAQ | $36.43 | $36.45 | 0.055%
 
 ##### [2/14/2017 5:50 PM (Tuesday)](https://twitter.com/realDonaldTrump/status/831636777110757377)
 
-> Obamacare continues to fail. Humana to pull out in 2018. Will repeal, replace &amp; save healthcare for ALL Americans. 
+> Obamacare continues to fail. Humana to pull out in 2018. Will repeal, replace &amp; save healthcare for ALL Americans.
 
 > https://t.co/glWEQ0lNR4
 
@@ -253,11 +253,11 @@ Humana | - | -0.1 :thumbsdown: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-HUM | New York Stock Exchange | - | - | 0.000%
+HUM | New York Stock Exchange | $208.00 | $204.90 | 0.000%
 
 ##### [2/15/2017 4:34 PM (Wednesday)](https://twitter.com/realDonaldTrump/status/831979921555742732)
 
-> Aetna CEO: Obamacare in 'Death Spiral' #RepealAndReplace 
+> Aetna CEO: Obamacare in 'Death Spiral' #RepealAndReplace
 
 > https://t.co/dmHL7xIEQv
 
@@ -271,7 +271,7 @@ Aetna | - | -0.1 :thumbsdown: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-AET | New York Stock Exchange | - | - | 0.000%
+AET | New York Stock Exchange | $128.44 | $129.49 | 0.000%
 
 ##### [2/17/2017 6:38 AM (Friday)](https://twitter.com/realDonaldTrump/status/832554772318322688)
 
@@ -289,9 +289,9 @@ Boeing | T. Rowe Price | 0.5 :thumbsup: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-BA | New York Stock Exchange | - | - | 0.000%
-BLK | New York Stock Exchange | - | - | 0.000%
-TROW | NASDAQ | - | - | 0.000%
+BA | New York Stock Exchange | $170.80 | $172.75 | 0.000%
+BLK | New York Stock Exchange | $391.97 | $388.76 | 0.000%
+TROW | NASDAQ | $71.32 | $71.10 | 0.000%
 
 ##### [3/6/2017 10:49 PM (Monday)](https://twitter.com/realDonaldTrump/status/838959869772328960)
 
@@ -307,7 +307,7 @@ ExxonMobil | - | 0.5 :thumbsup: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-XOM | New York Stock Exchange | - | - | 0.000%
+XOM | New York Stock Exchange | $82.95 | $82.36 | 0.000%
 
 ##### [3/6/2017 10:50 PM (Monday)](https://twitter.com/realDonaldTrump/status/838960097674002432)
 
@@ -323,7 +323,7 @@ ExxonMobil | - | 0.8 :thumbsup: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-XOM | New York Stock Exchange | - | - | 0.000%
+XOM | New York Stock Exchange | $82.95 | $82.36 | 0.000%
 
 ##### [3/28/2017 6:36 AM (Tuesday)](https://twitter.com/realDonaldTrump/status/846672219073863681)
 
@@ -339,7 +339,7 @@ Ford Motor Company | - | 0.3 :thumbsup: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-F | New York Stock Exchange | - | - | 0.000%
+F | New York Stock Exchange | $11.50 | $11.71 | 0.000%
 
 ##### [4/1/2017 12:50 PM (Saturday)](https://twitter.com/realDonaldTrump/status/848216035153121285)
 
@@ -375,7 +375,7 @@ Aetna | - | -0.3 :thumbsdown: | bear | negative sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-AET | New York Stock Exchange | - | - | 0.000%
+AET | New York Stock Exchange | $138.95 | $140.09 | -0.814%
 
 ##### [5/31/2017 8:40 PM (Wednesday)](https://twitter.com/realDonaldTrump/status/870077441401905152)
 
@@ -391,7 +391,7 @@ Facebook | Facebook, Inc. | -0.2 :thumbsdown: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-FB | NASDAQ | - | - | 0.000%
+FB | NASDAQ | $151.47 | $151.50 | 0.000%
 
 ##### [6/17/2017 10:08 AM (Saturday)](https://twitter.com/realDonaldTrump/status/876079184417882116)
 
@@ -424,8 +424,8 @@ Amazon | BlackRock | -0.8 :thumbsdown: | bear | negative sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-AMZN | NASDAQ | - | - | 0.000%
-BLK | New York Stock Exchange | - | - | 0.000%
+AMZN | NASDAQ | $983.93 | $991.50 | -0.763%
+BLK | New York Stock Exchange | $422.13 | $426.85 | -1.106%
 
 ##### [7/1/2017 8:59 AM (Saturday)](https://twitter.com/realDonaldTrump/status/881135264441257984)
 
@@ -458,8 +458,8 @@ Merck & Co. | - | 0.2 :thumbsup: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-PFE | New York Stock Exchange | - | - | 0.000%
-MRK | New York Stock Exchange | - | - | 0.000%
+PFE | New York Stock Exchange | $33.55 | $33.50 | 0.000%
+MRK | New York Stock Exchange | $63.06 | $62.88 | 0.000%
 
 ##### [7/24/2017 10:28 PM (Monday)](https://twitter.com/realDonaldTrump/status/889673743873843200)
 
@@ -476,8 +476,8 @@ Amazon | BlackRock | -0.3 :thumbsdown: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-AMZN | NASDAQ | - | - | 0.000%
-BLK | New York Stock Exchange | - | - | 0.000%
+AMZN | NASDAQ | $1,036.75 | $1,039.66 | 0.000%
+BLK | New York Stock Exchange | $428.32 | $431.35 | 0.000%
 
 ##### [7/24/2017 10:36 PM (Monday)](https://twitter.com/realDonaldTrump/status/889675644396867584)
 
@@ -494,8 +494,8 @@ Amazon | BlackRock | -0.7 :thumbsdown: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-AMZN | NASDAQ | - | - | 0.000%
-BLK | New York Stock Exchange | - | - | 0.000%
+AMZN | NASDAQ | $1,036.75 | $1,039.66 | 0.000%
+BLK | New York Stock Exchange | $428.32 | $431.35 | 0.000%
 
 ##### [7/25/2017 6:12 AM (Tuesday)](https://twitter.com/realDonaldTrump/status/889790429398528000)
 
@@ -511,7 +511,7 @@ Intel | - | -0.7 :thumbsdown: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-INTC | NASDAQ | - | - | 0.000%
+INTC | NASDAQ | $34.50 | $34.57 | 0.000%
 
 ##### [8/16/2017 6:12 AM (Wednesday)](https://twitter.com/realDonaldTrump/status/897763049226084352)
 
@@ -528,8 +528,8 @@ Amazon | BlackRock | -0.7 :thumbsdown: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-AMZN | NASDAQ | - | - | 0.000%
-BLK | New York Stock Exchange | - | - | 0.000%
+AMZN | NASDAQ | $987.00 | $976.25 | 0.000%
+BLK | New York Stock Exchange | $430.43 | $427.07 | 0.000%
 
 ##### [8/18/2017 1:36 AM (Friday)](https://twitter.com/markets/status/898418181592686592)
 
@@ -545,7 +545,7 @@ Twitter | - | -0.1 :thumbsdown: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-TWTR | New York Stock Exchange | - | - | 0.000%
+TWTR | New York Stock Exchange | $15.83 | $15.95 | 0.000%
 
 ##### [8/23/2017 1:18 AM (Wednesday)](https://twitter.com/realDonaldTrump/status/900225712522657792)
 
@@ -561,11 +561,11 @@ Facebook | Facebook, Inc. | 0.6 :thumbsup: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-FB | NASDAQ | - | - | 0.000%
+FB | NASDAQ | $169.80 | $168.22 | 0.000%
 
 ##### [9/9/2017 11:41 AM (Saturday)](https://twitter.com/realDonaldTrump/status/906543198599876608)
 
-> FLORIDA- 
+> FLORIDA-
 
 > Visit https://t.co/pdBaD9t8SK to find shelters, road closures, &amp; evacuation routes. Helpful Twitter list: https://t.co/BUMVlxGFe8 https://t.co/ncnuqCeB5K
 
@@ -595,7 +595,7 @@ Facebook | Facebook, Inc. | -0.8 :thumbsdown: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-FB | NASDAQ | - | - | 0.000%
+FB | NASDAQ | $170.68 | $169.76 | 0.000%
 
 ##### [9/22/2017 1:54 PM (Friday)](https://twitter.com/realDonaldTrump/status/911287725847908352)
 
@@ -611,7 +611,7 @@ American Airlines | - | 0.9 :thumbsup: | bull | positive sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-AAL | NASDAQ | - | - | 0.000%
+AAL | NASDAQ | $47.33 | $47.10 | -0.486%
 
 ##### [9/27/2017 9:36 AM (Wednesday)](https://twitter.com/realDonaldTrump/status/913034591879024640)
 
@@ -627,7 +627,7 @@ Facebook | Facebook, Inc. | 0.0 :neutral_face: | hold | neutral sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-FB | NASDAQ | - | - | 0.000%
+FB | NASDAQ | $166.61 | $167.90 | 0.000%
 
 ##### [9/29/2017 6:42 PM (Friday)](https://twitter.com/Scavino45/status/913896786204426240)
 
@@ -645,7 +645,7 @@ Instagram | Facebook, Inc. | 0.1 :thumbsup: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-FB | NASDAQ | - | - | 0.000%
+FB | NASDAQ | $170.82 | $170.89 | 0.000%
 
 ##### [10/15/2017 9:46 AM (Sunday)](https://twitter.com/realDonaldTrump/status/919560102725738498)
 
@@ -694,7 +694,7 @@ Broadcom | - | 0.1 :thumbsup: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-AVGO | NASDAQ | - | - | 0.000%
+AVGO | NASDAQ | $262.00 | $262.90 | 0.000%
 BRCM | NASDAQ | - | - | 0.000%
 
 ##### [11/3/2017 6:51 AM (Friday)](https://twitter.com/realDonaldTrump/status/926401530013642765)
@@ -711,7 +711,7 @@ Twitter | - | -0.2 :thumbsdown: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-TWTR | New York Stock Exchange | - | - | 0.000%
+TWTR | New York Stock Exchange | $19.81 | $19.90 | 0.000%
 
 ##### [11/28/2017 9:45 PM (Tuesday)](https://twitter.com/realDonaldTrump/status/935701139198181376)
 
@@ -727,7 +727,7 @@ Intel | - | -0.3 :thumbsdown: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-INTC | NASDAQ | - | - | 0.000%
+INTC | NASDAQ | $44.73 | $43.85 | 0.000%
 
 ##### [11/29/2017 7:16 AM (Wednesday)](https://twitter.com/realDonaldTrump/status/935844881825763328)
 
@@ -743,7 +743,7 @@ Comcast | - | -0.5 :thumbsdown: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-CMCSA | NASDAQ | - | - | 0.000%
+CMCSA | NASDAQ | $36.04 | $36.90 | 0.000%
 
 ##### [11/29/2017 9:00 PM (Wednesday)](https://twitter.com/realDonaldTrump/status/936052257392676864)
 
@@ -763,7 +763,7 @@ Intel | - | -0.2 :thumbsdown: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-INTC | NASDAQ | - | - | 0.000%
+INTC | NASDAQ | $43.85 | $44.75 | 0.000%
 
 ##### [12/8/2017 10:18 AM (Friday)](https://twitter.com/realDonaldTrump/status/939152197090148352)
 
@@ -782,10 +782,10 @@ Wells Fargo | BlackRock | -0.7 :thumbsdown: | bear | negative sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-WFC | New York Stock Exchange | - | - | 0.000%
-BRK.A | New York Stock Exchange | - | - | 0.000%
-BRK.B | New York Stock Exchange | - | - | 0.000%
-BLK | New York Stock Exchange | - | - | 0.000%
+WFC | New York Stock Exchange | $59.70 | $59.27 | 0.725%
+BRK.A | New York Stock Exchange | $293,000.00 | $294,320.01 | -0.448%
+BRK.B | New York Stock Exchange | $195.04 | $196.33 | -0.657%
+BLK | New York Stock Exchange | $513.42 | $515.49 | -0.402%
 
 ##### [12/29/2017 8:04 AM (Friday)](https://twitter.com/realDonaldTrump/status/946728546633953285)
 
@@ -802,8 +802,8 @@ Amazon | BlackRock | -0.7 :thumbsdown: | bear | negative sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-AMZN | NASDAQ | - | - | 0.000%
-BLK | New York Stock Exchange | - | - | 0.000%
+AMZN | NASDAQ | $1,189.40 | $1,169.27 | 1.722%
+BLK | New York Stock Exchange | $517.98 | $513.70 | 0.833%
 
 ##### [1/10/2018 11:29 PM (Wednesday)](https://twitter.com/realDonaldTrump/status/951309956720087041)
 
@@ -819,7 +819,7 @@ Toyota | - | 0.5 :thumbsup: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-TM | New York Stock Exchange | - | - | 0.000%
+TM | New York Stock Exchange | $136.40 | $136.75 | 0.000%
 
 ##### [1/11/2018 6:33 AM (Thursday)](https://twitter.com/realDonaldTrump/status/951416674808467461)
 
@@ -835,7 +835,7 @@ Intel | - | -0.4 :thumbsdown: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-INTC | NASDAQ | - | - | 0.000%
+INTC | NASDAQ | $42.56 | $43.20 | 0.000%
 
 ##### [1/11/2018 9:49 PM (Thursday)](https://twitter.com/realDonaldTrump/status/951647402599026689)
 
@@ -851,7 +851,7 @@ Fiat Chrysler Automobiles | - | 0.3 :thumbsup: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-FCAU | New York Stock Exchange | - | - | 0.000%
+FCAU | New York Stock Exchange | $23.51 | $23.20 | 0.000%
 
 ##### [1/11/2018 9:53 PM (Thursday)](https://twitter.com/realDonaldTrump/status/951648197440569344)
 
@@ -867,7 +867,7 @@ Chrysler | Fiat Chrysler Automobiles | 0.5 :thumbsup: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-FCAU | New York Stock Exchange | - | - | 0.000%
+FCAU | New York Stock Exchange | $23.51 | $23.20 | 0.000%
 
 ##### [1/13/2018 8:13 AM (Saturday)](https://twitter.com/realDonaldTrump/status/952166643202916352)
 
@@ -900,8 +900,8 @@ Apple Inc. | BlackRock | 0.4 :thumbsup: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-AAPL | NASDAQ | - | - | 0.000%
-BLK | New York Stock Exchange | - | - | 0.000%
+AAPL | NASDAQ | $179.44 | $179.43 | 0.000%
+BLK | New York Stock Exchange | $576.51 | $579.22 | 0.000%
 
 ##### [1/17/2018 6:32 PM (Wednesday)](https://twitter.com/realDonaldTrump/status/953772162665590787)
 
@@ -917,7 +917,7 @@ Chrysler | Fiat Chrysler Automobiles | 0.5 :thumbsup: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-FCAU | New York Stock Exchange | - | - | 0.000%
+FCAU | New York Stock Exchange | $23.12 | $23.45 | 0.000%
 
 ##### [1/24/2018 6:58 AM (Wednesday)](https://twitter.com/realDonaldTrump/status/956134228726558720)
 
@@ -937,11 +937,11 @@ JPMorgan Chase | - | 0.4 :thumbsup: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-DIS | New York Stock Exchange | - | - | 0.000%
-BLK | New York Stock Exchange | - | - | 0.000%
-NTRS | NASDAQ | - | - | 0.000%
-TROW | NASDAQ | - | - | 0.000%
-JPM | New York Stock Exchange | - | - | 0.000%
+DIS | New York Stock Exchange | $110.41 | $110.31 | 0.000%
+BLK | New York Stock Exchange | $589.68 | $587.67 | 0.000%
+NTRS | NASDAQ | $106.89 | $106.17 | 0.000%
+TROW | NASDAQ | $117.64 | $117.71 | 0.000%
+JPM | New York Stock Exchange | $114.21 | $115.40 | 0.000%
 
 ##### [2/28/2018 1:36 PM (Wednesday)](https://twitter.com/realDonaldTrump/status/968917941671612416)
 
@@ -957,7 +957,7 @@ Madison Square Garden | The Madison Square Garden Company | 0.3 :thumbsup: | bul
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-MSG | NASDAQ | - | - | 0.000%
+MSG | NASDAQ | $244.27 | $244.20 | -0.029%
 
 ##### [3/31/2018 8:45 AM (Saturday)](https://twitter.com/realDonaldTrump/status/980063581592047617)
 
@@ -1009,7 +1009,7 @@ Sinclair Broadcast Group | - | -0.6 :thumbsdown: | bear | negative sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-SBGI | NASDAQ | - | - | 0.000%
+SBGI | NASDAQ | $31.40 | $29.95 | 4.841%
 
 ##### [4/2/2018 9:35 AM (Monday)](https://twitter.com/realDonaldTrump/status/980800783313702918)
 
@@ -1026,8 +1026,8 @@ Amazon | BlackRock | -0.8 :thumbsdown: | bear | negative sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-AMZN | NASDAQ | - | - | 0.000%
-BLK | New York Stock Exchange | - | - | 0.000%
+AMZN | NASDAQ | $1,415.41 | $1,365.00 | 3.693%
+BLK | New York Stock Exchange | $538.59 | $519.00 | 3.775%
 
 ##### [4/3/2018 6:34 AM (Tuesday)](https://twitter.com/realDonaldTrump/status/981117684489379840)
 
@@ -1043,7 +1043,7 @@ Sinclair Broadcast Group | - | -0.8 :thumbsdown: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-SBGI | NASDAQ | - | - | 0.000%
+SBGI | NASDAQ | $29.95 | $30.10 | 0.000%
 
 ##### [4/3/2018 9:55 AM (Tuesday)](https://twitter.com/realDonaldTrump/status/981168344924536832)
 
@@ -1060,8 +1060,8 @@ Amazon | BlackRock | -0.2 :thumbsdown: | bear | negative sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-AMZN | NASDAQ | - | - | 0.000%
-BLK | New York Stock Exchange | - | - | 0.000%
+AMZN | NASDAQ | $1,390.02 | $1,385.02 | 0.361%
+BLK | New York Stock Exchange | $525.50 | $528.73 | -0.611%
 
 ##### [4/3/2018 5:49 PM (Tuesday)](https://twitter.com/realDonaldTrump/status/981287536520847360)
 
@@ -1079,9 +1079,9 @@ YouTube | BlackRock | 0.4 :thumbsup: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-GOOG | NASDAQ | - | - | 0.000%
-GOOGL | NASDAQ | - | - | 0.000%
-BLK | New York Stock Exchange | - | - | 0.000%
+GOOG | NASDAQ | $1,014.01 | $1,012.49 | 0.000%
+GOOGL | NASDAQ | $1,018.68 | $1,036.00 | 0.000%
+BLK | New York Stock Exchange | $528.73 | $536.31 | 0.000%
 
 ##### [4/5/2018 9:10 AM (Thursday)](https://twitter.com/realDonaldTrump/status/981881669593559040)
 
@@ -1098,8 +1098,8 @@ Amazon | BlackRock | -0.4 :thumbsdown: | bear | negative sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-AMZN | NASDAQ | - | - | 0.000%
-BLK | New York Stock Exchange | - | - | 0.000%
+AMZN | NASDAQ | $1,435.25 | $1,420.05 | 1.070%
+BLK | New York Stock Exchange | $536.31 | $520.42 | 3.053%
 
 ##### [4/25/2018 10:11 AM (Wednesday)](https://twitter.com/realDonaldTrump/status/989144989690187776)
 
@@ -1116,8 +1116,8 @@ Apple Inc. | BlackRock | 0.0 :neutral_face: | hold | neutral sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-AAPL | NASDAQ | - | - | 0.000%
-BLK | New York Stock Exchange | - | - | 0.000%
+AAPL | NASDAQ | $163.79 | $164.99 | 0.000%
+BLK | New York Stock Exchange | $512.99 | $512.22 | 0.000%
 
 ##### [5/1/2018 3:42 PM (Tuesday)](https://twitter.com/realDonaldTrump/status/991402619552845825)
 
@@ -1133,7 +1133,7 @@ Southwest Airlines | - | 0.6 :thumbsup: | bull | positive sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-LUV | New York Stock Exchange | - | - | 0.000%
+LUV | New York Stock Exchange | $52.96 | $53.10 | 0.264%
 
 ##### [5/2/2018 4:27 PM (Wednesday)](https://twitter.com/realDonaldTrump/status/991776286489169920)
 
@@ -1149,7 +1149,7 @@ Lockheed Martin | - | 0.2 :thumbsup: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-LMT | New York Stock Exchange | - | - | 0.000%
+LMT | New York Stock Exchange | $305.58 | $305.70 | 0.000%
 
 ##### [5/11/2018 7:49 PM (Friday)](https://twitter.com/realDonaldTrump/status/995088584221839360)
 
@@ -1166,12 +1166,12 @@ WarnerMedia | AT&T | -0.7 :thumbsdown: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-TWX | New York Stock Exchange | - | - | 0.000%
-T | New York Stock Exchange | - | - | 0.000%
+TWX | New York Stock Exchange | $93.63 | $94.38 | 0.000%
+T | New York Stock Exchange | $32.30 | $32.30 | 0.000%
 
 ##### [5/18/2018 12:25 PM (Friday)](https://twitter.com/SteveForbesCEO/status/997513399968952320)
 
-> .@realDonaldTrump speech on drug costs pays immediate dividends. New @Amgen drug lists at 30% less than expected. Middlemen like Pharmacy Benefit Managers, insurers &amp; hospitals would do well by passing discounts on to patients. @SecAzar  @SGottliebFDA 
+> .@realDonaldTrump speech on drug costs pays immediate dividends. New @Amgen drug lists at 30% less than expected. Middlemen like Pharmacy Benefit Managers, insurers &amp; hospitals would do well by passing discounts on to patients. @SecAzar  @SGottliebFDA
 
 > https://t.co/mfRQ5COtev
 
@@ -1185,7 +1185,7 @@ Amgen | - | 0.0 :neutral_face: | hold | neutral sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-AMGN | NASDAQ | - | - | 0.000%
+AMGN | NASDAQ | $176.75 | $176.50 | 0.000%
 
 ##### [6/23/2018 7:15 AM (Saturday)](https://twitter.com/realDonaldTrump/status/1010481479279923201)
 
@@ -1217,7 +1217,7 @@ Harley-Davidson | - | -0.1 :thumbsdown: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-HOG | New York Stock Exchange | - | - | 0.000%
+HOG | New York Stock Exchange | $41.95 | $41.83 | 0.000%
 
 ##### [6/26/2018 7:16 AM (Tuesday)](https://twitter.com/realDonaldTrump/status/1011568906992017408)
 
@@ -1233,7 +1233,7 @@ Harley-Davidson | - | -0.5 :thumbsdown: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-HOG | New York Stock Exchange | - | - | 0.000%
+HOG | New York Stock Exchange | $41.83 | $41.45 | 0.000%
 
 ##### [6/26/2018 7:37 AM (Tuesday)](https://twitter.com/realDonaldTrump/status/1011574256117993472)
 
@@ -1249,7 +1249,7 @@ Harley-Davidson | - | -0.4 :thumbsdown: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-HOG | New York Stock Exchange | - | - | 0.000%
+HOG | New York Stock Exchange | $41.83 | $41.45 | 0.000%
 
 ##### [6/26/2018 8:17 AM (Tuesday)](https://twitter.com/realDonaldTrump/status/1011584315040419840)
 
@@ -1265,7 +1265,7 @@ Harley-Davidson | - | -0.6 :thumbsdown: | bear | negative sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-HOG | New York Stock Exchange | - | - | 0.000%
+HOG | New York Stock Exchange | $41.50 | $41.45 | 0.121%
 
 ##### [6/27/2018 11:26 AM (Wednesday)](https://twitter.com/realDonaldTrump/status/1011994162076573697)
 
@@ -1281,7 +1281,7 @@ Harley-Davidson | - | 0.0 :neutral_face: | hold | neutral sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-HOG | New York Stock Exchange | - | - | 0.000%
+HOG | New York Stock Exchange | $41.35 | $41.65 | 0.000%
 
 ##### [7/3/2018 10:00 AM (Tuesday)](https://twitter.com/realDonaldTrump/status/1014146835135516672)
 
@@ -1297,7 +1297,7 @@ Harley-Davidson | - | 0.0 :neutral_face: | hold | neutral sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-HOG | New York Stock Exchange | - | - | 0.000%
+HOG | New York Stock Exchange | $42.42 | $42.28 | 0.000%
 
 ##### [7/7/2018 9:21 AM (Saturday)](https://twitter.com/realDonaldTrump/status/1015586529484443648)
 
@@ -1333,7 +1333,7 @@ Pfizer | - | -0.4 :thumbsdown: | bear | negative sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-PFE | New York Stock Exchange | - | - | 0.000%
+PFE | New York Stock Exchange | $37.43 | $37.23 | 0.537%
 
 ##### [7/10/2018 6:37 PM (Tuesday)](https://twitter.com/realDonaldTrump/status/1016813686051233800)
 
@@ -1349,7 +1349,7 @@ Pfizer | - | 0.1 :thumbsup: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-PFE | New York Stock Exchange | - | - | 0.000%
+PFE | New York Stock Exchange | $37.15 | $36.91 | 0.000%
 
 ##### [7/18/2018 12:32 PM (Wednesday)](https://twitter.com/SecAzar/status/1019620833424179200)
 
@@ -1365,7 +1365,7 @@ Novartis | - | 0.2 :thumbsup: | bull | positive sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-NVS | New York Stock Exchange | - | - | 0.000%
+NVS | New York Stock Exchange | $80.59 | $80.96 | 0.459%
 
 ##### [7/19/2018 6:23 AM (Thursday)](https://twitter.com/realDonaldTrump/status/1019890400029499393)
 
@@ -1382,8 +1382,8 @@ Pfizer | - | 0.0 :neutral_face: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-NVS | New York Stock Exchange | - | - | 0.000%
-PFE | New York Stock Exchange | - | - | 0.000%
+NVS | New York Stock Exchange | $80.96 | $80.80 | 0.000%
+PFE | New York Stock Exchange | $37.66 | $37.53 | 0.000%
 
 ##### [7/19/2018 9:11 AM (Thursday)](https://twitter.com/realDonaldTrump/status/1019932691339399168)
 
@@ -1401,9 +1401,9 @@ Google | BlackRock | 0.0 :neutral_face: | hold | neutral sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-GOOG | NASDAQ | - | - | 0.000%
-GOOGL | NASDAQ | - | - | 0.000%
-BLK | New York Stock Exchange | - | - | 0.000%
+GOOG | NASDAQ | $1,190.18 | $1,189.82 | 0.000%
+GOOGL | NASDAQ | $1,206.67 | $1,201.01 | 0.000%
+BLK | New York Stock Exchange | $510.85 | $504.89 | 0.000%
 
 ##### [7/19/2018 9:11 AM (Thursday)](https://twitter.com/realDonaldTrump/status/1019932691339399168)
 
@@ -1421,9 +1421,9 @@ Google | BlackRock | 0.0 :neutral_face: | hold | neutral sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-GOOG | NASDAQ | - | - | 0.000%
-GOOGL | NASDAQ | - | - | 0.000%
-BLK | New York Stock Exchange | - | - | 0.000%
+GOOG | NASDAQ | $1,190.18 | $1,189.82 | 0.000%
+GOOGL | NASDAQ | $1,206.67 | $1,201.01 | 0.000%
+BLK | New York Stock Exchange | $510.85 | $504.89 | 0.000%
 
 ##### [7/23/2018 9:35 AM (Monday)](https://twitter.com/realDonaldTrump/status/1021388295618682881)
 
@@ -1440,8 +1440,8 @@ Amazon | BlackRock | -0.5 :thumbsdown: | bear | negative sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-AMZN | NASDAQ | - | - | 0.000%
-BLK | New York Stock Exchange | - | - | 0.000%
+AMZN | NASDAQ | $1,813.16 | $1,818.50 | -0.294%
+BLK | New York Stock Exchange | $503.93 | $508.51 | -0.901%
 
 ##### [7/23/2018 11:46 PM (Monday)](https://twitter.com/DanScavino/status/1021602480134742016)
 
@@ -1457,7 +1457,7 @@ Lockheed Martin | - | 0.0 :neutral_face: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-LMT | New York Stock Exchange | - | - | 0.000%
+LMT | New York Stock Exchange | $318.35 | $321.01 | 0.000%
 
 ##### [7/24/2018 8:39 PM (Tuesday)](https://twitter.com/realDonaldTrump/status/1021917767467982854)
 
@@ -1474,8 +1474,8 @@ Comcast | - | -0.2 :thumbsdown: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-SBGI | NASDAQ | - | - | 0.000%
-CMCSA | NASDAQ | - | - | 0.000%
+SBGI | NASDAQ | $26.10 | $26.50 | 0.000%
+CMCSA | NASDAQ | $33.32 | $33.70 | 0.000%
 
 ##### [7/26/2018 7:46 AM (Thursday)](https://twitter.com/realDonaldTrump/status/1022447980408983552)
 
@@ -1491,7 +1491,7 @@ Twitter | - | -0.5 :thumbsdown: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-TWTR | New York Stock Exchange | - | - | 0.000%
+TWTR | New York Stock Exchange | $42.91 | $44.00 | 0.000%
 
 ##### [7/26/2018 5:12 PM (Thursday)](https://twitter.com/realDonaldTrump/status/1022590568612937728)
 
@@ -1507,7 +1507,7 @@ U.S. Steel | - | 0.6 :thumbsup: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-X | New York Stock Exchange | - | - | 0.000%
+X | New York Stock Exchange | $37.43 | $37.45 | 0.000%
 
 ##### [7/26/2018 10:37 PM (Thursday)](https://twitter.com/realDonaldTrump/status/1022672169019613186)
 
@@ -1523,7 +1523,7 @@ U.S. Steel | - | 0.7 :thumbsup: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-X | New York Stock Exchange | - | - | 0.000%
+X | New York Stock Exchange | $37.45 | $37.07 | 0.000%
 
 ##### [7/27/2018 7:26 AM (Friday)](https://twitter.com/realDonaldTrump/status/1022805381440069632)
 
@@ -1539,7 +1539,7 @@ U.S. Steel | - | -0.7 :thumbsdown: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-X | New York Stock Exchange | - | - | 0.000%
+X | New York Stock Exchange | $37.45 | $37.07 | 0.000%
 
 ##### [7/29/2018 12:29 PM (Sunday)](https://twitter.com/GOPChairwoman/status/1023606450696978433)
 
@@ -1571,7 +1571,7 @@ Automatic Data Processing | - | 0.0 :neutral_face: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-ADP | NASDAQ | - | - | 0.000%
+ADP | NASDAQ | $132.61 | $132.60 | 0.000%
 
 ##### [8/1/2018 5:16 PM (Wednesday)](https://twitter.com/realDonaldTrump/status/1024765763775815695)
 
@@ -1587,7 +1587,7 @@ Automatic Data Processing | - | 0.0 :neutral_face: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-ADP | NASDAQ | - | - | 0.000%
+ADP | NASDAQ | $132.61 | $132.60 | 0.000%
 
 ##### [8/2/2018 12:38 AM (Thursday)](https://twitter.com/realDonaldTrump/status/1024877011775500290)
 
@@ -1604,8 +1604,8 @@ Amazon | BlackRock | 0.6 :thumbsup: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-AMZN | NASDAQ | - | - | 0.000%
-BLK | New York Stock Exchange | - | - | 0.000%
+AMZN | NASDAQ | $1,799.90 | $1,834.60 | 0.000%
+BLK | New York Stock Exchange | $479.50 | $475.31 | 0.000%
 
 ##### [8/3/2018 6:43 PM (Friday)](https://twitter.com/realDonaldTrump/status/1025512396654346251)
 
@@ -1623,9 +1623,9 @@ Boeing | T. Rowe Price | 0.4 :thumbsup: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-BA | New York Stock Exchange | - | - | 0.000%
-BLK | New York Stock Exchange | - | - | 0.000%
-TROW | NASDAQ | - | - | 0.000%
+BA | New York Stock Exchange | $348.54 | $348.21 | 0.000%
+BLK | New York Stock Exchange | $482.40 | $483.46 | 0.000%
+TROW | NASDAQ | $117.40 | $118.55 | 0.000%
 
 ##### [8/3/2018 11:01 PM (Friday)](https://twitter.com/realDonaldTrump/status/1025577505615503360)
 
@@ -1642,8 +1642,8 @@ Amazon | BlackRock | 0.2 :thumbsup: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-AMZN | NASDAQ | - | - | 0.000%
-BLK | New York Stock Exchange | - | - | 0.000%
+AMZN | NASDAQ | $1,821.10 | $1,847.46 | 0.000%
+BLK | New York Stock Exchange | $482.40 | $483.46 | 0.000%
 
 ##### [8/10/2018 6:47 PM (Friday)](https://twitter.com/realDonaldTrump/status/1028050296151400453)
 
@@ -1660,8 +1660,8 @@ Apple Inc. | BlackRock | 0.3 :thumbsup: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-AAPL | NASDAQ | - | - | 0.000%
-BLK | New York Stock Exchange | - | - | 0.000%
+AAPL | NASDAQ | $207.74 | $207.70 | 0.000%
+BLK | New York Stock Exchange | $478.95 | $475.39 | 0.000%
 
 ##### [8/12/2018 8:57 AM (Sunday)](https://twitter.com/realDonaldTrump/status/1028626569475051522)
 
@@ -1693,7 +1693,7 @@ Target Corporation | - | 0.1 :thumbsup: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-TGT | New York Stock Exchange | - | - | 0.000%
+TGT | New York Stock Exchange | $86.50 | $87.15 | 0.000%
 
 ##### [8/28/2018 11:02 AM (Tuesday)](https://twitter.com/realDonaldTrump/status/1034456273306243076)
 
@@ -1711,9 +1711,9 @@ Google | BlackRock | -0.2 :thumbsdown: | bear | negative sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-GOOG | NASDAQ | - | - | 0.000%
-GOOGL | NASDAQ | - | - | 0.000%
-BLK | New York Stock Exchange | - | - | 0.000%
+GOOG | NASDAQ | $1,235.42 | $1,230.63 | 0.000%
+GOOGL | NASDAQ | $1,251.50 | $1,247.49 | 0.000%
+BLK | New York Stock Exchange | $484.32 | $483.41 | 0.188%
 
 ##### [8/28/2018 11:02 AM (Tuesday)](https://twitter.com/realDonaldTrump/status/1034456281120206848)
 
@@ -1731,9 +1731,9 @@ Google | BlackRock | -0.4 :thumbsdown: | bear | negative sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-GOOG | NASDAQ | - | - | 0.000%
-GOOGL | NASDAQ | - | - | 0.000%
-BLK | New York Stock Exchange | - | - | 0.000%
+GOOG | NASDAQ | $1,235.42 | $1,230.63 | 0.000%
+GOOGL | NASDAQ | $1,251.50 | $1,247.49 | 0.000%
+BLK | New York Stock Exchange | $484.32 | $483.41 | 0.188%
 
 ##### [9/5/2018 9:39 AM (Wednesday)](https://twitter.com/realDonaldTrump/status/1037334510159966214)
 
@@ -1749,7 +1749,7 @@ Nike | - | -0.4 :thumbsdown: | bear | negative sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-NKE | New York Stock Exchange | - | - | 0.000%
+NKE | New York Stock Exchange | $79.67 | $79.85 | -0.225%
 
 ##### [9/7/2018 6:56 AM (Friday)](https://twitter.com/realDonaldTrump/status/1038018199449567232)
 
@@ -1765,7 +1765,7 @@ Nike | - | -0.3 :thumbsdown: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-NKE | New York Stock Exchange | - | - | 0.000%
+NKE | New York Stock Exchange | $80.54 | $80.40 | 0.000%
 
 ##### [9/8/2018 11:45 AM (Saturday)](https://twitter.com/realDonaldTrump/status/1038453273286664193)
 
@@ -1831,7 +1831,7 @@ Twitter | - | -0.3 :thumbsdown: | bear | negative sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-TWTR | New York Stock Exchange | - | - | 0.000%
+TWTR | New York Stock Exchange | $32.06 | $32.56 | -1.520%
 
 ##### [11/12/2018 1:13 PM (Monday)](https://twitter.com/realDonaldTrump/status/1062045654711713792)
 
@@ -1848,7 +1848,7 @@ Time Warner Cable | - | -0.5 :thumbsdown: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-CMCSA | NASDAQ | - | - | 0.000%
+CMCSA | NASDAQ | $38.12 | $38.15 | 0.000%
 TWC | New York Stock Exchange | - | - | 0.000%
 
 ##### [11/15/2018 9:59 AM (Thursday)](https://twitter.com/realDonaldTrump/status/1063084073231544320)
@@ -1869,11 +1869,11 @@ Facebook | Facebook, Inc. | -0.2 :thumbsdown: | bear | negative sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-TWTR | New York Stock Exchange | - | - | 0.000%
-GOOG | NASDAQ | - | - | 0.000%
-GOOGL | NASDAQ | - | - | 0.000%
-BLK | New York Stock Exchange | - | - | 0.000%
-FB | NASDAQ | - | - | 0.000%
+TWTR | New York Stock Exchange | $33.16 | $33.05 | 0.333%
+GOOG | NASDAQ | $1,038.87 | $1,061.00 | 0.000%
+GOOGL | NASDAQ | $1,049.45 | $1,067.00 | 0.000%
+BLK | New York Stock Exchange | $397.19 | $406.88 | -2.382%
+FB | NASDAQ | $142.55 | $143.25 | -0.487%
 
 ##### [11/27/2018 2:05 PM (Tuesday)](https://twitter.com/realDonaldTrump/status/1067494680416407552)
 
@@ -1889,7 +1889,7 @@ General Motors | - | 0.0 :neutral_face: | hold | neutral sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-GM | New York Stock Exchange | - | - | 0.000%
+GM | New York Stock Exchange | $37.12 | $36.78 | 0.000%
 
 ##### [11/27/2018 2:05 PM (Tuesday)](https://twitter.com/realDonaldTrump/status/1067494682249318402)
 
@@ -1905,7 +1905,7 @@ General Motors | - | 0.0 :neutral_face: | hold | neutral sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-GM | New York Stock Exchange | - | - | 0.000%
+GM | New York Stock Exchange | $37.12 | $36.78 | 0.000%
 
 ##### [11/28/2018 9:49 AM (Wednesday)](https://twitter.com/realDonaldTrump/status/1067792610180456448)
 
@@ -1921,7 +1921,7 @@ General Motors | - | -0.1 :thumbsdown: | bear | negative sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-GM | New York Stock Exchange | - | - | 0.000%
+GM | New York Stock Exchange | $36.27 | $37.08 | -2.184%
 
 ##### [11/29/2018 6:37 AM (Thursday)](https://twitter.com/realDonaldTrump/status/1068106609644183554)
 
@@ -1939,9 +1939,9 @@ BMW | BlackRock | 0.3 :thumbsup: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-GM | New York Stock Exchange | - | - | 0.000%
+GM | New York Stock Exchange | $37.08 | $36.66 | 0.000%
 BMWYY | NASDAQ | - | - | 0.000%
-BLK | New York Stock Exchange | - | - | 0.000%
+BLK | New York Stock Exchange | $427.27 | $424.01 | 0.000%
 
 ##### [12/18/2018 7:26 AM (Tuesday)](https://twitter.com/realDonaldTrump/status/1075004324567285761)
 
@@ -1961,11 +1961,11 @@ Twitter | - | -0.7 :thumbsdown: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-FB | NASDAQ | - | - | 0.000%
-GOOG | NASDAQ | - | - | 0.000%
-GOOGL | NASDAQ | - | - | 0.000%
-BLK | New York Stock Exchange | - | - | 0.000%
-TWTR | New York Stock Exchange | - | - | 0.000%
+FB | NASDAQ | $141.45 | $143.25 | 0.000%
+GOOG | NASDAQ | $1,022.00 | $1,026.07 | 0.000%
+GOOGL | NASDAQ | $1,029.35 | $1,043.37 | 0.000%
+BLK | New York Stock Exchange | $378.25 | $383.35 | 0.000%
+TWTR | New York Stock Exchange | $33.67 | $33.55 | 0.000%
 
 ##### [12/18/2018 8:22 AM (Tuesday)](https://twitter.com/realDonaldTrump/status/1075018465356996609)
 
@@ -1982,8 +1982,8 @@ Yahoo | Verizon | -0.2 :thumbsdown: | bear | negative sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-BLK | New York Stock Exchange | - | - | 0.000%
-VZ | NASDAQ | - | - | 0.000%
+BLK | New York Stock Exchange | $378.25 | $383.35 | -1.330%
+VZ | NASDAQ | $56.15 | $55.63 | 0.935%
 
 ##### [12/23/2018 11:46 AM (Sunday)](https://twitter.com/realDonaldTrump/status/1076881816462737408)
 
@@ -2035,7 +2035,7 @@ Starbucks | - | -0.5 :thumbsdown: | bear | negative sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-SBUX | NASDAQ | - | - | 0.000%
+SBUX | NASDAQ | $66.48 | $66.70 | -0.330%
 
 ##### [1/31/2019 4:40 PM (Thursday)](https://twitter.com/realDonaldTrump/status/1091088740947320833)
 
@@ -2051,7 +2051,7 @@ Intel | - | -0.1 :thumbsdown: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-INTC | NASDAQ | - | - | 0.000%
+INTC | NASDAQ | $47.20 | $47.12 | 0.000%
 
 ##### [3/4/2019 9:10 PM (Monday)](https://twitter.com/realDonaldTrump/status/1102753238451929088)
 
@@ -2068,8 +2068,8 @@ Amazon | BlackRock | 0.2 :thumbsup: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-AMZN | NASDAQ | - | - | 0.000%
-BLK | New York Stock Exchange | - | - | 0.000%
+AMZN | NASDAQ | $1,695.00 | $1,689.99 | 0.000%
+BLK | New York Stock Exchange | $437.33 | $432.52 | 0.000%
 
 ##### [3/11/2019 10:12 AM (Monday)](https://twitter.com/realDonaldTrump/status/1105109329290686464)
 
@@ -2086,8 +2086,8 @@ Apple Inc. | BlackRock | 0.0 :neutral_face: | hold | neutral sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-AAPL | NASDAQ | - | - | 0.000%
-BLK | New York Stock Exchange | - | - | 0.000%
+AAPL | NASDAQ | $177.22 | $179.80 | 0.000%
+BLK | New York Stock Exchange | $425.38 | $428.10 | 0.000%
 
 ##### [3/11/2019 11:27 AM (Monday)](https://twitter.com/realDonaldTrump/status/1105128204719796224)
 
@@ -2103,7 +2103,7 @@ United Airlines | United Airlines Holdings | 0.1 :thumbsup: | bull | positive se
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-UAL | New York Stock Exchange | - | - | 0.000%
+UAL | New York Stock Exchange | $82.21 | $82.52 | 0.377%
 
 ##### [3/14/2019 12:18 PM (Thursday)](https://twitter.com/realDonaldTrump/status/1106228159811330048)
 
@@ -2119,7 +2119,7 @@ Toyota | - | 0.4 :thumbsup: | bull | positive sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-TM | New York Stock Exchange | - | - | 0.000%
+TM | New York Stock Exchange | $118.00 | $117.70 | -0.250%
 
 ##### [3/16/2019 5:01 PM (Saturday)](https://twitter.com/realDonaldTrump/status/1107024074184761344)
 
@@ -2189,7 +2189,7 @@ General Motors | - | 0.1 :thumbsup: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-GM | New York Stock Exchange | - | - | 0.000%
+GM | New York Stock Exchange | $38.10 | $38.06 | 0.000%
 
 ##### [3/18/2019 9:32 PM (Monday)](https://twitter.com/realDonaldTrump/status/1107817082723450880)
 
@@ -2205,7 +2205,7 @@ Twitter | - | -0.4 :thumbsdown: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-TWTR | New York Stock Exchange | - | - | 0.000%
+TWTR | New York Stock Exchange | $31.03 | $31.20 | 0.000%
 
 ##### [3/19/2019 9:57 AM (Tuesday)](https://twitter.com/realDonaldTrump/status/1108004465121075200)
 
@@ -2225,11 +2225,11 @@ Twitter | - | 0.2 :thumbsup: | bull | positive sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-FB | NASDAQ | - | - | 0.000%
-GOOG | NASDAQ | - | - | 0.000%
-GOOGL | NASDAQ | - | - | 0.000%
-BLK | New York Stock Exchange | - | - | 0.000%
-TWTR | New York Stock Exchange | - | - | 0.000%
+FB | NASDAQ | $162.13 | $161.30 | -0.512%
+GOOG | NASDAQ | $1,190.10 | $1,197.00 | 0.000%
+GOOGL | NASDAQ | $1,194.47 | $1,201.96 | 0.000%
+BLK | New York Stock Exchange | $442.12 | $434.57 | -1.707%
+TWTR | New York Stock Exchange | $31.06 | $31.20 | 0.461%
 
 ##### [3/20/2019 4:51 PM (Wednesday)](https://twitter.com/realDonaldTrump/status/1108471193353375744)
 
@@ -2245,7 +2245,7 @@ Ford Motor Company | - | 0.1 :thumbsup: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-F | New York Stock Exchange | - | - | 0.000%
+F | New York Stock Exchange | $8.51 | $8.52 | 0.000%
 
 ##### [3/27/2019 3:38 PM (Wednesday)](https://twitter.com/realDonaldTrump/status/1110989594521026561)
 
@@ -2263,9 +2263,9 @@ Google | BlackRock | 0.0 :neutral_face: | hold | neutral sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-GOOG | NASDAQ | - | - | 0.000%
-GOOGL | NASDAQ | - | - | 0.000%
-BLK | New York Stock Exchange | - | - | 0.000%
+GOOG | NASDAQ | $1,172.06 | $1,171.00 | 0.000%
+GOOGL | NASDAQ | $1,176.33 | $1,178.20 | 0.000%
+BLK | New York Stock Exchange | $420.99 | $419.64 | 0.000%
 
 ##### [3/27/2019 3:38 PM (Wednesday)](https://twitter.com/realDonaldTrump/status/1110989595758469120)
 
@@ -2283,9 +2283,9 @@ Google | BlackRock | 0.5 :thumbsup: | bull | positive sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-GOOG | NASDAQ | - | - | 0.000%
-GOOGL | NASDAQ | - | - | 0.000%
-BLK | New York Stock Exchange | - | - | 0.000%
+GOOG | NASDAQ | $1,172.06 | $1,171.00 | 0.000%
+GOOGL | NASDAQ | $1,176.33 | $1,178.20 | 0.000%
+BLK | New York Stock Exchange | $420.99 | $419.64 | -0.321%
 
 ##### [4/15/2019 6:29 AM (Monday)](https://twitter.com/realDonaldTrump/status/1117736685721223168)
 
@@ -2305,9 +2305,9 @@ Boeing | T. Rowe Price | -0.5 :thumbsdown: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-BA | New York Stock Exchange | - | - | 0.000%
-BLK | New York Stock Exchange | $454.00 | $451.75 | 0.000%
-TROW | NASDAQ | - | - | 0.000%
+BA | New York Stock Exchange | $379.25 | $374.56 | 0.000%
+BLK | New York Stock Exchange | $454.35 | $451.48 | 0.000%
+TROW | NASDAQ | $105.90 | $104.01 | 0.000%
 
 ##### [4/20/2019 8:01 PM (Saturday)](https://twitter.com/DevinNunes/status/1119752951323475969)
 
@@ -2343,7 +2343,7 @@ U.S. Steel | - | 0.2 :thumbsup: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-X | New York Stock Exchange | $14.41 | $16.89 | 0.000%
+X | New York Stock Exchange | $15.12 | $15.12 | 0.000%
 
 ##### [5/3/2019 12:19 PM (Friday)](https://twitter.com/JeremyDBoreing/status/1124347703754989568)
 
@@ -2359,7 +2359,7 @@ Facebook | Facebook, Inc. | -0.8 :thumbsdown: | bear | negative sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-FB | NASDAQ | $195.44 | $195.36 | 0.044%
+FB | NASDAQ | $195.44 | $195.65 | -0.107%
 
 ##### [5/3/2019 7:23 PM (Friday)](https://twitter.com/realDonaldTrump/status/1124454393749934080)
 
@@ -2375,7 +2375,7 @@ Facebook | Facebook, Inc. | -0.6 :thumbsdown: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-FB | NASDAQ | $195.36 | $193.79 | 0.000%
+FB | NASDAQ | $195.52 | $195.65 | 0.000%
 
 ##### [5/3/2019 7:25 PM (Friday)](https://twitter.com/realDonaldTrump/status/1124454991341793281)
 
@@ -2392,8 +2392,8 @@ Facebook | Facebook, Inc. | -0.1 :thumbsdown: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-TWTR | New York Stock Exchange | $40.76 | $40.25 | 0.000%
-FB | NASDAQ | $195.36 | $193.79 | 0.000%
+TWTR | New York Stock Exchange | $40.82 | $40.80 | 0.000%
+FB | NASDAQ | $195.63 | $195.65 | 0.000%
 
 ##### [5/4/2019 8:34 AM (Saturday)](https://twitter.com/realDonaldTrump/status/1124653429366906882)
 
@@ -2443,7 +2443,7 @@ General Motors | - | 0.2 :thumbsup: | bull | positive sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-GM | New York Stock Exchange | $38.73 | $38.19 | -1.404%
+GM | New York Stock Exchange | $38.73 | $38.12 | -1.575%
 
 ##### [5/8/2019 7:44 PM (Wednesday)](https://twitter.com/TomFitton/status/1126271724528590848)
 
@@ -2459,7 +2459,7 @@ Intel | - | -0.4 :thumbsdown: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-INTC | NASDAQ | $49.19 | $46.60 | 0.000%
+INTC | NASDAQ | $48.95 | $48.95 | 0.000%
 
 ##### [5/20/2019 7:20 AM (Monday)](https://twitter.com/realDonaldTrump/status/1130433208250769410)
 
@@ -2475,7 +2475,7 @@ Deutsche Bank | - | -0.2 :thumbsdown: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-DB | New York Stock Exchange | $7.58 | $7.42 | 0.000%
+DB | New York Stock Exchange | $7.39 | $7.50 | 0.000%
 
 ##### [6/8/2019 6:47 AM (Saturday)](https://twitter.com/realDonaldTrump/status/1137310207401439232)
 
@@ -2523,7 +2523,7 @@ Lockheed Martin | - | -0.1 :thumbsdown: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-LMT | New York Stock Exchange | $350.36 | $348.73 | 0.000%
+LMT | New York Stock Exchange | $350.14 | $348.90 | 0.000%
 
 ##### [6/14/2019 6:37 PM (Friday)](https://twitter.com/realDonaldTrump/status/1139663211874148352)
 
@@ -2539,7 +2539,7 @@ Lockheed Martin | - | 0.0 :neutral_face: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-LMT | New York Stock Exchange | $350.36 | $348.73 | 0.000%
+LMT | New York Stock Exchange | $350.14 | $348.90 | 0.000%
 
 ##### [7/7/2019 7:50 PM (Sunday)](https://twitter.com/realDonaldTrump/status/1148016423735836674)
 
@@ -2571,7 +2571,7 @@ The Home Depot | - | -0.1 :thumbsdown: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-HD | New York Stock Exchange | $212.00 | $210.71 | 0.000%
+HD | New York Stock Exchange | $212.00 | $210.94 | 0.000%
 
 ##### [7/9/2019 9:30 PM (Tuesday)](https://twitter.com/realDonaldTrump/status/1148766319640227841)
 
@@ -2587,7 +2587,7 @@ The Home Depot | - | 0.1 :thumbsup: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-HD | New York Stock Exchange | $212.00 | $210.71 | 0.000%
+HD | New York Stock Exchange | $212.00 | $210.94 | 0.000%
 
 ##### [7/10/2019 8:06 PM (Wednesday)](https://twitter.com/realDonaldTrump/status/1149107725005180931)
 
@@ -2603,7 +2603,7 @@ Lockheed Martin | - | 0.5 :thumbsup: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-LMT | New York Stock Exchange | $368.10 | $368.31 | 0.000%
+LMT | New York Stock Exchange | $368.16 | $368.99 | 0.000%
 
 ##### [7/10/2019 8:06 PM (Wednesday)](https://twitter.com/realDonaldTrump/status/1149107726565462018)
 
@@ -2619,7 +2619,7 @@ Lockheed Martin | - | 0.9 :thumbsup: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-LMT | New York Stock Exchange | $368.10 | $368.31 | 0.000%
+LMT | New York Stock Exchange | $368.16 | $368.99 | 0.000%
 
 ##### [7/11/2019 11:08 AM (Thursday)](https://twitter.com/realDonaldTrump/status/1149334626311294976)
 
@@ -2635,7 +2635,7 @@ Sikorsky Aircraft Corporation | Lockheed Martin | 0.9 :thumbsup: | bull | positi
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-LMT | New York Stock Exchange | $368.25 | $368.31 | 0.017%
+LMT | New York Stock Exchange | $368.24 | $368.99 | 0.204%
 
 ##### [7/16/2019 7:46 AM (Tuesday)](https://twitter.com/realDonaldTrump/status/1151095675213553664)
 
@@ -2653,9 +2653,9 @@ Google | BlackRock | 0.0 :neutral_face: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-GOOG | NASDAQ | $1,150.05 | $1,153.11 | 0.000%
-GOOGL | NASDAQ | $1,150.13 | $1,153.34 | 0.000%
-BLK | New York Stock Exchange | $481.57 | $477.34 | 0.000%
+GOOG | NASDAQ | $1,150.15 | $1,151.00 | 0.000%
+GOOGL | NASDAQ | $1,147.10 | $1,151.24 | 0.000%
+BLK | New York Stock Exchange | $481.70 | $477.25 | 0.000%
 
 ##### [7/24/2019 7:06 AM (Wednesday)](https://twitter.com/JamesOKeefeIII/status/1153984734021718016)
 
@@ -2673,9 +2673,9 @@ Google | BlackRock | -0.2 :thumbsdown: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-GOOG | NASDAQ | $1,145.75 | $1,137.61 | 0.000%
-GOOGL | NASDAQ | $1,147.51 | $1,139.60 | 0.000%
-BLK | New York Stock Exchange | $477.38 | $477.15 | 0.000%
+GOOG | NASDAQ | $1,134.00 | $1,137.00 | 0.000%
+GOOGL | NASDAQ | $1,137.03 | $1,140.00 | 0.000%
+BLK | New York Stock Exchange | $477.46 | $477.15 | 0.000%
 
 ##### [7/26/2019 10:02 AM (Friday)](https://twitter.com/realDonaldTrump/status/1154753932259991552)
 
@@ -2693,9 +2693,9 @@ Google | BlackRock | -0.1 :thumbsdown: | bear | negative sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-GOOG | NASDAQ | $1,250.94 | $1,249.41 | 0.000%
-GOOGL | NASDAQ | $1,255.30 | $1,250.83 | 0.000%
-BLK | New York Stock Exchange | $474.77 | $478.08 | -0.693%
+GOOG | NASDAQ | $1,253.13 | $1,248.36 | 0.000%
+GOOGL | NASDAQ | $1,255.38 | $1,249.88 | 0.000%
+BLK | New York Stock Exchange | $474.77 | $478.17 | -0.711%
 
 ##### [7/26/2019 11:25 AM (Friday)](https://twitter.com/realDonaldTrump/status/1154774656861257732)
 
@@ -2712,8 +2712,8 @@ Apple Inc. | BlackRock | -0.3 :thumbsdown: | bear | negative sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-AAPL | NASDAQ | $208.13 | $207.88 | 0.123%
-BLK | New York Stock Exchange | $475.28 | $478.08 | -0.586%
+AAPL | NASDAQ | $208.08 | $207.79 | 0.140%
+BLK | New York Stock Exchange | $475.16 | $478.17 | -0.629%
 
 ##### [7/29/2019 6:30 AM (Monday)](https://twitter.com/realDonaldTrump/status/1155787721576779776)
 
@@ -2729,7 +2729,7 @@ Comcast | - | 0.0 :neutral_face: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-CMCSA | NASDAQ | $44.65 | $44.21 | 0.000%
+CMCSA | NASDAQ | $44.63 | $44.21 | 0.000%
 
 ##### [8/5/2019 9:33 PM (Monday)](https://twitter.com/realDonaldTrump/status/1158551525817536512)
 
@@ -2747,9 +2747,9 @@ Google | BlackRock | 0.2 :thumbsup: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-GOOG | NASDAQ | $1,153.52 | $1,170.07 | 0.000%
-GOOGL | NASDAQ | $1,155.79 | $1,171.44 | 0.000%
-BLK | New York Stock Exchange | $431.23 | $435.84 | 0.000%
+GOOG | NASDAQ | $1,127.65 | $1,169.39 | 0.000%
+GOOGL | NASDAQ | $1,140.00 | $1,168.10 | 0.000%
+BLK | New York Stock Exchange | $424.75 | $435.71 | 0.000%
 
 ##### [8/8/2019 10:38 AM (Thursday)](https://twitter.com/realDonaldTrump/status/1159473909827297281)
 
@@ -2767,9 +2767,9 @@ Boeing | T. Rowe Price | -0.3 :thumbsdown: | bear | negative sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-BA | New York Stock Exchange | $331.35 | $336.27 | -1.463%
-BLK | New York Stock Exchange | $435.08 | $437.60 | -0.576%
-TROW | NASDAQ | $109.69 | $110.26 | -0.514%
+BA | New York Stock Exchange | $331.44 | $335.00 | -1.063%
+BLK | New York Stock Exchange | $435.16 | $437.62 | -0.562%
+TROW | NASDAQ | $109.66 | $110.25 | -0.535%
 
 ##### [8/8/2019 10:38 AM (Thursday)](https://twitter.com/realDonaldTrump/status/1159473911748317189)
 
@@ -2785,13 +2785,13 @@ John Deere | - | 0.4 :thumbsup: | bull | positive sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-DE | New York Stock Exchange | $152.84 | $154.97 | 1.391%
+DE | New York Stock Exchange | $152.95 | $154.75 | 1.177%
 
 ##### [8/9/2019 1:48 PM (Friday)](https://twitter.com/OANN/status/1159884168261541888)
 
-> One America News has just launched a live 24/7, 365 days a year, uninterrupted cable feed on Facebook, and it's only $4.99 per month. Now you can watch @OANN live, anytime, anywhere in the world! Go to our Facebook page to become a supporter today! 
+> One America News has just launched a live 24/7, 365 days a year, uninterrupted cable feed on Facebook, and it's only $4.99 per month. Now you can watch @OANN live, anytime, anywhere in the world! Go to our Facebook page to become a supporter today!
 
-> 
+>
 
 > https://t.co/V3LbeDcIdK https://t.co/tfUBkCdiOC
 
@@ -2805,7 +2805,7 @@ Facebook | Facebook, Inc. | 0.5 :thumbsup: | bull | positive sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-FB | NASDAQ | $189.42 | $187.93 | -0.785%
+FB | NASDAQ | $189.40 | $187.94 | -0.771%
 
 ##### [8/15/2019 4:18 PM (Thursday)](https://twitter.com/realDonaldTrump/status/1162096224486510592)
 
@@ -2823,9 +2823,9 @@ Walmart | State Street Corporation | 0.4 :thumbsup: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-WMT | New York Stock Exchange | $112.77 | $112.94 | 0.000%
-BLK | New York Stock Exchange | $409.45 | $419.71 | 0.000%
-STT | New York Stock Exchange | $48.83 | $50.21 | 0.000%
+WMT | New York Stock Exchange | $112.75 | $112.86 | 0.000%
+BLK | New York Stock Exchange | $409.30 | $409.30 | 0.000%
+STT | New York Stock Exchange | $48.81 | $48.81 | 0.000%
 
 ##### [8/16/2019 7:04 PM (Friday)](https://twitter.com/realDonaldTrump/status/1162500362810642437)
 
@@ -2842,8 +2842,8 @@ Apple Inc. | BlackRock | 0.1 :thumbsup: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-AAPL | NASDAQ | $206.54 | $210.38 | 0.000%
-BLK | New York Stock Exchange | $419.71 | $425.65 | 0.000%
+AAPL | NASDAQ | $206.68 | $206.46 | 0.000%
+BLK | New York Stock Exchange | $419.46 | $425.56 | 0.000%
 
 ##### [8/19/2019 11:52 AM (Monday)](https://twitter.com/realDonaldTrump/status/1163478770587721729)
 
@@ -2861,9 +2861,9 @@ Google | BlackRock | -0.1 :thumbsdown: | bear | negative sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-GOOG | NASDAQ | $1,204.22 | $1,198.20 | 0.000%
-GOOGL | NASDAQ | $1,205.28 | $1,200.39 | 0.000%
-BLK | New York Stock Exchange | $424.02 | $425.65 | -0.383%
+GOOG | NASDAQ | $1,205.49 | $1,194.56 | 0.000%
+GOOGL | NASDAQ | $1,207.50 | $1,198.99 | 0.000%
+BLK | New York Stock Exchange | $424.02 | $425.56 | -0.361%
 
 ##### [8/19/2019 3:04 PM (Monday)](https://twitter.com/VP/status/1163527257786408961)
 
@@ -2881,9 +2881,9 @@ General Motors | - | 0.0 :neutral_face: | hold | neutral sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-FCAU | New York Stock Exchange | $12.46 | $12.48 | 0.000%
-F | New York Stock Exchange | $9.04 | $9.04 | 0.000%
-GM | New York Stock Exchange | $37.38 | $37.38 | 0.000%
+FCAU | New York Stock Exchange | $12.46 | $12.47 | 0.000%
+F | New York Stock Exchange | $9.04 | $9.03 | 0.000%
+GM | New York Stock Exchange | $37.38 | $37.45 | 0.000%
 
 ##### [8/21/2019 4:41 PM (Wednesday)](https://twitter.com/SenCapito/status/1164276315178045441)
 
@@ -2899,7 +2899,7 @@ Hino Motors | Toyota | 0.3 :thumbsup: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-TM | New York Stock Exchange | $129.98 | $129.74 | 0.000%
+TM | New York Stock Exchange | $129.88 | $129.65 | 0.000%
 
 ##### [8/21/2019 6:50 PM (Wednesday)](https://twitter.com/realDonaldTrump/status/1164308814759260161)
 
@@ -2916,8 +2916,8 @@ General Motors | - | -0.5 :thumbsdown: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-F | New York Stock Exchange | $9.04 | $9.03 | 0.000%
-GM | New York Stock Exchange | $37.12 | $37.28 | 0.000%
+F | New York Stock Exchange | $9.05 | $9.06 | 0.000%
+GM | New York Stock Exchange | $37.25 | $37.25 | 0.000%
 
 ##### [8/23/2019 10:59 AM (Friday)](https://twitter.com/realDonaldTrump/status/1164914962529247232)
 
@@ -2936,10 +2936,10 @@ FedEx | - | 0.1 :thumbsup: | bull | positive sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-UPS | New York Stock Exchange | $114.26 | $111.15 | -2.724%
-AMZN | NASDAQ | $1,797.60 | $1,748.92 | -2.708%
-BLK | New York Stock Exchange | $417.53 | $406.90 | -2.546%
-FDX | New York Stock Exchange | $156.29 | $151.88 | -2.827%
+UPS | New York Stock Exchange | $114.65 | $111.28 | -2.939%
+AMZN | NASDAQ | $1,801.00 | $1,745.10 | -3.104%
+BLK | New York Stock Exchange | $417.64 | $407.25 | -2.488%
+FDX | New York Stock Exchange | $156.79 | $152.05 | -3.023%
 
 ##### [9/14/2019 9:04 AM (Saturday)](https://twitter.com/realDonaldTrump/status/1172858577951821825)
 
@@ -2987,7 +2987,7 @@ Facebook | Facebook, Inc. | 0.6 :thumbsup: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-FB | NASDAQ | $190.15 | $189.84 | 0.000%
+FB | NASDAQ | $190.20 | $189.30 | 0.000%
 
 ##### [9/30/2019 3:04 PM (Monday)](https://twitter.com/realDonaldTrump/status/1178747450120708097)
 
@@ -3004,8 +3004,8 @@ Apple Inc. | BlackRock | 0.4 :thumbsup: | bull | positive sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-AAPL | NASDAQ | $224.09 | $224.00 | -0.037%
-BLK | New York Stock Exchange | $446.86 | $445.83 | -0.229%
+AAPL | NASDAQ | $223.98 | $224.50 | 0.232%
+BLK | New York Stock Exchange | $445.94 | $445.64 | -0.067%
 
 ##### [9/30/2019 3:04 PM (Monday)](https://twitter.com/realDonaldTrump/status/1178747450120708097)
 
@@ -3022,8 +3022,8 @@ Apple Inc. | BlackRock | 0.4 :thumbsup: | bull | positive sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-AAPL | NASDAQ | $224.09 | $224.00 | -0.037%
-BLK | New York Stock Exchange | $446.86 | $445.83 | -0.229%
+AAPL | NASDAQ | $223.98 | $224.50 | 0.232%
+BLK | New York Stock Exchange | $445.94 | $445.64 | -0.067%
 
 ##### [9/30/2019 3:08 PM (Monday)](https://twitter.com/realDonaldTrump/status/1178748369709256704)
 
@@ -3040,8 +3040,8 @@ Aptiv | - | 0.3 :thumbsup: | bull | positive sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-APTV | New York Stock Exchange | $87.69 | $87.39 | -0.338%
-DLPH | New York Stock Exchange | $13.34 | $13.40 | 0.465%
+APTV | New York Stock Exchange | $87.62 | $87.42 | -0.228%
+DLPH | New York Stock Exchange | $13.34 | $13.50 | 1.199%
 
 ##### [9/30/2019 3:08 PM (Monday)](https://twitter.com/realDonaldTrump/status/1178748369709256704)
 
@@ -3058,8 +3058,8 @@ Aptiv | - | 0.3 :thumbsup: | bull | positive sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-APTV | New York Stock Exchange | $87.69 | $87.39 | -0.338%
-DLPH | New York Stock Exchange | $13.34 | $13.40 | 0.465%
+APTV | New York Stock Exchange | $87.62 | $87.42 | -0.228%
+DLPH | New York Stock Exchange | $13.34 | $13.50 | 1.199%
 
 ##### [10/8/2019 8:30 AM (Tuesday)](https://twitter.com/realDonaldTrump/status/1181547331822456832)
 
@@ -3075,7 +3075,7 @@ Lockheed Martin | - | 0.5 :thumbsup: | bull | positive sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-LMT | New York Stock Exchange | $383.87 | $382.36 | -0.395%
+LMT | New York Stock Exchange | $383.78 | $382.12 | -0.433%
 
 ##### [10/8/2019 10:06 AM (Tuesday)](https://twitter.com/realDonaldTrump/status/1181571571787403265)
 
@@ -3091,7 +3091,7 @@ Uber | - | -0.5 :thumbsdown: | bear | negative sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-UBER | New York Stock Exchange | $29.73 | $29.29 | 1.513%
+UBER | New York Stock Exchange | $29.76 | $29.25 | 1.733%
 
 ##### [10/12/2019 10:09 AM (Saturday)](https://twitter.com/realDonaldTrump/status/1183021806493556736)
 
@@ -3127,7 +3127,7 @@ Cisco Systems | - | 0.0 :neutral_face: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-CSCO | NASDAQ | $46.50 | $46.04 | 0.000%
+CSCO | NASDAQ | $46.49 | $46.16 | 0.000%
 
 ##### [10/30/2019 1:19 PM (Wednesday)](https://twitter.com/realDonaldTrump/status/1189592785311223815)
 
@@ -3145,9 +3145,9 @@ Toyota | - | 0.0 :neutral_face: | hold | neutral sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-GM | New York Stock Exchange | $37.70 | $37.91 | 0.000%
-FCAU | New York Stock Exchange | $14.28 | $15.04 | 0.000%
-TM | New York Stock Exchange | $138.40 | $139.06 | 0.000%
+GM | New York Stock Exchange | $37.72 | $37.92 | 0.000%
+FCAU | New York Stock Exchange | $14.28 | $15.10 | 0.000%
+TM | New York Stock Exchange | $138.42 | $139.02 | 0.000%
 
 ##### [11/1/2019 8:52 AM (Friday)](https://twitter.com/realDonaldTrump/status/1190250133071519745)
 
@@ -3163,7 +3163,7 @@ General Motors | - | 0.7 :thumbsup: | bull | positive sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-GM | New York Stock Exchange | $37.16 | $37.98 | 2.231%
+GM | New York Stock Exchange | $37.32 | $37.97 | 1.742%
 
 ##### [11/2/2019 11:45 PM (Saturday)](https://twitter.com/TaraLaRosa/status/1190837453696856065)
 
@@ -3213,9 +3213,9 @@ Walmart | State Street Corporation | 0.0 :neutral_face: | hold | neutral sentime
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-WMT | New York Stock Exchange | $124.23 | $120.65 | 0.000%
-BLK | New York Stock Exchange | $485.77 | $484.68 | 0.000%
-STT | New York Stock Exchange | $72.70 | $72.27 | 0.000%
+WMT | New York Stock Exchange | $124.54 | $120.70 | 0.000%
+BLK | New York Stock Exchange | $484.97 | $484.59 | 0.000%
+STT | New York Stock Exchange | $72.66 | $72.25 | 0.000%
 
 ##### [11/20/2019 6:18 PM (Wednesday)](https://twitter.com/realDonaldTrump/status/1197293250115014656)
 
@@ -3232,8 +3232,8 @@ Apple Inc. | BlackRock | -0.4 :thumbsdown: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-AAPL | NASDAQ | $262.89 | $261.76 | 0.000%
-BLK | New York Stock Exchange | $488.51 | $484.90 | 0.000%
+AAPL | NASDAQ | $263.75 | $263.26 | 0.000%
+BLK | New York Stock Exchange | $488.81 | $484.95 | 0.000%
 
 ##### [11/21/2019 7:31 AM (Thursday)](https://twitter.com/realDonaldTrump/status/1197492772850348034)
 
@@ -3250,8 +3250,8 @@ Apple Inc. | BlackRock | 0.0 :neutral_face: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-AAPL | NASDAQ | $262.89 | $261.76 | 0.000%
-BLK | New York Stock Exchange | $488.51 | $484.90 | 0.000%
+AAPL | NASDAQ | $264.29 | $262.26 | 0.000%
+BLK | New York Stock Exchange | $488.81 | $484.95 | 0.000%
 
 ##### [11/23/2019 11:53 PM (Saturday)](https://twitter.com/realDonaldTrump/status/1198464662960066560)
 
@@ -3306,8 +3306,8 @@ Instagram | Facebook, Inc. | 0.0 :neutral_face: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-TWTR | New York Stock Exchange | $30.40 | $30.97 | 0.000%
-FB | NASDAQ | $194.06 | $197.90 | 0.000%
+TWTR | New York Stock Exchange | $30.41 | $31.00 | 0.000%
+FB | NASDAQ | $194.05 | $197.91 | 0.000%
 
 ##### [12/20/2019 10:43 PM (Friday)](https://twitter.com/realDonaldTrump/status/1208231562552188930)
 
@@ -3324,8 +3324,8 @@ Apple Inc. | BlackRock | 0.5 :thumbsup: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-AAPL | NASDAQ | $279.57 | $284.00 | 0.000%
-BLK | New York Stock Exchange | $499.91 | $499.37 | 0.000%
+AAPL | NASDAQ | $279.44 | $284.53 | 0.000%
+BLK | New York Stock Exchange | $499.59 | $499.66 | 0.000%
 
 ##### [1/14/2020 6:36 PM (Tuesday)](https://twitter.com/realDonaldTrump/status/1217228960964038658)
 
@@ -3342,8 +3342,8 @@ Apple Inc. | BlackRock | 0.0 :neutral_face: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-AAPL | NASDAQ | $312.65 | $311.23 | 0.000%
-BLK | New York Stock Exchange | $519.22 | $529.96 | 0.000%
+AAPL | NASDAQ | $312.06 | $311.90 | 0.000%
+BLK | New York Stock Exchange | $518.32 | $518.32 | 0.000%
 
 ##### [1/14/2020 6:36 PM (Tuesday)](https://twitter.com/realDonaldTrump/status/1217228960964038658)
 
@@ -3360,8 +3360,8 @@ Apple Inc. | BlackRock | 0.0 :neutral_face: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-AAPL | NASDAQ | $312.65 | $311.23 | 0.000%
-BLK | New York Stock Exchange | $519.22 | $529.96 | 0.000%
+AAPL | NASDAQ | $312.06 | $311.90 | 0.000%
+BLK | New York Stock Exchange | $518.32 | $518.32 | 0.000%
 
 ##### [1/22/2020 11:15 AM (Wednesday)](https://twitter.com/JerryMoran/status/1220017038929932289)
 
@@ -3379,9 +3379,9 @@ Boeing | T. Rowe Price | 0.0 :neutral_face: | hold | neutral sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-BA | New York Stock Exchange | $306.94 | $308.88 | 0.000%
-BLK | New York Stock Exchange | $537.83 | $536.76 | 0.000%
-TROW | NASDAQ | $133.21 | $132.59 | 0.000%
+BA | New York Stock Exchange | $306.56 | $309.10 | 0.000%
+BLK | New York Stock Exchange | $538.00 | $537.93 | 0.000%
+TROW | NASDAQ | $133.12 | $132.57 | 0.000%
 
 ##### [1/31/2020 5:01 PM (Friday)](https://twitter.com/SeanDNaylor/status/1223365710837166081)
 
@@ -3398,28 +3398,8 @@ Yahoo | Verizon | -0.5 :thumbsdown: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-BLK | New York Stock Exchange | $527.39 | $530.49 | 0.000%
-VZ | NASDAQ | $59.45 | $58.05 | 0.000%
-
-##### [2/3/2020 9:43 AM (Monday)](https://twitter.com/SenMcSallyAZ/status/1224342526880030720)
-
-> .@Raytheon is headquartering its combined missiles defense unit right here in Southern Arizona.
-
-> https://t.co/KhQRzdvSXt
-
-*Strategy*
-
-Company | Root | Sentiment | Strategy | Reason
---------|------|-----------|----------|-------
-Raytheon Company | - | 0.3 :thumbsup: | bull | positive sentiment
-Raytheon Technologies Corporation | - | 0.3 :thumbsup: | bull | positive sentiment
-
-*Performance*
-
-Ticker | Exchange | Price @ tweet | Price @ close | Gain
--------|----------|---------------|---------------|-----
-RTN | New York Stock Exchange | $220.99 | $218.68 | -1.045%
-RTX | New York Stock Exchange | - | - | 0.000%
+BLK | New York Stock Exchange | $527.35 | $530.08 | 0.000%
+VZ | NASDAQ | $59.45 | $59.52 | 0.000%
 
 ##### [2/14/2020 3:41 PM (Friday)](https://twitter.com/realDonaldTrump/status/1228418892663488517)
 
@@ -3435,7 +3415,7 @@ Carnival Cruise Line | Carnival Corporation & plc | 0.7 :thumbsup: | bull | posi
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-CCL | New York Stock Exchange | $42.71 | $42.63 | -0.180%
+CCL | New York Stock Exchange | $42.70 | $42.80 | 0.234%
 
 ##### [2/14/2020 6:38 PM (Friday)](https://twitter.com/realDonaldTrump/status/1228463577335554049)
 
@@ -3451,7 +3431,7 @@ Facebook | Facebook, Inc. | 0.1 :thumbsup: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-FB | NASDAQ | $214.12 | $217.74 | 0.000%
+FB | NASDAQ | $214.10 | $214.18 | 0.000%
 
 ##### [2/19/2020 9:54 AM (Wednesday)](https://twitter.com/realDonaldTrump/status/1230143683699175424)
 
@@ -3469,13 +3449,13 @@ Mini | BlackRock | -0.8 :thumbsdown: | bear | negative sentiment
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
 BMWYY | NASDAQ | - | - | 0.000%
-BLK | New York Stock Exchange | $569.18 | $572.47 | -0.574%
+BLK | New York Stock Exchange | $569.28 | $572.07 | -0.488%
 
 ##### [2/22/2020 3:58 PM (Saturday)](https://twitter.com/oliviaintheusa/status/1231322327247245312)
 
-> Outside of a Denny’s restaurant this morning, @SherryMAGA and I had this #VeteranForTrump named Mike come give us a hug for wearing our Trump sweatshirts🇺🇸 
+> Outside of a Denny’s restaurant this morning, @SherryMAGA and I had this #VeteranForTrump named Mike come give us a hug for wearing our Trump sweatshirts🇺🇸
 
-> 
+>
 
 > #LeadRight #Trump2020 #KAG https://t.co/e7CAZKYiIf
 
@@ -3524,8 +3504,8 @@ General Electric | Barclays | 0.2 :thumbsup: | bull | positive sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-GE | New York Stock Exchange | $10.73 | $11.18 | 4.221%
-BCS | New York Stock Exchange | $7.67 | $7.50 | -2.087%
+GE | New York Stock Exchange | $11.15 | $11.23 | 0.717%
+BCS | New York Stock Exchange | $7.38 | $7.60 | 2.981%
 
 ##### [3/5/2020 9:30 AM (Thursday)](https://twitter.com/realDonaldTrump/status/1235573492004904961)
 
@@ -3541,21 +3521,21 @@ Comcast | - | -0.3 :thumbsdown: | bear | negative sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-CMCSA | NASDAQ | $41.27 | $40.85 | 1.028%
+CMCSA | NASDAQ | $41.42 | $40.99 | 1.049%
 
 ##### [3/8/2020 1:10 PM (Sunday)](https://twitter.com/charliekirk11/status/1236700919149953026)
 
 > Wow:
 
-> 
+>
 
 > The MAGA Doctrine started and ended the week at #1 on Amazon’s best seller list!
 
-> 
+>
 
 > The outpouring of support for this book and these timeless ideas has been incredible—THANK YOU!
 
-> 
+>
 
 > If you haven’t picked up your copy yet, get one here: https://t.co/1GAUFIm677 https://t.co/XnjTQyXqaT
 
@@ -3587,7 +3567,7 @@ Comcast | - | 0.3 :thumbsup: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-CMCSA | NASDAQ | $37.84 | $39.11 | 0.000%
+CMCSA | NASDAQ | $39.30 | $38.70 | 0.000%
 
 ##### [3/12/2020 9:05 AM (Thursday)](https://twitter.com/PrincessCruises/status/1238088788871651329)
 
@@ -3603,7 +3583,7 @@ Princess Cruises | Carnival Corporation & plc | 0.5 :thumbsup: | bull | positive
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-CCL | New York Stock Exchange | $21.77 | $14.95 | -31.323%
+CCL | New York Stock Exchange | $17.06 | $15.35 | -10.023%
 
 ##### [3/13/2020 5:16 PM (Friday)](https://twitter.com/Google_Comms/status/1238574770075115521)
 
@@ -3621,9 +3601,9 @@ Google | BlackRock | 0.9 :thumbsup: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-GOOG | NASDAQ | $1,210.08 | $1,075.11 | 0.000%
-GOOGL | NASDAQ | $1,207.90 | $1,068.76 | 0.000%
-BLK | New York Stock Exchange | $407.48 | $357.11 | 0.000%
+GOOG | NASDAQ | $1,208.00 | $1,213.94 | 0.000%
+GOOGL | NASDAQ | $1,203.97 | $1,190.00 | 0.000%
+BLK | New York Stock Exchange | $413.78 | $357.19 | 0.000%
 
 ##### [3/13/2020 6:21 PM (Friday)](https://twitter.com/realDonaldTrump/status/1238590988593086464)
 
@@ -3640,8 +3620,8 @@ Royal Caribbean International | Royal Caribbean Cruises Ltd. | 0.5 :thumbsup: | 
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-CCL | New York Stock Exchange | $17.44 | $14.62 | 0.000%
-RCL | New York Stock Exchange | $32.36 | $30.00 | 0.000%
+CCL | New York Stock Exchange | $17.90 | $18.12 | 0.000%
+RCL | New York Stock Exchange | $33.66 | $33.13 | 0.000%
 
 ##### [3/13/2020 6:21 PM (Friday)](https://twitter.com/realDonaldTrump/status/1238590988593086464)
 
@@ -3658,8 +3638,8 @@ Royal Caribbean International | Royal Caribbean Cruises Ltd. | 0.5 :thumbsup: | 
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-CCL | New York Stock Exchange | $17.44 | $14.62 | 0.000%
-RCL | New York Stock Exchange | $32.36 | $30.00 | 0.000%
+CCL | New York Stock Exchange | $17.90 | $18.12 | 0.000%
+RCL | New York Stock Exchange | $33.66 | $33.13 | 0.000%
 
 ##### [3/15/2020 2:08 PM (Sunday)](https://twitter.com/realDonaldTrump/status/1239252169150410752)
 
@@ -3696,16 +3676,16 @@ PepsiCo | BlackRock | 0.1 :thumbsup: | bull | positive sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-PEP | New York Stock Exchange | $121.59 | $127.02 | 4.468%
-BLK | New York Stock Exchange | $376.91 | $384.52 | 2.018%
+PEP | New York Stock Exchange | $121.77 | $127.44 | 4.656%
+BLK | New York Stock Exchange | $378.30 | $386.76 | 2.236%
 
 ##### [3/17/2020 2:54 PM (Tuesday)](https://twitter.com/GOPLeader/status/1239988524667080704)
 
-> GREAT news for seniors on Medicare → You can now stay home and see any doctor licensed in your state using FaceTime, Skype, or use other audiovisual technology. 
+> GREAT news for seniors on Medicare → You can now stay home and see any doctor licensed in your state using FaceTime, Skype, or use other audiovisual technology.
 
-> 
+>
 
-> This is a big deal. It will save lives. 
+> This is a big deal. It will save lives.
 
 > https://t.co/ySESWj3Oxr
 
@@ -3720,8 +3700,8 @@ Skype | Microsoft | 0.5 :thumbsup: | bull | positive sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-BLK | New York Stock Exchange | $387.74 | $384.52 | -0.830%
-MSFT | NASDAQ | $144.23 | $146.62 | 1.654%
+BLK | New York Stock Exchange | $384.26 | $386.76 | 0.649%
+MSFT | NASDAQ | $143.58 | $141.75 | -1.274%
 
 ##### [3/19/2020 9:00 AM (Thursday)](https://twitter.com/CVSHealth/status/1240624063371972610)
 
@@ -3737,7 +3717,7 @@ CVS Pharmacy | CVS Health | -0.3 :thumbsdown: | bear | negative sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-CVS | New York Stock Exchange | $57.27 | $55.19 | 3.763%
+CVS | New York Stock Exchange | $56.50 | $54.88 | 2.952%
 
 ##### [3/19/2020 2:01 PM (Thursday)](https://twitter.com/MariaBartiromo/status/1240699851219730432)
 
@@ -3753,7 +3733,7 @@ Ford Motor Company | - | 0.0 :neutral_face: | hold | neutral sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-F | New York Stock Exchange | $4.38 | $4.45 | 0.000%
+F | New York Stock Exchange | $4.39 | $4.34 | 0.000%
 
 ##### [3/19/2020 9:54 PM (Thursday)](https://twitter.com/IvankaTrump/status/1240819036226752512)
 
@@ -3771,9 +3751,9 @@ Walmart | State Street Corporation | 0.5 :thumbsup: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-WMT | New York Stock Exchange | $119.28 | $114.10 | 0.000%
-BLK | New York Stock Exchange | $397.26 | $357.40 | 0.000%
-STT | New York Stock Exchange | $46.69 | $46.61 | 0.000%
+WMT | New York Stock Exchange | $118.70 | $113.95 | 0.000%
+BLK | New York Stock Exchange | $397.36 | $353.00 | 0.000%
+STT | New York Stock Exchange | $46.58 | $47.33 | 0.000%
 
 ##### [3/21/2020 8:37 PM (Saturday)](https://twitter.com/GOPChairwoman/status/1241524388148785154)
 
@@ -3849,11 +3829,11 @@ UPS | New York Stock Exchange | - | - | 0.000%
 
 > USNS Mercy is underway.
 
-> 
+>
 
-> Check out this infographic to learn about the capabilities of #USNavy Hospital Ships, #USNSComfort and #USNSMercy being deployed to assist in COVID-19 response efforts. #CoronaVirus #COVID19 
+> Check out this infographic to learn about the capabilities of #USNavy Hospital Ships, #USNSComfort and #USNSMercy being deployed to assist in COVID-19 response efforts. #CoronaVirus #COVID19
 
-> 
+>
 
 > Read more: https://t.co/3aKk8IxIJH https://t.co/6FlUEZVMey
 
@@ -3867,7 +3847,7 @@ National Steel and Shipbuilding Company | General Dynamics | 0.0 :neutral_face: 
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-GD | New York Stock Exchange | $106.91 | $113.86 | 0.000%
+GD | New York Stock Exchange | $106.60 | $106.60 | 0.000%
 
 ##### [3/27/2020 11:16 AM (Friday)](https://twitter.com/realDonaldTrump/status/1243557418556162050)
 
@@ -3883,7 +3863,7 @@ General Motors | - | -0.5 :thumbsdown: | bear | negative sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-GM | New York Stock Exchange | $21.18 | $21.36 | -0.819%
+GM | New York Stock Exchange | $21.26 | $22.27 | -4.535%
 
 ##### [3/27/2020 11:23 AM (Friday)](https://twitter.com/realDonaldTrump/status/1243559373395410957)
 
@@ -3900,14 +3880,14 @@ Ford Motor Company | - | -0.2 :thumbsdown: | bear | negative sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-GM | New York Stock Exchange | $21.39 | $21.36 | 0.136%
-F | New York Stock Exchange | $5.14 | $5.18 | -0.791%
+GM | New York Stock Exchange | $21.43 | $22.27 | -3.772%
+F | New York Stock Exchange | $5.16 | $5.18 | -0.483%
 
 ##### [3/27/2020 1:34 PM (Friday)](https://twitter.com/WhiteHouse/status/1243592209418592258)
 
 > Huge thanks to @Apple! Together with the White House, @CDCgov &amp; @fema, Apple launched a COVID19 screening tool that guides users through questions about symptoms and exposure, using CDC guidance to help determine steps they should take, including testing.
 
-> 
+>
 
 > https://t.co/CN7gO3svKG
 
@@ -3922,8 +3902,8 @@ Apple Inc. | BlackRock | 0.5 :thumbsup: | bull | positive sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-AAPL | NASDAQ | $252.84 | $247.83 | -1.981%
-BLK | New York Stock Exchange | $435.00 | $434.17 | -0.191%
+AAPL | NASDAQ | $252.60 | $247.07 | -2.189%
+BLK | New York Stock Exchange | $435.50 | $433.20 | -0.528%
 
 ##### [3/30/2020 5:02 PM (Monday)](https://twitter.com/Scavino45/status/1244731708932608001)
 
@@ -3943,7 +3923,7 @@ Ford Motor Company | - | 0.0 :neutral_face: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-F | New York Stock Exchange | $5.03 | $4.84 | 0.000%
+F | New York Stock Exchange | $5.06 | $5.09 | 0.000%
 
 ##### [4/2/2020 3:48 AM (Thursday)](https://twitter.com/nickmalinowskii/status/1245619019106807808)
 
@@ -3960,8 +3940,8 @@ Amazon | BlackRock | 0.6 :thumbsup: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-AMZN | NASDAQ | $1,908.99 | $1,916.73 | 0.000%
-BLK | New York Stock Exchange | $409.46 | $426.14 | 0.000%
+AMZN | NASDAQ | $1,909.00 | $1,916.50 | 0.000%
+BLK | New York Stock Exchange | $409.54 | $426.53 | 0.000%
 
 ##### [4/2/2020 8:52 PM (Thursday)](https://twitter.com/realDonaldTrump/status/1245876816922972162)
 
@@ -3977,7 +3957,7 @@ Company | Root | Sentiment | Strategy | Reason
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-MMM | New York Stock Exchange | $137.97 | $133.71 | 0.000%
+MMM | New York Stock Exchange | $137.93 | $133.74 | 0.000%
 
 ##### [4/3/2020 1:14 PM (Friday)](https://twitter.com/realDonaldTrump/status/1246123892550389760)
 
@@ -3993,7 +3973,7 @@ Keystone Pipeline | TransCanada Corporation | 0.4 :thumbsup: | bull | positive s
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-TRP | New York Stock Exchange | $42.69 | $42.90 | 0.501%
+TRP | New York Stock Exchange | $42.71 | $42.86 | 0.351%
 
 ##### [4/3/2020 2:49 PM (Friday)](https://twitter.com/realDonaldTrump/status/1246147919859920896)
 
@@ -4012,10 +3992,10 @@ Bank of America | BlackRock | 0.9 :thumbsup: | bull | positive sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-BAC | New York Stock Exchange | $19.84 | $20.04 | 1.008%
-BRK.A | New York Stock Exchange | $264,395.00 | $274,435.99 | 3.798%
-BRK.B | New York Stock Exchange | $176.40 | $178.35 | 1.104%
-BLK | New York Stock Exchange | $417.70 | $417.85 | 0.037%
+BAC | New York Stock Exchange | $19.80 | $19.95 | 0.732%
+BRK.A | New York Stock Exchange | $264,519.67 | $267,551.09 | 1.146%
+BRK.B | New York Stock Exchange | $176.37 | $177.90 | 0.870%
+BLK | New York Stock Exchange | $417.22 | $418.07 | 0.204%
 
 ##### [4/8/2020 7:15 PM (Wednesday)](https://twitter.com/realDonaldTrump/status/1248026598860881921)
 
@@ -4032,8 +4012,8 @@ FedEx | - | 0.5 :thumbsup: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-DD | New York Stock Exchange | $38.86 | $40.79 | 0.000%
-FDX | New York Stock Exchange | $125.47 | $122.29 | 0.000%
+DD | New York Stock Exchange | $38.86 | $39.20 | 0.000%
+FDX | New York Stock Exchange | $125.55 | $126.10 | 0.000%
 
 ##### [4/11/2020 2:43 PM (Saturday)](https://twitter.com/realDonaldTrump/status/1249045314994081795)
 
@@ -4123,7 +4103,7 @@ HON | New York Stock Exchange | - | - | 0.000%
 
 ##### [4/28/2020 3:15 PM (Tuesday)](https://twitter.com/TrumpWarRoom/status/1255213957431857152)
 
-> Yahoo reporter apologizes to President Trump after making false coronavirus test claim in Oval Office meeting 
+> Yahoo reporter apologizes to President Trump after making false coronavirus test claim in Oval Office meeting
 
 > https://t.co/VYnIvilCLL
 
@@ -4138,8 +4118,8 @@ Yahoo | Verizon | -0.2 :thumbsdown: | bear | negative sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-BLK | New York Stock Exchange | $500.10 | $497.92 | 0.437%
-VZ | NASDAQ | $58.10 | $57.82 | 0.484%
+BLK | New York Stock Exchange | $500.14 | $497.77 | 0.476%
+VZ | NASDAQ | $58.09 | $57.90 | 0.328%
 
 ##### [4/29/2020 9:10 AM (Wednesday)](https://twitter.com/bp_America/status/1255484527495065614)
 
@@ -4156,8 +4136,8 @@ Alaska Airlines | - | 0.2 :thumbsup: | bull | positive sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-FDX | New York Stock Exchange | $127.69 | $129.58 | 1.478%
-ALK | New York Stock Exchange | $31.52 | $34.09 | 8.152%
+FDX | New York Stock Exchange | $130.75 | $130.16 | -0.451%
+ALK | New York Stock Exchange | $33.43 | $36.00 | 7.688%
 
 ##### [4/30/2020 7:02 PM (Thursday)](https://twitter.com/Mike_Pence/status/1255995889065345025)
 
@@ -4173,7 +4153,7 @@ General Motors | - | 0.4 :thumbsup: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-GM | New York Stock Exchange | $22.29 | $20.90 | 0.000%
+GM | New York Stock Exchange | $22.05 | $22.15 | 0.000%
 
 ##### [5/5/2020 11:22 PM (Tuesday)](https://twitter.com/realDonaldTrump/status/1257873257732214784)
 
@@ -4189,17 +4169,17 @@ Honeywell | - | 0.6 :thumbsup: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-HON | New York Stock Exchange | $134.77 | $133.07 | 0.000%
+HON | New York Stock Exchange | $135.79 | $132.99 | 0.000%
 
 ##### [5/10/2020 9:21 AM (Sunday)](https://twitter.com/retinaldoctor/status/1259473668775636992)
 
 > #ObamaGate
 
-> 
+>
 
 > Wow look what's trending on Twitter.
 
-> 
+>
 
 > I'll bet these guys aren't laughing today. https://t.co/CE7oikhZmM
 
@@ -4230,8 +4210,8 @@ Tesla | T. Rowe Price | 0.0 :neutral_face: | hold | neutral sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-TSLA | NASDAQ | $830.98 | $810.23 | 0.000%
-TROW | NASDAQ | $115.70 | $112.88 | 0.000%
+TSLA | NASDAQ | $828.24 | $795.68 | 0.000%
+TROW | NASDAQ | $116.09 | $112.75 | 0.000%
 
 ##### [5/16/2020 7:56 AM (Saturday)](https://twitter.com/realDonaldTrump/status/1261626674686447621)
 
@@ -4261,7 +4241,7 @@ TWTR | New York Stock Exchange | - | - | 0.000%
 
 > President @realDonaldTrump is at @Ford's Rawsonville Plant!
 
-> 
+>
 
 > America's workers make our Nation proud! 🇺🇸 https://t.co/XrOLd14mQ8
 
@@ -4275,7 +4255,7 @@ Ford Motor Company | - | 0.4 :thumbsup: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-F | New York Stock Exchange | $5.63 | $5.64 | 0.000%
+F | New York Stock Exchange | $5.61 | $5.64 | 0.000%
 
 ##### [5/21/2020 11:14 PM (Thursday)](https://twitter.com/realDonaldTrump/status/1263669433366728704)
 
@@ -4291,7 +4271,7 @@ Ford Motor Company | - | 0.0 :neutral_face: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-F | New York Stock Exchange | $5.63 | $5.64 | 0.000%
+F | New York Stock Exchange | $5.64 | $5.64 | 0.000%
 
 ##### [5/21/2020 11:14 PM (Thursday)](https://twitter.com/realDonaldTrump/status/1263669433366728704)
 
@@ -4307,7 +4287,7 @@ Ford Motor Company | - | 0.0 :neutral_face: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-F | New York Stock Exchange | $5.63 | $5.64 | 0.000%
+F | New York Stock Exchange | $5.64 | $5.64 | 0.000%
 
 ##### [5/21/2020 11:20 PM (Thursday)](https://twitter.com/realDonaldTrump/status/1263671099000315907)
 
@@ -4323,7 +4303,7 @@ Ford Motor Company | - | -0.1 :thumbsdown: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-F | New York Stock Exchange | $5.63 | $5.64 | 0.000%
+F | New York Stock Exchange | $5.64 | $5.64 | 0.000%
 
 ##### [5/21/2020 11:20 PM (Thursday)](https://twitter.com/realDonaldTrump/status/1263671099000315907)
 
@@ -4339,7 +4319,7 @@ Ford Motor Company | - | -0.1 :thumbsdown: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-F | New York Stock Exchange | $5.63 | $5.64 | 0.000%
+F | New York Stock Exchange | $5.64 | $5.64 | 0.000%
 
 ##### [5/26/2020 4:52 PM (Tuesday)](https://twitter.com/jsolomonReports/status/1265385264169594883)
 
@@ -4357,9 +4337,9 @@ YouTube | BlackRock | -0.6 :thumbsdown: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-GOOG | NASDAQ | $1,418.05 | $1,417.48 | 0.000%
-GOOGL | NASDAQ | $1,421.85 | $1,420.17 | 0.000%
-BLK | New York Stock Exchange | $522.79 | $535.44 | 0.000%
+GOOG | NASDAQ | $1,419.00 | $1,418.50 | 0.000%
+GOOGL | NASDAQ | $1,421.37 | $1,422.01 | 0.000%
+BLK | New York Stock Exchange | $523.63 | $536.40 | 0.000%
 
 ##### [5/26/2020 7:40 PM (Tuesday)](https://twitter.com/realDonaldTrump/status/1265427538140188676)
 
@@ -4375,7 +4355,7 @@ Twitter | - | -0.7 :thumbsdown: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-TWTR | New York Stock Exchange | $34.05 | $33.06 | 0.000%
+TWTR | New York Stock Exchange | $34.03 | $33.53 | 0.000%
 
 ##### [5/26/2020 7:40 PM (Tuesday)](https://twitter.com/realDonaldTrump/status/1265427539008380928)
 
@@ -4391,7 +4371,7 @@ Twitter | - | -0.8 :thumbsdown: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-TWTR | New York Stock Exchange | $34.05 | $33.06 | 0.000%
+TWTR | New York Stock Exchange | $34.03 | $33.53 | 0.000%
 
 ##### [5/26/2020 10:01 PM (Tuesday)](https://twitter.com/jsolomonReports/status/1265462985625141256)
 
@@ -4407,7 +4387,7 @@ Twitter | - | -0.6 :thumbsdown: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-TWTR | New York Stock Exchange | $34.05 | $33.06 | 0.000%
+TWTR | New York Stock Exchange | $33.53 | $32.15 | 0.000%
 
 ##### [5/26/2020 10:42 PM (Tuesday)](https://twitter.com/realDonaldTrump/status/1265473520294903808)
 
@@ -4441,7 +4421,7 @@ Twitter | - | -0.7 :thumbsdown: | bear | negative sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-TWTR | New York Stock Exchange | $32.16 | $31.64 | 1.647%
+TWTR | New York Stock Exchange | $32.20 | $31.82 | 1.179%
 
 ##### [5/28/2020 8:48 PM (Thursday)](https://twitter.com/realDonaldTrump/status/1266169633016631297)
 
@@ -4452,14 +4432,14 @@ TWTR | New York Stock Exchange | $32.16 | $31.64 | 1.647%
 Company | Root | Sentiment | Strategy | Reason
 --------|------|-----------|----------|-------
 Twitter | - | -0.6 :thumbsdown: | hold | market closed
-Facebook, Inc. | - | -0.6 :thumbsdown: | hold | market closed
+Facebook | Facebook, Inc. | -0.6 :thumbsdown: | hold | market closed
 
 *Performance*
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-TWTR | New York Stock Exchange | $31.64 | $31.01 | 0.000%
-FB | NASDAQ | $225.52 | $225.34 | 0.000%
+TWTR | New York Stock Exchange | $31.82 | $31.02 | 0.000%
+FB | NASDAQ | $226.24 | $225.39 | 0.000%
 
 ##### [5/28/2020 8:55 PM (Thursday)](https://twitter.com/Scavino45/status/1266171305482768384)
 
@@ -4475,7 +4455,7 @@ Twitter | - | -0.8 :thumbsdown: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-TWTR | New York Stock Exchange | $31.64 | $31.01 | 0.000%
+TWTR | New York Stock Exchange | $31.82 | $31.02 | 0.000%
 
 ##### [5/29/2020 7:10 AM (Friday)](https://twitter.com/realDonaldTrump/status/1266326065833824257)
 
@@ -4491,7 +4471,7 @@ Twitter | - | -0.4 :thumbsdown: | hold | market closed
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-TWTR | New York Stock Exchange | $31.64 | $31.01 | 0.000%
+TWTR | New York Stock Exchange | $31.55 | $31.02 | 0.000%
 
 ##### [5/29/2020 8:33 AM (Friday)](https://twitter.com/realDonaldTrump/status/1266346957611708417)
 
@@ -4507,7 +4487,7 @@ Twitter | - | -0.3 :thumbsdown: | bear | negative sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-TWTR | New York Stock Exchange | $31.64 | $31.01 | 2.045%
+TWTR | New York Stock Exchange | $31.35 | $31.02 | 1.064%
 
 ##### [5/29/2020 8:44 AM (Friday)](https://twitter.com/realDonaldTrump/status/1266349790507515905)
 
@@ -4523,21 +4503,21 @@ Twitter | - | 0.0 :neutral_face: | hold | neutral sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-TWTR | New York Stock Exchange | $31.64 | $31.01 | 0.000%
+TWTR | New York Stock Exchange | $31.34 | $31.02 | 0.000%
 
 ##### [5/29/2020 10:30 AM (Friday)](https://twitter.com/Jim_Jordan/status/1266376311322230786)
 
-> Twitter “fact checks” President Trump. 
+> Twitter “fact checks” President Trump.
 
-> 
+>
 
 > Did they ever fact check Comey or Schiff?
 
-> 
+>
 
 > Did they ever fact check Clapper (CNN)?
 
-> 
+>
 
 > Double standard! https://t.co/LBu71WmIKh
 
@@ -4551,7 +4531,85 @@ Twitter | - | 0.0 :neutral_face: | hold | neutral sentiment
 
 Ticker | Exchange | Price @ tweet | Price @ close | Gain
 -------|----------|---------------|---------------|-----
-TWTR | New York Stock Exchange | $31.01 | $31.01 | 0.000%
+TWTR | New York Stock Exchange | $31.02 | $31.02 | 0.000%
+
+##### [6/1/2020 4:20 PM (Monday)](https://twitter.com/FrancisBrennan/status/1267551690892414977)
+
+> “Twitter Censors President Trump But Not Communist China? Something Doesn’t Add Up” https://t.co/PLWbEsIcHH
+
+*Strategy*
+
+Company | Root | Sentiment | Strategy | Reason
+--------|------|-----------|----------|-------
+Twitter | - | -0.4 :thumbsdown: | hold | market closed
+
+*Performance*
+
+Ticker | Exchange | Price @ tweet | Price @ close | Gain
+-------|----------|---------------|---------------|-----
+TWTR | New York Stock Exchange | $31.94 | $31.78 | 0.000%
+
+##### [6/1/2020 4:20 PM (Monday)](https://twitter.com/parscale/status/1267551701457829895)
+
+> So Twitter partners with the #FakeNews media to censor @realDonaldTrump but they leave @JoeBiden &amp; Communist Chinese propaganda alone.
+
+>
+
+> We always knew Silicon Valley would pull out all the stops to fight Trump.
+
+>
+
+> My op-ed:
+
+>
+
+> https://t.co/M3cfa3xtyb
+
+*Strategy*
+
+Company | Root | Sentiment | Strategy | Reason
+--------|------|-----------|----------|-------
+Twitter | - | 0.1 :thumbsup: | hold | market closed
+
+*Performance*
+
+Ticker | Exchange | Price @ tweet | Price @ close | Gain
+-------|----------|---------------|---------------|-----
+TWTR | New York Stock Exchange | $31.94 | $31.78 | 0.000%
+
+##### [6/2/2020 3:38 PM (Tuesday)](https://twitter.com/realDonaldTrump/status/1267903423954980864)
+
+> Macy’s at 34th. Street, long the largest single department store anywhere in the world, &amp; a point of pride in NYC, was devastated yesterday when hoodlums and thieves vandalized it, breaking almost all of its large panels of storefront glass. What a shame. Bring in National Guard!
+
+*Strategy*
+
+Company | Root | Sentiment | Strategy | Reason
+--------|------|-----------|----------|-------
+Macy's | Macy's, Inc. | -0.3 :thumbsdown: | bear | negative sentiment
+
+*Performance*
+
+Ticker | Exchange | Price @ tweet | Price @ close | Gain
+-------|----------|---------------|---------------|-----
+M | New York Stock Exchange | $6.98 | $7.00 | -0.320%
+
+##### [6/3/2020 7:27 AM (Wednesday)](https://twitter.com/realDonaldTrump/status/1268142181489029121)
+
+> Really sick to watch the Fake and totally Slanted News(?) coming out of MSDNC and CNN. It bears NO relationship to the Truth or Facts. They are merely offshoots of the DNC, much like the @nytimes and the Amazon @washingtonpost. Just like 2016, but worse. Sad, but we will win big!
+
+*Strategy*
+
+Company | Root | Sentiment | Strategy | Reason
+--------|------|-----------|----------|-------
+Amazon | - | -0.4 :thumbsdown: | hold | market closed
+Amazon | BlackRock | -0.4 :thumbsdown: | hold | market closed
+
+*Performance*
+
+Ticker | Exchange | Price @ tweet | Price @ close | Gain
+-------|----------|---------------|---------------|-----
+AMZN | NASDAQ | $2,482.00 | $2,480.32 | 0.000%
+BLK | New York Stock Exchange | $541.34 | $548.06 | 0.000%
 
 ### Fund simulation
 
@@ -4560,429 +4618,432 @@ This is how an initial investment of $100,000.00 would have grown, including fee
 Time | Trade | Gain | Value | Return | Annualized
 -----|-------|------|-------|--------|-----------
 *Initial* | - | - | *$100,000.00* | - | -
-12/6/2016 8:52 AM | BA :thumbsdown: | 0.000% | $100,000.00 | 0.000% | -
-12/6/2016 8:52 AM | BLK :thumbsdown: | 0.000% | $100,000.00 | 0.000% | -
-12/6/2016 8:52 AM | TROW :thumbsdown: | 0.000% | $100,000.00 | 0.000% | -
-1/3/2017 7:30 AM | GM :neutral_face: | 0.000% | $100,000.00 | 0.000% | 0.000%
-1/3/2017 11:44 AM | F :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-1/4/2017 8:19 AM | F :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-1/5/2017 1:14 PM | TM :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-1/9/2017 9:16 AM | F :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-1/9/2017 9:16 AM | FCAU :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-1/17/2017 12:55 PM | GM :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-1/17/2017 12:55 PM | WMT :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-1/17/2017 12:55 PM | BLK :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-1/17/2017 12:55 PM | STT :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-1/18/2017 7:34 AM | GM :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-1/18/2017 7:34 AM | LMT :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-1/24/2017 12:49 PM | ETP :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-1/24/2017 7:46 PM | F :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-1/24/2017 7:46 PM | GM :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-1/30/2017 7:16 AM | DAL :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-2/8/2017 10:51 AM | JWN :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-2/8/2017 2:22 PM | INTC :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-2/14/2017 5:50 PM | HUM :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-2/15/2017 4:34 PM | AET :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-2/17/2017 6:38 AM | BA :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-2/17/2017 6:38 AM | BLK :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-2/17/2017 6:38 AM | TROW :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-3/6/2017 10:49 PM | XOM :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-3/6/2017 10:50 PM | XOM :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-3/28/2017 6:36 AM | F :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-4/1/2017 12:50 PM | INTC :neutral_face: | 0.000% | $100,000.00 | 0.000% | 0.000%
-5/4/2017 8:28 AM | AET :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-5/31/2017 8:40 PM | FB :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-6/17/2017 10:08 AM | GD :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-6/28/2017 9:06 AM | AMZN :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-6/28/2017 9:06 AM | BLK :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-7/1/2017 8:59 AM | CMCSA :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-7/20/2017 11:31 PM | PFE :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-7/20/2017 11:31 PM | MRK :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-7/24/2017 10:28 PM | AMZN :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-7/24/2017 10:28 PM | BLK :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-7/24/2017 10:36 PM | AMZN :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-7/24/2017 10:36 PM | BLK :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-7/25/2017 6:12 AM | INTC :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-8/16/2017 6:12 AM | AMZN :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-8/16/2017 6:12 AM | BLK :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-8/18/2017 1:36 AM | TWTR :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-8/23/2017 1:18 AM | FB :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-9/9/2017 11:41 AM | TWTR :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-9/22/2017 6:44 AM | FB :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-9/22/2017 1:54 PM | AAL :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-9/27/2017 9:36 AM | FB :neutral_face: | 0.000% | $100,000.00 | 0.000% | 0.000%
-9/29/2017 6:42 PM | FB :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-10/15/2017 9:46 AM | ETP :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-10/21/2017 5:21 PM | FB :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-11/2/2017 4:33 PM | AVGO :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-11/2/2017 4:33 PM | BRCM :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-11/3/2017 6:51 AM | TWTR :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-11/28/2017 9:45 PM | INTC :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-11/29/2017 7:16 AM | CMCSA :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-11/29/2017 9:00 PM | INTC :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-12/8/2017 10:18 AM | WFC :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-12/8/2017 10:18 AM | BRK.A :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-12/8/2017 10:18 AM | BRK.B :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-12/8/2017 10:18 AM | BLK :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-12/29/2017 8:04 AM | AMZN :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-12/29/2017 8:04 AM | BLK :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-1/10/2018 11:29 PM | TM :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-1/11/2018 6:33 AM | INTC :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-1/11/2018 9:49 PM | FCAU :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-1/11/2018 9:53 PM | FCAU :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-1/13/2018 8:13 AM | FCAU :neutral_face: | 0.000% | $100,000.00 | 0.000% | 0.000%
-1/17/2018 6:28 PM | AAPL :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-1/17/2018 6:28 PM | BLK :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-1/17/2018 6:32 PM | FCAU :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-1/24/2018 6:58 AM | DIS :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-1/24/2018 6:58 AM | BLK :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-1/24/2018 6:58 AM | NTRS :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-1/24/2018 6:58 AM | TROW :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-1/24/2018 6:58 AM | JPM :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-2/28/2018 1:36 PM | MSG :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-3/31/2018 8:45 AM | AMZN :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-3/31/2018 8:45 AM | BLK :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-3/31/2018 8:52 AM | AMZN :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-3/31/2018 8:52 AM | BLK :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-4/2/2018 9:28 AM | SBGI :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-4/2/2018 9:35 AM | AMZN :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-4/2/2018 9:35 AM | BLK :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-4/3/2018 6:34 AM | SBGI :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-4/3/2018 9:55 AM | AMZN :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-4/3/2018 9:55 AM | BLK :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-4/3/2018 5:49 PM | GOOG :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-4/3/2018 5:49 PM | GOOGL :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-4/3/2018 5:49 PM | BLK :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-4/5/2018 9:10 AM | AMZN :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-4/5/2018 9:10 AM | BLK :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-4/25/2018 10:11 AM | AAPL :neutral_face: | 0.000% | $100,000.00 | 0.000% | 0.000%
-4/25/2018 10:11 AM | BLK :neutral_face: | 0.000% | $100,000.00 | 0.000% | 0.000%
-5/1/2018 3:42 PM | LUV :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-5/2/2018 4:27 PM | LMT :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-5/11/2018 7:49 PM | TWX :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-5/11/2018 7:49 PM | T :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-5/18/2018 12:25 PM | AMGN :neutral_face: | 0.000% | $100,000.00 | 0.000% | 0.000%
-6/23/2018 7:15 AM | X :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-6/25/2018 5:28 PM | HOG :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-6/26/2018 7:16 AM | HOG :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-6/26/2018 7:37 AM | HOG :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-6/26/2018 8:17 AM | HOG :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-6/27/2018 11:26 AM | HOG :neutral_face: | 0.000% | $100,000.00 | 0.000% | 0.000%
-7/3/2018 10:00 AM | HOG :neutral_face: | 0.000% | $100,000.00 | 0.000% | 0.000%
-7/7/2018 9:21 AM | TWTR :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-7/7/2018 9:21 AM | AMZN :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-7/7/2018 9:21 AM | BLK :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-7/9/2018 1:08 PM | PFE :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-7/10/2018 6:37 PM | PFE :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-7/18/2018 12:32 PM | NVS :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-7/19/2018 6:23 AM | NVS :neutral_face: | 0.000% | $100,000.00 | 0.000% | 0.000%
-7/19/2018 6:23 AM | PFE :neutral_face: | 0.000% | $100,000.00 | 0.000% | 0.000%
-7/19/2018 9:11 AM | GOOG :neutral_face: | 0.000% | $100,000.00 | 0.000% | 0.000%
-7/19/2018 9:11 AM | GOOGL :neutral_face: | 0.000% | $100,000.00 | 0.000% | 0.000%
-7/19/2018 9:11 AM | BLK :neutral_face: | 0.000% | $100,000.00 | 0.000% | 0.000%
-7/19/2018 9:11 AM | GOOG :neutral_face: | 0.000% | $100,000.00 | 0.000% | 0.000%
-7/19/2018 9:11 AM | GOOGL :neutral_face: | 0.000% | $100,000.00 | 0.000% | 0.000%
-7/19/2018 9:11 AM | BLK :neutral_face: | 0.000% | $100,000.00 | 0.000% | 0.000%
-7/23/2018 9:35 AM | AMZN :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-7/23/2018 9:35 AM | BLK :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-7/23/2018 11:46 PM | LMT :neutral_face: | 0.000% | $100,000.00 | 0.000% | 0.000%
-7/24/2018 8:39 PM | SBGI :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-7/24/2018 8:39 PM | CMCSA :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-7/26/2018 7:46 AM | TWTR :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-7/26/2018 5:12 PM | X :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-7/26/2018 10:37 PM | X :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-7/27/2018 7:26 AM | X :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-7/29/2018 12:29 PM | X :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-8/1/2018 5:16 PM | ADP :neutral_face: | 0.000% | $100,000.00 | 0.000% | 0.000%
-8/1/2018 5:16 PM | ADP :neutral_face: | 0.000% | $100,000.00 | 0.000% | 0.000%
-8/2/2018 12:38 AM | AMZN :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-8/2/2018 12:38 AM | BLK :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-8/3/2018 6:43 PM | BA :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-8/3/2018 6:43 PM | BLK :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-8/3/2018 6:43 PM | TROW :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-8/3/2018 11:01 PM | AMZN :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-8/3/2018 11:01 PM | BLK :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-8/10/2018 6:47 PM | AAPL :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-8/10/2018 6:47 PM | BLK :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-8/12/2018 8:57 AM | HOG :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-8/24/2018 5:57 AM | TGT :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-8/28/2018 11:02 AM | GOOG :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-8/28/2018 11:02 AM | GOOGL :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-8/28/2018 11:02 AM | BLK :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-8/28/2018 11:02 AM | GOOG :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-8/28/2018 11:02 AM | GOOGL :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-8/28/2018 11:02 AM | BLK :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-9/5/2018 9:39 AM | NKE :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-9/7/2018 6:56 AM | NKE :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-9/8/2018 11:45 AM | AAPL :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-9/8/2018 11:45 AM | BLK :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-9/9/2018 9:49 AM | F :neutral_face: | 0.000% | $100,000.00 | 0.000% | 0.000%
-10/21/2018 6:48 PM | FB :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-10/26/2018 10:05 AM | TWTR :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-11/12/2018 1:13 PM | CMCSA :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-11/12/2018 1:13 PM | TWC :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-11/15/2018 9:59 AM | TWTR :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-11/15/2018 9:59 AM | GOOG :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-11/15/2018 9:59 AM | GOOGL :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-11/15/2018 9:59 AM | BLK :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-11/15/2018 9:59 AM | FB :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-11/27/2018 2:05 PM | GM :neutral_face: | 0.000% | $100,000.00 | 0.000% | 0.000%
-11/27/2018 2:05 PM | GM :neutral_face: | 0.000% | $100,000.00 | 0.000% | 0.000%
-11/28/2018 9:49 AM | GM :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-11/29/2018 6:37 AM | GM :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-11/29/2018 6:37 AM | BMWYY :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-11/29/2018 6:37 AM | BLK :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-12/18/2018 7:26 AM | FB :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-12/18/2018 7:26 AM | GOOG :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-12/18/2018 7:26 AM | GOOGL :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-12/18/2018 7:26 AM | BLK :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-12/18/2018 7:26 AM | TWTR :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-12/18/2018 8:22 AM | BLK :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-12/18/2018 8:22 AM | VZ :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-12/23/2018 11:46 AM | BA :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-12/23/2018 11:46 AM | BLK :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-12/23/2018 11:46 AM | TROW :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-1/26/2019 8:49 PM | FB :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-1/28/2019 8:41 AM | SBUX :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-1/31/2019 4:40 PM | INTC :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-3/4/2019 9:10 PM | AMZN :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-3/4/2019 9:10 PM | BLK :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-3/11/2019 10:12 AM | AAPL :neutral_face: | 0.000% | $100,000.00 | 0.000% | 0.000%
-3/11/2019 10:12 AM | BLK :neutral_face: | 0.000% | $100,000.00 | 0.000% | 0.000%
-3/11/2019 11:27 AM | UAL :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-3/14/2019 12:18 PM | TM :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-3/16/2019 5:01 PM | GM :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-3/16/2019 5:01 PM | TM :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-3/16/2019 5:07 PM | GOOG :neutral_face: | 0.000% | $100,000.00 | 0.000% | 0.000%
-3/16/2019 5:07 PM | GOOGL :neutral_face: | 0.000% | $100,000.00 | 0.000% | 0.000%
-3/16/2019 5:07 PM | BLK :neutral_face: | 0.000% | $100,000.00 | 0.000% | 0.000%
-3/17/2019 6:27 PM | GM :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-3/18/2019 7:37 AM | GM :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-3/18/2019 9:32 PM | TWTR :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-3/19/2019 9:57 AM | FB :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-3/19/2019 9:57 AM | GOOG :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-3/19/2019 9:57 AM | GOOGL :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-3/19/2019 9:57 AM | BLK :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-3/19/2019 9:57 AM | TWTR :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-3/20/2019 4:51 PM | F :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-3/27/2019 3:38 PM | GOOG :neutral_face: | 0.000% | $100,000.00 | 0.000% | 0.000%
-3/27/2019 3:38 PM | GOOGL :neutral_face: | 0.000% | $100,000.00 | 0.000% | 0.000%
-3/27/2019 3:38 PM | BLK :neutral_face: | 0.000% | $100,000.00 | 0.000% | 0.000%
-3/27/2019 3:38 PM | GOOG :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-3/27/2019 3:38 PM | GOOGL :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-3/27/2019 3:38 PM | BLK :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-4/15/2019 6:29 AM | BA :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-4/15/2019 6:29 AM | BLK :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-4/15/2019 6:29 AM | TROW :thumbsdown: | 0.000% | $100,000.00 | 0.000% | 0.000%
-4/20/2019 8:01 PM | GOOG :neutral_face: | 0.000% | $100,000.00 | 0.000% | 0.000%
-4/20/2019 8:01 PM | GOOGL :neutral_face: | 0.000% | $100,000.00 | 0.000% | 0.000%
-4/20/2019 8:01 PM | BLK :neutral_face: | 0.000% | $100,000.00 | 0.000% | 0.000%
-5/2/2019 5:33 PM | X :thumbsup: | 0.000% | $100,000.00 | 0.000% | 0.000%
-**5/3/2019 12:19 PM** | **FB :thumbsdown:** | 0.044% | $100,043.01 | 0.043% | 0.018%
-5/3/2019 7:23 PM | FB :thumbsdown: | 0.000% | $100,043.01 | 0.043% | 0.018%
-5/3/2019 7:25 PM | TWTR :thumbsdown: | 0.000% | $100,043.01 | 0.043% | 0.018%
-5/3/2019 7:25 PM | FB :thumbsdown: | 0.000% | $100,043.01 | 0.043% | 0.018%
-5/4/2019 8:34 AM | FB :thumbsdown: | 0.000% | $100,043.01 | 0.043% | 0.018%
-5/4/2019 8:34 AM | TWTR :thumbsdown: | 0.000% | $100,043.01 | 0.043% | 0.018%
-5/4/2019 5:30 PM | QCOM :thumbsup: | 0.000% | $100,043.01 | 0.043% | 0.018%
-**5/8/2019 11:18 AM** | **GM :thumbsup:** | -1.404% | $98,652.55 | -1.347% | -0.559%
-5/8/2019 7:44 PM | INTC :thumbsdown: | 0.000% | $98,652.55 | -1.347% | -0.559%
-5/20/2019 7:20 AM | DB :thumbsdown: | 0.000% | $98,652.55 | -1.347% | -0.552%
-6/8/2019 6:47 AM | CMCSA :thumbsdown: | 0.000% | $98,652.55 | -1.347% | -0.541%
-6/8/2019 7:25 PM | CMCSA :thumbsdown: | 0.000% | $98,652.55 | -1.347% | -0.540%
-6/14/2019 6:37 PM | LMT :thumbsdown: | 0.000% | $98,652.55 | -1.347% | -0.537%
-6/14/2019 6:37 PM | LMT :neutral_face: | 0.000% | $98,652.55 | -1.347% | -0.537%
-7/7/2019 7:50 PM | CMCSA :thumbsdown: | 0.000% | $98,652.55 | -1.347% | -0.524%
-7/9/2019 9:30 PM | HD :thumbsdown: | 0.000% | $98,652.55 | -1.347% | -0.523%
-7/9/2019 9:30 PM | HD :thumbsup: | 0.000% | $98,652.55 | -1.347% | -0.523%
-7/10/2019 8:06 PM | LMT :thumbsup: | 0.000% | $98,652.55 | -1.347% | -0.522%
-7/10/2019 8:06 PM | LMT :thumbsup: | 0.000% | $98,652.55 | -1.347% | -0.522%
-**7/11/2019 11:08 AM** | **LMT :thumbsup:** | 0.017% | $98,669.24 | -1.331% | -0.515%
-7/16/2019 7:46 AM | GOOG :neutral_face: | 0.000% | $98,669.24 | -1.331% | -0.513%
-7/16/2019 7:46 AM | GOOGL :neutral_face: | 0.000% | $98,669.24 | -1.331% | -0.513%
-7/16/2019 7:46 AM | BLK :neutral_face: | 0.000% | $98,669.24 | -1.331% | -0.513%
-7/24/2019 7:06 AM | GOOG :thumbsdown: | 0.000% | $98,669.24 | -1.331% | -0.509%
-7/24/2019 7:06 AM | GOOGL :thumbsdown: | 0.000% | $98,669.24 | -1.331% | -0.509%
-7/24/2019 7:06 AM | BLK :thumbsdown: | 0.000% | $98,669.24 | -1.331% | -0.509%
-7/26/2019 10:02 AM | GOOG :thumbsdown: | 0.000% | $98,669.24 | -1.331% | -0.507%
-7/26/2019 10:02 AM | GOOGL :thumbsdown: | 0.000% | $98,669.24 | -1.331% | -0.507%
-**7/26/2019 10:02 AM** | **BLK :thumbsdown:** | -0.693% | $97,990.28 | -2.010% | -0.767%
-7/26/2019 11:25 AM | AAPL :thumbsdown: | 0.123% | $97,990.28 | -2.010% | -0.767%
-7/26/2019 11:25 AM | BLK :thumbsdown: | -0.586% | $97,990.28 | -2.010% | -0.767%
-7/29/2019 6:30 AM | CMCSA :neutral_face: | 0.000% | $97,990.28 | -2.010% | -0.766%
-8/5/2019 9:33 PM | GOOG :thumbsup: | 0.000% | $97,990.28 | -2.010% | -0.759%
-8/5/2019 9:33 PM | GOOGL :thumbsup: | 0.000% | $97,990.28 | -2.010% | -0.759%
-8/5/2019 9:33 PM | BLK :thumbsup: | 0.000% | $97,990.28 | -2.010% | -0.759%
-**8/8/2019 10:38 AM** | **BA :thumbsdown:** | -1.463% | $97,513.04 | -2.487% | -0.938%
-**8/8/2019 10:38 AM** | **BLK :thumbsdown:** | -0.576% | $97,326.63 | -2.673% | -1.009%
-**8/8/2019 10:38 AM** | **TROW :thumbsdown:** | -0.514% | $97,159.94 | -2.840% | -1.073%
-8/8/2019 10:38 AM | DE :thumbsup: | 1.391% | $97,159.94 | -2.840% | -1.073%
-**8/9/2019 1:48 PM** | **FB :thumbsup:** | -0.785% | $96,406.53 | -3.593% | -1.359%
-8/15/2019 4:18 PM | WMT :thumbsup: | 0.000% | $96,406.53 | -3.593% | -1.351%
-8/15/2019 4:18 PM | BLK :thumbsup: | 0.000% | $96,406.53 | -3.593% | -1.351%
-8/15/2019 4:18 PM | STT :thumbsup: | 0.000% | $96,406.53 | -3.593% | -1.351%
-8/16/2019 7:04 PM | AAPL :thumbsup: | 0.000% | $96,406.53 | -3.593% | -1.350%
-8/16/2019 7:04 PM | BLK :thumbsup: | 0.000% | $96,406.53 | -3.593% | -1.350%
-8/19/2019 11:52 AM | GOOG :thumbsdown: | 0.000% | $96,406.53 | -3.593% | -1.346%
-8/19/2019 11:52 AM | GOOGL :thumbsdown: | 0.000% | $96,406.53 | -3.593% | -1.346%
-**8/19/2019 11:52 AM** | **BLK :thumbsdown:** | -0.383% | $96,040.01 | -3.960% | -1.485%
-8/19/2019 3:04 PM | FCAU :neutral_face: | 0.000% | $96,040.01 | -3.960% | -1.485%
-8/19/2019 3:04 PM | F :neutral_face: | 0.000% | $96,040.01 | -3.960% | -1.485%
-8/19/2019 3:04 PM | GM :neutral_face: | 0.000% | $96,040.01 | -3.960% | -1.485%
-8/21/2019 4:41 PM | TM :thumbsup: | 0.000% | $96,040.01 | -3.960% | -1.482%
-8/21/2019 6:50 PM | F :thumbsdown: | 0.000% | $96,040.01 | -3.960% | -1.482%
-8/21/2019 6:50 PM | GM :thumbsdown: | 0.000% | $96,040.01 | -3.960% | -1.482%
-**8/23/2019 10:59 AM** | **UPS :thumbsup:** | -2.724% | $95,395.62 | -4.604% | -1.723%
-**8/23/2019 10:59 AM** | **AMZN :thumbsup:** | -2.708% | $94,762.84 | -5.237% | -1.964%
-**8/23/2019 10:59 AM** | **BLK :thumbsup:** | -2.546% | $94,167.56 | -5.832% | -2.191%
-**8/23/2019 10:59 AM** | **FDX :thumbsup:** | -2.827% | $93,496.03 | -6.504% | -2.449%
-9/14/2019 9:04 AM | CMCSA :thumbsdown: | 0.000% | $93,496.03 | -6.504% | -2.399%
-9/15/2019 6:54 PM | GM :thumbsup: | 0.000% | $93,496.03 | -6.504% | -2.394%
-9/19/2019 8:03 PM | FB :thumbsup: | 0.000% | $93,496.03 | -6.504% | -2.385%
-**9/30/2019 3:04 PM** | **AAPL :thumbsup:** | -0.037% | $93,478.72 | -6.521% | -2.366%
-**9/30/2019 3:04 PM** | **BLK :thumbsup:** | -0.229% | $93,373.25 | -6.627% | -2.405%
-9/30/2019 3:04 PM | AAPL :thumbsup: | -0.037% | $93,373.25 | -6.627% | -2.405%
-9/30/2019 3:04 PM | BLK :thumbsup: | -0.229% | $93,373.25 | -6.627% | -2.405%
-9/30/2019 3:08 PM | APTV :thumbsup: | -0.338% | $93,373.25 | -6.627% | -2.405%
-9/30/2019 3:08 PM | DLPH :thumbsup: | 0.465% | $93,373.25 | -6.627% | -2.405%
-9/30/2019 3:08 PM | APTV :thumbsup: | -0.338% | $93,373.25 | -6.627% | -2.405%
-9/30/2019 3:08 PM | DLPH :thumbsup: | 0.465% | $93,373.25 | -6.627% | -2.405%
-**10/8/2019 8:30 AM** | **LMT :thumbsup:** | -0.395% | $93,009.65 | -6.990% | -2.523%
-10/8/2019 10:06 AM | UBER :thumbsdown: | 1.513% | $93,009.65 | -6.990% | -2.521%
-10/12/2019 10:09 AM | BA :thumbsup: | 0.000% | $93,009.65 | -6.990% | -2.511%
-10/12/2019 10:09 AM | BLK :thumbsup: | 0.000% | $93,009.65 | -6.990% | -2.511%
-10/12/2019 10:09 AM | TROW :thumbsup: | 0.000% | $93,009.65 | -6.990% | -2.511%
-10/14/2019 8:55 AM | CSCO :neutral_face: | 0.000% | $93,009.65 | -6.990% | -2.509%
-10/30/2019 1:19 PM | GM :neutral_face: | 0.000% | $93,009.65 | -6.990% | -2.469%
-10/30/2019 1:19 PM | FCAU :neutral_face: | 0.000% | $93,009.65 | -6.990% | -2.469%
-10/30/2019 1:19 PM | TM :neutral_face: | 0.000% | $93,009.65 | -6.990% | -2.469%
-**11/1/2019 8:52 AM** | **GM :thumbsup:** | 2.231% | $95,062.26 | -4.938% | -1.730%
-11/2/2019 11:45 PM | MSG :thumbsup: | 0.000% | $95,062.26 | -4.938% | -1.727%
-11/3/2019 10:01 AM | MSG :thumbsup: | 0.000% | $95,062.26 | -4.938% | -1.725%
-11/14/2019 9:32 AM | WMT :neutral_face: | 0.000% | $95,062.26 | -4.938% | -1.708%
-11/14/2019 9:32 AM | BLK :neutral_face: | 0.000% | $95,062.26 | -4.938% | -1.708%
-11/14/2019 9:32 AM | STT :neutral_face: | 0.000% | $95,062.26 | -4.938% | -1.708%
-11/20/2019 6:18 PM | AAPL :thumbsdown: | 0.000% | $95,062.26 | -4.938% | -1.698%
-11/20/2019 6:18 PM | BLK :thumbsdown: | 0.000% | $95,062.26 | -4.938% | -1.698%
-11/21/2019 7:31 AM | AAPL :neutral_face: | 0.000% | $95,062.26 | -4.938% | -1.698%
-11/21/2019 7:31 AM | BLK :neutral_face: | 0.000% | $95,062.26 | -4.938% | -1.698%
-11/23/2019 11:53 PM | AAPL :neutral_face: | 0.000% | $95,062.26 | -4.938% | -1.694%
-11/23/2019 11:53 PM | BLK :neutral_face: | 0.000% | $95,062.26 | -4.938% | -1.694%
-12/14/2019 3:55 PM | GOOG :thumbsdown: | 0.000% | $95,062.26 | -4.938% | -1.662%
-12/14/2019 3:55 PM | GOOGL :thumbsdown: | 0.000% | $95,062.26 | -4.938% | -1.662%
-12/14/2019 3:55 PM | BLK :thumbsdown: | 0.000% | $95,062.26 | -4.938% | -1.662%
-12/16/2019 1:09 AM | TWTR :neutral_face: | 0.000% | $95,062.26 | -4.938% | -1.660%
-12/16/2019 1:09 AM | FB :neutral_face: | 0.000% | $95,062.26 | -4.938% | -1.660%
-12/20/2019 10:43 PM | AAPL :thumbsup: | 0.000% | $95,062.26 | -4.938% | -1.653%
-12/20/2019 10:43 PM | BLK :thumbsup: | 0.000% | $95,062.26 | -4.938% | -1.653%
-1/14/2020 6:36 PM | AAPL :neutral_face: | 0.000% | $95,062.26 | -4.938% | -1.617%
-1/14/2020 6:36 PM | BLK :neutral_face: | 0.000% | $95,062.26 | -4.938% | -1.617%
-1/14/2020 6:36 PM | AAPL :neutral_face: | 0.000% | $95,062.26 | -4.938% | -1.617%
-1/14/2020 6:36 PM | BLK :neutral_face: | 0.000% | $95,062.26 | -4.938% | -1.617%
-1/22/2020 11:15 AM | BA :neutral_face: | 0.000% | $95,062.26 | -4.938% | -1.605%
-1/22/2020 11:15 AM | BLK :neutral_face: | 0.000% | $95,062.26 | -4.938% | -1.605%
-1/22/2020 11:15 AM | TROW :neutral_face: | 0.000% | $95,062.26 | -4.938% | -1.605%
-1/31/2020 5:01 PM | BLK :thumbsdown: | 0.000% | $95,062.26 | -4.938% | -1.593%
-1/31/2020 5:01 PM | VZ :thumbsdown: | 0.000% | $95,062.26 | -4.938% | -1.593%
-**2/3/2020 9:43 AM** | **RTN :thumbsup:** | -1.045% | $94,080.51 | -5.919% | -1.911%
-2/3/2020 9:43 AM | RTX :thumbsup: | 0.000% | $94,080.51 | -5.919% | -1.911%
-**2/14/2020 3:41 PM** | **CCL :thumbsup:** | -0.180% | $93,912.72 | -6.087% | -1.948%
-2/14/2020 6:38 PM | FB :thumbsup: | 0.000% | $93,912.72 | -6.087% | -1.948%
-2/19/2020 9:54 AM | BMWYY :thumbsdown: | 0.000% | $93,912.72 | -6.087% | -1.940%
-**2/19/2020 9:54 AM** | **BLK :thumbsdown:** | -0.574% | $93,376.78 | -6.623% | -2.115%
-2/22/2020 3:58 PM | DENN :thumbsup: | 0.000% | $93,376.78 | -6.623% | -2.110%
-2/22/2020 6:55 PM | BMWYY :thumbsup: | 0.000% | $93,376.78 | -6.623% | -2.110%
-2/22/2020 6:55 PM | BLK :thumbsup: | 0.000% | $93,376.78 | -6.623% | -2.110%
-**3/2/2020 9:19 AM** | **GE :thumbsup:** | 4.221% | $95,326.49 | -4.674% | -1.467%
-**3/2/2020 9:19 AM** | **BCS :thumbsup:** | -2.087% | $94,362.49 | -5.638% | -1.776%
-**3/5/2020 9:30 AM** | **CMCSA :thumbsdown:** | 1.028% | $95,312.11 | -4.688% | -1.468%
-3/8/2020 1:10 PM | AMZN :thumbsup: | 0.000% | $95,312.11 | -4.688% | -1.464%
-3/8/2020 1:10 PM | BLK :thumbsup: | 0.000% | $95,312.11 | -4.688% | -1.464%
-3/10/2020 7:33 AM | CMCSA :thumbsup: | 0.000% | $95,312.11 | -4.688% | -1.463%
-**3/12/2020 9:05 AM** | **CCL :thumbsup:** | -31.323% | $65,772.20 | -34.228% | -12.050%
-3/13/2020 5:16 PM | GOOG :thumbsup: | 0.000% | $65,772.20 | -34.228% | -12.031%
-3/13/2020 5:16 PM | GOOGL :thumbsup: | 0.000% | $65,772.20 | -34.228% | -12.031%
-3/13/2020 5:16 PM | BLK :thumbsup: | 0.000% | $65,772.20 | -34.228% | -12.031%
-3/13/2020 6:21 PM | CCL :thumbsup: | 0.000% | $65,772.20 | -34.228% | -12.031%
-3/13/2020 6:21 PM | RCL :thumbsup: | 0.000% | $65,772.20 | -34.228% | -12.031%
-3/13/2020 6:21 PM | CCL :thumbsup: | 0.000% | $65,772.20 | -34.228% | -12.031%
-3/13/2020 6:21 PM | RCL :thumbsup: | 0.000% | $65,772.20 | -34.228% | -12.031%
-3/15/2020 2:08 PM | GOOG :thumbsdown: | 0.000% | $65,772.20 | -34.228% | -12.012%
-3/15/2020 2:08 PM | GOOGL :thumbsdown: | 0.000% | $65,772.20 | -34.228% | -12.012%
-3/15/2020 2:08 PM | BLK :thumbsdown: | 0.000% | $65,772.20 | -34.228% | -12.012%
-**3/17/2020 11:56 AM** | **PEP :thumbsup:** | 4.468% | $67,217.38 | -32.783% | -11.408%
-**3/17/2020 11:56 AM** | **BLK :thumbsup:** | 2.018% | $67,863.98 | -32.136% | -11.149%
-3/17/2020 2:54 PM | BLK :thumbsup: | -0.830% | $67,863.98 | -32.136% | -11.149%
-3/17/2020 2:54 PM | MSFT :thumbsup: | 1.654% | $67,863.98 | -32.136% | -11.149%
-**3/19/2020 9:00 AM** | **CVS :thumbsdown:** | 3.763% | $70,287.83 | -29.712% | -10.185%
-3/19/2020 2:01 PM | F :neutral_face: | 0.000% | $70,287.83 | -29.712% | -10.177%
-3/19/2020 9:54 PM | WMT :thumbsup: | 0.000% | $70,287.83 | -29.712% | -10.177%
-3/19/2020 9:54 PM | BLK :thumbsup: | 0.000% | $70,287.83 | -29.712% | -10.177%
-3/19/2020 9:54 PM | STT :thumbsup: | 0.000% | $70,287.83 | -29.712% | -10.177%
-3/21/2020 8:37 PM | RACE :neutral_face: | 0.000% | $70,287.83 | -29.712% | -10.161%
-3/22/2020 10:25 AM | GM :thumbsup: | 0.000% | $70,287.83 | -29.712% | -10.153%
-3/22/2020 10:25 AM | TSLA :thumbsup: | 0.000% | $70,287.83 | -29.712% | -10.153%
-3/22/2020 10:25 AM | TROW :thumbsup: | 0.000% | $70,287.83 | -29.712% | -10.153%
-3/22/2020 10:25 AM | F :thumbsup: | 0.000% | $70,287.83 | -29.712% | -10.153%
-3/22/2020 10:49 AM | FDX :thumbsup: | 0.000% | $70,287.83 | -29.712% | -10.153%
-3/22/2020 1:32 PM | UPS :thumbsup: | 0.000% | $70,287.83 | -29.712% | -10.153%
-3/23/2020 7:11 PM | GD :neutral_face: | 0.000% | $70,287.83 | -29.712% | -10.145%
-**3/27/2020 11:16 AM** | **GM :thumbsdown:** | -0.819% | $69,715.41 | -30.285% | -10.335%
-3/27/2020 11:23 AM | GM :thumbsdown: | 0.136% | $69,715.41 | -30.285% | -10.335%
-3/27/2020 11:23 AM | F :thumbsdown: | -0.791% | $69,715.41 | -30.285% | -10.335%
-3/27/2020 1:34 PM | AAPL :thumbsup: | -1.981% | $69,715.41 | -30.285% | -10.335%
-3/27/2020 1:34 PM | BLK :thumbsup: | -0.191% | $69,715.41 | -30.285% | -10.335%
-3/30/2020 5:02 PM | F :neutral_face: | 0.000% | $69,715.41 | -30.285% | -10.311%
-4/2/2020 3:48 AM | AMZN :thumbsup: | 0.000% | $69,715.41 | -30.285% | -10.295%
-4/2/2020 3:48 AM | BLK :thumbsup: | 0.000% | $69,715.41 | -30.285% | -10.295%
-4/2/2020 8:52 PM | MMM :thumbsdown: | 0.000% | $69,715.41 | -30.285% | -10.287%
-**4/3/2020 1:14 PM** | **TRP :thumbsup:** | 0.501% | $70,059.74 | -29.940% | -10.146%
-4/3/2020 2:49 PM | BAC :thumbsup: | 1.008% | $70,059.74 | -29.940% | -10.146%
-4/3/2020 2:49 PM | BRK.A :thumbsup: | 3.798% | $70,059.74 | -29.940% | -10.146%
-4/3/2020 2:49 PM | BRK.B :thumbsup: | 1.104% | $70,059.74 | -29.940% | -10.146%
-4/3/2020 2:49 PM | BLK :thumbsup: | 0.037% | $70,059.74 | -29.940% | -10.146%
-4/8/2020 7:15 PM | DD :thumbsup: | 0.000% | $70,059.74 | -29.940% | -10.106%
-4/8/2020 7:15 PM | FDX :thumbsup: | 0.000% | $70,059.74 | -29.940% | -10.106%
-4/11/2020 2:43 PM | AMZN :thumbsdown: | 0.000% | $70,059.74 | -29.940% | -10.083%
-4/11/2020 2:43 PM | BLK :thumbsdown: | 0.000% | $70,059.74 | -29.940% | -10.083%
-4/12/2020 12:14 PM | HD :thumbsup: | 0.000% | $70,059.74 | -29.940% | -10.075%
-4/18/2020 8:09 AM | GOOG :thumbsup: | 0.000% | $70,059.74 | -29.940% | -10.036%
-4/18/2020 8:09 AM | GOOGL :thumbsup: | 0.000% | $70,059.74 | -29.940% | -10.036%
-4/18/2020 8:09 AM | BLK :thumbsup: | 0.000% | $70,059.74 | -29.940% | -10.036%
-4/18/2020 1:01 PM | HON :thumbsup: | 0.000% | $70,059.74 | -29.940% | -10.028%
-4/18/2020 1:01 PM | HON :thumbsup: | 0.000% | $70,059.74 | -29.940% | -10.028%
-**4/28/2020 3:15 PM** | **BLK :thumbsdown:** | 0.437% | $70,209.95 | -29.790% | -9.895%
-**4/28/2020 3:15 PM** | **VZ :thumbsdown:** | 0.484% | $70,376.27 | -29.624% | -9.832%
-**4/29/2020 9:10 AM** | **FDX :thumbsup:** | 1.478% | $70,887.65 | -29.112% | -9.639%
-**4/29/2020 9:10 AM** | **ALK :thumbsup:** | 8.152% | $73,714.65 | -26.285% | -8.592%
-4/30/2020 7:02 PM | GM :thumbsup: | 0.000% | $73,714.65 | -26.285% | -8.579%
-5/5/2020 11:22 PM | HON :thumbsup: | 0.000% | $73,714.65 | -26.285% | -8.546%
-5/10/2020 9:21 AM | TWTR :thumbsup: | 0.000% | $73,714.65 | -26.285% | -8.520%
-5/12/2020 9:40 AM | TSLA :neutral_face: | 0.000% | $73,714.65 | -26.285% | -8.507%
-5/12/2020 9:40 AM | TROW :neutral_face: | 0.000% | $73,714.65 | -26.285% | -8.507%
-5/16/2020 7:56 AM | FB :thumbsup: | 0.000% | $73,714.65 | -26.285% | -8.481%
-5/16/2020 7:56 AM | GOOG :thumbsup: | 0.000% | $73,714.65 | -26.285% | -8.481%
-5/16/2020 7:56 AM | GOOGL :thumbsup: | 0.000% | $73,714.65 | -26.285% | -8.481%
-5/16/2020 7:56 AM | BLK :thumbsup: | 0.000% | $73,714.65 | -26.285% | -8.481%
-5/16/2020 7:56 AM | TWTR :thumbsup: | 0.000% | $73,714.65 | -26.285% | -8.481%
-5/21/2020 5:05 PM | F :thumbsup: | 0.000% | $73,714.65 | -26.285% | -8.443%
-5/21/2020 11:14 PM | F :neutral_face: | 0.000% | $73,714.65 | -26.285% | -8.443%
-5/21/2020 11:14 PM | F :neutral_face: | 0.000% | $73,714.65 | -26.285% | -8.443%
-5/21/2020 11:20 PM | F :thumbsdown: | 0.000% | $73,714.65 | -26.285% | -8.443%
-5/21/2020 11:20 PM | F :thumbsdown: | 0.000% | $73,714.65 | -26.285% | -8.443%
-5/26/2020 4:52 PM | GOOG :thumbsdown: | 0.000% | $73,714.65 | -26.285% | -8.411%
-5/26/2020 4:52 PM | GOOGL :thumbsdown: | 0.000% | $73,714.65 | -26.285% | -8.411%
-5/26/2020 4:52 PM | BLK :thumbsdown: | 0.000% | $73,714.65 | -26.285% | -8.411%
-5/26/2020 7:40 PM | TWTR :thumbsdown: | 0.000% | $73,714.65 | -26.285% | -8.411%
-5/26/2020 7:40 PM | TWTR :thumbsdown: | 0.000% | $73,714.65 | -26.285% | -8.411%
-5/26/2020 10:01 PM | TWTR :thumbsdown: | 0.000% | $73,714.65 | -26.285% | -8.411%
-5/26/2020 10:42 PM | CBS :thumbsup: | 0.000% | $73,714.65 | -26.285% | -8.411%
-5/26/2020 10:42 PM | CBSA :thumbsup: | 0.000% | $73,714.65 | -26.285% | -8.411%
-**5/28/2020 12:44 PM** | **TWTR :thumbsdown:** | 1.647% | $74,892.11 | -25.108% | -7.980%
-5/28/2020 8:48 PM | TWTR :thumbsdown: | 0.000% | $74,892.11 | -25.108% | -7.980%
-5/28/2020 8:48 PM | FB :thumbsdown: | 0.000% | $74,892.11 | -25.108% | -7.980%
-5/28/2020 8:55 PM | TWTR :thumbsdown: | 0.000% | $74,892.11 | -25.108% | -7.980%
-5/29/2020 7:10 AM | TWTR :thumbsdown: | 0.000% | $74,892.11 | -25.108% | -7.980%
-**5/29/2020 8:33 AM** | **TWTR :thumbsdown:** | 2.045% | $76,372.50 | -23.628% | -7.460%
-5/29/2020 8:44 AM | TWTR :neutral_face: | 0.000% | $76,372.50 | -23.628% | -7.460%
-5/29/2020 10:30 AM | TWTR :neutral_face: | 0.000% | $76,372.50 | -23.628% | -7.454%
+**12/6/2016 8:52 AM** | **BA :thumbsdown:** | -0.210% | $99,930.56 | -0.069% | -
+**12/6/2016 8:52 AM** | **BLK :thumbsdown:** | 0.102% | $99,964.00 | -0.036% | -
+**12/6/2016 8:52 AM** | **TROW :thumbsdown:** | -0.854% | $99,679.95 | -0.320% | -
+1/3/2017 7:30 AM | GM :neutral_face: | 0.000% | $99,679.95 | -0.320% | -4.241%
+**1/3/2017 11:44 AM** | **F :thumbsdown:** | -1.508% | $98,169.26 | -1.831% | -21.405%
+**1/4/2017 8:19 AM** | **F :thumbsup:** | 4.019% | $102,074.33 | 2.074% | 30.687%
+**1/5/2017 1:14 PM** | **TM :thumbsdown:** | 0.984% | $103,058.45 | 3.058% | 44.273%
+**1/9/2017 9:16 AM** | **F :thumbsup:** | -1.713% | $102,184.17 | 2.184% | 26.106%
+**1/9/2017 9:16 AM** | **FCAU :thumbsup:** | 0.378% | $102,377.25 | 2.377% | 28.688%
+**1/17/2017 12:55 PM** | **GM :thumbsup:** | -0.506% | $102,249.00 | 2.249% | 21.323%
+**1/17/2017 12:55 PM** | **WMT :thumbsup:** | -0.088% | $102,226.86 | 2.227% | 21.095%
+**1/17/2017 12:55 PM** | **BLK :thumbsup:** | 0.147% | $102,263.71 | 2.264% | 21.474%
+**1/17/2017 12:55 PM** | **STT :thumbsup:** | -1.219% | $101,954.83 | 1.955% | 18.323%
+1/18/2017 7:34 AM | GM :thumbsdown: | 0.000% | $101,954.83 | 1.955% | 18.323%
+1/18/2017 7:34 AM | LMT :thumbsdown: | 0.000% | $101,954.83 | 1.955% | 18.323%
+**1/24/2017 12:49 PM** | **ETP :thumbsup:** | 0.351% | $102,308.82 | 2.309% | 18.534%
+1/24/2017 7:46 PM | F :thumbsup: | 0.000% | $102,308.82 | 2.309% | 18.534%
+1/24/2017 7:46 PM | GM :thumbsup: | 0.000% | $102,308.82 | 2.309% | 18.534%
+1/30/2017 7:16 AM | DAL :thumbsdown: | 0.000% | $102,308.82 | 2.309% | 16.682%
+**2/8/2017 10:51 AM** | **JWN :thumbsdown:** | -4.233% | $97,831.94 | -2.168% | -11.751%
+2/8/2017 2:22 PM | INTC :thumbsup: | 0.055% | $97,831.94 | -2.168% | -11.751%
+2/14/2017 5:50 PM | HUM :thumbsdown: | 0.000% | $97,831.94 | -2.168% | -10.800%
+2/15/2017 4:34 PM | AET :thumbsdown: | 0.000% | $97,831.94 | -2.168% | -10.657%
+2/17/2017 6:38 AM | BA :thumbsup: | 0.000% | $97,831.94 | -2.168% | -10.517%
+2/17/2017 6:38 AM | BLK :thumbsup: | 0.000% | $97,831.94 | -2.168% | -10.517%
+2/17/2017 6:38 AM | TROW :thumbsup: | 0.000% | $97,831.94 | -2.168% | -10.517%
+3/6/2017 10:49 PM | XOM :thumbsup: | 0.000% | $97,831.94 | -2.168% | -8.506%
+3/6/2017 10:50 PM | XOM :thumbsup: | 0.000% | $97,831.94 | -2.168% | -8.506%
+3/28/2017 6:36 AM | F :thumbsup: | 0.000% | $97,831.94 | -2.168% | -6.954%
+4/1/2017 12:50 PM | INTC :neutral_face: | 0.000% | $97,831.94 | -2.168% | -6.664%
+**5/4/2017 8:28 AM** | **AET :thumbsdown:** | -0.814% | $97,038.50 | -2.961% | -7.146%
+5/31/2017 8:40 PM | FB :thumbsdown: | 0.000% | $97,038.50 | -2.961% | -6.044%
+6/17/2017 10:08 AM | GD :thumbsup: | 0.000% | $97,038.50 | -2.961% | -5.527%
+**6/28/2017 9:06 AM** | **AMZN :thumbsdown:** | -0.763% | $96,675.14 | -3.325% | -5.899%
+**6/28/2017 9:06 AM** | **BLK :thumbsdown:** | -1.106% | $96,141.78 | -3.858% | -6.830%
+7/1/2017 8:59 AM | CMCSA :thumbsdown: | 0.000% | $96,141.78 | -3.858% | -6.734%
+7/20/2017 11:31 PM | PFE :thumbsup: | 0.000% | $96,141.78 | -3.858% | -6.157%
+7/20/2017 11:31 PM | MRK :thumbsup: | 0.000% | $96,141.78 | -3.858% | -6.157%
+7/24/2017 10:28 PM | AMZN :thumbsdown: | 0.000% | $96,141.78 | -3.858% | -6.053%
+7/24/2017 10:28 PM | BLK :thumbsdown: | 0.000% | $96,141.78 | -3.858% | -6.053%
+7/24/2017 10:36 PM | AMZN :thumbsdown: | 0.000% | $96,141.78 | -3.858% | -6.053%
+7/24/2017 10:36 PM | BLK :thumbsdown: | 0.000% | $96,141.78 | -3.858% | -6.053%
+7/25/2017 6:12 AM | INTC :thumbsdown: | 0.000% | $96,141.78 | -3.858% | -6.053%
+8/16/2017 6:12 AM | AMZN :thumbsdown: | 0.000% | $96,141.78 | -3.858% | -5.540%
+8/16/2017 6:12 AM | BLK :thumbsdown: | 0.000% | $96,141.78 | -3.858% | -5.540%
+8/18/2017 1:36 AM | TWTR :thumbsdown: | 0.000% | $96,141.78 | -3.858% | -5.497%
+8/23/2017 1:18 AM | FB :thumbsup: | 0.000% | $96,141.78 | -3.858% | -5.394%
+9/9/2017 11:41 AM | TWTR :thumbsup: | 0.000% | $96,141.78 | -3.858% | -5.052%
+9/22/2017 6:44 AM | FB :thumbsdown: | 0.000% | $96,141.78 | -3.858% | -4.848%
+**9/22/2017 1:54 PM** | **AAL :thumbsup:** | -0.486% | $95,679.48 | -4.321% | -5.407%
+9/27/2017 9:36 AM | FB :neutral_face: | 0.000% | $95,679.48 | -4.321% | -5.336%
+9/29/2017 6:42 PM | FB :thumbsup: | 0.000% | $95,679.48 | -4.321% | -5.283%
+10/15/2017 9:46 AM | ETP :thumbsup: | 0.000% | $95,679.48 | -4.321% | -5.036%
+10/21/2017 5:21 PM | FB :thumbsdown: | 0.000% | $95,679.48 | -4.321% | -4.928%
+11/2/2017 4:33 PM | AVGO :thumbsup: | 0.000% | $95,679.48 | -4.321% | -4.754%
+11/2/2017 4:33 PM | BRCM :thumbsup: | 0.000% | $95,679.48 | -4.321% | -4.754%
+11/3/2017 6:51 AM | TWTR :thumbsdown: | 0.000% | $95,679.48 | -4.321% | -4.754%
+11/28/2017 9:45 PM | INTC :thumbsdown: | 0.000% | $95,679.48 | -4.321% | -4.415%
+11/29/2017 7:16 AM | CMCSA :thumbsdown: | 0.000% | $95,679.48 | -4.321% | -4.415%
+11/29/2017 9:00 PM | INTC :thumbsdown: | 0.000% | $95,679.48 | -4.321% | -4.403%
+**12/8/2017 10:18 AM** | **WFC :thumbsdown:** | 0.725% | $95,849.76 | -4.150% | -4.128%
+12/8/2017 10:18 AM | BRK.A :thumbsdown: | -0.448% | $95,849.76 | -4.150% | -4.128%
+**12/8/2017 10:18 AM** | **BRK.B :thumbsdown:** | -0.657% | $95,693.67 | -4.306% | -4.283%
+**12/8/2017 10:18 AM** | **BLK :thumbsdown:** | -0.402% | $95,598.45 | -4.402% | -4.378%
+**12/29/2017 8:04 AM** | **AMZN :thumbsdown:** | 1.722% | $96,383.52 | -3.616% | -3.414%
+**12/29/2017 8:04 AM** | **BLK :thumbsdown:** | 0.833% | $96,773.00 | -3.227% | -3.046%
+1/10/2018 11:29 PM | TM :thumbsup: | 0.000% | $96,773.00 | -3.227% | -2.949%
+1/11/2018 6:33 AM | INTC :thumbsdown: | 0.000% | $96,773.00 | -3.227% | -2.949%
+1/11/2018 9:49 PM | FCAU :thumbsup: | 0.000% | $96,773.00 | -3.227% | -2.942%
+1/11/2018 9:53 PM | FCAU :thumbsup: | 0.000% | $96,773.00 | -3.227% | -2.942%
+1/13/2018 8:13 AM | FCAU :neutral_face: | 0.000% | $96,773.00 | -3.227% | -2.934%
+1/17/2018 6:28 PM | AAPL :thumbsup: | 0.000% | $96,773.00 | -3.227% | -2.899%
+1/17/2018 6:28 PM | BLK :thumbsup: | 0.000% | $96,773.00 | -3.227% | -2.899%
+1/17/2018 6:32 PM | FCAU :thumbsup: | 0.000% | $96,773.00 | -3.227% | -2.899%
+1/24/2018 6:58 AM | DIS :thumbsup: | 0.000% | $96,773.00 | -3.227% | -2.857%
+1/24/2018 6:58 AM | BLK :thumbsup: | 0.000% | $96,773.00 | -3.227% | -2.857%
+1/24/2018 6:58 AM | NTRS :thumbsup: | 0.000% | $96,773.00 | -3.227% | -2.857%
+1/24/2018 6:58 AM | TROW :thumbsup: | 0.000% | $96,773.00 | -3.227% | -2.857%
+1/24/2018 6:58 AM | JPM :thumbsup: | 0.000% | $96,773.00 | -3.227% | -2.857%
+**2/28/2018 1:36 PM** | **MSG :thumbsup:** | -0.029% | $96,745.56 | -3.254% | -2.654%
+3/31/2018 8:45 AM | AMZN :thumbsdown: | 0.000% | $96,745.56 | -3.254% | -2.490%
+3/31/2018 8:45 AM | BLK :thumbsdown: | 0.000% | $96,745.56 | -3.254% | -2.490%
+3/31/2018 8:52 AM | AMZN :thumbsdown: | 0.000% | $96,745.56 | -3.254% | -2.490%
+3/31/2018 8:52 AM | BLK :thumbsdown: | 0.000% | $96,745.56 | -3.254% | -2.490%
+**4/2/2018 9:28 AM** | **SBGI :thumbsdown:** | 4.841% | $101,166.61 | 1.167% | 0.884%
+4/2/2018 9:35 AM | AMZN :thumbsdown: | 3.693% | $101,166.61 | 1.167% | 0.884%
+4/2/2018 9:35 AM | BLK :thumbsdown: | 3.775% | $101,166.61 | 1.167% | 0.884%
+4/3/2018 6:34 AM | SBGI :thumbsdown: | 0.000% | $101,166.61 | 1.167% | 0.882%
+**4/3/2018 9:55 AM** | **AMZN :thumbsdown:** | 0.361% | $101,346.58 | 1.347% | 1.016%
+**4/3/2018 9:55 AM** | **BLK :thumbsdown:** | -0.611% | $101,039.73 | 1.040% | 0.785%
+4/3/2018 5:49 PM | GOOG :thumbsup: | 0.000% | $101,039.73 | 1.040% | 0.785%
+4/3/2018 5:49 PM | GOOGL :thumbsup: | 0.000% | $101,039.73 | 1.040% | 0.785%
+4/3/2018 5:49 PM | BLK :thumbsup: | 0.000% | $101,039.73 | 1.040% | 0.785%
+**4/5/2018 9:10 AM** | **AMZN :thumbsdown:** | 1.070% | $101,556.53 | 1.557% | 1.172%
+**4/5/2018 9:10 AM** | **BLK :thumbsdown:** | 3.053% | $103,034.30 | 3.034% | 2.280%
+4/25/2018 10:11 AM | AAPL :neutral_face: | 0.000% | $103,034.30 | 3.034% | 2.184%
+4/25/2018 10:11 AM | BLK :neutral_face: | 0.000% | $103,034.30 | 3.034% | 2.184%
+**5/1/2018 3:42 PM** | **LUV :thumbsup:** | 0.264% | $103,303.94 | 3.304% | 2.349%
+5/2/2018 4:27 PM | LMT :thumbsup: | 0.000% | $103,303.94 | 3.304% | 2.344%
+5/11/2018 7:49 PM | TWX :thumbsdown: | 0.000% | $103,303.94 | 3.304% | 2.303%
+5/11/2018 7:49 PM | T :thumbsdown: | 0.000% | $103,303.94 | 3.304% | 2.303%
+5/18/2018 12:25 PM | AMGN :neutral_face: | 0.000% | $103,303.94 | 3.304% | 2.272%
+6/23/2018 7:15 AM | X :thumbsup: | 0.000% | $103,303.94 | 3.304% | 2.130%
+6/25/2018 5:28 PM | HOG :thumbsdown: | 0.000% | $103,303.94 | 3.304% | 2.118%
+6/26/2018 7:16 AM | HOG :thumbsdown: | 0.000% | $103,303.94 | 3.304% | 2.118%
+6/26/2018 7:37 AM | HOG :thumbsdown: | 0.000% | $103,303.94 | 3.304% | 2.118%
+**6/26/2018 8:17 AM** | **HOG :thumbsdown:** | 0.121% | $103,427.19 | 3.427% | 2.197%
+6/27/2018 11:26 AM | HOG :neutral_face: | 0.000% | $103,427.19 | 3.427% | 2.189%
+7/3/2018 10:00 AM | HOG :neutral_face: | 0.000% | $103,427.19 | 3.427% | 2.166%
+7/7/2018 9:21 AM | TWTR :thumbsdown: | 0.000% | $103,427.19 | 3.427% | 2.155%
+7/7/2018 9:21 AM | AMZN :thumbsdown: | 0.000% | $103,427.19 | 3.427% | 2.155%
+7/7/2018 9:21 AM | BLK :thumbsdown: | 0.000% | $103,427.19 | 3.427% | 2.155%
+**7/9/2018 1:08 PM** | **PFE :thumbsdown:** | 0.537% | $103,974.39 | 3.974% | 2.483%
+7/10/2018 6:37 PM | PFE :thumbsup: | 0.000% | $103,974.39 | 3.974% | 2.479%
+**7/18/2018 12:32 PM** | **NVS :thumbsup:** | 0.459% | $104,446.88 | 4.447% | 2.733%
+7/19/2018 6:23 AM | NVS :neutral_face: | 0.000% | $104,446.88 | 4.447% | 2.733%
+7/19/2018 6:23 AM | PFE :neutral_face: | 0.000% | $104,446.88 | 4.447% | 2.733%
+7/19/2018 9:11 AM | GOOG :neutral_face: | 0.000% | $104,446.88 | 4.447% | 2.733%
+7/19/2018 9:11 AM | GOOGL :neutral_face: | 0.000% | $104,446.88 | 4.447% | 2.733%
+7/19/2018 9:11 AM | BLK :neutral_face: | 0.000% | $104,446.88 | 4.447% | 2.733%
+7/19/2018 9:11 AM | GOOG :neutral_face: | 0.000% | $104,446.88 | 4.447% | 2.733%
+7/19/2018 9:11 AM | GOOGL :neutral_face: | 0.000% | $104,446.88 | 4.447% | 2.733%
+7/19/2018 9:11 AM | BLK :neutral_face: | 0.000% | $104,446.88 | 4.447% | 2.733%
+**7/23/2018 9:35 AM** | **AMZN :thumbsdown:** | -0.294% | $104,297.36 | 4.297% | 2.624%
+**7/23/2018 9:35 AM** | **BLK :thumbsdown:** | -0.901% | $103,830.20 | 3.830% | 2.340%
+7/23/2018 11:46 PM | LMT :neutral_face: | 0.000% | $103,830.20 | 3.830% | 2.336%
+7/24/2018 8:39 PM | SBGI :thumbsdown: | 0.000% | $103,830.20 | 3.830% | 2.333%
+7/24/2018 8:39 PM | CMCSA :thumbsdown: | 0.000% | $103,830.20 | 3.830% | 2.333%
+7/26/2018 7:46 AM | TWTR :thumbsdown: | 0.000% | $103,830.20 | 3.830% | 2.329%
+7/26/2018 5:12 PM | X :thumbsup: | 0.000% | $103,830.20 | 3.830% | 2.325%
+7/26/2018 10:37 PM | X :thumbsup: | 0.000% | $103,830.20 | 3.830% | 2.325%
+7/27/2018 7:26 AM | X :thumbsdown: | 0.000% | $103,830.20 | 3.830% | 2.325%
+7/29/2018 12:29 PM | X :thumbsup: | 0.000% | $103,830.20 | 3.830% | 2.313%
+8/1/2018 5:16 PM | ADP :neutral_face: | 0.000% | $103,830.20 | 3.830% | 2.301%
+8/1/2018 5:16 PM | ADP :neutral_face: | 0.000% | $103,830.20 | 3.830% | 2.301%
+8/2/2018 12:38 AM | AMZN :thumbsup: | 0.000% | $103,830.20 | 3.830% | 2.301%
+8/2/2018 12:38 AM | BLK :thumbsup: | 0.000% | $103,830.20 | 3.830% | 2.301%
+8/3/2018 6:43 PM | BA :thumbsup: | 0.000% | $103,830.20 | 3.830% | 2.294%
+8/3/2018 6:43 PM | BLK :thumbsup: | 0.000% | $103,830.20 | 3.830% | 2.294%
+8/3/2018 6:43 PM | TROW :thumbsup: | 0.000% | $103,830.20 | 3.830% | 2.294%
+8/3/2018 11:01 PM | AMZN :thumbsup: | 0.000% | $103,830.20 | 3.830% | 2.294%
+8/3/2018 11:01 PM | BLK :thumbsup: | 0.000% | $103,830.20 | 3.830% | 2.294%
+8/10/2018 6:47 PM | AAPL :thumbsup: | 0.000% | $103,830.20 | 3.830% | 2.267%
+8/10/2018 6:47 PM | BLK :thumbsup: | 0.000% | $103,830.20 | 3.830% | 2.267%
+8/12/2018 8:57 AM | HOG :thumbsdown: | 0.000% | $103,830.20 | 3.830% | 2.263%
+8/24/2018 5:57 AM | TGT :thumbsup: | 0.000% | $103,830.20 | 3.830% | 2.219%
+8/28/2018 11:02 AM | GOOG :thumbsdown: | 0.000% | $103,830.20 | 3.830% | 2.202%
+8/28/2018 11:02 AM | GOOGL :thumbsdown: | 0.000% | $103,830.20 | 3.830% | 2.202%
+**8/28/2018 11:02 AM** | **BLK :thumbsdown:** | 0.188% | $104,023.12 | 4.023% | 2.311%
+8/28/2018 11:02 AM | GOOG :thumbsdown: | 0.000% | $104,023.12 | 4.023% | 2.311%
+8/28/2018 11:02 AM | GOOGL :thumbsdown: | 0.000% | $104,023.12 | 4.023% | 2.311%
+8/28/2018 11:02 AM | BLK :thumbsdown: | 0.188% | $104,023.12 | 4.023% | 2.311%
+**9/5/2018 9:39 AM** | **NKE :thumbsdown:** | -0.225% | $103,790.38 | 3.790% | 2.155%
+9/7/2018 6:56 AM | NKE :thumbsdown: | 0.000% | $103,790.38 | 3.790% | 2.148%
+9/8/2018 11:45 AM | AAPL :thumbsup: | 0.000% | $103,790.38 | 3.790% | 2.141%
+9/8/2018 11:45 AM | BLK :thumbsup: | 0.000% | $103,790.38 | 3.790% | 2.141%
+9/9/2018 9:49 AM | F :neutral_face: | 0.000% | $103,790.38 | 3.790% | 2.141%
+10/21/2018 6:48 PM | FB :thumbsdown: | 0.000% | $103,790.38 | 3.790% | 2.005%
+**10/26/2018 10:05 AM** | **TWTR :thumbsdown:** | -1.520% | $102,204.22 | 2.204% | 1.162%
+11/12/2018 1:13 PM | CMCSA :thumbsdown: | 0.000% | $102,204.22 | 2.204% | 1.134%
+11/12/2018 1:13 PM | TWC :thumbsdown: | 0.000% | $102,204.22 | 2.204% | 1.134%
+**11/15/2018 9:59 AM** | **TWTR :thumbsdown:** | 0.333% | $102,316.09 | 2.316% | 1.186%
+11/15/2018 9:59 AM | GOOG :thumbsdown: | 0.000% | $102,316.09 | 2.316% | 1.186%
+11/15/2018 9:59 AM | GOOGL :thumbsdown: | 0.000% | $102,316.09 | 2.316% | 1.186%
+**11/15/2018 9:59 AM** | **BLK :thumbsdown:** | -2.382% | $101,502.13 | 1.502% | 0.771%
+**11/15/2018 9:59 AM** | **FB :thumbsdown:** | -0.487% | $101,337.41 | 1.337% | 0.686%
+11/27/2018 2:05 PM | GM :neutral_face: | 0.000% | $101,337.41 | 1.337% | 0.675%
+11/27/2018 2:05 PM | GM :neutral_face: | 0.000% | $101,337.41 | 1.337% | 0.675%
+**11/28/2018 9:49 AM** | **GM :thumbsdown:** | -2.184% | $99,096.95 | -0.903% | -0.458%
+11/29/2018 6:37 AM | GM :thumbsup: | 0.000% | $99,096.95 | -0.903% | -0.458%
+11/29/2018 6:37 AM | BMWYY :thumbsup: | 0.000% | $99,096.95 | -0.903% | -0.458%
+11/29/2018 6:37 AM | BLK :thumbsup: | 0.000% | $99,096.95 | -0.903% | -0.458%
+12/18/2018 7:26 AM | FB :thumbsdown: | 0.000% | $99,096.95 | -0.903% | -0.446%
+12/18/2018 7:26 AM | GOOG :thumbsdown: | 0.000% | $99,096.95 | -0.903% | -0.446%
+12/18/2018 7:26 AM | GOOGL :thumbsdown: | 0.000% | $99,096.95 | -0.903% | -0.446%
+12/18/2018 7:26 AM | BLK :thumbsdown: | 0.000% | $99,096.95 | -0.903% | -0.446%
+12/18/2018 7:26 AM | TWTR :thumbsdown: | 0.000% | $99,096.95 | -0.903% | -0.446%
+**12/18/2018 8:22 AM** | **BLK :thumbsdown:** | -1.330% | $98,439.05 | -1.561% | -0.772%
+**12/18/2018 8:22 AM** | **VZ :thumbsdown:** | 0.935% | $98,893.01 | -1.107% | -0.547%
+12/23/2018 11:46 AM | BA :thumbsup: | 0.000% | $98,893.01 | -1.107% | -0.542%
+12/23/2018 11:46 AM | BLK :thumbsup: | 0.000% | $98,893.01 | -1.107% | -0.542%
+12/23/2018 11:46 AM | TROW :thumbsup: | 0.000% | $98,893.01 | -1.107% | -0.542%
+1/26/2019 8:49 PM | FB :thumbsdown: | 0.000% | $98,893.01 | -1.107% | -0.519%
+**1/28/2019 8:41 AM** | **SBUX :thumbsdown:** | -0.330% | $98,569.17 | -1.431% | -0.670%
+1/31/2019 4:40 PM | INTC :thumbsdown: | 0.000% | $98,569.17 | -1.431% | -0.667%
+3/4/2019 9:10 PM | AMZN :thumbsup: | 0.000% | $98,569.17 | -1.431% | -0.641%
+3/4/2019 9:10 PM | BLK :thumbsup: | 0.000% | $98,569.17 | -1.431% | -0.641%
+3/11/2019 10:12 AM | AAPL :neutral_face: | 0.000% | $98,569.17 | -1.431% | -0.636%
+3/11/2019 10:12 AM | BLK :neutral_face: | 0.000% | $98,569.17 | -1.431% | -0.636%
+**3/11/2019 11:27 AM** | **UAL :thumbsup:** | 0.377% | $98,936.83 | -1.063% | -0.472%
+**3/14/2019 12:18 PM** | **TM :thumbsup:** | -0.250% | $98,691.98 | -1.308% | -0.579%
+3/16/2019 5:01 PM | GM :thumbsup: | 0.000% | $98,691.98 | -1.308% | -0.577%
+3/16/2019 5:01 PM | TM :thumbsup: | 0.000% | $98,691.98 | -1.308% | -0.577%
+3/16/2019 5:07 PM | GOOG :neutral_face: | 0.000% | $98,691.98 | -1.308% | -0.577%
+3/16/2019 5:07 PM | GOOGL :neutral_face: | 0.000% | $98,691.98 | -1.308% | -0.577%
+3/16/2019 5:07 PM | BLK :neutral_face: | 0.000% | $98,691.98 | -1.308% | -0.577%
+3/17/2019 6:27 PM | GM :thumbsdown: | 0.000% | $98,691.98 | -1.308% | -0.577%
+3/18/2019 7:37 AM | GM :thumbsup: | 0.000% | $98,691.98 | -1.308% | -0.577%
+3/18/2019 9:32 PM | TWTR :thumbsdown: | 0.000% | $98,691.98 | -1.308% | -0.576%
+**3/19/2019 9:57 AM** | **FB :thumbsup:** | -0.512% | $98,525.98 | -1.474% | -0.649%
+3/19/2019 9:57 AM | GOOG :thumbsup: | 0.000% | $98,525.98 | -1.474% | -0.649%
+3/19/2019 9:57 AM | GOOGL :thumbsup: | 0.000% | $98,525.98 | -1.474% | -0.649%
+**3/19/2019 9:57 AM** | **BLK :thumbsup:** | -1.707% | $97,975.19 | -2.025% | -0.892%
+**3/19/2019 9:57 AM** | **TWTR :thumbsup:** | 0.461% | $98,125.27 | -1.875% | -0.826%
+3/20/2019 4:51 PM | F :thumbsup: | 0.000% | $98,125.27 | -1.875% | -0.825%
+3/27/2019 3:38 PM | GOOG :neutral_face: | 0.000% | $98,125.27 | -1.875% | -0.818%
+3/27/2019 3:38 PM | GOOGL :neutral_face: | 0.000% | $98,125.27 | -1.875% | -0.818%
+3/27/2019 3:38 PM | BLK :neutral_face: | 0.000% | $98,125.27 | -1.875% | -0.818%
+3/27/2019 3:38 PM | GOOG :thumbsup: | 0.000% | $98,125.27 | -1.875% | -0.818%
+3/27/2019 3:38 PM | GOOGL :thumbsup: | 0.000% | $98,125.27 | -1.875% | -0.818%
+**3/27/2019 3:38 PM** | **BLK :thumbsup:** | -0.321% | $97,814.77 | -2.185% | -0.954%
+4/15/2019 6:29 AM | BA :thumbsdown: | 0.000% | $97,814.77 | -2.185% | -0.934%
+4/15/2019 6:29 AM | BLK :thumbsdown: | 0.000% | $97,814.77 | -2.185% | -0.934%
+4/15/2019 6:29 AM | TROW :thumbsdown: | 0.000% | $97,814.77 | -2.185% | -0.934%
+4/20/2019 8:01 PM | GOOG :neutral_face: | 0.000% | $97,814.77 | -2.185% | -0.928%
+4/20/2019 8:01 PM | GOOGL :neutral_face: | 0.000% | $97,814.77 | -2.185% | -0.928%
+4/20/2019 8:01 PM | BLK :neutral_face: | 0.000% | $97,814.77 | -2.185% | -0.928%
+5/2/2019 5:33 PM | X :thumbsup: | 0.000% | $97,814.77 | -2.185% | -0.915%
+**5/3/2019 12:19 PM** | **FB :thumbsdown:** | -0.107% | $97,710.82 | -2.289% | -0.958%
+5/3/2019 7:23 PM | FB :thumbsdown: | 0.000% | $97,710.82 | -2.289% | -0.958%
+5/3/2019 7:25 PM | TWTR :thumbsdown: | 0.000% | $97,710.82 | -2.289% | -0.958%
+5/3/2019 7:25 PM | FB :thumbsdown: | 0.000% | $97,710.82 | -2.289% | -0.958%
+5/4/2019 8:34 AM | FB :thumbsdown: | 0.000% | $97,710.82 | -2.289% | -0.958%
+5/4/2019 8:34 AM | TWTR :thumbsdown: | 0.000% | $97,710.82 | -2.289% | -0.958%
+5/4/2019 5:30 PM | QCOM :thumbsup: | 0.000% | $97,710.82 | -2.289% | -0.957%
+**5/8/2019 11:18 AM** | **GM :thumbsup:** | -1.575% | $96,187.65 | -3.812% | -1.594%
+5/8/2019 7:44 PM | INTC :thumbsdown: | 0.000% | $96,187.65 | -3.812% | -1.594%
+5/20/2019 7:20 AM | DB :thumbsdown: | 0.000% | $96,187.65 | -3.812% | -1.574%
+6/8/2019 6:47 AM | CMCSA :thumbsdown: | 0.000% | $96,187.65 | -3.812% | -1.542%
+6/8/2019 7:25 PM | CMCSA :thumbsdown: | 0.000% | $96,187.65 | -3.812% | -1.540%
+6/14/2019 6:37 PM | LMT :thumbsdown: | 0.000% | $96,187.65 | -3.812% | -1.530%
+6/14/2019 6:37 PM | LMT :neutral_face: | 0.000% | $96,187.65 | -3.812% | -1.530%
+7/7/2019 7:50 PM | CMCSA :thumbsdown: | 0.000% | $96,187.65 | -3.812% | -1.493%
+7/9/2019 9:30 PM | HD :thumbsdown: | 0.000% | $96,187.65 | -3.812% | -1.490%
+7/9/2019 9:30 PM | HD :thumbsup: | 0.000% | $96,187.65 | -3.812% | -1.490%
+7/10/2019 8:06 PM | LMT :thumbsup: | 0.000% | $96,187.65 | -3.812% | -1.489%
+7/10/2019 8:06 PM | LMT :thumbsup: | 0.000% | $96,187.65 | -3.812% | -1.489%
+**7/11/2019 11:08 AM** | **LMT :thumbsup:** | 0.204% | $96,381.15 | -3.619% | -1.411%
+7/16/2019 7:46 AM | GOOG :neutral_face: | 0.000% | $96,381.15 | -3.619% | -1.405%
+7/16/2019 7:46 AM | GOOGL :neutral_face: | 0.000% | $96,381.15 | -3.619% | -1.405%
+7/16/2019 7:46 AM | BLK :neutral_face: | 0.000% | $96,381.15 | -3.619% | -1.405%
+7/24/2019 7:06 AM | GOOG :thumbsdown: | 0.000% | $96,381.15 | -3.619% | -1.393%
+7/24/2019 7:06 AM | GOOGL :thumbsdown: | 0.000% | $96,381.15 | -3.619% | -1.393%
+7/24/2019 7:06 AM | BLK :thumbsdown: | 0.000% | $96,381.15 | -3.619% | -1.393%
+7/26/2019 10:02 AM | GOOG :thumbsdown: | 0.000% | $96,381.15 | -3.619% | -1.389%
+7/26/2019 10:02 AM | GOOGL :thumbsdown: | 0.000% | $96,381.15 | -3.619% | -1.389%
+**7/26/2019 10:02 AM** | **BLK :thumbsdown:** | -0.711% | $95,701.15 | -4.299% | -1.653%
+7/26/2019 11:25 AM | AAPL :thumbsdown: | 0.140% | $95,701.15 | -4.299% | -1.653%
+7/26/2019 11:25 AM | BLK :thumbsdown: | -0.629% | $95,701.15 | -4.299% | -1.653%
+7/29/2019 6:30 AM | CMCSA :neutral_face: | 0.000% | $95,701.15 | -4.299% | -1.650%
+8/5/2019 9:33 PM | GOOG :thumbsup: | 0.000% | $95,701.15 | -4.299% | -1.636%
+8/5/2019 9:33 PM | GOOGL :thumbsup: | 0.000% | $95,701.15 | -4.299% | -1.636%
+8/5/2019 9:33 PM | BLK :thumbsup: | 0.000% | $95,701.15 | -4.299% | -1.636%
+**8/8/2019 10:38 AM** | **BA :thumbsdown:** | -1.063% | $95,362.95 | -4.637% | -1.762%
+**8/8/2019 10:38 AM** | **BLK :thumbsdown:** | -0.562% | $95,185.83 | -4.814% | -1.830%
+**8/8/2019 10:38 AM** | **TROW :thumbsdown:** | -0.535% | $95,016.50 | -4.984% | -1.896%
+8/8/2019 10:38 AM | DE :thumbsup: | 1.177% | $95,016.50 | -4.984% | -1.896%
+**8/9/2019 1:48 PM** | **FB :thumbsup:** | -0.771% | $94,292.34 | -5.708% | -2.174%
+8/15/2019 4:18 PM | WMT :thumbsup: | 0.000% | $94,292.34 | -5.708% | -2.161%
+8/15/2019 4:18 PM | BLK :thumbsup: | 0.000% | $94,292.34 | -5.708% | -2.161%
+8/15/2019 4:18 PM | STT :thumbsup: | 0.000% | $94,292.34 | -5.708% | -2.161%
+8/16/2019 7:04 PM | AAPL :thumbsup: | 0.000% | $94,292.34 | -5.708% | -2.159%
+8/16/2019 7:04 PM | BLK :thumbsup: | 0.000% | $94,292.34 | -5.708% | -2.159%
+8/19/2019 11:52 AM | GOOG :thumbsdown: | 0.000% | $94,292.34 | -5.708% | -2.152%
+8/19/2019 11:52 AM | GOOGL :thumbsdown: | 0.000% | $94,292.34 | -5.708% | -2.152%
+**8/19/2019 11:52 AM** | **BLK :thumbsdown:** | -0.361% | $93,954.09 | -6.046% | -2.282%
+8/19/2019 3:04 PM | FCAU :neutral_face: | 0.000% | $93,954.09 | -6.046% | -2.282%
+8/19/2019 3:04 PM | F :neutral_face: | 0.000% | $93,954.09 | -6.046% | -2.282%
+8/19/2019 3:04 PM | GM :neutral_face: | 0.000% | $93,954.09 | -6.046% | -2.282%
+8/21/2019 4:41 PM | TM :thumbsup: | 0.000% | $93,954.09 | -6.046% | -2.278%
+8/21/2019 6:50 PM | F :thumbsdown: | 0.000% | $93,954.09 | -6.046% | -2.278%
+8/21/2019 6:50 PM | GM :thumbsdown: | 0.000% | $93,954.09 | -6.046% | -2.278%
+**8/23/2019 10:59 AM** | **UPS :thumbsup:** | -2.939% | $93,273.35 | -6.727% | -2.535%
+**8/23/2019 10:59 AM** | **AMZN :thumbsup:** | -3.104% | $92,602.55 | -7.397% | -2.794%
+**8/23/2019 10:59 AM** | **BLK :thumbsup:** | -2.488% | $92,031.10 | -7.969% | -3.015%
+**8/23/2019 10:59 AM** | **FDX :thumbsup:** | -3.023% | $91,329.58 | -8.670% | -3.289%
+9/14/2019 9:04 AM | CMCSA :thumbsdown: | 0.000% | $91,329.58 | -8.670% | -3.221%
+9/15/2019 6:54 PM | GM :thumbsup: | 0.000% | $91,329.58 | -8.670% | -3.215%
+9/19/2019 8:03 PM | FB :thumbsup: | 0.000% | $91,329.58 | -8.670% | -3.203%
+**9/30/2019 3:04 PM** | **AAPL :thumbsup:** | 0.232% | $91,434.10 | -8.566% | -3.130%
+**9/30/2019 3:04 PM** | **BLK :thumbsup:** | -0.067% | $91,403.72 | -8.596% | -3.141%
+9/30/2019 3:04 PM | AAPL :thumbsup: | 0.232% | $91,403.72 | -8.596% | -3.141%
+9/30/2019 3:04 PM | BLK :thumbsup: | -0.067% | $91,403.72 | -8.596% | -3.141%
+9/30/2019 3:08 PM | APTV :thumbsup: | -0.228% | $91,403.72 | -8.596% | -3.141%
+9/30/2019 3:08 PM | DLPH :thumbsup: | 1.199% | $91,403.72 | -8.596% | -3.141%
+9/30/2019 3:08 PM | APTV :thumbsup: | -0.228% | $91,403.72 | -8.596% | -3.141%
+9/30/2019 3:08 PM | DLPH :thumbsup: | 1.199% | $91,403.72 | -8.596% | -3.141%
+**10/8/2019 8:30 AM** | **LMT :thumbsup:** | -0.433% | $91,013.62 | -8.986% | -3.266%
+10/8/2019 10:06 AM | UBER :thumbsdown: | 1.733% | $91,013.62 | -8.986% | -3.263%
+10/12/2019 10:09 AM | BA :thumbsup: | 0.000% | $91,013.62 | -8.986% | -3.251%
+10/12/2019 10:09 AM | BLK :thumbsup: | 0.000% | $91,013.62 | -8.986% | -3.251%
+10/12/2019 10:09 AM | TROW :thumbsup: | 0.000% | $91,013.62 | -8.986% | -3.251%
+10/14/2019 8:55 AM | CSCO :neutral_face: | 0.000% | $91,013.62 | -8.986% | -3.248%
+10/30/2019 1:19 PM | GM :neutral_face: | 0.000% | $91,013.62 | -8.986% | -3.196%
+10/30/2019 1:19 PM | FCAU :neutral_face: | 0.000% | $91,013.62 | -8.986% | -3.196%
+10/30/2019 1:19 PM | TM :neutral_face: | 0.000% | $91,013.62 | -8.986% | -3.196%
+**11/1/2019 8:52 AM** | **GM :thumbsup:** | 1.742% | $92,580.77 | -7.419% | -2.622%
+11/2/2019 11:45 PM | MSG :thumbsup: | 0.000% | $92,580.77 | -7.419% | -2.617%
+11/3/2019 10:01 AM | MSG :thumbsup: | 0.000% | $92,580.77 | -7.419% | -2.615%
+11/14/2019 9:32 AM | WMT :neutral_face: | 0.000% | $92,580.77 | -7.419% | -2.588%
+11/14/2019 9:32 AM | BLK :neutral_face: | 0.000% | $92,580.77 | -7.419% | -2.588%
+11/14/2019 9:32 AM | STT :neutral_face: | 0.000% | $92,580.77 | -7.419% | -2.588%
+11/20/2019 6:18 PM | AAPL :thumbsdown: | 0.000% | $92,580.77 | -7.419% | -2.574%
+11/20/2019 6:18 PM | BLK :thumbsdown: | 0.000% | $92,580.77 | -7.419% | -2.574%
+11/21/2019 7:31 AM | AAPL :neutral_face: | 0.000% | $92,580.77 | -7.419% | -2.574%
+11/21/2019 7:31 AM | BLK :neutral_face: | 0.000% | $92,580.77 | -7.419% | -2.574%
+11/23/2019 11:53 PM | AAPL :neutral_face: | 0.000% | $92,580.77 | -7.419% | -2.567%
+11/23/2019 11:53 PM | BLK :neutral_face: | 0.000% | $92,580.77 | -7.419% | -2.567%
+12/14/2019 3:55 PM | GOOG :thumbsdown: | 0.000% | $92,580.77 | -7.419% | -2.519%
+12/14/2019 3:55 PM | GOOGL :thumbsdown: | 0.000% | $92,580.77 | -7.419% | -2.519%
+12/14/2019 3:55 PM | BLK :thumbsdown: | 0.000% | $92,580.77 | -7.419% | -2.519%
+12/16/2019 1:09 AM | TWTR :neutral_face: | 0.000% | $92,580.77 | -7.419% | -2.516%
+12/16/2019 1:09 AM | FB :neutral_face: | 0.000% | $92,580.77 | -7.419% | -2.516%
+12/20/2019 10:43 PM | AAPL :thumbsup: | 0.000% | $92,580.77 | -7.419% | -2.505%
+12/20/2019 10:43 PM | BLK :thumbsup: | 0.000% | $92,580.77 | -7.419% | -2.505%
+1/14/2020 6:36 PM | AAPL :neutral_face: | 0.000% | $92,580.77 | -7.419% | -2.451%
+1/14/2020 6:36 PM | BLK :neutral_face: | 0.000% | $92,580.77 | -7.419% | -2.451%
+1/14/2020 6:36 PM | AAPL :neutral_face: | 0.000% | $92,580.77 | -7.419% | -2.451%
+1/14/2020 6:36 PM | BLK :neutral_face: | 0.000% | $92,580.77 | -7.419% | -2.451%
+1/22/2020 11:15 AM | BA :neutral_face: | 0.000% | $92,580.77 | -7.419% | -2.434%
+1/22/2020 11:15 AM | BLK :neutral_face: | 0.000% | $92,580.77 | -7.419% | -2.434%
+1/22/2020 11:15 AM | TROW :neutral_face: | 0.000% | $92,580.77 | -7.419% | -2.434%
+1/31/2020 5:01 PM | BLK :thumbsdown: | 0.000% | $92,580.77 | -7.419% | -2.415%
+1/31/2020 5:01 PM | VZ :thumbsdown: | 0.000% | $92,580.77 | -7.419% | -2.415%
+**2/14/2020 3:41 PM** | **CCL :thumbsup:** | 0.234% | $92,795.17 | -7.205% | -2.316%
+2/14/2020 6:38 PM | FB :thumbsup: | 0.000% | $92,795.17 | -7.205% | -2.316%
+2/19/2020 9:54 AM | BMWYY :thumbsdown: | 0.000% | $92,795.17 | -7.205% | -2.306%
+**2/19/2020 9:54 AM** | **BLK :thumbsdown:** | -0.488% | $92,345.98 | -7.654% | -2.454%
+2/22/2020 3:58 PM | DENN :thumbsup: | 0.000% | $92,345.98 | -7.654% | -2.447%
+2/22/2020 6:55 PM | BMWYY :thumbsup: | 0.000% | $92,345.98 | -7.654% | -2.447%
+2/22/2020 6:55 PM | BLK :thumbsup: | 0.000% | $92,345.98 | -7.654% | -2.447%
+**3/2/2020 9:19 AM** | **GE :thumbsup:** | 0.717% | $92,673.66 | -7.326% | -2.322%
+**3/2/2020 9:19 AM** | **BCS :thumbsup:** | 2.981% | $94,035.02 | -5.965% | -1.881%
+**3/5/2020 9:30 AM** | **CMCSA :thumbsdown:** | 1.049% | $95,000.80 | -4.999% | -1.567%
+3/8/2020 1:10 PM | AMZN :thumbsup: | 0.000% | $95,000.80 | -4.999% | -1.563%
+3/8/2020 1:10 PM | BLK :thumbsup: | 0.000% | $95,000.80 | -4.999% | -1.563%
+3/10/2020 7:33 AM | CMCSA :thumbsup: | 0.000% | $95,000.80 | -4.999% | -1.562%
+**3/12/2020 9:05 AM** | **CCL :thumbsup:** | -10.023% | $85,578.70 | -14.421% | -4.661%
+3/13/2020 5:16 PM | GOOG :thumbsup: | 0.000% | $85,578.70 | -14.421% | -4.653%
+3/13/2020 5:16 PM | GOOGL :thumbsup: | 0.000% | $85,578.70 | -14.421% | -4.653%
+3/13/2020 5:16 PM | BLK :thumbsup: | 0.000% | $85,578.70 | -14.421% | -4.653%
+3/13/2020 6:21 PM | CCL :thumbsup: | 0.000% | $85,578.70 | -14.421% | -4.653%
+3/13/2020 6:21 PM | RCL :thumbsup: | 0.000% | $85,578.70 | -14.421% | -4.653%
+3/13/2020 6:21 PM | CCL :thumbsup: | 0.000% | $85,578.70 | -14.421% | -4.653%
+3/13/2020 6:21 PM | RCL :thumbsup: | 0.000% | $85,578.70 | -14.421% | -4.653%
+3/15/2020 2:08 PM | GOOG :thumbsdown: | 0.000% | $85,578.70 | -14.421% | -4.645%
+3/15/2020 2:08 PM | GOOGL :thumbsdown: | 0.000% | $85,578.70 | -14.421% | -4.645%
+3/15/2020 2:08 PM | BLK :thumbsdown: | 0.000% | $85,578.70 | -14.421% | -4.645%
+**3/17/2020 11:56 AM** | **PEP :thumbsup:** | 4.656% | $87,546.19 | -12.454% | -3.975%
+**3/17/2020 11:56 AM** | **BLK :thumbsup:** | 2.236% | $88,485.25 | -11.515% | -3.662%
+3/17/2020 2:54 PM | BLK :thumbsup: | 0.649% | $88,485.25 | -11.515% | -3.662%
+3/17/2020 2:54 PM | MSFT :thumbsup: | -1.274% | $88,485.25 | -11.515% | -3.662%
+**3/19/2020 9:00 AM** | **CVS :thumbsdown:** | 2.952% | $90,993.01 | -9.007% | -2.835%
+3/19/2020 2:01 PM | F :neutral_face: | 0.000% | $90,993.01 | -9.007% | -2.832%
+3/19/2020 9:54 PM | WMT :thumbsup: | 0.000% | $90,993.01 | -9.007% | -2.832%
+3/19/2020 9:54 PM | BLK :thumbsup: | 0.000% | $90,993.01 | -9.007% | -2.832%
+3/19/2020 9:54 PM | STT :thumbsup: | 0.000% | $90,993.01 | -9.007% | -2.832%
+3/21/2020 8:37 PM | RACE :neutral_face: | 0.000% | $90,993.01 | -9.007% | -2.828%
+3/22/2020 10:25 AM | GM :thumbsup: | 0.000% | $90,993.01 | -9.007% | -2.825%
+3/22/2020 10:25 AM | TSLA :thumbsup: | 0.000% | $90,993.01 | -9.007% | -2.825%
+3/22/2020 10:25 AM | TROW :thumbsup: | 0.000% | $90,993.01 | -9.007% | -2.825%
+3/22/2020 10:25 AM | F :thumbsup: | 0.000% | $90,993.01 | -9.007% | -2.825%
+3/22/2020 10:49 AM | FDX :thumbsup: | 0.000% | $90,993.01 | -9.007% | -2.825%
+3/22/2020 1:32 PM | UPS :thumbsup: | 0.000% | $90,993.01 | -9.007% | -2.825%
+3/23/2020 7:11 PM | GD :neutral_face: | 0.000% | $90,993.01 | -9.007% | -2.823%
+**3/27/2020 11:16 AM** | **GM :thumbsdown:** | -4.535% | $86,718.69 | -13.281% | -4.218%
+3/27/2020 11:23 AM | GM :thumbsdown: | -3.772% | $86,718.69 | -13.281% | -4.218%
+3/27/2020 11:23 AM | F :thumbsdown: | -0.483% | $86,718.69 | -13.281% | -4.218%
+3/27/2020 1:34 PM | AAPL :thumbsup: | -2.189% | $86,718.69 | -13.281% | -4.218%
+3/27/2020 1:34 PM | BLK :thumbsup: | -0.528% | $86,718.69 | -13.281% | -4.218%
+3/30/2020 5:02 PM | F :neutral_face: | 0.000% | $86,718.69 | -13.281% | -4.207%
+4/2/2020 3:48 AM | AMZN :thumbsup: | 0.000% | $86,718.69 | -13.281% | -4.201%
+4/2/2020 3:48 AM | BLK :thumbsup: | 0.000% | $86,718.69 | -13.281% | -4.201%
+4/2/2020 8:52 PM | MMM :thumbsdown: | 0.000% | $86,718.69 | -13.281% | -4.197%
+**4/3/2020 1:14 PM** | **TRP :thumbsup:** | 0.351% | $87,019.59 | -12.980% | -4.094%
+4/3/2020 2:49 PM | BAC :thumbsup: | 0.732% | $87,019.59 | -12.980% | -4.094%
+4/3/2020 2:49 PM | BRK.A :thumbsup: | 1.146% | $87,019.59 | -12.980% | -4.094%
+4/3/2020 2:49 PM | BRK.B :thumbsup: | 0.870% | $87,019.59 | -12.980% | -4.094%
+4/3/2020 2:49 PM | BLK :thumbsup: | 0.204% | $87,019.59 | -12.980% | -4.094%
+4/8/2020 7:15 PM | DD :thumbsup: | 0.000% | $87,019.59 | -12.980% | -4.078%
+4/8/2020 7:15 PM | FDX :thumbsup: | 0.000% | $87,019.59 | -12.980% | -4.078%
+4/11/2020 2:43 PM | AMZN :thumbsdown: | 0.000% | $87,019.59 | -12.980% | -4.068%
+4/11/2020 2:43 PM | BLK :thumbsdown: | 0.000% | $87,019.59 | -12.980% | -4.068%
+4/12/2020 12:14 PM | HD :thumbsup: | 0.000% | $87,019.59 | -12.980% | -4.065%
+4/18/2020 8:09 AM | GOOG :thumbsup: | 0.000% | $87,019.59 | -12.980% | -4.048%
+4/18/2020 8:09 AM | GOOGL :thumbsup: | 0.000% | $87,019.59 | -12.980% | -4.048%
+4/18/2020 8:09 AM | BLK :thumbsup: | 0.000% | $87,019.59 | -12.980% | -4.048%
+4/18/2020 1:01 PM | HON :thumbsup: | 0.000% | $87,019.59 | -12.980% | -4.045%
+4/18/2020 1:01 PM | HON :thumbsup: | 0.000% | $87,019.59 | -12.980% | -4.045%
+**4/28/2020 3:15 PM** | **BLK :thumbsdown:** | 0.476% | $87,221.04 | -12.779% | -3.948%
+**4/28/2020 3:15 PM** | **VZ :thumbsdown:** | 0.328% | $87,361.64 | -12.638% | -3.902%
+**4/29/2020 9:10 AM** | **FDX :thumbsup:** | -0.451% | $87,166.94 | -12.833% | -3.965%
+**4/29/2020 9:10 AM** | **ALK :thumbsup:** | 7.688% | $90,484.81 | -9.515% | -2.903%
+4/30/2020 7:02 PM | GM :thumbsup: | 0.000% | $90,484.81 | -9.515% | -2.898%
+5/5/2020 11:22 PM | HON :thumbsup: | 0.000% | $90,484.81 | -9.515% | -2.887%
+5/10/2020 9:21 AM | TWTR :thumbsup: | 0.000% | $90,484.81 | -9.515% | -2.877%
+5/12/2020 9:40 AM | TSLA :neutral_face: | 0.000% | $90,484.81 | -9.515% | -2.873%
+5/12/2020 9:40 AM | TROW :neutral_face: | 0.000% | $90,484.81 | -9.515% | -2.873%
+5/16/2020 7:56 AM | FB :thumbsup: | 0.000% | $90,484.81 | -9.515% | -2.864%
+5/16/2020 7:56 AM | GOOG :thumbsup: | 0.000% | $90,484.81 | -9.515% | -2.864%
+5/16/2020 7:56 AM | GOOGL :thumbsup: | 0.000% | $90,484.81 | -9.515% | -2.864%
+5/16/2020 7:56 AM | BLK :thumbsup: | 0.000% | $90,484.81 | -9.515% | -2.864%
+5/16/2020 7:56 AM | TWTR :thumbsup: | 0.000% | $90,484.81 | -9.515% | -2.864%
+5/21/2020 5:05 PM | F :thumbsup: | 0.000% | $90,484.81 | -9.515% | -2.850%
+5/21/2020 11:14 PM | F :neutral_face: | 0.000% | $90,484.81 | -9.515% | -2.850%
+5/21/2020 11:14 PM | F :neutral_face: | 0.000% | $90,484.81 | -9.515% | -2.850%
+5/21/2020 11:20 PM | F :thumbsdown: | 0.000% | $90,484.81 | -9.515% | -2.850%
+5/21/2020 11:20 PM | F :thumbsdown: | 0.000% | $90,484.81 | -9.515% | -2.850%
+5/26/2020 4:52 PM | GOOG :thumbsdown: | 0.000% | $90,484.81 | -9.515% | -2.839%
+5/26/2020 4:52 PM | GOOGL :thumbsdown: | 0.000% | $90,484.81 | -9.515% | -2.839%
+5/26/2020 4:52 PM | BLK :thumbsdown: | 0.000% | $90,484.81 | -9.515% | -2.839%
+5/26/2020 7:40 PM | TWTR :thumbsdown: | 0.000% | $90,484.81 | -9.515% | -2.839%
+5/26/2020 7:40 PM | TWTR :thumbsdown: | 0.000% | $90,484.81 | -9.515% | -2.839%
+5/26/2020 10:01 PM | TWTR :thumbsdown: | 0.000% | $90,484.81 | -9.515% | -2.839%
+5/26/2020 10:42 PM | CBS :thumbsup: | 0.000% | $90,484.81 | -9.515% | -2.839%
+5/26/2020 10:42 PM | CBSA :thumbsup: | 0.000% | $90,484.81 | -9.515% | -2.839%
+**5/28/2020 12:44 PM** | **TWTR :thumbsdown:** | 1.179% | $91,526.94 | -8.473% | -2.514%
+5/28/2020 8:48 PM | TWTR :thumbsdown: | 0.000% | $91,526.94 | -8.473% | -2.514%
+5/28/2020 8:48 PM | FB :thumbsdown: | 0.000% | $91,526.94 | -8.473% | -2.514%
+5/28/2020 8:55 PM | TWTR :thumbsdown: | 0.000% | $91,526.94 | -8.473% | -2.514%
+5/29/2020 7:10 AM | TWTR :thumbsdown: | 0.000% | $91,526.94 | -8.473% | -2.514%
+**5/29/2020 8:33 AM** | **TWTR :thumbsdown:** | 1.064% | $92,479.65 | -7.520% | -2.224%
+5/29/2020 8:44 AM | TWTR :neutral_face: | 0.000% | $92,479.65 | -7.520% | -2.224%
+5/29/2020 10:30 AM | TWTR :neutral_face: | 0.000% | $92,479.65 | -7.520% | -2.222%
+6/1/2020 4:20 PM | TWTR :thumbsdown: | 0.000% | $92,479.65 | -7.520% | -2.217%
+6/1/2020 4:20 PM | TWTR :thumbsup: | 0.000% | $92,479.65 | -7.520% | -2.217%
+**6/2/2020 3:38 PM** | **M :thumbsdown:** | -0.320% | $92,185.99 | -7.814% | -2.304%
+6/3/2020 7:27 AM | AMZN :thumbsdown: | 0.000% | $92,185.99 | -7.814% | -2.304%
+6/3/2020 7:27 AM | BLK :thumbsdown: | 0.000% | $92,185.99 | -7.814% | -2.304%

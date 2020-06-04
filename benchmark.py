@@ -164,7 +164,7 @@ if __name__ == "__main__":
     print("Use this command to regenerate the benchmark report after changes "
           "to the algorithm or data:")
     print("```shell")
-    print("$ ./benchmark.py > benchmark.md")
+    print("$ python benchmark.py > benchmark.md")
     print("```")
 
     print()
