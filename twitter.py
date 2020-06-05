@@ -25,6 +25,7 @@ TWITTER_CONSUMER_SECRET = getenv("TWITTER_CONSUMER_SECRET")
 
 # The user ID of @realDonaldTrump.
 TRUMP_USER_ID = "25073877"
+POTUS_USER_ID = "822215679726100480"
 
 # The user ID of @Trump2Cash.
 TRUMP2CASH_USER_ID = "812529080998432769"
@@ -82,7 +83,7 @@ class Twitter:
         twitter_stream = Stream(self.twitter_auth, self.twitter_listener)
 
         self.logs.debug("Starting stream.")
-        twitter_stream.filter(follow=[TRUMP_USER_ID])
+        twitter_stream.filter(follow=[TRUMP_USER_ID,POTUS_USER_ID])
 
         # If we got here because of an API error, raise it.
         if self.twitter_listener and self.twitter_listener.get_error_status():
@@ -359,11 +360,15 @@ class TwitterListener(StreamListener):
             logs.error("Malformed tweet: %s" % tweet)
             return
 
-        # We're only interested in tweets from Mr. Trump himself, so skip the
-        # rest.
-        if user_id_str != TRUMP_USER_ID:
+        # We're only interested in tweets from Mr. Trump himself
+        # or from the POTUS account so skip the rest.
+        if user_id_str != TRUMP_USER_ID and user_id_str != POTUS_USER_ID:
             logs.debug("Skipping tweet from user: %s (%s)" %
                        (screen_name, user_id_str))
+            return
+        # Also skip if tweet is from POTUS but not signed -DJT
+        if user_id_str == POTUS_USER_ID and '-DJT' not in tweet:
+            logs.debug("Skipping POTUS tweet because not signed -DJT")
             return
 
         logs.info("Examining tweet: %s" % tweet)
