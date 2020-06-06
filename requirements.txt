@@ -11,3 +11,4 @@ pytz==2020.1
 requests==2.23.0
 tqdm==4.46.0
 tweepy==3.8.0
+python-dotenv=0.13.0

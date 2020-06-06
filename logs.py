@@ -9,6 +9,9 @@ from logging.handlers import RotatingFileHandler
 from sys import exc_info
 from traceback import format_exception
 
+from dotenv import load_dotenv
+load_dotenv()
+
 # The format for local logs.
 LOGS_FORMAT = ("%(asctime)s "
                "%(name)s "
