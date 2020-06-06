@@ -16,6 +16,9 @@ from threading import Timer
 
 from logs import Logs
 
+from dotenv import load_dotenv
+load_dotenv()
+
 # Read the authentication keys for TradeKing from environment variables.
 TRADEKING_CONSUMER_KEY = getenv("TRADEKING_CONSUMER_KEY")
 TRADEKING_CONSUMER_SECRET = getenv("TRADEKING_CONSUMER_SECRET")

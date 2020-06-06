@@ -13,6 +13,9 @@ from tweepy.streaming import StreamListener
 
 from logs import Logs
 
+from dotenv import load_dotenv
+load_dotenv()
+
 # The keys for the Twitter account we're using for API requests and tweeting
 # alerts (@Trump2Cash). Read from environment variables.
 TWITTER_ACCESS_TOKEN = getenv("TWITTER_ACCESS_TOKEN")
