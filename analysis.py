@@ -53,6 +53,20 @@ MID_TO_TICKER_QUERY = (
     ' } GROUP BY ?companyLabel ?rootLabel ?tickerLabel ?exchangeNameLabel'
     ' ORDER BY ?companyLabel ?rootLabel ?tickerLabel ?exchangeNameLabel')
 
+# A Wikidata SPARQL query to find cryptocurrencies and their symbols. The
+# string parameter is the Freebase ID of the company.
+MID_TO_CRYPTO_QUERY = (
+    'SELECT ?entityLabel ?symbolLabel'
+    ' WHERE {'
+    ' ?entity wdt:P646 "%s" .'  # Entity with specified Freebase ID.
+    ' ?entity wdt:P31 wd:Q13479982 .'  # Entity is a cryptocurrency.
+    ' ?entity wdt:P5810 ?symbol .'  # Entity has a symbol.
+    '  SERVICE wikibase:label {'
+    '   bd:serviceParam wikibase:language "en" .'  # Use English labels.
+    '  }'
+    ' } GROUP BY ?entityLabel ?symbolLabel'
+    ' ORDER BY ?entityLabel ?symbolLabel')
+
 
 class Analysis:
     """A helper for analyzing company data in text."""
@@ -66,56 +80,82 @@ class Analysis:
         """Looks up stock ticker information for a company via its Freebase ID.
         """
 
-        query = MID_TO_TICKER_QUERY % mid
         try:
-            bindings = self.make_wikidata_request(query)
+            ticker_bindings = self.make_wikidata_request(
+                MID_TO_TICKER_QUERY % mid)
+            crypto_bindings = self.make_wikidata_request(
+                MID_TO_CRYPTO_QUERY % mid)
         except HTTPError as e:
             self.logs.error("Wikidata request failed: %s" % e)
-            bindings = None
-
-        if not bindings:
-            self.logs.debug("No company data found for MID: %s" % mid)
             return None
 
         # Collect the data from the response.
-        datas = []
-        for binding in bindings:
-            try:
-                name = binding["companyLabel"]["value"]
-            except KeyError:
-                name = None
+        companies = []
+        if ticker_bindings:
+            for binding in ticker_bindings:
+                try:
+                    name = binding["companyLabel"]["value"]
+                except KeyError:
+                    name = None
 
-            try:
-                root = binding["rootLabel"]["value"]
-            except KeyError:
-                root = None
+                try:
+                    root = binding["rootLabel"]["value"]
+                except KeyError:
+                    root = None
 
-            try:
-                ticker = binding["tickerLabel"]["value"]
-            except KeyError:
-                ticker = None
+                try:
+                    ticker = binding["tickerLabel"]["value"]
+                except KeyError:
+                    ticker = None
 
-            try:
-                exchange = binding["exchangeNameLabel"]["value"]
-            except KeyError:
-                exchange = None
+                try:
+                    exchange = binding["exchangeNameLabel"]["value"]
+                except KeyError:
+                    exchange = None
 
-            data = {"name": name,
-                    "ticker": ticker,
-                    "exchange": exchange}
+                data = {"name": name,
+                        "ticker": ticker,
+                        "exchange": exchange}
 
-            # Add the root if there is one.
-            if root and root != name:
-                data["root"] = root
+                # Add the root if there is one.
+                if root and root != name:
+                    data["root"] = root
 
-            # Add to the list unless we already have the same entry.
-            if data not in datas:
-                self.logs.debug("Adding company data: %s" % data)
-                datas.append(data)
-            else:
-                self.logs.warn("Skipping duplicate company data: %s" % data)
+                # Add to the list unless we already have the same entry.
+                if data not in companies:
+                    self.logs.debug("Adding company data: %s" % data)
+                    companies.append(data)
+                else:
+                    self.logs.warn(
+                        "Skipping duplicate company data: %s" % data)
+        if crypto_bindings:
+            for binding in crypto_bindings:
+                try:
+                    name = binding["entityLabel"]["value"]
+                except KeyError:
+                    name = None
 
-        return datas
+                try:
+                    symbol = binding["symbolLabel"]["value"]
+                except KeyError:
+                    symbol = None
+
+                data = {"name": name,
+                        "ticker": symbol,
+                        "exchange": "Crypto"}
+
+                # Add to the list unless we already have the same entry.
+                if data not in companies:
+                    self.logs.debug("Adding crypto data: %s" % data)
+                    companies.append(data)
+                else:
+                    self.logs.warn("Skipping duplicate crypto data: %s" % data)
+
+        # Prefer returning None to an empty list.
+        if not companies:
+            return None
+
+        return companies
 
     def find_companies(self, tweet):
         """Finds mentions of companies in a tweet."""

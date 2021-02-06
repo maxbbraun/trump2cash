@@ -51,8 +51,8 @@ def test_get_company_data_2(analysis):
     assert analysis.get_company_data("/m/04n3_w4") == [{
         "exchange": "New York Stock Exchange",
         "name": "Fiat",
-        "root": "Fiat Chrysler Automobiles",
-        "ticker": "FCAU"}]
+        "root": "Stellantis",
+        "ticker": "STLA"}]
 
 
 def test_get_company_data_3(analysis):
@@ -671,6 +671,38 @@ def test_find_companies_25(analysis):
         "name": "General Motors",
         "sentiment": 0.0,
         "ticker": "GM"}]
+
+
+def test_find_companies_26(analysis):
+    assert analysis.find_companies(get_tweet("1345382294966571008")) == [{
+        'name': 'Tesla',
+        'sentiment': 1.0,
+        'ticker': 'TSLA',
+        'exchange': 'NASDAQ'}]
+
+
+def test_find_companies_27(analysis):
+    assert analysis.find_companies(get_tweet("1354027651468550144")) == [{
+        'name': 'Etsy',
+        'sentiment': 0.8999999761581421,
+        'ticker': 'ETSY',
+        'exchange': 'NASDAQ'}]
+
+
+def test_find_companies_28(analysis):
+    assert analysis.find_companies(get_tweet("1357241340313141249")) == [{
+        'name': 'Dogecoin',
+        'sentiment': 0.30000001192092896,
+        'ticker': 'DOGE',
+        'exchange': 'Crypto'}]
+
+
+def test_find_companies_29(analysis):
+    assert analysis.find_companies(get_tweet("1340588909974200321")) == [{
+        'name': 'bitcoin',
+        'sentiment': -0.8999999761581421,
+        'ticker': 'BTC',
+        'exchange': 'Crypto'}]
 
 
 def test_find_companies_none(analysis):
