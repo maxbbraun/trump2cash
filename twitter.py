@@ -9,6 +9,7 @@ from tweepy import API
 from tweepy import Cursor
 from tweepy import OAuthHandler
 from tweepy import Stream
+from tweepy.error import TweepError
 from tweepy.streaming import StreamListener
 
 from logs import Logs
@@ -173,10 +174,16 @@ class Twitter:
     def get_tweet(self, tweet_id):
         """Looks up metadata for a single tweet."""
 
-        # Use tweet_mode=extended so we get the full text.
-        status = self.twitter_api.get_status(tweet_id, tweet_mode="extended")
-        if not status:
-            self.logs.error("Bad status response: %s" % status)
+        try:
+            # Use tweet_mode=extended so we get the full text.
+            status = self.twitter_api.get_status(tweet_id,
+                                                 tweet_mode="extended")
+            if not status:
+                self.logs.error("Bad status response: %s" % status)
+                return None
+        except TweepError as e:
+            self.logs.error("Failed to get status for ID: %s (%s)" % (
+                tweet_id, e))
             return None
 
         # Use the raw JSON, just like the streaming API.
@@ -202,7 +209,8 @@ class Twitter:
 
             # Get the tweet details and add it to the list.
             quoted_tweet = self.get_tweet(quoted_tweet_id)
-            tweets.append(quoted_tweet)
+            if quoted_tweet:
+                tweets.append(quoted_tweet)
 
         self.logs.debug("Got tweets: %s" % tweets)
 
