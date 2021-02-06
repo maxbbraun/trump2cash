@@ -1,3 +1,5 @@
+from backoff import expo
+from backoff import on_exception
 from datetime import datetime
 from datetime import timedelta
 from holidays import UnitedStates
@@ -12,6 +14,7 @@ from os import getenv
 from polygon import RESTClient as PolygonClient
 from pytz import timezone
 from pytz import utc
+from requests.exceptions import HTTPError
 from threading import Timer
 
 from logs import Logs
@@ -241,6 +244,7 @@ class Trading:
         self.logs.debug("Using quotes: %s %s" % (quote_at, quote_eod))
         return {"at": quote_at["price"], "eod": quote_eod["price"]}
 
+    @on_exception(expo, HTTPError, max_tries=8)
     def get_day_quotes(self, ticker, timestamp):
         """Collects all quotes from the day of the market timestamp."""
 
@@ -249,15 +253,17 @@ class Trading:
 
         # The timestamp is expected in market time.
         day_str = timestamp.strftime("%Y-%m-%d")
-        response = polygon_client.stocks_equities_aggregates(
-            ticker, 1, "minute", day_str, day_str)
-        if not response or response.status != "OK" or not response.results:
+        try:
+            response = polygon_client.stocks_equities_aggregates(
+                ticker, 1, "minute", day_str, day_str)
+            results = response.results
+        except AttributeError as e:
             self.logs.error(
                 "Failed to request historical data for %s on %s: %s" % (
-                    ticker, timestamp, response))
+                    ticker, timestamp, e))
             return None
 
-        for result in response.results:
+        for result in results:
             try:
                 # Parse and convert the current minute's timestamp.
                 minute_timestamp = result["t"] / 1000
