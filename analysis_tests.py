@@ -407,6 +407,18 @@ def test_get_sentiment_26(analysis):
     assert analysis.get_sentiment(get_tweet_text("1042161534603063301")) > 0
 
 
+def test_get_sentiment_27(analysis):
+    assert analysis.get_sentiment(get_tweet_text("1354027651468550144")) > 0
+
+
+def test_get_sentiment_28(analysis):
+    assert analysis.get_sentiment(get_tweet_text("1357241340313141249")) > 0
+
+
+def test_get_sentiment_29(analysis):
+    assert analysis.get_sentiment(get_tweet_text("1340588909974200321")) < 0
+
+
 def test_get_sentiment_none(analysis):
     assert analysis.get_sentiment(None) == 0
 
@@ -675,8 +687,8 @@ def test_find_companies_25(analysis):
 
 def test_find_companies_26(analysis):
     assert analysis.find_companies(get_tweet("1345382294966571008")) == [{
-        'name': 'Tesla',
-        'sentiment': 1.0,
+        'name': 'Tesla, Inc.',
+        'sentiment': 0.20000000298023224,
         'ticker': 'TSLA',
         'exchange': 'NASDAQ'}]
 
