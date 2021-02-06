@@ -24,11 +24,11 @@ TWITTER_ACCESS_TOKEN_SECRET = getenv("TWITTER_ACCESS_TOKEN_SECRET")
 TWITTER_CONSUMER_KEY = getenv("TWITTER_CONSUMER_KEY")
 TWITTER_CONSUMER_SECRET = getenv("TWITTER_CONSUMER_SECRET")
 
-# The user ID of @realDonaldTrump.
-TRUMP_USER_ID = "25073877"
+# The user ID of @elonmusk.
+TRUMP_USER_ID = "44196397"
 
-# The user ID of @Trump2Cash.
-TRUMP2CASH_USER_ID = "812529080998432769"
+# The user ID of @Musk2Cash.
+TRUMP2CASH_USER_ID = "1347968670148878338"
 
 # The URL pattern for links to tweets.
 TWEET_URL = "https://twitter.com/%s/status/%s"
