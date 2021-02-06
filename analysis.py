@@ -1,6 +1,6 @@
 from backoff import expo
 from backoff import on_exception
-from google.cloud import language
+from google.cloud import language_v1 as language
 from re import compile
 from re import IGNORECASE
 from requests import get
@@ -172,13 +172,14 @@ class Analysis:
             return None
 
         # Run entity detection.
-        document = language.types.Document(
+        document = language.Document(
             content=text,
-            type=language.enums.Document.Type.PLAIN_TEXT,
+            type_=language.Document.Type.PLAIN_TEXT,
             language="en")
-        entities = self.language_client.analyze_entities(document).entities
+        entities = self.language_client.analyze_entities(
+            request={'document': document}).entities
         self.logs.debug("Found entities: %s" %
-                        self.entities_tostring(entities))
+                        entities)
 
         # Collect all entities which are publicly traded companies, i.e.
         # entities which have a known stock ticker symbol.
@@ -289,31 +290,6 @@ class Analysis:
 
         return bindings
 
-    def entities_tostring(self, entities):
-        """Converts a list of entities to a readable string."""
-
-        tostrings = [self.entity_tostring(entity) for entity in entities]
-        return "[%s]" % ", ".join(tostrings)
-
-    def entity_tostring(self, entity):
-        """Converts one entity to a readable string."""
-
-        metadata = ", ".join(['"%s": "%s"' % (key, value) for
-                              key, value in entity.metadata.items()])
-
-        mentions = ", ".join(['"%s"' % mention for mention in entity.mentions])
-
-        return ('{name: "%s",'
-                ' type: "%s",'
-                ' metadata: {%s},'
-                ' salience: %s,'
-                ' mentions: [%s]}') % (
-            entity.name,
-            entity.type,
-            metadata,
-            entity.salience,
-            mentions)
-
     def get_sentiment(self, text):
         """Extracts a sentiment score [-1, 1] from text."""
 
@@ -321,12 +297,12 @@ class Analysis:
             self.logs.warn("No sentiment for empty text.")
             return 0
 
-        document = language.types.Document(
+        document = language.Document(
             content=text,
-            type=language.enums.Document.Type.PLAIN_TEXT,
+            type_=language.Document.Type.PLAIN_TEXT,
             language="en")
         sentiment = self.language_client.analyze_sentiment(
-            document).document_sentiment
+            request={'document': document}).document_sentiment
 
         self.logs.debug(
             "Sentiment score and magnitude for text: %f %f \"%s\"" %

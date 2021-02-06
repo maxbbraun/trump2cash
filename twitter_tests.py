@@ -136,19 +136,34 @@ def test_get_sentiment_emoji(twitter):
     assert twitter.get_sentiment_emoji(None) == "¯\\_(\u30c4)_/¯"
 
 
-def test_get_tweet(twitter):
-    tweet = twitter.get_tweet("845334323045765121")
-    assert tweet["full_text"] == (
-        "Today, I was thrilled to announce a commitment of $25 BILLION &amp; 2"
-        "0K AMERICAN JOBS over the next 4 years. THANK YOU Charter Communicati"
-        "ons! https://t.co/PLxUmXVl0h")
-    assert tweet["id_str"] == "845334323045765121"
-    assert tweet["user"]["id_str"] == "25073877"
-    assert tweet["user"]["screen_name"] == "realDonaldTrump"
-    assert tweet["created_at"] == "Fri Mar 24 17:59:42 +0000 2017"
+# def test_get_tweet_trump(twitter):
+#     tweet = twitter.get_tweet("845334323045765121")
+#     assert tweet["full_text"] == (
+#         "Today, I was thrilled to announce a commitment of $25 BILLION &amp; 2"
+#         "0K AMERICAN JOBS over the next 4 years. THANK YOU Charter Communicati"
+#         "ons! https://t.co/PLxUmXVl0h")
+#     assert tweet["id_str"] == "845334323045765121"
+#     assert tweet["user"]["id_str"] == "25073877"
+#     assert tweet["user"]["screen_name"] == "realDonaldTrump"
+#     assert tweet["created_at"] == "Fri Mar 24 17:59:42 +0000 2017"
 
 
-def test_get_tweet_link(twitter):
-    tweet = twitter.get_tweet("828574430800539648")
+def test_get_tweet_musk(twitter):
+    tweet = twitter.get_tweet("1357241340313141249")
+    assert tweet["full_text"] == "Dogecoin is the people’s crypto"
+    assert tweet["id_str"] == "1357241340313141249"
+    assert tweet["user"]["id_str"] == "44196397"
+    assert tweet["user"]["screen_name"] == "elonmusk"
+    assert tweet["created_at"] == "Thu Feb 04 08:15:26 +0000 2021"
+
+
+# def test_get_tweet_link_trump(twitter):
+#     tweet = twitter.get_tweet("828574430800539648")
+#     assert twitter.get_tweet_link(tweet) == (
+#         "https://twitter.com/realDonaldTrump/status/828574430800539648")
+
+
+def test_get_tweet_link_musk(twitter):
+    tweet = twitter.get_tweet("1357241340313141249")
     assert twitter.get_tweet_link(tweet) == (
-        "https://twitter.com/realDonaldTrump/status/828574430800539648")
+        "https://twitter.com/elonmusk/status/1357241340313141249")
