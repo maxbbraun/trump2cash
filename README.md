@@ -31,7 +31,7 @@ def twitter_callback(tweet):
         trading.make_trades(companies)
         twitter.tweet(companies, tweet)
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     twitter.start_streaming(twitter_callback)
 ```
 

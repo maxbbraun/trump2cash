@@ -10,18 +10,18 @@ from sys import exc_info
 from traceback import format_exception
 
 # The format for local logs.
-LOGS_FORMAT = ("%(asctime)s "
-               "%(name)s "
-               "%(process)d "
-               "%(thread)d "
-               "%(levelname)s "
-               "%(message)s")
+LOGS_FORMAT = ('%(asctime)s '
+               '%(name)s '
+               '%(process)d '
+               '%(thread)d '
+               '%(levelname)s '
+               '%(message)s')
 
 # The path to the log file for local logging.
-LOG_FILE = "/tmp/trump2cash.log"
+LOG_FILE = '/tmp/trump2cash.log'
 
 # The path to the log file for the local fallback of cloud logging.
-FALLBACK_LOG_FILE = "/tmp/trump2cash-fallback.log"
+FALLBACK_LOG_FILE = '/tmp/trump2cash-fallback.log'
 
 # The maximum size in bytes for each local log file.
 MAX_LOG_BYTES = 10 * 1024 * 1024
@@ -43,7 +43,7 @@ class Logs:
                 name, FALLBACK_LOG_FILE)
 
             # Redirect the backoff logs to the local fallback handler.
-            backoff_logger = getLogger("backoff")
+            backoff_logger = getLogger('backoff')
             backoff_logger.setLevel(DEBUG)
             backoff_logger.handlers = [fallback_handler]
         else:
@@ -67,7 +67,7 @@ class Logs:
         """Logs at the DEBUG level."""
 
         if self.to_cloud:
-            self.safe_cloud_log_text(text, severity="DEBUG")
+            self.safe_cloud_log_text(text, severity='DEBUG')
         else:
             self.local_logger.debug(text)
 
@@ -75,7 +75,7 @@ class Logs:
         """Logs at the INFO level."""
 
         if self.to_cloud:
-            self.safe_cloud_log_text(text, severity="INFO")
+            self.safe_cloud_log_text(text, severity='INFO')
         else:
             self.local_logger.info(text)
 
@@ -83,7 +83,7 @@ class Logs:
         """Logs at the WARNING level."""
 
         if self.to_cloud:
-            self.safe_cloud_log_text(text, severity="WARNING")
+            self.safe_cloud_log_text(text, severity='WARNING')
         else:
             self.local_logger.warning(text)
 
@@ -91,7 +91,7 @@ class Logs:
         """Logs at the ERROR level."""
 
         if self.to_cloud:
-            self.safe_cloud_log_text(text, severity="ERROR")
+            self.safe_cloud_log_text(text, severity='ERROR')
         else:
             self.local_logger.error(text)
 
@@ -102,7 +102,7 @@ class Logs:
 
         if self.to_cloud:
             self.safe_report_exception(exception_str)
-            self.safe_cloud_log_text(exception_str, severity="CRITICAL")
+            self.safe_cloud_log_text(exception_str, severity='CRITICAL')
         else:
             self.local_logger.critical(exception_str)
 
@@ -115,7 +115,7 @@ class Logs:
             self.retry_cloud_log_text(text, severity)
         except Exception:
             exception_str = self.format_exception()
-            self.fallback_logger.error("Failed to log to cloud: %s %s\n%s" %
+            self.fallback_logger.error('Failed to log to cloud: %s %s\n%s' %
                                        (severity, text, exception_str))
 
     @on_exception(expo, Exception, max_tries=8)
@@ -135,7 +135,7 @@ class Logs:
             self.retry_report_exception(exception_str)
         except Exception:
             meta_exception_str = self.format_exception()
-            self.fallback_logger.error("Failed to report exception: %s\n%s" %
+            self.fallback_logger.error('Failed to report exception: %s\n%s' %
                                        (exception_str, meta_exception_str))
 
     @on_exception(expo, Exception, max_tries=8)
@@ -151,4 +151,4 @@ class Logs:
 
         exc_type, exc_value, exc_traceback = exc_info()
         exc_format = format_exception(exc_type, exc_value, exc_traceback)
-        return "".join(exc_format).strip()
+        return ''.join(exc_format).strip()

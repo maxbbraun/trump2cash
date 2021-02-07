@@ -12,11 +12,11 @@ from twitter import Twitter
 
 # The URL for a GET request to the Wikidata API. The string parameter is the
 # SPARQL query.
-WIKIDATA_QUERY_URL = "https://query.wikidata.org/sparql?query=%s&format=JSON"
+WIKIDATA_QUERY_URL = 'https://query.wikidata.org/sparql?query=%s&format=JSON'
 
 # The HTTP headers with a User-Agent used for Wikidata requests.
 WIKIDATA_QUERY_HEADERS = {
-    "User-Agent": "Trump2Cash/1.0 (https://trump2cash.biz)"}
+    'User-Agent': 'Trump2Cash/1.0 (https://trump2cash.biz)'}
 
 # A Wikidata SPARQL query to find stock ticker symbols and other information
 # for a company. The string parameter is the Freebase ID of the company.
@@ -72,7 +72,7 @@ class Analysis:
     """A helper for analyzing company data in text."""
 
     def __init__(self, logs_to_cloud):
-        self.logs = Logs(name="analysis", to_cloud=logs_to_cloud)
+        self.logs = Logs(name='analysis', to_cloud=logs_to_cloud)
         self.language_client = language.LanguageServiceClient()
         self.twitter = Twitter(logs_to_cloud=logs_to_cloud)
 
@@ -86,7 +86,7 @@ class Analysis:
             crypto_bindings = self.make_wikidata_request(
                 MID_TO_CRYPTO_QUERY % mid)
         except HTTPError as e:
-            self.logs.error("Wikidata request failed: %s" % e)
+            self.logs.error('Wikidata request failed: %s' % e)
             return None
 
         # Collect the data from the response.
@@ -94,62 +94,62 @@ class Analysis:
         if ticker_bindings:
             for binding in ticker_bindings:
                 try:
-                    name = binding["companyLabel"]["value"]
+                    name = binding['companyLabel']['value']
                 except KeyError:
                     name = None
 
                 try:
-                    root = binding["rootLabel"]["value"]
+                    root = binding['rootLabel']['value']
                 except KeyError:
                     root = None
 
                 try:
-                    ticker = binding["tickerLabel"]["value"]
+                    ticker = binding['tickerLabel']['value']
                 except KeyError:
                     ticker = None
 
                 try:
-                    exchange = binding["exchangeNameLabel"]["value"]
+                    exchange = binding['exchangeNameLabel']['value']
                 except KeyError:
                     exchange = None
 
-                data = {"name": name,
-                        "ticker": ticker,
-                        "exchange": exchange}
+                data = {'name': name,
+                        'ticker': ticker,
+                        'exchange': exchange}
 
                 # Add the root if there is one.
                 if root and root != name:
-                    data["root"] = root
+                    data['root'] = root
 
                 # Add to the list unless we already have the same entry.
                 if data not in companies:
-                    self.logs.debug("Adding company data: %s" % data)
+                    self.logs.debug('Adding company data: %s' % data)
                     companies.append(data)
                 else:
                     self.logs.warn(
-                        "Skipping duplicate company data: %s" % data)
+                        'Skipping duplicate company data: %s' % data)
         if crypto_bindings:
             for binding in crypto_bindings:
                 try:
-                    name = binding["entityLabel"]["value"]
+                    name = binding['entityLabel']['value']
                 except KeyError:
                     name = None
 
                 try:
-                    symbol = binding["symbolLabel"]["value"]
+                    symbol = binding['symbolLabel']['value']
                 except KeyError:
                     symbol = None
 
-                data = {"name": name,
-                        "ticker": symbol,
-                        "exchange": "Crypto"}
+                data = {'name': name,
+                        'ticker': symbol,
+                        'exchange': 'Crypto'}
 
                 # Add to the list unless we already have the same entry.
                 if data not in companies:
-                    self.logs.debug("Adding crypto data: %s" % data)
+                    self.logs.debug('Adding crypto data: %s' % data)
                     companies.append(data)
                 else:
-                    self.logs.warn("Skipping duplicate crypto data: %s" % data)
+                    self.logs.warn('Skipping duplicate crypto data: %s' % data)
 
         # Prefer returning None to an empty list.
         if not companies:
@@ -161,24 +161,24 @@ class Analysis:
         """Finds mentions of companies in a tweet."""
 
         if not tweet:
-            self.logs.warn("No tweet to find companies.")
+            self.logs.warn('No tweet to find companies.')
             return None
 
         # Use the text of the tweet with any mentions expanded to improve
         # entity detection.
         text = self.get_expanded_text(tweet)
         if not text:
-            self.logs.error("Failed to get text from tweet: %s" % tweet)
+            self.logs.error('Failed to get text from tweet: %s' % tweet)
             return None
 
         # Run entity detection.
         document = language.Document(
             content=text,
             type_=language.Document.Type.PLAIN_TEXT,
-            language="en")
+            language='en')
         entities = self.language_client.analyze_entities(
             request={'document': document}).entities
-        self.logs.debug("Found entities: %s" %
+        self.logs.debug('Found entities: %s' %
                         entities)
 
         # Collect all entities which are publicly traded companies, i.e.
@@ -192,36 +192,36 @@ class Analysis:
             name = entity.name
             metadata = entity.metadata
             try:
-                mid = metadata["mid"]
+                mid = metadata['mid']
             except KeyError:
-                self.logs.debug("No MID found for entity: %s" % name)
+                self.logs.debug('No MID found for entity: %s' % name)
                 continue
 
             company_data = self.get_company_data(mid)
 
             # Skip any entity for which we can't find any company data.
             if not company_data:
-                self.logs.debug("No company data found for entity: %s (%s)" %
+                self.logs.debug('No company data found for entity: %s (%s)' %
                                 (name, mid))
                 continue
-            self.logs.debug("Found company data: %s" % company_data)
+            self.logs.debug('Found company data: %s' % company_data)
 
             for company in company_data:
 
                 # Extract and add a sentiment score.
                 sentiment = self.get_sentiment(text)
-                self.logs.debug("Using sentiment for company: %f %s" %
+                self.logs.debug('Using sentiment for company: %f %s' %
                                 (sentiment, company))
-                company["sentiment"] = sentiment
+                company['sentiment'] = sentiment
 
                 # Add the company to the list unless we already have the same
                 # ticker.
-                tickers = [existing["ticker"] for existing in companies]
-                if not company["ticker"] in tickers:
+                tickers = [existing['ticker'] for existing in companies]
+                if not company['ticker'] in tickers:
                     companies.append(company)
                 else:
                     self.logs.warn(
-                        "Skipping company with duplicate ticker: %s" % company)
+                        'Skipping company with duplicate ticker: %s' % company)
 
         return companies
 
@@ -231,34 +231,34 @@ class Analysis:
         """
 
         if not tweet:
-            self.logs.warn("No tweet to expand text.")
+            self.logs.warn('No tweet to expand text.')
             return None
 
         try:
             text = self.twitter.get_tweet_text(tweet)
-            mentions = tweet["entities"]["user_mentions"]
+            mentions = tweet['entities']['user_mentions']
         except KeyError:
-            self.logs.error("Malformed tweet: %s" % tweet)
+            self.logs.error('Malformed tweet: %s' % tweet)
             return None
 
         if not text:
-            self.logs.warn("Empty text.")
+            self.logs.warn('Empty text.')
             return None
 
         if not mentions:
-            self.logs.debug("No mentions.")
+            self.logs.debug('No mentions.')
             return text
 
-        self.logs.debug("Using mentions: %s" % mentions)
+        self.logs.debug('Using mentions: %s' % mentions)
         for mention in mentions:
             try:
-                screen_name = "@%s" % mention["screen_name"]
-                name = mention["name"]
+                screen_name = '@%s' % mention['screen_name']
+                name = mention['name']
             except KeyError:
-                self.logs.warn("Malformed mention: %s" % mention)
+                self.logs.warn('Malformed mention: %s' % mention)
                 continue
 
-            self.logs.debug("Expanding mention: %s %s" % (screen_name, name))
+            self.logs.debug('Expanding mention: %s %s' % (screen_name, name))
             pattern = compile(screen_name, IGNORECASE)
             text = pattern.sub(name, text)
 
@@ -269,7 +269,7 @@ class Analysis:
         """Makes a request to the Wikidata SPARQL API."""
 
         query_url = WIKIDATA_QUERY_URL % quote_plus(query)
-        self.logs.debug("Wikidata query: %s" % query_url)
+        self.logs.debug('Wikidata query: %s' % query_url)
 
         response = get(query_url, headers=WIKIDATA_QUERY_HEADERS)
         response.raise_for_status()
@@ -277,15 +277,15 @@ class Analysis:
         try:
             response_json = response.json()
         except ValueError:
-            self.logs.error("Failed to decode JSON response: %s" % response)
+            self.logs.error('Failed to decode JSON response: %s' % response)
             return None
-        self.logs.debug("Wikidata response: %s" % response_json)
+        self.logs.debug('Wikidata response: %s' % response_json)
 
         try:
-            results = response_json["results"]
-            bindings = results["bindings"]
+            results = response_json['results']
+            bindings = results['bindings']
         except KeyError:
-            self.logs.error("Malformed Wikidata response: %s" % response_json)
+            self.logs.error('Malformed Wikidata response: %s' % response_json)
             return None
 
         return bindings
@@ -294,18 +294,18 @@ class Analysis:
         """Extracts a sentiment score [-1, 1] from text."""
 
         if not text:
-            self.logs.warn("No sentiment for empty text.")
+            self.logs.warn('No sentiment for empty text.')
             return 0
 
         document = language.Document(
             content=text,
             type_=language.Document.Type.PLAIN_TEXT,
-            language="en")
+            language='en')
         sentiment = self.language_client.analyze_sentiment(
             request={'document': document}).document_sentiment
 
         self.logs.debug(
-            "Sentiment score and magnitude for text: %f %f \"%s\"" %
+            'Sentiment score and magnitude for text: %f %f "%s"' %
             (sentiment.score, sentiment.magnitude, text))
 
         return sentiment.score
