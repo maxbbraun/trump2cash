@@ -4,7 +4,7 @@ This breakdown of the analysis results and market performance validates the curr
 
 Use this command to regenerate the benchmark report after changes to the algorithm or data:
 ```shell
-$ python benchmark.py > benchmark.md
+python benchmark.py > benchmark.md
 ```
 
 ### Events overview

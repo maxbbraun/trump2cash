@@ -26,13 +26,13 @@ MAX_TRIES = 12
 BACKOFF_RESET_S = 30 * 60
 
 # The host for the monitor Web server.
-MONITOR_HOST = "0.0.0.0"
+MONITOR_HOST = '0.0.0.0'
 
 # The port for the monitor Web server.
 MONITOR_PORT = 80
 
 # The message returned by the monitor Web server.
-MONITOR_MESSAGE = "OK"
+MONITOR_MESSAGE = 'OK'
 
 
 class Monitor:
@@ -62,12 +62,12 @@ class Monitor:
 
         def _set_headers(self):
             self.send_response(200)
-            self.send_header("Content-type", "text/plain")
+            self.send_header('Content-type', 'text/plain')
             self.end_headers()
 
         def do_GET(self):
             self._set_headers()
-            self.wfile.write(MONITOR_MESSAGE.encode("utf-8"))
+            self.wfile.write(MONITOR_MESSAGE.encode('utf-8'))
 
         def do_HEAD(self):
             self._set_headers()
@@ -77,7 +77,7 @@ class Main:
     """A wrapper for the main application logic and retry loop."""
 
     def __init__(self):
-        self.logs = Logs(name="main", to_cloud=LOGS_TO_CLOUD)
+        self.logs = Logs(name='main', to_cloud=LOGS_TO_CLOUD)
         self.twitter = Twitter(logs_to_cloud=LOGS_TO_CLOUD)
 
     def twitter_callback(self, tweet):
@@ -86,11 +86,11 @@ class Main:
         # Initialize the Analysis, Logs, Trading, and Twitter instances inside
         # the callback to create separate httplib2 instances per thread.
         analysis = Analysis(logs_to_cloud=LOGS_TO_CLOUD)
-        logs = Logs(name="main-callback", to_cloud=LOGS_TO_CLOUD)
+        logs = Logs(name='main-callback', to_cloud=LOGS_TO_CLOUD)
 
         # Analyze the tweet.
         companies = analysis.find_companies(tweet)
-        logs.info("Using companies: %s" % companies)
+        logs.info('Using companies: %s' % companies)
         if not companies:
             return
 
@@ -107,14 +107,14 @@ class Main:
         exceptions.
         """
 
-        self.logs.info("Starting new session.")
+        self.logs.info('Starting new session.')
         try:
             self.twitter.start_streaming(self.twitter_callback)
         except:
             self.logs.catch()
         finally:
             self.twitter.stop_streaming()
-            self.logs.info("Ending session.")
+            self.logs.info('Ending session.')
 
     def backoff(self, tries):
         """Sleeps an exponential number of seconds based on the number of
@@ -122,7 +122,7 @@ class Main:
         """
 
         delay = BACKOFF_STEP_S * pow(2, tries)
-        self.logs.warn("Waiting for %.1f seconds." % delay)
+        self.logs.warn('Waiting for %.1f seconds.' % delay)
         sleep(delay)
 
     def run(self):
@@ -137,18 +137,18 @@ class Main:
             # Remember the first time a backoff sequence starts.
             now = datetime.now()
             if tries == 0:
-                self.logs.debug("Starting first backoff sequence.")
+                self.logs.debug('Starting first backoff sequence.')
                 backoff_start = now
 
             # Reset the backoff sequence if the last error was long ago.
             if (now - backoff_start).total_seconds() > BACKOFF_RESET_S:
-                self.logs.debug("Starting new backoff sequence.")
+                self.logs.debug('Starting new backoff sequence.')
                 tries = 0
                 backoff_start = now
 
             # Give up after the maximum number of tries.
             if tries >= MAX_TRIES:
-                self.logs.warn("Exceeded maximum retry count.")
+                self.logs.warn('Exceeded maximum retry count.')
                 break
 
             # Wait according to the progression of the backoff sequence.
@@ -158,7 +158,7 @@ class Main:
             tries += 1
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     monitor = Monitor()
     monitor.start()
     try:
