@@ -136,7 +136,7 @@ There are a few library dependencies, which you can install using
 [pip](https://pip.pypa.io/en/stable/quickstart/):
 
 ```shell
-$ pip install -r requirements.txt
+pip install -r requirements.txt
 ```
 
 ### 4. Run the tests
@@ -146,7 +146,7 @@ Verify that everything is working as intended by running the tests with
 command:
 
 ```shell
-$ export USE_REAL_MONEY=NO && pytest *.py -vv
+export USE_REAL_MONEY=NO && pytest *.py -vv
 ```
 
 ### 5. Run the benchmark
@@ -156,8 +156,8 @@ analysis and trading algorithms would have performed against historical data.
 You can run it again to benchmark any changes you may have made. You'll need a [Polygon](https://polygon.io) account:
 
 ```shell
-$ export POLYGON_API_KEY="<YOUR_POLYGON_API_KEY>"
-$ python benchmark.py > benchmark.md
+export POLYGON_API_KEY="<YOUR_POLYGON_API_KEY>"
+python benchmark.py > benchmark.md
 ```
 
 ### 6. Start the bot
@@ -165,11 +165,11 @@ $ python benchmark.py > benchmark.md
 Enable real orders that use your money:
 
 ```shell
-$ export USE_REAL_MONEY=YES
+export USE_REAL_MONEY=YES
 ```
 
 Have the code start running in the background with this command:
 
 ```shell
-$ nohup python main.py &
+nohup python main.py &
 ```
