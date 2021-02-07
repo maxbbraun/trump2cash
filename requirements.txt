@@ -1,7 +1,7 @@
 backoff==1.10.0
 google-cloud-error-reporting==1.1.0
 google-cloud-language==2.0.0
-google-cloud-logging==2.2.0
+google-cloud-logging==2.0.2
 holidays==0.10.5.2
 lxml==4.6.2
 oauth2==1.9.0.post1
