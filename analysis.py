@@ -206,10 +206,13 @@ class Analysis:
                 continue
             self.logs.debug('Found company data: %s' % company_data)
 
+            # Extract the sentiment from the text. This assumes that the
+            # sentiment is the same for all companies, which isn't always true.
+            sentiment = self.get_sentiment(text)
+
             for company in company_data:
 
-                # Extract and add a sentiment score.
-                sentiment = self.get_sentiment(text)
+                # Associate the sentiment with the company.
                 self.logs.debug('Using sentiment for company: %f %s' %
                                 (sentiment, company))
                 company['sentiment'] = sentiment
@@ -309,3 +312,4 @@ class Analysis:
             (sentiment.score, sentiment.magnitude, text))
 
         return sentiment.score
+        
