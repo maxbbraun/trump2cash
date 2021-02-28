@@ -312,4 +312,3 @@ class Analysis:
             (sentiment.score, sentiment.magnitude, text))
 
         return sentiment.score
-        
