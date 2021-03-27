@@ -85,7 +85,7 @@ class Twitter:
         twitter_stream = Stream(self.twitter_auth, self.twitter_listener)
 
         self.logs.debug("Starting stream.")
-        twitter_stream.filter(follow=[TRUMP_USER_ID])
+        twitter_stream.filter(track=["stockpick", "uptrend", "stockmarket", "NASDAQ", '"Stock of the Day"', '"stock pick"', '"stocks pick"'])
 
         # If we got here because of an API error, raise it.
         if self.twitter_listener and self.twitter_listener.get_error_status():
@@ -335,7 +335,6 @@ class TwitterListener(StreamListener):
 
     def on_data(self, data):
         """Puts a task to process the new data on the queue."""
-        print(data)
         
         # Stop streaming if requested.
         if self.stop_event.is_set():
@@ -365,10 +364,10 @@ class TwitterListener(StreamListener):
 
         # We're only interested in tweets from Mr. Trump himself, so skip the
         # rest.
-        if user_id_str != TRUMP_USER_ID:
-            logs.debug("Skipping tweet from user: %s (%s)" %
-                       (screen_name, user_id_str))
-            return
+        # if user_id_str != TRUMP_USER_ID:
+        #     logs.debug("Skipping tweet from user: %s (%s)" %
+        #                (screen_name, user_id_str))
+        #     return
 
         logs.info("Examining tweet: %s" % tweet)
 

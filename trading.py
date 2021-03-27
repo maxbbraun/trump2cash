@@ -44,7 +44,7 @@ FIXML_NAMESPACE = "http://www.fixprotocol.org/FIXML-5-0-SP2"
 FIXML_HEADERS = {"Content-Type": "text/xml"}
 
 # The amount of cash in dollars to hold from being spent.
-CASH_HOLD = 1000
+CASH_HOLD = 800
 
 # The fraction of the stock price at which to set order limits.
 LIMIT_FRACTION = 0.1
@@ -91,7 +91,7 @@ class Trading:
         # Calculate the budget per strategy.
         balance = self.get_balance()
         budget = self.get_budget(balance, len(actionable_strategies))
-
+        
         if not budget:
             self.logs.warn("No budget for trading: %s %s %s" %
                            (budget, balance, actionable_strategies))
@@ -142,16 +142,16 @@ class Trading:
 
         # TODO: Figure out some strategy for the markets closed case.
         # Don't trade unless the markets are open or are about to open.
-        if market_status != "open" and market_status != "pre":
+        if market_status != "open" and market_status != "pre" and market_status != "after":
             strategy["action"] = "hold"
             strategy["reason"] = "market closed"
             return strategy
 
         # Can't trade without sentiment.
-        if sentiment == 0:
-            strategy["action"] = "hold"
-            strategy["reason"] = "neutral sentiment"
-            return strategy
+        # if sentiment == 0:
+        #     strategy["action"] = "hold"
+        #     strategy["reason"] = "neutral sentiment"
+        #     return strategy
 
         # Determine bull or bear based on sentiment direction.
         if sentiment > 0:
@@ -359,7 +359,8 @@ class Trading:
         response, content = client.request(url, method=method,
                                            body=body_bytes,
                                            headers=headers)
-        self.logs.debug("TradeKing response: %s %s" % (response, content))
+        self.logs.debug("TradeKing response: %s" % (response))
+        self.logs.debug("TradeKing content: %s" % (content))
 
         try:
             return loads(content)
@@ -473,11 +474,16 @@ class Trading:
         try:
             balances = response["response"]
             money = balances["accountbalance"]["money"]
-            cash_str = money["cash"]
+            cash_str = money["cashavailable"]
             uncleareddeposits_str = money["uncleareddeposits"]
         except KeyError:
             self.logs.error("Malformed balances response: %s" % response)
             return 0
+
+        # self.logs.error("balances: %s" % balances)
+        # self.logs.error("cash_str: %s" % cash_str)
+        # self.logs.error("uncleareddeposits_str: %s" % uncleareddeposits_str)
+
 
         try:
             cash = float(cash_str)

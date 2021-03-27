@@ -21,7 +21,7 @@ LOGS_FORMAT = ("%(asctime)s "
                "%(message)s")
 
 # The path to the log file for local logging.
-LOG_FILE = "./tmp/trump2cash.log"
+LOG_FILE = "./tmp/trades.log"
 
 # The path to the log file for the local fallback of cloud logging.
 FALLBACK_LOG_FILE = "./tmp/trump2cash-fallback.log"
@@ -30,7 +30,7 @@ FALLBACK_LOG_FILE = "./tmp/trump2cash-fallback.log"
 MAX_LOG_BYTES = 10 * 1024 * 1024
 
 
-class Logs:
+class LogsTrade:
     """A helper for logging locally or in the cloud."""
 
     def __init__(self, name, to_cloud=True):

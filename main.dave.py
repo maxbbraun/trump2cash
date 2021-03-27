@@ -4,11 +4,13 @@ from http.server import HTTPServer
 from threading import Event
 from threading import Thread
 from time import sleep
+import ally
 
 from analysis import Analysis
 from logs import Logs
 from trading import Trading
-from twitter import Twitter
+from dave.twitter  import Twitter
+
 
 # Whether to send all logs to the cloud instead of a local file.
 LOGS_TO_CLOUD = False
@@ -77,44 +79,75 @@ class Main:
     """A wrapper for the main application logic and retry loop."""
 
     def __init__(self):
+
+        print('starting ally')
+        a = ally.Ally('pyallykeys.json')
+        quotes = a.quote(symbols=['spy', 'gLD', 'F', 'Ibm'], fields=['bid', 'ask', 'last'])
+        print(quotes.loc['SPY'])
+
+        print('starting streaming')
+        quotes = a.stream(symbols=['spy', 'gLD', 'F', 'Ibm'])
+        for quote in quotes:
+            print(quote)        
+
+        
+
         self.logs = Logs(name="main", to_cloud=LOGS_TO_CLOUD)
-        self.twitter = Twitter(logs_to_cloud=LOGS_TO_CLOUD)
+        self.twitter = Twitter(logs_to_cloud=LOGS_TO_CLOUD, twitter_user_id= "25073877") # "18196832")
+
+        # trading = Trading(logs_to_cloud=LOGS_TO_CLOUD)
+#         trading.make_trades([
+
+# {"name": 'Elastic',
+#                     "ticker": 'ESTC',
+#                     "exchange": 'NYSE',
+#                     'sentiment': 1}
+
+#         ])
 
     def twitter_callback(self, tweet):
-        """Analyzes Trump tweets, trades stocks, and tweets about it."""
+        """Analyzes tweets, trades stocks, and tweets about it."""
 
         # Initialize the Analysis, Logs, Trading, and Twitter instances inside
         # the callback to create separate httplib2 instances per thread.
         analysis = Analysis(logs_to_cloud=LOGS_TO_CLOUD)
         logs = Logs(name="main-callback", to_cloud=LOGS_TO_CLOUD)
 
-        # Analyze the tweet.
-        companies = analysis.find_companies(tweet)
-        logs.info("Using companies: %s" % companies)
-        if not companies:
-            return
+        print('tweet')
+        print(tweet['text'])
 
+        symbols = []
+        for t in tweet.split():
+            if t[0] == '$':
+                symbols.append(t[1:])
+        # Splits at space 
+        print(symbols)
+        logs.info("Using symbols: %s" % symbols)
+
+
+        # Analyze the tweet.
+        # companies = analysis.find_companies(tweet)
+        logs.info("Using symbols: %s" % symbols)
+        # if not companies:
+        #     return
+        
         # Trade stocks.
         trading = Trading(logs_to_cloud=LOGS_TO_CLOUD)
         trading.make_trades(companies)
-
-        # Tweet about it.
-        twitter = Twitter(logs_to_cloud=LOGS_TO_CLOUD)
-        twitter.tweet(companies, tweet)
 
     def run_session(self):
         """Runs a single streaming session. Logs and cleans up after
         exceptions.
         """
 
-        self.logs.info("Starting new session.")
-        try:
-            self.twitter.start_streaming(self.twitter_callback)
-        except:
-            self.logs.catch()
-        finally:
-            self.twitter.stop_streaming()
-            self.logs.info("Ending session.")
+        # self.logs.info("Starting new session.")
+        # try:
+        #     self.twitter.start_streaming(self.twitter_callback)
+        # except:
+        #     self.logs.catch()
+        # finally:
+        #     self.twitter.stop_streaming()
+        #     self.logs.info("Ending session.")
 
     def backoff(self, tries):
         """Sleeps an exponential number of seconds based on the number of
@@ -159,9 +192,10 @@ class Main:
 
 
 if __name__ == "__main__":
-    monitor = Monitor()
-    monitor.start()
+    # monitor = Monitor()
+    # monitor.start()
     try:
         Main().run()
     finally:
-        monitor.stop()
+        # monitor.stop()
+        ...

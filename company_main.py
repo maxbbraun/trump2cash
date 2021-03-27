@@ -7,8 +7,10 @@ from time import sleep
 
 from analysis import Analysis
 from logs import Logs
+from logs import Logs
+from logs_trade import LogsTrade
 from trading import Trading
-from twitter import Twitter
+from company_twitter import Twitter
 
 # Whether to send all logs to the cloud instead of a local file.
 LOGS_TO_CLOUD = False
@@ -82,11 +84,13 @@ class Main:
 
     def twitter_callback(self, tweet):
         """Analyzes Trump tweets, trades stocks, and tweets about it."""
-
+        
         # Initialize the Analysis, Logs, Trading, and Twitter instances inside
         # the callback to create separate httplib2 instances per thread.
         analysis = Analysis(logs_to_cloud=LOGS_TO_CLOUD)
         logs = Logs(name="main-callback", to_cloud=LOGS_TO_CLOUD)
+
+        logs_trade = LogsTrade(name="main", to_cloud=LOGS_TO_CLOUD)
 
         # Analyze the tweet.
         companies = analysis.find_companies(tweet)
@@ -94,13 +98,15 @@ class Main:
         if not companies:
             return
 
+        logs_trade.info("%s" % companies)
+
         # Trade stocks.
-        trading = Trading(logs_to_cloud=LOGS_TO_CLOUD)
-        trading.make_trades(companies)
+        # trading = Trading(logs_to_cloud=LOGS_TO_CLOUD)
+        # trading.make_trades(companies)
 
         # Tweet about it.
-        twitter = Twitter(logs_to_cloud=LOGS_TO_CLOUD)
-        twitter.tweet(companies, tweet)
+        # twitter = Twitter(logs_to_cloud=LOGS_TO_CLOUD)
+        # twitter.tweet(companies, tweet)
 
     def run_session(self):
         """Runs a single streaming session. Logs and cleans up after
