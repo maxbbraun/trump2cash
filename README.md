@@ -43,7 +43,9 @@ buy now and sell at close or sell short now and buy to cover at close. The
 [`twitter`](twitter.py) module deals with streaming and tweeting out the
 summary.
 
-Follow these steps to run the code yourself:
+Follow these steps to run the code yourself.
+#### Warning : you must be a U.S citizen to use this program, Tradeking doesn't allow foreign citizens.
+
 
 ### 1. Create VM instance
 
