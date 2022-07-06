@@ -3,7 +3,7 @@ google-cloud-error-reporting==1.1.0
 google-cloud-language==2.0.0
 google-cloud-logging==2.0.2
 holidays==0.10.5.2
-lxml==4.6.5
+lxml==4.9.1
 oauth2==1.9.0.post1
 polygon-api-client==0.1.9
 pytest==6.2.2
