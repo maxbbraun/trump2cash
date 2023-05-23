@@ -8,6 +8,6 @@ oauth2==1.9.0.post1
 polygon-api-client==0.1.9
 pytest==6.2.2
 pytz==2021.1
-requests==2.25.1
+requests==2.31.0
 tqdm==4.56.0
 tweepy==3.10.0
